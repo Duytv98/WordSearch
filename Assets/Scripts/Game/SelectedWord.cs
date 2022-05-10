@@ -36,8 +36,10 @@ public class SelectedWord : MonoBehaviour
 
     public void Clear(bool chooseRight = false)
     {
-        if (chooseRight) RightChoice();
+        if (chooseRight) RightChoice();  
         else WrongChoice();
+
+        Debug.Log("11111");
     }
 
     private void RightChoice()
