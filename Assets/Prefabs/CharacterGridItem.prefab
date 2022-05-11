@@ -155,3 +155,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterText: {fileID: 11446576}
+  cam: {fileID: 0}

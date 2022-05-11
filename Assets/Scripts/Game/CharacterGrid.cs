@@ -9,6 +9,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 {
     // Start is called before the first frame update
 
+    [SerializeField] private Camera cam;
     private enum HighlighPosition
     {
         AboveLetters,
@@ -92,14 +93,11 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
             CharacterGridItem characterItem = GetCharacterItemAtPosition(eventData.position);
-            Debug.Log(characterItem.Log()); ;
             if (characterItem != null)
             {
                 isSelecting = true;
                 startCharacter = characterItem;
                 lastEndCharacter = characterItem;
-                // Debug.Log("Row: " + characterItem.Row + "  Col: " + characterItem.Col + "  text: " + characterItem.characterText.text + " IsHighlighted: " + characterItem.IsHighlighted);
-
                 //active và set color cho Highlight khi người chơi chọn 1 từ
                 AssignHighlighColor(selectingHighlight);
                 selectingHighlight.gameObject.SetActive(true);
@@ -122,7 +120,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
-            Debug.Log("OnDrag");
             UpdateSelectingHighlight(eventData.position);
             UpdateSelectedWord();
         }
@@ -132,6 +129,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (!ActiveEvent)
         {
             return;
+            
         }
 
         if (startCharacter != null && lastEndCharacter != null && GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
@@ -458,11 +456,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             for (int j = 0; j < characterItems[i].Count; j++)
             {
-                Vector2 localPoint;
-
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(characterItems[i][j].transform as RectTransform, screenPoint, null, out localPoint);
-
-                // Check if the localPoint is inside the cell in the grid
+                Vector2 localPoint = Vector2.zero;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(characterItems[i][j].transform as RectTransform, screenPoint, cam, out localPoint);
                 localPoint.x += CellFullWidth / 2f;
                 localPoint.y += CellFullHeight / 2f;
 

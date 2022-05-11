@@ -29,4 +29,8 @@ public class CharacterGridItem : MonoBehaviour
     {
         return string.Format("characterText: {0}, row: {1}, col: {2}, anchoredPosition: {3}", characterText.text, Row, Col, (transform as RectTransform).anchoredPosition);
     }
+    public Vector3 GetPosition(Camera cam)
+    {
+        return cam.WorldToViewportPoint(transform.position);
+    }
 }
