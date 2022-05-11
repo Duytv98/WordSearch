@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WordListItem : MonoBehaviour
 {
     [SerializeField] private Text wordText = null;
-    [SerializeField] private GameObject foundIndicator = null;
+    [SerializeField] private GameObject background = null;
     [SerializeField] private CanvasGroup _wordCVG = null;
 
     private string word = null;
@@ -17,7 +17,7 @@ public class WordListItem : MonoBehaviour
     {
         Word = word;
         wordText.text = word;
-        foundIndicator.SetActive(false);
+        background.SetActive(false);
     }
 
     public void SetWordFound()

@@ -8,7 +8,6 @@ public class GameScreen : MonoBehaviour
     [SerializeField] private string id = "game";
     [SerializeField] private Text wordHintCostText = null;
     [SerializeField] private Text letterHintCostText = null;
-
     public void Initialize()
     {
         wordHintCostText.text = "x" + GameManager.Instance.CoinCostWordHint;

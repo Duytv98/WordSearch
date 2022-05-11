@@ -38,8 +38,6 @@ public class SelectedWord : MonoBehaviour
     {
         if (chooseRight) RightChoice();  
         else WrongChoice();
-
-        Debug.Log("11111");
     }
 
     private void RightChoice()

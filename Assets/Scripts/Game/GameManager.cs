@@ -65,8 +65,6 @@ public class GameManager : SingletonComponent<GameManager>
     private PlayerInfo playerInfo = null;
 
 
-
-
     [Header("Debug / Testing")]
     [SerializeField] private bool awardKeyEveryLevel = false;
     [SerializeField] private bool awardCoinsEveryLevel = false;
@@ -99,8 +97,6 @@ public class GameManager : SingletonComponent<GameManager>
         BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
         UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
     }
-
-
     Board LoadLevelFile(CategoryInfo categoryInfo, int levelIndex)
     {
         TextAsset levelFile = categoryInfo.levelFiles[levelIndex];
@@ -293,10 +289,6 @@ public class GameManager : SingletonComponent<GameManager>
     }
 
 
-
-
-
-
     public string OnWordSelected(string selectedWord)
     {
 
@@ -356,12 +348,6 @@ public class GameManager : SingletonComponent<GameManager>
 
         return null;
     }
-    private bool CheckCoincident(string selectedWord, string selectedWordReversed, string wordNoSpaces)
-    {
-        bool result = true;
-
-        return result;
-    }
     private void BoardCompleted()
     {
         // Debug.Log("ActiveCategoryInfo: " + ActiveCategoryInfo + "  ActiveLevelIndex: " + ActiveLevelIndex + "  Key: " + GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
@@ -385,6 +371,62 @@ public class GameManager : SingletonComponent<GameManager>
         SaveableManager.Instance.SaveData();
         PopupContainer.Instance.ShowLevelCompletePopup(coinsAwarded, keysAwarded);
     }
+    public Vector3 GetPositionWord(string word)
+    {
+        return wordListContainer.GetPositionWord(word);
+    }
+    //trả về true nếu level completed
+    public bool IsLevelCompleted(CategoryInfo categoryInfo, int levelIndex)
+    {
+        return LastCompletedLevels.ContainsKey(categoryInfo.saveId) && levelIndex <= LastCompletedLevels[categoryInfo.saveId];
+    }
+    // trả về true nếu level đang bị khóa
+    public bool IsLevelLocked(CategoryInfo categoryInfo, int levelIndex)
+    {
+        return levelIndex > 0 && (!LastCompletedLevels.ContainsKey(categoryInfo.saveId) || levelIndex > LastCompletedLevels[categoryInfo.saveId] + 1);
+    }
+    // Sử lý list category
+    public bool UnlockCategory(CategoryInfo categoryInfo)
+    {
+        switch (categoryInfo.lockType)
+        {
+            case CategoryInfo.LockType.Coins:
+                if (Coins < categoryInfo.unlockAmount)
+                {
+                }
+                else
+                {
+                }
+
+                break;
+            case CategoryInfo.LockType.Keys:
+                if (Keys < categoryInfo.unlockAmount)
+                {
+                    PopupContainer.Instance.ShowNotEnoughKeysPopup();
+                }
+                else
+                {
+                    Keys -= categoryInfo.unlockAmount;
+
+                    UnlockedCategories.Add(categoryInfo.saveId);
+                    screenManager.RefreshMainScreen();
+                    PopupContainer.Instance.ClosePopup();
+                    SaveableManager.Instance.SaveData();
+                    return true;
+                }
+
+                break;
+        }
+        return false;
+
+    }
+
+
+
+
+
+
+
     public void HintHighlightWord()
     {
 
@@ -436,10 +478,6 @@ public class GameManager : SingletonComponent<GameManager>
             // SoundManager.Instance.Play("hint-used");
         }
     }
-
-    public Vector3 GetPositionWord(string word){
-        return wordListContainer.GetPositionWord(word);
-    }
     public void HintHighlightLetter()
     {
         if (ActiveBoard == null || loadingIndicator.activeSelf)
@@ -467,63 +505,63 @@ public class GameManager : SingletonComponent<GameManager>
 
     }
 
-    //trả về true nếu level completed
-    public bool IsLevelCompleted(CategoryInfo categoryInfo, int levelIndex)
+
+
+    public void SuggestManyWords()
     {
-        return LastCompletedLevels.ContainsKey(categoryInfo.saveId) && levelIndex <= LastCompletedLevels[categoryInfo.saveId];
+        Debug.Log("SuggestManyWords");
     }
-
-    // trả về true nếu level đang bị khóa
-    public bool IsLevelLocked(CategoryInfo categoryInfo, int levelIndex)
+    public void ClearWords()
     {
-        return levelIndex > 0 && (!LastCompletedLevels.ContainsKey(categoryInfo.saveId) || levelIndex > LastCompletedLevels[categoryInfo.saveId] + 1);
+        Debug.Log("ClearWords");
     }
-
-
-    // Sử lý list category
-
-    public bool UnlockCategory(CategoryInfo categoryInfo)
+    public void RecommendWord()
     {
-        switch (categoryInfo.lockType)
+        Debug.Log("RecommendWord");
+
+        List<string> nonFoundWords = new List<string>();
+        // Lấy ra các từ chưa được tìm thấy
+        for (int i = 0; i < ActiveBoard.words.Count; i++)
         {
-            case CategoryInfo.LockType.Coins:
-                if (Coins < categoryInfo.unlockAmount)
-                {
-                }
-                else
-                {
-                }
+            string word = ActiveBoard.words[i];
 
-                break;
-            case CategoryInfo.LockType.Keys:
-                if (Keys < categoryInfo.unlockAmount)
-                {
-                    PopupContainer.Instance.ShowNotEnoughKeysPopup();
-                }
-                else
-                {
-                    Keys -= categoryInfo.unlockAmount;
-
-                    UnlockedCategories.Add(categoryInfo.saveId);
-                    screenManager.RefreshMainScreen();
-                    PopupContainer.Instance.ClosePopup();
-                    SaveableManager.Instance.SaveData();
-                    return true;
-                }
-
-                break;
+            if (!ActiveBoard.foundWords.Contains(word) )
+            {
+                nonFoundWords.Add(word);
+            }
         }
-        return false;
+        // Đảm bảo danh dách không âm
+        if (nonFoundWords.Count == 0)
+        {
+            Debug.Log("nonFoundWords.Count = 0 ");
+            return;
+        }
+        if (Coins < coinCostWordHint)
+        {
+            // Debug.Log("Coins < coinCostWordHint");
+            PopupContainer.Instance.ShowNotEnoughCoinsPopup();
+        }
+        else
+        {
+            // Pick a random word to show
+            string wordToShow = nonFoundWords[Random.Range(0, nonFoundWords.Count)];
 
+            // Set it as selected
+            // OnWordSelected(wordToShow);
+            // Highlight the word
+            characterGrid.ShowWordecommend(wordToShow);
+
+
+            // Deduct the cost
+            Coins -= coinCostWordHint;
+
+            // SoundManager.Instance.Play("hint-used");
+        }
     }
-
-
-
-
-
-
-
-
+    public void RotatingScreen()
+    {
+        characterGrid.Rotating();
+    }
 
 
 

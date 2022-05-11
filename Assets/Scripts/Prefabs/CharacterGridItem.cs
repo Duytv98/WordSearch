@@ -11,6 +11,12 @@ public class CharacterGridItem : MonoBehaviour
     public int Col { get; set; }
     public bool IsHighlighted { get; set; }
 
+    private Color highlightColor = Color.black;
+
+    private Image highlight;
+    public Image Highlight { get => highlight; set => highlight = value; }
+    public Color HighlightColor { get => highlightColor; set => highlightColor = value; }
+
     public void Setup(char text, Color color, Vector3 scale, Vector2 scaledLetterOffsetInCell)
     {
         // Debug.Log(text);

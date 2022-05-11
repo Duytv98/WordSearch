@@ -77,6 +77,11 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private float CellFullWidth { get { return currentCellSize; } }
     private float CellFullHeight { get { return currentCellSize; } }
 
+
+    private Sequence rotatingTransform = null;
+    private bool activeRotating = false;
+
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (!ActiveEvent)
@@ -87,7 +92,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
             CharacterGridItem characterItem = GetCharacterItemAtPosition(eventData.position);
-            // Debug.Log(characterItem);
+            Debug.Log(characterItem.Log()); ;
             if (characterItem != null)
             {
                 isSelecting = true;
@@ -117,6 +122,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
+            Debug.Log("OnDrag");
             UpdateSelectingHighlight(eventData.position);
             UpdateSelectedWord();
         }
@@ -153,7 +159,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             else selectedWord.Clear();
         }
         else selectedWord.Clear();
-
 
         // End selecting and hide the select highlight
         // selectingPointerId = -1;
@@ -446,8 +451,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
 
     //Hàm bổ trợ
-
-
     // Get chữ từ vị trí
     private CharacterGridItem GetCharacterItemAtPosition(Vector2 screenPoint)
     {
@@ -546,11 +549,10 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         Text floatingText = CreateFloatingText(word, highlight.color, center);
 
         Color toColor = new Color(floatingText.color.r, floatingText.color.g, floatingText.color.b, 0f);
-        Debug.Log("toPosition: " + toPosition);
+        // Debug.Log("toPosition: " + toPosition);
         floatingText.transform.DOMove(toPosition, 1f);
         floatingText.transform.DOScale(new Vector3(0.3f, 0.3f, 1), 1f)
-        .OnComplete(()=>Destroy(floatingText.gameObject));
-
+        .OnComplete(() => Destroy(floatingText.gameObject));
     }
     public Image HighlightWord(Position start, Position end, bool useSelectedColour)
     {
@@ -573,7 +575,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             highlight.color = selectingHighlight.color;
         }
-
         return highlight;
     }
 
@@ -593,6 +594,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         floatingTextRectT.anchorMin = new Vector2(0f, 1f);
         floatingTextRectT.anchorMax = new Vector2(0f, 1f);
         floatingTextRectT.SetParent(gridOverlayContainer, false);
+
+        floatingTextObject.transform.Rotate(transform.eulerAngles);
 
         ContentSizeFitter csf = floatingTextObject.AddComponent<ContentSizeFitter>();
         csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -616,7 +619,31 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         return cellSize;
     }
 
+    public void ShowWordecommend(string word)
+    {
+        if (currentBoard == null)
+        {
+            return;
+        }
+        for (int i = 0; i < currentBoard.wordPlacements.Count; i++)
+        {
+            Board.WordPlacement wordPlacement = currentBoard.wordPlacements[i];
 
+            if (word == wordPlacement.word)
+            {
+                Position startPosition = wordPlacement.startingPosition;
+
+                CharacterGridItem characterItem = characterItems[startPosition.row][startPosition.col];
+                Debug.Log("word:  " + word + "    startPosition: " + startPosition.Log() + "   characterItem: " + characterItem.Log());
+
+                Image highlight = HighlightWord(startPosition, startPosition, false);
+                if (characterItem.HighlightColor != Color.black) Destroy(characterItem.Highlight.gameObject);
+                characterItem.HighlightColor = selectingHighlight.color;
+                characterItem.Highlight = highlight;
+                break;
+            }
+        }
+    }
 
     public void ShowWordHint(string word)
     {
@@ -722,9 +749,40 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         characterItems.Clear();
         highlights.Clear();
         LetterHints.Clear();
+        ClearRotating();
 
     }
 
+
+    public void Rotating()
+    {
+        var z = transform.eulerAngles.z - 180;
+        activeRotating = true;
+        rotatingTransform = DOTween.Sequence();
+        rotatingTransform.Append(transform.DOScale(new Vector3(0.7f, 0.7f, 1f), 0.3f));
+        rotatingTransform.Append(transform.DORotate(new Vector3(0, 0, z), 2f));
+        rotatingTransform.Append(transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f))
+        .OnComplete(() => OnCompleteRotating());
+
+
+
+    }
+    private void OnCompleteRotating()
+    {
+        foreach (Transform child in gridContainer.transform)
+        {
+            var z = child.eulerAngles.z + 180;
+            child.DORotate(new Vector3(0, 0, z), 0.2f);
+        }
+    }
+    private void ClearRotating()
+    {
+        transform.Rotate(Vector3.zero);
+        foreach (Transform child in gridContainer.transform)
+        {
+            child.Rotate(Vector3.zero);
+        }
+    }
 
 
 }

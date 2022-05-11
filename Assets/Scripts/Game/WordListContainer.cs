@@ -10,13 +10,10 @@ public class WordListContainer : MonoBehaviour
     [SerializeField] private RectTransform wordListItemPrefab = null;
 
     [SerializeField] private RectTransform wordListContainer = null;
-
-
     private Dictionary<string, WordListItem> wordListItems;
     private List<RectTransform> rowWordLists = null;
     private List<string> listWordUse = null;
-
-
+    
     [SerializeField] private Text textPlus = null;
     [SerializeField] private Transform star = null;
     [SerializeField] private Transform starPrefab = null;
