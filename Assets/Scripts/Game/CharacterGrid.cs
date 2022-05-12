@@ -20,6 +20,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [SerializeField] private float maxCellSize = 200;
     [SerializeField] private SelectedWord selectedWord = null;
 
+    [SerializeField] private Effect effectContronler = null;
+
     [Header("Letter Settings")]
     [SerializeField] private Font letterFont = null;
     [SerializeField] private int letterFontSize = 150;
@@ -79,8 +81,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private float CellFullHeight { get { return currentCellSize; } }
 
 
-    private Sequence rotatingTransform = null;
     private bool activeRotating = false;
+    private bool rotating = false;
 
 
     public void OnPointerDown(PointerEventData eventData)
@@ -129,7 +131,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (!ActiveEvent)
         {
             return;
-            
+
         }
 
         if (startCharacter != null && lastEndCharacter != null && GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
@@ -751,24 +753,26 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void Rotating()
     {
-        var z = transform.eulerAngles.z - 180;
-        activeRotating = true;
-        rotatingTransform = DOTween.Sequence();
-        rotatingTransform.Append(transform.DOScale(new Vector3(0.7f, 0.7f, 1f), 0.3f));
-        rotatingTransform.Append(transform.DORotate(new Vector3(0, 0, z), 2f));
-        rotatingTransform.Append(transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f))
-        .OnComplete(() => OnCompleteRotating());
-
-
-
-    }
-    private void OnCompleteRotating()
-    {
+        if (activeRotating) return;
         foreach (Transform child in gridContainer.transform)
         {
-            var z = child.eulerAngles.z + 180;
-            child.DORotate(new Vector3(0, 0, z), 0.2f);
+            child.DOLocalRotate(new Vector3(0, 0, rotating == false ? 180 : 360), 2f)
+            .SetDelay(0.3f);
         }
+        var z = transform.eulerAngles.z - 180;
+        activeRotating = true;
+        Sequence rotatingTransform = DOTween.Sequence();
+        rotatingTransform.Append(transform.DOScale(new Vector3(0.7f, 0.7f, 1f), 0.3f))
+        .Append(transform.DORotate(new Vector3(0, 0, rotating == false ? -180 : 0), 2f))
+        .Append(transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f))
+        .OnComplete(() => activeRotating = false);
+
+        rotating = !rotating;
+    }
+
+    public void SuggestManyWords()
+    {
+        effectContronler.PlayRocket();
     }
     private void ClearRotating()
     {

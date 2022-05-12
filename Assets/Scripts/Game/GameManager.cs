@@ -510,6 +510,7 @@ public class GameManager : SingletonComponent<GameManager>
     public void SuggestManyWords()
     {
         Debug.Log("SuggestManyWords");
+        characterGrid.SuggestManyWords();
     }
     public void ClearWords()
     {
