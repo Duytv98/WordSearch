@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class WordListItem : MonoBehaviour
 {
+    [SerializeField] private Text textBack = null;
     [SerializeField] private Text wordText = null;
-    [SerializeField] private GameObject background = null;
+    [SerializeField] private Image background = null;
     [SerializeField] private CanvasGroup _wordCVG = null;
 
     private string word = null;
@@ -16,19 +17,23 @@ public class WordListItem : MonoBehaviour
     public void Setup(string word)
     {
         Word = word;
+        textBack.text = word;
         wordText.text = word;
-        background.SetActive(false);
+        background.gameObject.SetActive(false);
     }
 
-    public void SetWordFound()
+    public void SetWordFound(Color color)
     {
-        // foundIndicator.SetActive(true);
-        // wordText.color = Color.grey;
-        _wordCVG.alpha = 0.5f;
+        // Debug.Log("Word" + Word);
+        background.gameObject.SetActive(true);
+        background.color = color;
 
+        textBack.color = Color.grey;
+        _wordCVG.alpha = 0.2f;
     }
     public void SetAlpha(bool isActive)
     {
+        // Debug.Log("SetAlpha: " + isActive);
         _wordCVG.alpha = isActive ? 1 : 0;
         _wordCVG.interactable = isActive;
         _wordCVG.blocksRaycasts = isActive;

@@ -147,11 +147,6 @@ public class GameManager : SingletonComponent<GameManager>
             topBar.SetTextLevel(levelIndex);
             topBar.SetCategoryName(ActiveCategoryInfo.displayName);
         }
-
-        foreach (string foundWord in board.foundWords)
-        {
-            wordListContainer.SetWordFound(foundWord);
-        }
         ActiveGameState = GameState.BoardActive;
 
         SaveableManager.Instance.SaveData();
@@ -324,7 +319,7 @@ public class GameManager : SingletonComponent<GameManager>
                 // Debug.Log("Số từ đã tìm thấy: " +  ActiveBoard.foundWords.Count);
 
                 // Thông báo cho wordListContainer tiến hành đánh dấu word đã được chọn
-                wordListContainer.SetWordFound(word);
+                wordListContainer.SetWordFound(word, characterGrid.SelectingHighlight.color);
 
                 wordListContainer.PlusWord(ActiveBoard.foundWords);
 
@@ -526,7 +521,7 @@ public class GameManager : SingletonComponent<GameManager>
         {
             string word = ActiveBoard.words[i];
 
-            if (!ActiveBoard.foundWords.Contains(word) )
+            if (!ActiveBoard.foundWords.Contains(word))
             {
                 nonFoundWords.Add(word);
             }
@@ -547,10 +542,10 @@ public class GameManager : SingletonComponent<GameManager>
             // Pick a random word to show
             string wordToShow = nonFoundWords[Random.Range(0, nonFoundWords.Count)];
 
-            // Set it as selected
-            // OnWordSelected(wordToShow);
             // Highlight the word
-            characterGrid.ShowWordecommend(wordToShow);
+            characterGrid.ShowWordRecommend(wordToShow);
+
+            // Set it as selected
 
 
             // Deduct the cost

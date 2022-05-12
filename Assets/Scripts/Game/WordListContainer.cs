@@ -13,7 +13,7 @@ public class WordListContainer : MonoBehaviour
     private Dictionary<string, WordListItem> wordListItems;
     private List<RectTransform> rowWordLists = null;
     private List<string> listWordUse = null;
-    
+
     [SerializeField] private Text textPlus = null;
     [SerializeField] private Transform star = null;
     [SerializeField] private Transform starPrefab = null;
@@ -122,11 +122,11 @@ public class WordListContainer : MonoBehaviour
 
     }
 
-    public void SetWordFound(string word)
+    public void SetWordFound(string word, Color color)
     {
         if (wordListItems.ContainsKey(word))
         {
-            wordListItems[word].SetWordFound();
+            wordListItems[word].SetWordFound(color);
             var position = wordListItems[word].transform.position;
             // Debug.Log("key: " + word + "  wort: " + wordListItems[word].Word + "  position: " + position);
             // plus.transform.DOJump(position, 30, 1, 0.5f, true);
