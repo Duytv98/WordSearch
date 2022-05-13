@@ -64,6 +64,7 @@ MonoBehaviour:
   wordText: {fileID: 8872400961715149596}
   background: {fileID: 7350659247135693820}
   _wordCVG: {fileID: 2816484269790352128}
+  _wordBGCVG: {fileID: 4365265033608248320}
 --- !u!114 &1344297805510739540
 MonoBehaviour:
   m_ObjectHideFlags: 0

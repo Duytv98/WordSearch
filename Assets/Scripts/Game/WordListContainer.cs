@@ -122,19 +122,24 @@ public class WordListContainer : MonoBehaviour
 
     }
 
-    public void SetWordFound(string word, Color color)
+    public void SetWordFound(string word)
     {
         if (wordListItems.ContainsKey(word))
         {
-            wordListItems[word].SetWordFound(color);
+            wordListItems[word].SetWordFound();
             var position = wordListItems[word].transform.position;
-            // Debug.Log("key: " + word + "  wort: " + wordListItems[word].Word + "  position: " + position);
-            // plus.transform.DOJump(position, 30, 1, 0.5f, true);
         }
         else
         {
             Debug.LogError("[WordList] Word does not exist in the word list: " + word);
         }
+    }
+
+
+    public void SetWordRecommend(string word, Color color)
+    {
+        if (wordListItems.ContainsKey(word)) wordListItems[word].SetRecommendWord(color);
+        else Debug.LogError("[WordList] Word does not exist in the word list: " + word);
     }
     public Vector3 GetPositionWord(string word)
     {

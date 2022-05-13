@@ -9,6 +9,7 @@ public class WordListItem : MonoBehaviour
     [SerializeField] private Text wordText = null;
     [SerializeField] private Image background = null;
     [SerializeField] private CanvasGroup _wordCVG = null;
+    [SerializeField] private CanvasGroup _wordBGCVG = null;
 
     private string word = null;
 
@@ -22,21 +23,26 @@ public class WordListItem : MonoBehaviour
         background.gameObject.SetActive(false);
     }
 
-    public void SetWordFound(Color color)
+    public void SetWordFound()
     {
-        // Debug.Log("Word" + Word);
+        background.gameObject.SetActive(false);
+        
+        textBack.color = Color.black;
+        _wordBGCVG.alpha = 0.5f;
+    }
+    public void SetRecommendWord(Color color)
+    {
         background.gameObject.SetActive(true);
         background.color = color;
 
-        textBack.color = Color.grey;
-        _wordCVG.alpha = 0.2f;
+        textBack.color = Color.white;
+        wordText.color = Color.white;
     }
     public void SetAlpha(bool isActive)
     {
-        // Debug.Log("SetAlpha: " + isActive);
-        _wordCVG.alpha = isActive ? 1 : 0;
-        _wordCVG.interactable = isActive;
-        _wordCVG.blocksRaycasts = isActive;
+        _wordBGCVG.alpha = isActive ? 1 : 0;
+        _wordBGCVG.interactable = isActive;
+        _wordBGCVG.blocksRaycasts = isActive;
     }
     public void SetParent(RectTransform parent)
     {

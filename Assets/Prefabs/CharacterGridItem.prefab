@@ -154,5 +154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc78c0906cd82946ad354084709516f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  font: {fileID: 12800000, guid: ee2db8f362293974f9430665b34f4323, type: 3}
+  fontSize: 150
   characterText: {fileID: 11446576}
-  cam: {fileID: 0}

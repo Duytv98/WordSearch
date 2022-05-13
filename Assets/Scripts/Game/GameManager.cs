@@ -38,6 +38,8 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] private GameObject loadingIndicator = null;
     [SerializeField] private ScreenManager screenManager = null;
 
+    [SerializeField] private Effect effectContronler = null;
+
     [SerializeField] private TopBar topBar = null;
     public int Coins { get; set; }
     public int Keys { get; set; }
@@ -319,7 +321,7 @@ public class GameManager : SingletonComponent<GameManager>
                 // Debug.Log("Số từ đã tìm thấy: " +  ActiveBoard.foundWords.Count);
 
                 // Thông báo cho wordListContainer tiến hành đánh dấu word đã được chọn
-                wordListContainer.SetWordFound(word, characterGrid.SelectingHighlight.color);
+                wordListContainer.SetWordFound(word);
 
                 wordListContainer.PlusWord(ActiveBoard.foundWords);
 
@@ -504,12 +506,53 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void SuggestManyWords()
     {
-        Debug.Log("SuggestManyWords");
-        characterGrid.SuggestManyWords();
+        float timeMoveRocket = 1f;
+        List<string> nonFoundWords = new List<string>();
+
+        List<string> nonFoundWordsChoose = new List<string>();
+        // Lấy ra các từ chưa được tìm thấy
+        for (int i = 0; i < ActiveBoard.words.Count; i++)
+        {
+            string word = ActiveBoard.words[i];
+
+            if (!ActiveBoard.foundWords.Contains(word))
+            {
+                nonFoundWords.Add(word);
+            }
+        }
+        // Đảm bảo danh dách không âm
+        if (nonFoundWords.Count == 0)
+        {
+            Debug.Log("nonFoundWords.Count = 0 ");
+            return;
+        }
+        if (Coins < coinCostWordHint)
+        {
+            // Debug.Log("Coins < coinCostWordHint");
+            PopupContainer.Instance.ShowNotEnoughCoinsPopup();
+        }
+        else
+        {
+            if (nonFoundWords.Count > 3)
+            {
+                while (nonFoundWordsChoose.Count < 3)
+                {
+                    int index = Random.Range(0, nonFoundWords.Count);
+                    nonFoundWordsChoose.Add(nonFoundWords[index]);
+                    nonFoundWords.RemoveAt(index);
+                }
+            }
+            else nonFoundWordsChoose = nonFoundWords;
+
+            characterGrid.SuggestManyWords(timeMoveRocket, nonFoundWordsChoose);
+            Coins -= coinCostWordHint;
+        }
+        effectContronler.PlayRocket(timeMoveRocket);
     }
     public void ClearWords()
     {
         Debug.Log("ClearWords");
+        characterGrid.ClearWords();
     }
     public void RecommendWord()
     {
@@ -558,6 +601,7 @@ public class GameManager : SingletonComponent<GameManager>
     {
         characterGrid.Rotating();
     }
+
 
 
 

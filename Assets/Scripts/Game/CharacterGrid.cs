@@ -20,7 +20,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [SerializeField] private float maxCellSize = 200;
     [SerializeField] private SelectedWord selectedWord = null;
 
-    [SerializeField] private Effect effectContronler = null;
 
     [Header("Letter Settings")]
     [SerializeField] private Font letterFont = null;
@@ -571,7 +570,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         if (useSelectedColour && SelectingHighlight != null)
         {
-            Debug.Log("color: " + SelectingHighlight.color);
             highlight.color = SelectingHighlight.color;
         }
         return highlight;
@@ -618,12 +616,13 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         return cellSize;
     }
 
-    public void ShowWordRecommend(string word)
+    public List<Vector3> ShowWordRecommend(string word)
     {
         if (currentBoard == null)
         {
-            return;
+            return null;
         }
+        List<Vector3> listPositionUse = new List<Vector3>();
         for (int i = 0; i < currentBoard.wordPlacements.Count; i++)
         {
             Board.WordPlacement wordPlacement = currentBoard.wordPlacements[i];
@@ -634,16 +633,98 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
                 CharacterGridItem characterItem = characterItems[startPosition.row][startPosition.col];
                 Debug.Log("word:  " + word + "    startPosition: " + startPosition.Log() + "   characterItem: " + characterItem.Log());
-
+                listPositionUse.Add(characterItem.transform.position);
                 Image highlight = HighlightWord(startPosition, startPosition, false);
 
-                wordListContainer.SetWordFound(word, highlight.color);
+                wordListContainer.SetWordRecommend(word, highlight.color);
                 if (characterItem.HighlightColor != Color.black) Destroy(characterItem.Highlight.gameObject);
                 characterItem.HighlightColor = SelectingHighlight.color;
                 characterItem.Highlight = highlight;
                 break;
             }
         }
+        return listPositionUse;
+
+    }
+
+
+    public void ClearWords()
+    {
+        List<Position> locationUnused = UnusedLocation();
+        Debug.Log("locationUnused.Count: " + locationUnused.Count);
+        if (locationUnused.Count <= 0) return;
+        if (locationUnused.Count <= 4)
+        {
+            foreach (Position position in locationUnused)
+            {
+                CharacterGridItem characterItem = characterItems[position.row][position.col];
+                characterItem.FlyWord();
+            }
+        }
+        else
+        {
+            int i = 4;
+            while (i > 0)
+            {
+                int index = Random.Range(0, locationUnused.Count);
+                Position position = locationUnused[index];
+                CharacterGridItem characterItem = characterItems[position.row][position.col];
+                characterItem.FlyWord();
+                locationUnused.RemoveAt(index);
+                Debug.Log("i: " + i);
+                i--;
+            }
+        }
+
+    }
+    public List<Position> UnusedLocation()
+    {
+        Dictionary<string, Position> locationUse = new Dictionary<string, Position>();
+        List<Position> locationUnused = new List<Position>();
+
+        for (int i = 0; i < currentBoard.wordPlacements.Count; i++)
+        {
+            Board.WordPlacement wordPlacement = currentBoard.wordPlacements[i];
+            // Debug.Log(JsonUtility.ToJson(wordPlacement));
+            int j = wordPlacement.word.Length;
+            // Debug.Log("Số lượng chữ: " + j);
+            int x = wordPlacement.startingPosition.row;
+            int y = wordPlacement.startingPosition.col;
+            while (j > 0)
+            {
+                string str = "row: " + x + "  col: " + y;
+                // Debug.Log(str);
+                Position position = new Position(x, y);
+                if (!locationUse.ContainsKey(str)) locationUse.Add(str, position);
+                x += wordPlacement.verticalDirection;
+                y += wordPlacement.horizontalDirection;
+                j--;
+            }
+        }
+        for (int i = 0; i < characterItems.Count; i++)
+        {
+            for (int j = 0; j < characterItems[i].Count; j++)
+            {
+                string str = "row: " + i + "  col: " + j;
+
+                Position position = new Position(i, j);
+                if (!locationUse.ContainsKey(str))
+                {
+                    locationUnused.Add(position);
+                    CharacterGridItem characterItem = characterItems[position.row][position.col];
+                    characterItem.Clone(gridOverlayContainer);
+                }
+            }
+        }
+        return locationUnused;
+    }
+    public void CloneText(CharacterGridItem characterItem)
+    {
+        GameObject duplicate = Instantiate(characterItem.gameObject);
+
+        duplicate.transform.SetParent(gridOverlayContainer);
+
+
 
     }
 
@@ -699,7 +780,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void SetWordFound(string word)
     {
-        Debug.Log("SetWordFound: " + word);
         if (currentBoard == null)
         {
             return;
@@ -715,7 +795,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 Position endPosition = new Position(startPosition.row + wordPlacement.verticalDirection * (word.Length - 1), startPosition.col + wordPlacement.horizontalDirection * (word.Length - 1));
                 // Debug.Log("startPosition: " + startPosition.Log() + "  endPosition:  " + endPosition.Log());
                 Image highlightWord = HighlightWord(startPosition, endPosition, false);
-                wordListContainer.SetWordFound(word, highlightWord.color);
+                wordListContainer.SetWordFound(word);
 
                 break;
             }
@@ -777,10 +857,23 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         rotating = !rotating;
     }
 
-    public void SuggestManyWords()
+    public void SuggestManyWords(float time, List<string> nonFoundWordsChoose)
     {
-        effectContronler.PlayRocket();
+        IEnumerator coroutine = SuggestManyWordsTemp(time, nonFoundWordsChoose);
+        StartCoroutine(coroutine);
     }
+    private IEnumerator SuggestManyWordsTemp(float time, List<string> nonFoundWordsChoose)
+    {
+        yield return new WaitForSeconds(time);
+        foreach (string word in nonFoundWordsChoose)
+        {
+            ShowWordRecommend(word);
+        }
+
+
+
+    }
+
     private void ClearRotating()
     {
         transform.Rotate(Vector3.zero);

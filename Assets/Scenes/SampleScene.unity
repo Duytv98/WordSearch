@@ -5395,7 +5395,6 @@ MonoBehaviour:
   wordListContainer: {fileID: 1098797223}
   maxCellSize: 200
   selectedWord: {fileID: 49875781}
-  effectContronler: {fileID: 1151536256}
   letterFont: {fileID: 12800000, guid: ee2db8f362293974f9430665b34f4323, type: 3}
   letterFontSize: 150
   letterColor: {r: 0, g: 0, b: 0, a: 1}
@@ -23917,6 +23916,7 @@ MonoBehaviour:
   wordListContainer: {fileID: 1098797223}
   loadingIndicator: {fileID: 586563903}
   screenManager: {fileID: 289699093}
+  effectContronler: {fileID: 1151536256}
   topBar: {fileID: 1960475884}
   awardKeyEveryLevel: 0
   awardCoinsEveryLevel: 1
