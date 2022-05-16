@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using DG.Tweening;
-
 public class CharacterGridItem : MonoBehaviour
 {
     [SerializeField] private Font font = null;
@@ -15,7 +14,6 @@ public class CharacterGridItem : MonoBehaviour
     public int Row { get; set; }
     public int Col { get; set; }
     public bool IsHighlighted { get; set; }
-
     private Color highlightColor = Color.black;
 
     private Image highlight;

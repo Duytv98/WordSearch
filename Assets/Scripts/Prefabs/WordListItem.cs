@@ -26,7 +26,7 @@ public class WordListItem : MonoBehaviour
     public void SetWordFound()
     {
         background.gameObject.SetActive(false);
-        
+
         textBack.color = Color.black;
         _wordBGCVG.alpha = 0.5f;
     }
@@ -47,6 +47,11 @@ public class WordListItem : MonoBehaviour
     public void SetParent(RectTransform parent)
     {
         transform.SetParent(parent);
+    }
+    public float GetWidthSize()
+    {
+        RectTransform _wordItemRecT = textBack.GetComponent<RectTransform>();
+        return _wordItemRecT.sizeDelta.x;
     }
 
 }

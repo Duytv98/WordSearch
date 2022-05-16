@@ -50,20 +50,23 @@ public class WordListContainer : MonoBehaviour
         CreateRowWordList(3);
         float phantram = GetTotalWidthWordList() / (wordListContainer.rect.width * 3);
 
+        Debug.Log("số từ: " + board.words.Count);
+
         if (board.words.Count <= 12)
         {
+            Debug.Log("vào if");
             int index = 0;
             float widthWordList = 0f;
             int indexRow = 0;
             foreach (var item in wordListItems)
             {
                 WordListItem _wordItemScript = item.Value;
-                RectTransform _wordItemRecT = _wordItemScript.GetComponent<RectTransform>();
-                widthWordList += (_wordItemRecT.sizeDelta.x + 40f);
+                Debug.Log("Word: " + _wordItemScript.Word + "  sizeDelta: " + _wordItemScript.GetWidthSize());
+                widthWordList += (_wordItemScript.GetWidthSize() + 40f);
                 if (widthWordList >= rowWordLists[indexRow].rect.width || index > (indexRow * 4) + 3)
                 {
                     indexRow++;
-                    widthWordList = (_wordItemRecT.sizeDelta.x + 40f);
+                    widthWordList = (_wordItemScript.GetWidthSize() + 40f);
                 }
                 if (indexRow < rowWordLists.Count)
                 {
@@ -87,11 +90,12 @@ public class WordListContainer : MonoBehaviour
             {
                 WordListItem _wordItemScript = item.Value;
                 RectTransform _wordItemRecT = _wordItemScript.GetComponent<RectTransform>();
-                widthWordList += (_wordItemRecT.sizeDelta.x + 40f);
+
+                widthWordList += (_wordItemScript.GetWidthSize() + 40f);
                 if (widthWordList >= rowWordLists[0].rect.width)
                 {
                     indexRow++;
-                    widthWordList = (_wordItemRecT.sizeDelta.x + 40f);
+                    widthWordList = (_wordItemScript.GetWidthSize() + 40f);
                 }
                 if (indexRow < rowWordLists.Count)
                 {
@@ -179,6 +183,7 @@ public class WordListContainer : MonoBehaviour
             _wordItemScript.Setup(word);
             _wordItemScript.SetAlpha(false);
 
+
             wordListItems.Add(word, _wordItemScript);
         }
         else
@@ -256,7 +261,7 @@ public class WordListContainer : MonoBehaviour
             RectTransform rowWordList = CreateContainer("Row Word List", typeof(RectTransform));
             HorizontalLayoutGroup horizontalLayoutGroup = rowWordList.gameObject.AddComponent<HorizontalLayoutGroup>();
             horizontalLayoutGroup.childControlHeight = false;
-            horizontalLayoutGroup.childControlWidth = false;
+            horizontalLayoutGroup.childControlWidth = true;
             horizontalLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
             horizontalLayoutGroup.spacing = 50f;
             rowWordLists.Add(rowWordList);
