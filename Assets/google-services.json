@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "494966323998",
+    "firebase_url": "https://word-search-7da1c-default-rtdb.firebaseio.com",
+    "project_id": "word-search-7da1c",
+    "storage_bucket": "word-search-7da1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494966323998:android:3d1f1555496e59ba5da70f",
+        "android_client_info": {
+          "package_name": "com.Sonat.WordSearch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494966323998-esc8lh6ucnlt6be1olpil5eovvkg6bgi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Sonat.WordSearch",
+            "certificate_hash": "354d2063b620bfec06a71b425011c3c634f56ab4"
+          }
+        },
+        {
+          "client_id": "494966323998-60ifa1jku7g4d21fg8ak8gghgehsf1kp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwvwCuGqLPSVBaGS2sOPSqM93ZCzUj9us"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494966323998-60ifa1jku7g4d21fg8ak8gghgehsf1kp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
