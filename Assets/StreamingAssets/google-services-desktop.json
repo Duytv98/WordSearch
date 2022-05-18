@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "494966323998-esc8lh6ucnlt6be1olpil5eovvkg6bgi.apps.googleusercontent.com",
+          "client_id": "494966323998-0cn631g7dkjgduhm5qoc3j280hbquito.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.Sonat.WordSearch",
-            "certificate_hash": "354d2063b620bfec06a71b425011c3c634f56ab4"
+            "certificate_hash": "243cf8a10a32ae8ba1b46126ae41a8533c638d93"
           }
         },
         {

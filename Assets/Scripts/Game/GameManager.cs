@@ -37,6 +37,7 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] private WordListContainer wordListContainer = null;
     [SerializeField] private GameObject loadingIndicator = null;
     [SerializeField] private ScreenManager screenManager = null;
+    [SerializeField] private FireBaseController fireBaseController = null;
 
     [SerializeField] private Effect effectContronler = null;
 
@@ -63,13 +64,18 @@ public class GameManager : SingletonComponent<GameManager>
     public Dictionary<string, int> LastCompletedLevels = null;
     public List<string> UnlockedCategories { get; private set; }
 
-
     private PlayerInfo playerInfo = null;
 
 
     [Header("Debug / Testing")]
     [SerializeField] private bool awardKeyEveryLevel = false;
     [SerializeField] private bool awardCoinsEveryLevel = false;
+
+
+    private bool isLogIn = true;
+    public bool IsLogIn { get => isLogIn; set => isLogIn = value; }
+    private string idPlayer;
+    public string IdPlayer { get => idPlayer; set => idPlayer = value; }
 
     protected override void Awake()
     {
@@ -721,6 +727,11 @@ public class GameManager : SingletonComponent<GameManager>
             return false;
         }
         return true;
+    }
+
+    public void SignInWithGoogle()
+    {
+
     }
 
 }

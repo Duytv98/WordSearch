@@ -40,6 +40,7 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     public void ShowSettingsPopup()
     {
         Show(settingsPopup.gameObject);
+        settingsPopup.OnShowing();
     }
     public void ShowUnlockCategoryPopup(CategoryInfo categoryInfo)
     {
@@ -82,6 +83,16 @@ public class PopupContainer : SingletonComponent<PopupContainer>
         notEnoughKeysPopup.SetActive(false);
         rewardAdGranted.gameObject.SetActive(false);
         storePopup.gameObject.SetActive(false);
+    }
+
+    public void SettingsPopupShowLogin()
+    {
+
+    }
+    
+    public void SettingsPopupShowLogOut()
+    {
+
     }
 
 

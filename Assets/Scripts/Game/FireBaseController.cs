@@ -9,6 +9,9 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Google;
+using TMPro;
+
+using UnityEngine.Networking;
 public class FireBaseController : MonoBehaviour
 {
 
@@ -24,6 +27,13 @@ public class FireBaseController : MonoBehaviour
     private void Awake()
     {
         configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
+    }
+    void Start()
+    {
+        StartCoroutine(checkInternetConnection((isConnected) =>
+           {
+               if (isConnected) CheckFirebaseDependencies();
+           }));
     }
 
 
@@ -110,16 +120,13 @@ public class FireBaseController : MonoBehaviour
                 // btnSignIn.interactable = false;
                 // btnSignOut.interactable = true;
                 // infoText.text = "Đăng nhập thành công";
-
+                Debug.Log("Đăng nhập thành công" + "\nUserName: " + task.Result.DisplayName + "  Email: " + task.Result.Email);
 
                 // GameControler.Instance.SetLoadData(player);
 
             }
         });
     }
-
-
-
     private void OnSignOut()
     {
         Debug.Log("Calling SignOut");
@@ -137,8 +144,34 @@ public class FireBaseController : MonoBehaviour
         // GameControler.Instance.SetLoadData();
     }
 
+    private void CheckFirebaseDependencies()
+    {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            if (task.IsCompleted)
+            {
+                if (task.Result == DependencyStatus.Available)
+                {
+                    SetUpFirebaseAuth();
+                    // realtimeDatabase.SetUpDataBaseReference();
+                }
 
-
+                else
+                    Debug.Log("Could not resolve all Firebase dependencies: " + task.Result.ToString());
+            }
+            else
+            {
+                Debug.Log("Dependency check was not completed. Error : " + task.Exception.Message);
+            }
+        });
+    }
+    IEnumerator checkInternetConnection(Action<bool> action)
+    {
+        UnityWebRequest request = new UnityWebRequest("http://google.com");
+        yield return request.SendWebRequest();
+        if (request.error != null) action(false);
+        else action(true);
+    }
     //RealtimeDatabase
 
 
