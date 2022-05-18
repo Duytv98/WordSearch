@@ -87,7 +87,7 @@ public class GameManager : SingletonComponent<GameManager>
     void Start()
     {
         SaveableManager.Instance.LoadSaveData();
-        screenManager.Initialize();
+        // screenManager.Initialize();
     }
 
     public void ConfigData(PlayerInfo playerInfo)
@@ -98,6 +98,7 @@ public class GameManager : SingletonComponent<GameManager>
         LastCompletedLevels = ConvertToDictionaryLastCompletedLevels(playerInfo.lastCompletedLevels);
         BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
         UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
+        // Debug.Log(playerInfo.activeBoard);
     }
     Board LoadLevelFile(CategoryInfo categoryInfo, int levelIndex)
     {
@@ -123,7 +124,8 @@ public class GameManager : SingletonComponent<GameManager>
         }
         SetupGame(board, levelIndex);
 
-        SetBoardInProgress(board, categoryInfo, levelIndex);
+        // SetBoardInProgress(board, categoryInfo, levelIndex);
+        SaveCurrentBoard();
     }
     public void StartNextLevel(CategoryInfo categoryInfo)
     {
@@ -140,6 +142,7 @@ public class GameManager : SingletonComponent<GameManager>
     private void SetupGame(Board board, int levelIndex = -1)
     {
         ActiveBoard = board;
+        // Debug.Log("Count: " + ActiveBoard.recommendWords.Count);
         characterGrid.SetUp(board);
         wordListContainer.Setup(board);
 
@@ -318,6 +321,8 @@ public class GameManager : SingletonComponent<GameManager>
             {
                 // Thêm vào danh sách từ đã tìm thấy
                 ActiveBoard.foundWords.Add(word);
+                if (ActiveBoard.recommendWords.Contains(word)) ActiveBoard.recommendWords.Remove(word);
+                // Debug.Log("kiểm tra tồn tại trong recomment: " + ActiveBoard.recommendWords.Contains(word));
                 // Debug.Log("Số từ đã tìm thấy: " +  ActiveBoard.foundWords.Count);
 
                 // Thông báo cho wordListContainer tiến hành đánh dấu word đã được chọn
@@ -406,7 +411,7 @@ public class GameManager : SingletonComponent<GameManager>
                     Keys -= categoryInfo.unlockAmount;
 
                     UnlockedCategories.Add(categoryInfo.saveId);
-                    screenManager.RefreshMainScreen();
+                    screenManager.RefreshLevelScreen();
                     PopupContainer.Instance.ClosePopup();
                     SaveableManager.Instance.SaveData();
                     return true;
@@ -543,6 +548,9 @@ public class GameManager : SingletonComponent<GameManager>
                 }
             }
             else nonFoundWordsChoose = nonFoundWords;
+            // ActiveBoard.recommendWords.Concat(nonFoundWordsChoose).ToList();
+            ActiveBoard.recommendWords.UnionWith(nonFoundWordsChoose);
+            SaveCurrentBoard();
 
             characterGrid.SuggestManyWords(timeMoveRocket, nonFoundWordsChoose);
             Coins -= coinCostWordHint;
@@ -551,12 +559,12 @@ public class GameManager : SingletonComponent<GameManager>
     }
     public void ClearWords()
     {
-        Debug.Log("ClearWords");
+        // Debug.Log("ClearWords");
         characterGrid.ClearWords();
     }
     public void RecommendWord()
     {
-        Debug.Log("RecommendWord");
+        // Debug.Log("RecommendWord");
 
         List<string> nonFoundWords = new List<string>();
         // Lấy ra các từ chưa được tìm thấy
@@ -564,7 +572,7 @@ public class GameManager : SingletonComponent<GameManager>
         {
             string word = ActiveBoard.words[i];
 
-            if (!ActiveBoard.foundWords.Contains(word))
+            if (!ActiveBoard.foundWords.Contains(word) && !ActiveBoard.recommendWords.Contains(word))
             {
                 nonFoundWords.Add(word);
             }
@@ -585,8 +593,12 @@ public class GameManager : SingletonComponent<GameManager>
             // Pick a random word to show
             string wordToShow = nonFoundWords[Random.Range(0, nonFoundWords.Count)];
 
+            ActiveBoard.recommendWords.Add(wordToShow);
             // Highlight the word
             characterGrid.ShowWordRecommend(wordToShow);
+            // Debug.Log("recommendWords Count: " + ActiveBoard.recommendWords.Count);
+
+            SaveCurrentBoard();
 
             // Set it as selected
 
@@ -602,6 +614,20 @@ public class GameManager : SingletonComponent<GameManager>
         characterGrid.Rotating();
     }
 
+    public void SetLocationUnusedInBoard(Position position)
+    {
+        ActiveBoard.locationUnuseds.Add(position);
+    }
+
+    public void WordListContainer_SetWordFound(string word)
+    {
+        wordListContainer.SetWordFound(word);
+    }
+
+    public void wordListContainer_SetWordRecommend(string word, Color color)
+    {
+        wordListContainer.SetWordRecommend(word, color);
+    }
 
 
 
@@ -622,7 +648,6 @@ public class GameManager : SingletonComponent<GameManager>
     public void SaveCurrentBoard()
     {
         SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);
-        SaveableManager.Instance.SaveData();
     }
     private void SetBoardInProgress(Board board, CategoryInfo categoryInfo, int levelIndex = -1)
     {
@@ -640,6 +665,8 @@ public class GameManager : SingletonComponent<GameManager>
             Board board = new Board();
 
             board.StringToJson(BoardsInProgress[saveKey]);
+            Debug.Log("Get Board");
+            Debug.Log(BoardsInProgress[saveKey]);
             // Debug.Log(board.foundWords.Count);
             return board;
         }

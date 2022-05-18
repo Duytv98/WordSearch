@@ -36,11 +36,8 @@ public class WordListContainer : MonoBehaviour
     }
     public void Setup(Board board)
     {
-
         UnusedWord = new HashSet<string>();
-        // Debug.Log("Số lượng chữ: " + board.words.Count);
         Clear();
-        // Debug.Log("WordListContainer Setup");
         board.ShuffleListString();
         foreach (var word in board.words)
         {
@@ -50,18 +47,14 @@ public class WordListContainer : MonoBehaviour
         CreateRowWordList(3);
         float phantram = GetTotalWidthWordList() / (wordListContainer.rect.width * 3);
 
-        Debug.Log("số từ: " + board.words.Count);
-
         if (board.words.Count <= 12)
         {
-            Debug.Log("vào if");
             int index = 0;
             float widthWordList = 0f;
             int indexRow = 0;
             foreach (var item in wordListItems)
             {
                 WordListItem _wordItemScript = item.Value;
-                Debug.Log("Word: " + _wordItemScript.Word + "  sizeDelta: " + _wordItemScript.GetWidthSize());
                 widthWordList += (_wordItemScript.GetWidthSize() + 40f);
                 if (widthWordList >= rowWordLists[indexRow].rect.width || index > (indexRow * 4) + 3)
                 {

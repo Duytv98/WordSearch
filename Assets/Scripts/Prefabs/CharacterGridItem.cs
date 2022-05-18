@@ -14,11 +14,11 @@ public class CharacterGridItem : MonoBehaviour
     public int Row { get; set; }
     public int Col { get; set; }
     public bool IsHighlighted { get; set; }
-    private Color highlightColor = Color.black;
 
-    private Image highlight;
-    public Image Highlight { get => highlight; set => highlight = value; }
-    public Color HighlightColor { get => highlightColor; set => highlightColor = value; }
+
+
+    private bool isActive = true;
+    public bool IsActive { get => isActive; set => isActive = value; }
 
     public void Setup(char text, Color color, Vector3 scale, Vector2 scaledLetterOffsetInCell)
     {
@@ -62,7 +62,13 @@ public class CharacterGridItem : MonoBehaviour
     public void FlyWord()
     {
         cloneText.gameObject.SetActive(true);
-        cloneText.transform.DOMove(Vector3.right * 3, 2f);
-        characterText.color =Color.grey;
+        cloneText.transform.DOMove(Vector3.right * 3, 2f)
+        .OnComplete(() => Destroy(cloneText.gameObject));
+        SetWordUnuseds();
+    }
+    public void SetWordUnuseds()
+    {
+        characterText.color = Color.grey;
+        IsActive = false;
     }
 }

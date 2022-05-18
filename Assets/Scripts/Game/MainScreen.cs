@@ -8,10 +8,10 @@ public class MainScreen : MonoBehaviour
 {
     [SerializeField] private string id = "main";
 
-    public void Initialize()
-    {
+    // public void Initialize()
+    // {
 
-    }
+    // }
 
     public void OnSelectCategory()
     {

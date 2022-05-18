@@ -12,11 +12,11 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     private List<string> backStack;
     private GameObject currentScreen;
 
-    public void Initialize()
-    {
-        // MainScreen _mainScreenScript = mainScreen.GetComponent<MainScreen>();
-        mainScreen.Initialize();
-    }
+    // public void Initialize()
+    // {
+    //     // MainScreen _mainScreenScript = mainScreen.GetComponent<MainScreen>();
+    //     mainScreen.Initialize();
+    // }
     public void ShowScreenMain()
     {
         AddBackStack("main");
@@ -79,9 +79,9 @@ public class ScreenManager : SingletonComponent<ScreenManager>
         ShowScreenMain();
         // mainScreen.ReloadData();
     }
-
-    public void RefreshMainScreen(){
-        // mainScreen.ReloadData();
+    public void RefreshLevelScreen()
+    {
+        levelScreen.ReloadData();
     }
 
 
@@ -140,6 +140,9 @@ public class ScreenManager : SingletonComponent<ScreenManager>
             case "game":
                 currentScreen = gameScreen.gameObject;
                 SetVisibility(gameScreen.gameObject, true);
+
+                SaveableManager.Instance.SaveData();
+                ///////////////////////////////////////////////////////
                 break;
         }
 
