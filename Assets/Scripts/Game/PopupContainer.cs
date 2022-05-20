@@ -85,15 +85,11 @@ public class PopupContainer : SingletonComponent<PopupContainer>
         storePopup.gameObject.SetActive(false);
     }
 
-    public void SettingsPopupShowLogin()
+    public void SettingsPopupShowButton(bool isLogIn)
     {
-
+        settingsPopup.SetButton(isLogIn);
     }
-    
-    public void SettingsPopupShowLogOut()
-    {
 
-    }
 
 
 }

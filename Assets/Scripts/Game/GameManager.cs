@@ -37,7 +37,6 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] private WordListContainer wordListContainer = null;
     [SerializeField] private GameObject loadingIndicator = null;
     [SerializeField] private ScreenManager screenManager = null;
-    [SerializeField] private FireBaseController fireBaseController = null;
 
     [SerializeField] private Effect effectContronler = null;
 
@@ -71,8 +70,7 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] private bool awardKeyEveryLevel = false;
     [SerializeField] private bool awardCoinsEveryLevel = false;
 
-
-    private bool isLogIn = true;
+    private bool isLogIn = false;
     public bool IsLogIn { get => isLogIn; set => isLogIn = value; }
     private string idPlayer;
     public string IdPlayer { get => idPlayer; set => idPlayer = value; }
@@ -651,6 +649,12 @@ public class GameManager : SingletonComponent<GameManager>
         playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
         playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
     }
+
+    public void ConfigUserFireBase(string displayName, string email)
+    {
+        playerInfo.DisplayName = displayName;
+        playerInfo.Email = email;
+    }
     public void SaveCurrentBoard()
     {
         SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);
@@ -729,9 +733,6 @@ public class GameManager : SingletonComponent<GameManager>
         return true;
     }
 
-    public void SignInWithGoogle()
-    {
 
-    }
 
 }

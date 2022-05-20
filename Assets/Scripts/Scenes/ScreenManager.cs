@@ -58,6 +58,7 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     private void SetVisibility(GameObject screen, bool isVisible)
     {
         CanvasGroup screenCG = screen.GetComponent<CanvasGroup>();
+        
         screenCG.alpha = isVisible ? 1f : 0f;
         screenCG.interactable = isVisible ? true : false;
         screenCG.blocksRaycasts = isVisible ? true : false;

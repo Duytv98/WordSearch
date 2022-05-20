@@ -13,6 +13,8 @@ public class SaveableManager : SingletonComponent<SaveableManager>
             // Người chơi đã từng tham gia trờ chơi
             PlayerInfo playerInfo = JsonUtility.FromJson<PlayerInfo>(jsonString);
             GameManager.Instance.ConfigData(playerInfo);
+            GameManager.Instance.IdPlayer = GetUserId();
+            GameManager.Instance.IsLogIn = IsLogIn();
         }
         else
         {
@@ -37,7 +39,22 @@ public class SaveableManager : SingletonComponent<SaveableManager>
 
 
 
-
+    public void SetUserId(string userId)
+    {
+        PlayerPrefs.SetString("UserId", userId);
+    }
+    public string GetUserId()
+    {
+        return PlayerPrefs.GetString("UserId");
+    }
+    public void SetLogIn(bool isLogIn)
+    {
+        PlayerPrefs.SetString("isLogIn", isLogIn == true ? "true" : "false");
+    }
+    public bool IsLogIn()
+    {
+        return PlayerPrefs.GetString("isLogIn") == "true" ? true : false;
+    }
 
 
     private bool CheckExistData()

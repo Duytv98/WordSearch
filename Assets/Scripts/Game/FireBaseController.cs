@@ -12,7 +12,7 @@ using Google;
 using TMPro;
 
 using UnityEngine.Networking;
-public class FireBaseController : MonoBehaviour
+public class FireBaseController : SingletonComponent<FireBaseController>
 {
 
     public string webClientId = "<your client id here>";
@@ -20,12 +20,16 @@ public class FireBaseController : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser user;
 
+    private bool setUpFirebaseAuthSuccess = false;
+
 
     private DatabaseReference reference;
 
+    public bool SetUpFirebaseAuthSuccess { get => setUpFirebaseAuthSuccess; set => setUpFirebaseAuthSuccess = value; }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
     }
     void Start()
@@ -38,30 +42,56 @@ public class FireBaseController : MonoBehaviour
 
 
     //Authenticate
-    public void SetUpFirebaseAuth()
+    public void SetUpFirebaseAuth(bool actLogin = false)
     {
         auth = FirebaseAuth.DefaultInstance;
         user = auth.CurrentUser;
-        if (user != null)
-        {
-            // btnSignOut.interactable = true;
-            // infoText.text = user.DisplayName;
-            // User player = new User();
-            // player.UserName = user.DisplayName;
-            // player.Email = user.Email;
-            // player.UserId = user.UserId;
-            // infoText.text += "\n Check tên đăng nhập:  " + user.DisplayName;
-            // GameControler.Instance.SetLoadData(player);
-        }
-        else
-        {
-            // btnSignIn.interactable = true;
-            // infoText.text = "Chưa đăng nhập";
-        }
+
 
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.Configuration.UseGameSignIn = false;
         GoogleSignIn.Configuration.RequestIdToken = true;
+
+
+        SetUpFirebaseAuthSuccess = true;
+        // if (actLogin)
+        // {
+        //     SignInWithGoogle();
+        // }
+
+        // if (user != null)
+        // {
+        //     // btnSignOut.interactable = true;
+        //     // infoText.text = user.DisplayName;
+        //     // User player = new User();
+        //     // player.UserName = user.DisplayName;
+        //     // player.Email = user.Email;
+        //     // player.UserId = user.UserId;
+        //     // infoText.text += "\n Check tên đăng nhập:  " + user.DisplayName;
+        //     // GameControler.Instance.SetLoadData(player);
+        // }
+        // else
+        // {
+        //     // btnSignIn.interactable = true;
+        //     // infoText.text = "Chưa đăng nhập";
+        // }
+    }
+    public FirebaseUser GetCurrentUser()
+    {
+        Debug.Log("SetUpFirebaseAuthSuccess: " + SetUpFirebaseAuthSuccess);
+        if (SetUpFirebaseAuthSuccess) return auth.CurrentUser;
+        else
+        {
+            auth = FirebaseAuth.DefaultInstance;
+            GoogleSignIn.Configuration = configuration;
+            GoogleSignIn.Configuration.UseGameSignIn = false;
+            GoogleSignIn.Configuration.RequestIdToken = true;
+
+
+            SetUpFirebaseAuthSuccess = true;
+
+            return auth.CurrentUser;
+        }
     }
     public void SignInWithGoogle()
     {
@@ -124,6 +154,11 @@ public class FireBaseController : MonoBehaviour
 
                 // GameControler.Instance.SetLoadData(player);
 
+                SaveableManager.Instance.SetUserId(task.Result.UserId);
+                GameManager.Instance.IsLogIn = true;
+                PopupContainer.Instance.SettingsPopupShowButton(true);
+
+
             }
         });
     }
@@ -139,6 +174,11 @@ public class FireBaseController : MonoBehaviour
 
 
         user = auth.CurrentUser;
+        Debug.Log( user.DisplayName);
+
+        GameManager.Instance.IsLogIn = false;
+        PopupContainer.Instance.SettingsPopupShowButton(false);
+
         // infoText.text += "\n Check tên đăng nhập:  " + user.DisplayName;
 
         // GameControler.Instance.SetLoadData();

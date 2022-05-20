@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Networking;
+using Firebase.Auth;
 public class SettingsPopup : MonoBehaviour
 {
 
@@ -14,13 +15,18 @@ public class SettingsPopup : MonoBehaviour
 
     public void OnShowing()
     {
+       
         bool isLogIn = GameManager.Instance.IsLogIn;
         SetButton(isLogIn);
-        StartCoroutine(checkInternetConnection((isConnected) => SetButton(isLogIn, isConnected)));
+        StartCoroutine(checkInternetConnection((isConnected) =>
+        {
+            SetButton(isLogIn, isConnected);
+        }));
 
     }
-    private void SetButton(bool isLogIn, bool isConnected = true)
+    public void SetButton(bool isLogIn, bool isConnected = true)
     {
+        Debug.Log("SetButton   isLogIn: " + isLogIn);
         btnLogIn.alpha = isLogIn ? 0 : isConnected ? 1 : 0.7f;
         btnLogIn.interactable = !isLogIn && isConnected;
         btnLogIn.blocksRaycasts = !isLogIn && isConnected;

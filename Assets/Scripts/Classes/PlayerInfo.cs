@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerInfo
 {
     public string DisplayName;
+    public string Email;
     public int coins = 0;
     public int keys = 0;
     public CategoryInfo activeCategoryInfo = null;

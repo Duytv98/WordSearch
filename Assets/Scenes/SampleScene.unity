@@ -23931,7 +23931,6 @@ MonoBehaviour:
   wordListContainer: {fileID: 1098797223}
   loadingIndicator: {fileID: 586563903}
   screenManager: {fileID: 289699093}
-  fireBaseController: {fileID: 1597280151}
   effectContronler: {fileID: 1151536256}
   topBar: {fileID: 1960475884}
   awardKeyEveryLevel: 0
@@ -64362,7 +64361,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1597280151}
         m_TargetAssemblyTypeName: FireBaseController, Assembly-CSharp
-        m_MethodName: SignInWithGoogle
+        m_MethodName: SignOutFromGoogle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
