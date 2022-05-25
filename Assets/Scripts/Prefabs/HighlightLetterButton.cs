@@ -12,6 +12,8 @@ public class HighlightLetterButton : MonoBehaviour
     {
         this.letter = letter;
         letterText.text = letter.ToString();
+        Vector3 localPosition = transform.localPosition;
+        transform.localPosition = new Vector3(localPosition.x, localPosition.y, 0f);
     }
     public void OnClick()
     {

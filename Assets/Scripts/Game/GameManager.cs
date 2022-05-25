@@ -4,9 +4,6 @@ using UnityEngine;
 using SimpleJSON;
 public class GameManager : SingletonComponent<GameManager>
 {
-
-
-
     public enum GameMode
     {
         Casual,
@@ -75,6 +72,9 @@ public class GameManager : SingletonComponent<GameManager>
     private string idPlayer;
     public string IdPlayer { get => idPlayer; set => idPlayer = value; }
 
+    private bool isCompleted;
+    public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -90,15 +90,17 @@ public class GameManager : SingletonComponent<GameManager>
     }
     void Start()
     {
-        SaveableManager.Instance.LoadSaveData();
+        // SaveableManager.Instance.LoadSaveData();
         // screenManager.Initialize();
     }
 
     public void ConfigData(PlayerInfo playerInfo)
     {
+        Debug.Log("ConfigData: ");
+        Debug.Log(playerInfo.ToString());
         Coins = playerInfo.coins;
         Keys = playerInfo.keys;
-        ActiveBoard = playerInfo.activeBoard;
+        // ActiveBoard = playerInfo.activeBoard;
         LastCompletedLevels = ConvertToDictionaryLastCompletedLevels(playerInfo.lastCompletedLevels);
         BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
         UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
@@ -145,6 +147,7 @@ public class GameManager : SingletonComponent<GameManager>
     }
     private void SetupGame(Board board, int levelIndex = -1)
     {
+        IsCompleted = false;
         ActiveBoard = board;
         // Debug.Log("Count: " + ActiveBoard.recommendWords.Count);
         characterGrid.SetUp(board);
@@ -312,7 +315,7 @@ public class GameManager : SingletonComponent<GameManager>
             string word = ActiveBoard.words[i];
 
             // Kiểm tra từ đã được tìm thấy chưa
-            if (ActiveBoard.foundWords.Contains(word) || wordListContainer.UnusedWord.Contains(word))
+            if (ActiveBoard.foundWords.Contains(word) || wordListContainer.UnusedWords.Contains(word))
             {
                 continue;
             }
@@ -325,25 +328,23 @@ public class GameManager : SingletonComponent<GameManager>
             {
                 // Thêm vào danh sách từ đã tìm thấy
                 ActiveBoard.foundWords.Add(word);
+                Debug.Log(" GameManaer ActiveBoard.foundWords.Count: " + ActiveBoard.foundWords.Count);
                 if (ActiveBoard.recommendWords.Contains(word)) ActiveBoard.recommendWords.Remove(word);
+                // Debug.Log("ActiveBoard.foundWords.count: " + ActiveBoard.foundWords.Count + );
                 // Debug.Log("kiểm tra tồn tại trong recomment: " + ActiveBoard.recommendWords.Contains(word));
                 // Debug.Log("Số từ đã tìm thấy: " +  ActiveBoard.foundWords.Count);
 
                 // Thông báo cho wordListContainer tiến hành đánh dấu word đã được chọn
-                wordListContainer.SetWordFound(word);
+                // wordListContainer.SetWordFound(word);
 
-                wordListContainer.PlusWord(ActiveBoard.foundWords);
+                // wordListContainer.PlusWord(ActiveBoard.foundWords);
+
+                // CheckBoardCompleted();
+
+
 
                 //kiểm tra đã tìm đủ word chưa
-                if (ActiveBoard.foundWords.Count == ActiveBoard.words.Count)
-                {
-                    BoardCompleted();
-                    Debug.Log("Thắng");
-                }
-                else
-                {
-                    SaveCurrentBoard();
-                }
+
 
                 // Return the word with the spaces
                 return word;
@@ -354,8 +355,21 @@ public class GameManager : SingletonComponent<GameManager>
 
         return null;
     }
+    public void CheckBoardCompleted()
+    {
+        if (ActiveBoard.foundWords.Count == ActiveBoard.words.Count)
+        {
+            if (!IsCompleted) BoardCompleted();
+            Debug.Log("Thắng");
+        }
+        else
+        {
+            SaveCurrentBoard();
+        }
+    }
     private void BoardCompleted()
     {
+        IsCompleted = true;
         // Debug.Log("ActiveCategoryInfo: " + ActiveCategoryInfo + "  ActiveLevelIndex: " + ActiveLevelIndex + "  Key: " + GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
         // Debug.Log(Utilities.ConvertToJsonString(BoardsInProgress));
         BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
@@ -391,18 +405,20 @@ public class GameManager : SingletonComponent<GameManager>
     {
         return levelIndex > 0 && (!LastCompletedLevels.ContainsKey(categoryInfo.saveId) || levelIndex > LastCompletedLevels[categoryInfo.saveId] + 1);
     }
+    public int IsLevelPlayable(CategoryInfo categoryInfo)
+    {
+        Debug.Log("IsLevelPlayable: " + categoryInfo.displayName);
+        if (!LastCompletedLevels.ContainsKey(categoryInfo.saveId)) return 0;
+        else return LastCompletedLevels[categoryInfo.saveId];
+    }
     // Sử lý list category
     public bool UnlockCategory(CategoryInfo categoryInfo)
     {
         switch (categoryInfo.lockType)
         {
             case CategoryInfo.LockType.Coins:
-                if (Coins < categoryInfo.unlockAmount)
-                {
-                }
-                else
-                {
-                }
+                if (Coins < categoryInfo.unlockAmount) { }
+                else { }
 
                 break;
             case CategoryInfo.LockType.Keys:
@@ -426,13 +442,6 @@ public class GameManager : SingletonComponent<GameManager>
         return false;
 
     }
-
-
-
-
-
-
-
     public void HintHighlightWord()
     {
 
@@ -448,7 +457,11 @@ public class GameManager : SingletonComponent<GameManager>
         {
             string word = ActiveBoard.words[i];
 
-            if (!ActiveBoard.foundWords.Contains(word) || !wordListContainer.UnusedWord.Contains(word))
+            // if (!ActiveBoard.foundWords.Contains(word) || !wordListContainer.UnusedWord.Contains(word))
+            // {
+            // nonFoundWords.Add(word);
+            // }
+            if (!ActiveBoard.foundWords.Contains(word) && !wordListContainer.UnusedWords.Contains(word))
             {
                 nonFoundWords.Add(word);
             }
@@ -524,7 +537,7 @@ public class GameManager : SingletonComponent<GameManager>
         {
             string word = ActiveBoard.words[i];
 
-            if (!ActiveBoard.foundWords.Contains(word))
+            if (!ActiveBoard.foundWords.Contains(word) && !ActiveBoard.recommendWords.Contains(word))
             {
                 nonFoundWords.Add(word);
             }
@@ -633,7 +646,10 @@ public class GameManager : SingletonComponent<GameManager>
         wordListContainer.SetWordRecommend(word, color);
     }
 
-
+    public void WordListContainer_PlusWord()
+    {
+        wordListContainer.PlusWord(ActiveBoard.foundWords);
+    }
 
 
     public PlayerInfo GetPlayerInfo()
@@ -644,7 +660,8 @@ public class GameManager : SingletonComponent<GameManager>
     {
         playerInfo.coins = Coins;
         playerInfo.keys = Keys;
-        playerInfo.activeBoard = ActiveBoard;
+        // LastCompletedLevels["birds"] = 25;
+        // playerInfo.activeBoard = ActiveBoard;
         playerInfo.lastCompletedLevels = Utilities.ConvertToJsonString(LastCompletedLevels);
         playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
         playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
@@ -663,6 +680,7 @@ public class GameManager : SingletonComponent<GameManager>
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
+        Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
@@ -675,8 +693,8 @@ public class GameManager : SingletonComponent<GameManager>
             Board board = new Board();
 
             board.StringToJson(BoardsInProgress[saveKey]);
-            Debug.Log("Get Board");
-            Debug.Log(BoardsInProgress[saveKey]);
+            // Debug.Log("Get Board");
+            // Debug.Log(BoardsInProgress[saveKey]);
             // Debug.Log(board.foundWords.Count);
             return board;
         }
@@ -733,6 +751,20 @@ public class GameManager : SingletonComponent<GameManager>
         return true;
     }
 
+    public void AddWordDeleted(string word)
+    {
+        ActiveBoard.listWordDeleted.Add(word);
+    }
 
+    public void LogHashSetString(HashSet<string> list)
+    {
+        string a = "LogHashSetString số lượng từ:  " + list.Count + " :   ";
+        foreach (string word in list)
+        {
+            a += ", ";
+            a += word;
+        }
+        Debug.Log(a);
+    }
 
 }

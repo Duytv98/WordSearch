@@ -14,35 +14,40 @@ public class WordListContainer : MonoBehaviour
     private List<RectTransform> rowWordLists = null;
     private List<string> listWordUse = null;
 
+    public HashSet<string> listWordDeleted;
     [SerializeField] private Text textPlus = null;
     [SerializeField] private Transform star = null;
     [SerializeField] private Transform starPrefab = null;
 
     private List<Transform> listStar;
-    private HashSet<string> unusedWord;
+    private HashSet<string> unusedWords;
 
-    public HashSet<string> UnusedWord { get => unusedWord; set => unusedWord = value; }
+    public HashSet<string> UnusedWords { get => unusedWords; set => unusedWords = value; }
+
+    private int indexWordMin = 0;
 
     // Start is called before the first frame update
-
-
     public void Initialize()
     {
         wordListItems = new Dictionary<string, WordListItem>();
         rowWordLists = new List<RectTransform>();
         listWordUse = new List<string>();
         listStar = new List<Transform>();
-        UnusedWord = new HashSet<string>();
+        // UnusedWords = new HashSet<string>();
+        // listWordDeleted = new HashSet<string>();
     }
     public void Setup(Board board)
     {
-        UnusedWord = new HashSet<string>();
+        UnusedWords = new HashSet<string>();
+        listWordDeleted = board.listWordDeleted;
+        GameManager.Instance.LogHashSetString(listWordDeleted);
         Clear();
         board.ShuffleListString();
         foreach (var word in board.words)
         {
             CreateWordListItem(word);
         }
+        Debug.Log("board.words.count: " + board.words.Count + "   wordListItems.count: " + wordListItems.Count);
         Canvas.ForceUpdateCanvases();
         CreateRowWordList(3);
         float phantram = GetTotalWidthWordList() / (wordListContainer.rect.width * 3);
@@ -69,7 +74,7 @@ public class WordListContainer : MonoBehaviour
                 else
                 {
                     _wordItemScript.gameObject.SetActive(false);
-                    UnusedWord.Add(_wordItemScript.Word);
+                    UnusedWords.Add(_wordItemScript.Word);
                 }
                 index++;
             }
@@ -98,7 +103,7 @@ public class WordListContainer : MonoBehaviour
                 else
                 {
                     _wordItemScript.gameObject.SetActive(false);
-                    UnusedWord.Add(_wordItemScript.Word);
+                    UnusedWords.Add(_wordItemScript.Word);
                 }
                 index++;
             }
@@ -114,8 +119,8 @@ public class WordListContainer : MonoBehaviour
             VLG.padding.top = 35;
             VLG.padding.bottom = 25;
         }
-        CreateStar(UnusedWord.Count);
-        textPlus.text = "+ " + UnusedWord.Count;
+        CreateStar(UnusedWords.Count);
+        textPlus.text = "+ " + UnusedWords.Count;
 
     }
 
@@ -131,8 +136,6 @@ public class WordListContainer : MonoBehaviour
             Debug.LogError("[WordList] Word does not exist in the word list: " + word);
         }
     }
-
-
     public void SetWordRecommend(string word, Color color)
     {
         if (wordListItems.ContainsKey(word)) wordListItems[word].SetRecommendWord(color);
@@ -152,19 +155,74 @@ public class WordListContainer : MonoBehaviour
     }
     public void PlusWord(HashSet<string> foundWords)
     {
-        if (UnusedWord.Count > 5) Debug.Log("Có hơn 5 từ chưa được hiển thị");
-        if (foundWords.Count >= UnusedWord.Count || foundWords.Count >= 3 && UnusedWord.Count > 5)
+        if (UnusedWords.Count <= 0)
         {
-            // Debug.Log("số từ đã tìm thấy: " + foundWords.Count);
-            // Debug.Log("Kích hoạt sao");
+            return;
         }
+        List<string> listWordDie = new List<string>();
+        int soTuDuaRa = UnusedWords.Count >= 3 ? 3 : UnusedWords.Count;
+        // Debug.Log("foundWords.Count: " + foundWords.Count + "       soTuDuaRa * amountMinus: " + (soTuDuaRa * amountMinus));
+        if (foundWords.Count >= indexWordMin + soTuDuaRa)
+        {
+            int w = 0;
+            Debug.Log("min: " + (indexWordMin) + "  max: " + (indexWordMin + soTuDuaRa));
+            foreach (var word in foundWords)
+            {
+                // Debug.Log("word: " + word);
+                if (w < indexWordMin || w >= indexWordMin + soTuDuaRa)
+                {
+                    w++;
+                    continue;
+                }
+                if (wordListItems.ContainsKey(word)) listWordDie.Add(word);
+                w++;
+            }
+            Debug.Log("listPositionEnd.Count: " + listWordDie.Count);
+            Debug.Log("listStar.Count: " + listStar.Count);
+            int index = 0;
+
+            indexWordMin += soTuDuaRa;
+            foreach (var reuseWord in UnusedWords)
+            {
+                if (index >= listWordDie.Count) return;
+                WordListItem wordDieScript = wordListItems[listWordDie[index]];
+                Debug.Log("word: " + wordDieScript.Word);
+                WordListItem reuseWordScript = wordListItems[reuseWord];
+                // SwapWord(wordDieScript, reuseWord, wordDieScript.transform.parent, position);
+                MoveStar(wordDieScript, reuseWordScript, index, index == listWordDie.Count - 1);
+
+                index++;
+            }
+            Debug.Log(55555);
+        }
+
+    }
+    private void MoveStar(WordListItem wordDieScript, WordListItem reuseWordScript, int index, bool isLastStar)
+    {
+        Debug.Log("word remove: " + wordDieScript.Word + "    new Word: " + reuseWordScript.Word + "   index: " + index + "   sao cuối: " + isLastStar);
+        Vector3 position = wordDieScript.transform.position;
+        Transform transformStar = listStar[index];
+        transformStar.DOMove(position, 1f)
+                                  .SetEase(Ease.InCubic)
+                                  .OnComplete(() =>
+                                  {
+                                      //   Debug.Log("i: " + index);
+                                      Destroy(transformStar.gameObject);
+                                      SwapWord(wordDieScript, reuseWordScript);
+                                      if (isLastStar)
+                                      {
+                                          listStar.RemoveRange(0, index + 1);
+                                          GameManager.Instance.SaveCurrentBoard();
+                                          Debug.Log("listStar count: " + listStar.Count);
+                                      }
+                                  });
     }
 
 
 
     private void CreateWordListItem(string word)
     {
-
+        if (listWordDeleted.Contains(word)) return;
         if (!wordListItems.ContainsKey(word))
         {
             RectTransform _wordItem = Instantiate(wordListItemPrefab, Vector3.zero, Quaternion.identity, wordListContainer);
@@ -193,13 +251,18 @@ public class WordListContainer : MonoBehaviour
         {
             Destroy(item.Value.gameObject);
         }
-        wordListItems.Clear();
         foreach (var item in rowWordLists)
         {
             Destroy(item.gameObject);
         }
-
+        foreach (Transform star in listStar)
+        {
+            Destroy(star.gameObject);
+        }
+        wordListItems.Clear();
+        listStar.Clear();
         rowWordLists.Clear();
+        indexWordMin = 0;
 
 
     }
@@ -251,7 +314,7 @@ public class WordListContainer : MonoBehaviour
         // Debug.Log("row: " + row);
         for (int i = 0; i < row; i++)
         {
-            RectTransform rowWordList = CreateContainer("Row Word List", typeof(RectTransform));
+            RectTransform rowWordList = CreateContainer("Row_Word_List_" + i, typeof(RectTransform));
             HorizontalLayoutGroup horizontalLayoutGroup = rowWordList.gameObject.AddComponent<HorizontalLayoutGroup>();
             horizontalLayoutGroup.childControlHeight = false;
             horizontalLayoutGroup.childControlWidth = true;
@@ -277,8 +340,29 @@ public class WordListContainer : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-
+            Transform starTr = Instantiate(starPrefab, Vector3.zero, Quaternion.identity, star);
+            starTr.localPosition = Vector3.zero;
+            listStar.Add(starTr);
         }
     }
+    private void SwapWord(WordListItem wordDieScript, WordListItem reuseWordScript)
+    {
+        Vector3 position = wordDieScript.transform.position;
+        wordDieScript.gameObject.SetActive(false);
+        Destroy(wordDieScript.gameObject);
+        listWordDeleted.Add(wordDieScript.Word);
+        GameManager.Instance.AddWordDeleted(wordDieScript.Word);
+        Debug.Log("2.  listWordDeleted.Count: " + listWordDeleted.Count);
+        wordListItems.Remove(wordDieScript.Word);
 
+        reuseWordScript.gameObject.SetActive(true);
+        reuseWordScript.transform.localPosition = position;
+        reuseWordScript.SetParent(wordDieScript.transform.parent);
+        reuseWordScript.SetAlpha(true);
+
+        UnusedWords.Remove(reuseWordScript.Word);
+        textPlus.text = "+ " + UnusedWords.Count;
+
+
+    }
 }

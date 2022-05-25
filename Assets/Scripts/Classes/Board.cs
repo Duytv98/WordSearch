@@ -36,7 +36,7 @@ public class Board
     public HashSet<string> foundWords = new HashSet<string>();
     // Tập hợp các từ gợi ý
     public HashSet<string> recommendWords = new HashSet<string>();
-
+    public HashSet<string> listWordDeleted = new HashSet<string>();
     public List<Position> locationUnuseds;
 
     // Tập hợp vị trí các từ bị loại bỏ
@@ -95,7 +95,10 @@ public class Board
         for (int i = 0; i < json["recommendWords"].AsArray.Count; i++)
         {
             recommendWords.Add(json["recommendWords"].AsArray[i].Value);
-            Debug.Log(json["recommendWords"].AsArray[i].Value);
+        }
+        for (int i = 0; i < json["listWordDeleted"].AsArray.Count; i++)
+        {
+            listWordDeleted.Add(json["listWordDeleted"].AsArray[i].Value);
         }
         for (int i = 0; i < json["letterHintsUsed"].AsArray.Count; i++)
         {
@@ -155,6 +158,10 @@ public class Board
         {
             recommendWords.Add(json["recommendWords"].AsArray[i].Value);
         }
+        for (int i = 0; i < json["listWordDeleted"].AsArray.Count; i++)
+        {
+            listWordDeleted.Add(json["listWordDeleted"].AsArray[i].Value);
+        }
         for (int i = 0; i < json["letterHintsUsed"].AsArray.Count; i++)
         {
             letterHintsUsed.Add(json["letterHintsUsed"].AsArray[i].Value[0]);
@@ -209,6 +216,10 @@ public class Board
         if (recommendWords.Count > 0)
         {
             json["recommendWords"] = new List<string>(recommendWords);
+        }
+        if (listWordDeleted.Count > 0)
+        {
+            json["listWordDeleted"] = new List<string>(listWordDeleted);
         }
         if (letterHintsUsed.Count > 0)
         {

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
+using Firebase.Extensions;
 using Google;
 using TMPro;
 
 using UnityEngine.Networking;
 public class FireBaseController : SingletonComponent<FireBaseController>
 {
-
     public string webClientId = "<your client id here>";
     private GoogleSignInConfiguration configuration;
     private FirebaseAuth auth;
@@ -24,6 +24,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
 
     private DatabaseReference reference;
+
 
     public bool SetUpFirebaseAuthSuccess { get => setUpFirebaseAuthSuccess; set => setUpFirebaseAuthSuccess = value; }
 
@@ -36,7 +37,21 @@ public class FireBaseController : SingletonComponent<FireBaseController>
     {
         StartCoroutine(checkInternetConnection((isConnected) =>
            {
-               if (isConnected) CheckFirebaseDependencies();
+               if (isConnected)
+               {
+                   if (!SaveableManager.Instance.CheckExistData())
+                   {
+                       SaveableManager.Instance.LoadDataOffline();
+                   }
+                   else
+                   {
+                       CheckFirebaseDependencies();
+                   }
+               }
+               else
+               {
+                   SaveableManager.Instance.LoadDataOffline();
+               }
            }));
     }
 
@@ -54,31 +69,10 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
 
         SetUpFirebaseAuthSuccess = true;
-        // if (actLogin)
-        // {
-        //     SignInWithGoogle();
-        // }
-
-        // if (user != null)
-        // {
-        //     // btnSignOut.interactable = true;
-        //     // infoText.text = user.DisplayName;
-        //     // User player = new User();
-        //     // player.UserName = user.DisplayName;
-        //     // player.Email = user.Email;
-        //     // player.UserId = user.UserId;
-        //     // infoText.text += "\n Check tên đăng nhập:  " + user.DisplayName;
-        //     // GameControler.Instance.SetLoadData(player);
-        // }
-        // else
-        // {
-        //     // btnSignIn.interactable = true;
-        //     // infoText.text = "Chưa đăng nhập";
-        // }
     }
     public FirebaseUser GetCurrentUser()
     {
-        Debug.Log("SetUpFirebaseAuthSuccess: " + SetUpFirebaseAuthSuccess);
+        // Debug.Log("SetUpFirebaseAuthSuccess: " + SetUpFirebaseAuthSuccess);
         if (SetUpFirebaseAuthSuccess) return auth.CurrentUser;
         else
         {
@@ -95,8 +89,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
     }
     public void SignInWithGoogle()
     {
-        Debug.Log("Calling SignIn");
-        GoogleSignIn.DefaultInstance.SignIn().ContinueWith(OnAuthenticationFinished);
+        GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(OnAuthenticationFinished);
     }
 
     public void SignOutFromGoogle() { OnSignOut(); }
@@ -130,7 +123,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
     {
         Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
 
-        auth.SignInWithCredentialAsync(credential).ContinueWith(task =>
+        auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
         {
             AggregateException ex = task.Exception;
             if (ex != null)
@@ -153,10 +146,27 @@ public class FireBaseController : SingletonComponent<FireBaseController>
                 Debug.Log("Đăng nhập thành công" + "\nUserName: " + task.Result.DisplayName + "  Email: " + task.Result.Email);
 
                 // GameControler.Instance.SetLoadData(player);
-
+                GameManager.Instance.IdPlayer = task.Result.UserId;
                 SaveableManager.Instance.SetUserId(task.Result.UserId);
+                SaveableManager.Instance.SetLogIn(true);
+                GameManager.Instance.ConfigUserFireBase(task.Result.DisplayName, task.Result.Email);
                 GameManager.Instance.IsLogIn = true;
                 PopupContainer.Instance.SettingsPopupShowButton(true);
+
+                reference.Child("User").Child(task.Result.UserId).Child("DisplayName").SetValueAsync(task.Result.DisplayName);
+                reference.Child("User").Child(task.Result.UserId).Child("Email").SetValueAsync(task.Result.Email);
+
+
+                string jsonString = PlayerPrefs.GetString("playerInfo");
+                PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
+
+                Read_Data(playerLocal);
+
+                // GameManager.Instance.SetPlayerInfo();
+                // SaveableManager.Instance.SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
+
+
+                // GameManager.Instance.DeactivateLoading();
 
 
             }
@@ -174,9 +184,10 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
 
         user = auth.CurrentUser;
-        Debug.Log( user.DisplayName);
+        Debug.Log(user.DisplayName);
 
         GameManager.Instance.IsLogIn = false;
+        SaveableManager.Instance.SetLogIn(false);
         PopupContainer.Instance.SettingsPopupShowButton(false);
 
         // infoText.text += "\n Check tên đăng nhập:  " + user.DisplayName;
@@ -186,14 +197,17 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
     private void CheckFirebaseDependencies()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 if (task.Result == DependencyStatus.Available)
                 {
                     SetUpFirebaseAuth();
-                    // realtimeDatabase.SetUpDataBaseReference();
+                    SetUpDataBaseReference();
+                    SaveableManager.Instance.LoadDataOnline();
+                    // Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
+                    // if (GameManager.Instance.IsLogIn) Read_Data("UserId4324", playerLocal);
                 }
 
                 else
@@ -215,4 +229,62 @@ public class FireBaseController : SingletonComponent<FireBaseController>
     //RealtimeDatabase
 
 
+    public void SetUpDataBaseReference()
+    {
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+    }
+    public void SaveData(PlayerInfo user)
+    {
+        string UserId = GameManager.Instance.IdPlayer;
+        Debug.Log("id: " + UserId);
+        StartCoroutine(checkInternetConnection((isConnected) =>
+          {
+              if (isConnected)
+              {
+                  user.boardsInProgress = null;
+                  string json = JsonUtility.ToJson(user);
+                  reference.Child("User").Child(UserId).SetRawJsonValueAsync(json)
+                  .ContinueWith(task =>
+                  {
+                      if (task.IsCompleted)
+                      {
+                          Debug.Log("successdully added data to firebase");
+                      }
+                      else Debug.Log("not successdully");
+                  });
+              };
+          }));
+
+    }
+
+    public void Read_Data(PlayerInfo playerLocal)
+    {
+        // Debug.Log("Read_Data");
+        string userId = GameManager.Instance.IdPlayer;
+        reference.Child("User").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
+               {
+                   if (task.IsCompleted)
+                   {
+                       DataSnapshot snapshot = task.Result;
+                       //    Debug.Log("Get data successdully");
+                       PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
+                       Debug.Log("playerLocal: ");
+                       Debug.Log(playerLocal.ToString());
+                       Debug.Log("playerFireBase: ");
+                       Debug.Log(playerFireBase.ToString());
+                       PlayerInfo playerInfo = new PlayerInfo();
+                       playerInfo.Union(playerLocal, playerFireBase);
+                       //    Debug.Log(playerInfo.ToString());
+                       GameManager.Instance.ConfigData(playerInfo);
+
+                       GameManager.Instance.SetPlayerInfo();
+                       SaveableManager.Instance.SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
+
+
+                   }
+                   else Debug.Log("not successdully");
+               });
+
+
+    }
 }

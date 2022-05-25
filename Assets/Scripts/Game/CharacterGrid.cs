@@ -227,7 +227,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         // {
         //     StartCoroutine(SetUpValue(board));
         // }
-         StartCoroutine(SetUpValue(board));
+        StartCoroutine(SetUpValue(board));
 
     }
     // set chữ lên màn chơi
@@ -239,7 +239,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         // Debug.Log("board.foundWords: " + board.foundWords.Count);
         foreach (string foundWord in board.foundWords)
         {
-            SetWordFound(foundWord);
+            SetWordFound(foundWord, board.listWordDeleted);
         }
         // Debug.Log("board.letterHintsUsed: " + board.letterHintsUsed.Count);
         foreach (char letter in board.letterHintsUsed)
@@ -564,7 +564,28 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         // Debug.Log("toPosition: " + toPosition);
         floatingText.transform.DOMove(toPosition, 1f);
         floatingText.transform.DOScale(new Vector3(0.3f, 0.3f, 1), 1f)
-        .OnComplete(() => Destroy(floatingText.gameObject));
+        // Sau khi chữ bay lên
+        .OnComplete(() =>
+        {
+            GameManager.Instance.WordListContainer_SetWordFound(word);
+            GameManager.Instance.WordListContainer_PlusWord();
+            GameManager.Instance.CheckBoardCompleted();
+            Destroy(floatingText.gameObject);
+        });
+
+
+
+
+
+
+
+
+        //
+        //
+        //
+        //
+        //
+
     }
     public Image HighlightWord(Position start, Position end, bool useSelectedColour)
     {
@@ -793,7 +814,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         }
     }
 
-    public void SetWordFound(string word)
+    public void SetWordFound(string word, HashSet<string> listWordDeleted)
     {
         if (currentBoard == null)
         {
@@ -811,7 +832,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 // Debug.Log("startPosition: " + startPosition.Log() + "  endPosition:  " + endPosition.Log());
                 Image highlightWord = HighlightWord(startPosition, endPosition, false);
                 // wordListContainer.SetWordFound(word);
-                GameManager.Instance.WordListContainer_SetWordFound(word);
+                if (!listWordDeleted.Contains(word)) GameManager.Instance.WordListContainer_SetWordFound(word);
 
                 break;
             }

@@ -1,47 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using SimpleJSON;
 public class SaveableManager : SingletonComponent<SaveableManager>
 {
-    public void LoadSaveData()
+    public void LoadDataOnline()
     {
-        if (CheckExistData())
+        // Debug.Log("LoadDataOnline");
+        GameManager.Instance.IdPlayer = PlayerPrefs.GetString("UserId");
+        GameManager.Instance.IsLogIn = PlayerPrefs.GetString("isLogIn") == "true" ? true : false;
+        string jsonString = PlayerPrefs.GetString("playerInfo");
+        PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
+        // GameManager.Instance.IsLogIn = true;
+        if (!GameManager.Instance.IsLogIn)
         {
-            string jsonString = GetString("playerInfo");
-            // Debug.Log(jsonString);
-            // Người chơi đã từng tham gia trờ chơi
-            PlayerInfo playerInfo = JsonUtility.FromJson<PlayerInfo>(jsonString);
-            GameManager.Instance.ConfigData(playerInfo);
-            GameManager.Instance.IdPlayer = GetUserId();
-            GameManager.Instance.IsLogIn = IsLogIn();
+            GameManager.Instance.ConfigData(playerLocal);
         }
         else
         {
-            // Người chơi chưa từng tham gia trờ chơi
-            // Dictionary<string, int> lastCompletedLevel = new Dictionary<string, int>();
-            // foreach (var category in categoryInfos)
-            // {
-            //     lastCompletedLevel.Add(category.saveId, 0);
-            // }
-            // GameManager.Instance.LastCompletedLevels = lastCompletedLevel;
-            SetGameDefaut();
-            LoadSaveData();
+            FireBaseController.Instance.Read_Data(playerLocal);
         }
+    }
+    public void LoadDataOffline()
+    {
+        // Debug.Log("LoadDataOffline");
+        if (CheckExistData())
+        {
+            // Người chơi đã từng tham gia trờ chơi
+            GameManager.Instance.IdPlayer = GetUserId();
+            GameManager.Instance.IsLogIn = IsLogIn();
+            string jsonString = GetString("playerInfo");
+            PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
+            GameManager.Instance.ConfigData(playerLocal);
 
+        }
+        else
+        {
+            SetGameDefaut();
+            LoadDataOffline();
+        }
     }
 
     public void SaveData()
     {
+        // Debug.Log("save Data: ");
+        // Debug.Log(GameManager.Instance.GetPlayerInfo());
         GameManager.Instance.SetPlayerInfo();
         SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
+        if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
     }
 
 
 
     public void SetUserId(string userId)
     {
+        Debug.Log("userId1");
         PlayerPrefs.SetString("UserId", userId);
+
+        Debug.Log("userId2");
     }
     public string GetUserId()
     {
@@ -57,10 +73,9 @@ public class SaveableManager : SingletonComponent<SaveableManager>
     }
 
 
-    private bool CheckExistData()
+    public bool CheckExistData()
     {
         return PlayerPrefs.HasKey("Used_to_play");
-
     }
 
     public void SetString(string KeyName, string Value)

@@ -12,7 +12,6 @@ public class WordListItem : MonoBehaviour
     [SerializeField] private CanvasGroup _wordBGCVG = null;
 
     private string word = null;
-
     public string Word { get => word; set => word = value; }
 
     public void Setup(string word)
@@ -44,7 +43,7 @@ public class WordListItem : MonoBehaviour
         _wordBGCVG.interactable = isActive;
         _wordBGCVG.blocksRaycasts = isActive;
     }
-    public void SetParent(RectTransform parent)
+    public void SetParent(Transform parent)
     {
         transform.SetParent(parent);
     }

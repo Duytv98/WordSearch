@@ -32,14 +32,6 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
 
     private int levelOfDifficult = 0;
 
-
-
-
-
-
-
-
-
     [SerializeField] private RectTransform content = null;
     [SerializeField] private RectTransform levelListContent = null;
 
@@ -68,7 +60,8 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
         backgroundImage.color = category.categoryColor;
         SetProgress(category);
         SetLocked(category);
-
+        // this.levelOfDifficult = GameManager.Instance.IsLevelPlayable(category);
+        // Debug.Log("this.levelOfDifficult: " + this.levelOfDifficult);
         ShowPurdah(this.levelOfDifficult);
         if (isExpanded)
         {
@@ -139,7 +132,7 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
 
     public void OnItemClicked()
     {
-        // Debug.Log("click: " + category.displayName);
+        Debug.Log("click: " + category.displayName);
         // Don't call Expand or collapse while the handler is expanding an item, the handler will just ignore those calls
         // Debug.Log("IsExpanded: " + IsExpanded);
         if (ExpandableListHandler.IsExpandingOrCollapsing)
@@ -162,6 +155,15 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
             }
             else
             {
+
+                int levelActive = GameManager.Instance.IsLevelPlayable(category);
+                if (levelActive < 10) this.levelOfDifficult = 0;
+                else if (levelActive < 20) this.levelOfDifficult = 1;
+                else this.levelOfDifficult = 2;
+                Debug.Log("this.levelOfDifficult: " + this.levelOfDifficult);
+
+                ShowPurdah(this.levelOfDifficult);
+
                 // Set the level list items
                 // Đặt các mục danh sách cấp độ
                 SetupLevelListItems();
