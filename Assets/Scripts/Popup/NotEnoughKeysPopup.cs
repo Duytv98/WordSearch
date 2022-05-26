@@ -6,7 +6,7 @@ public class NotEnoughKeysPopup : MonoBehaviour
 {
     public void CloseNotEnoughKeysPopup()
     {
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("NotEnoughKeysPopup");
     }
 
 }

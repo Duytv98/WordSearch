@@ -13,6 +13,6 @@ public class NotEnoughCoinsPopup : MonoBehaviour
 
     public void CloseNotEnoughCoinsPopup()
     {
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("NotEnoughCoinsPopup");
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class PopupContainer : SingletonComponent<PopupContainer>
@@ -11,17 +12,19 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     [SerializeField] private SettingsPopup settingsPopup = null;
     [SerializeField] private UnlockCategoryPopup unlockCategoryPopup = null;
     [SerializeField] private NotEnoughCoinsPopup notEnoughCoinsPopup = null;
-    [SerializeField] private GameObject notEnoughKeysPopup = null;
+    [SerializeField] private NotEnoughKeysPopup notEnoughKeysPopup = null;
     [SerializeField] private RewardAdGranted rewardAdGranted = null;
     [SerializeField] private StorePopup storePopup = null;
     [SerializeField] private GameObject background = null;
     [SerializeField] private GameObject backgroundFade = null;
+
+    private string popupActive = null;
     // Start is called before the first frame update
-    private Vector3 scaleChange = new Vector3(-0.5f, -0.5f, -0.5f);
+    // private Vector3 scaleChange = new Vector3(-0.5f, -0.5f, -0.5f);
 
     public void ShowLevelCompletePopup(int coinsAwarded, int keysAwarded)
     {
-        Show(levelCompletePopup.gameObject);
+        Show("LevelCompletePopup");
         background.SetActive(false);
         backgroundFade.SetActive(true);
 
@@ -29,32 +32,32 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     }
     public void ShowCategorySelectedPopup(CategoryInfo categoryInfo)
     {
-        Show(categorySelectedPopup.gameObject);
+        Show("CategorySelectedPopup");
         categorySelectedPopup.OnShowing(categoryInfo);
     }
     public void ShowHighlighLetterPopup()
     {
-        Show(chooseHighlighLetterPopup.gameObject);
+        Show("ChooseHighlighLetterPopup");
         chooseHighlighLetterPopup.OnShowing();
     }
     public void ShowSettingsPopup()
     {
-        Show(settingsPopup.gameObject);
+        Show("SettingsPopup");
         settingsPopup.OnShowing();
     }
     public void ShowUnlockCategoryPopup(CategoryInfo categoryInfo)
     {
-        Show(unlockCategoryPopup.gameObject);
+        Show("UnlockCategoryPopup");
         unlockCategoryPopup.OnShowing(categoryInfo);
     }
     public void ShowNotEnoughCoinsPopup()
     {
-        Show(notEnoughCoinsPopup.gameObject);
+        Show("NotEnoughCoinsPopup");
     }
     public void ShowNotEnoughKeysPopup()
     {
-        ClosePopup();
-        Show(notEnoughKeysPopup);
+        ClosePopup("UnlockCategoryPopup", true);
+        Show("NotEnoughKeysPopup");
     }
     public void ShowRewardAdGranted()
     {
@@ -62,34 +65,98 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     public void ShowStorePopup()
     {
     }
-    private void Show(GameObject gameObject)
+    private void Show(string keyName)
     {
+        popupActive = keyName;
         background.SetActive(true);
-        gameObject.transform.localScale += scaleChange;
-        gameObject.SetActive(true);
-        gameObject.transform.DOScale(Vector3.one, 0.5f)
+        GameObject popup = GetPopup(keyName);
+        popup.SetActive(true);
+        popup.transform.DOMoveY(0, 0.5f)
         .SetEase(Ease.OutBack);
     }
-    public void ClosePopup()
+    public void CloseCurrentPopup()
     {
-        background.SetActive(false);
-        backgroundFade.SetActive(false);
-        levelCompletePopup.gameObject.SetActive(false);
-        categorySelectedPopup.gameObject.SetActive(false);
-        chooseHighlighLetterPopup.gameObject.SetActive(false);
-        settingsPopup.gameObject.SetActive(false);
-        unlockCategoryPopup.gameObject.SetActive(false);
-        notEnoughCoinsPopup.gameObject.SetActive(false);
-        notEnoughKeysPopup.SetActive(false);
-        rewardAdGranted.gameObject.SetActive(false);
-        storePopup.gameObject.SetActive(false);
+        Debug.Log("close");
+        ClosePopup(popupActive);
+    }
+    public void ClosePopup(string keyName, bool isActiveBackground = false)
+    {
+
+        Debug.Log("close 1111111111111");
+
+        var activeEvent = background.GetComponent<Button>();
+        activeEvent.interactable = false;
+        CanvasGroup popupCV = GetPopupCV(keyName);
+        popupCV.interactable = false;
+        GameObject popup = GetPopup(keyName);
+        popup.transform.DOLocalMoveY(-2880f, 0.5f)
+                       .SetEase(Ease.InBack)
+                       .OnComplete(() =>
+                       {
+                           background.SetActive(isActiveBackground);
+                           backgroundFade.SetActive(false);
+                           popup.SetActive(false);
+                           popupCV.interactable = true;
+                           activeEvent.interactable = true;
+                       });
     }
 
     public void SettingsPopupShowButton(bool isLogIn)
     {
         settingsPopup.SetButton(isLogIn);
     }
-
+    public GameObject GetPopup(string key)
+    {
+        switch (key)
+        {
+            case "LevelCompletePopup":
+                return levelCompletePopup.gameObject;
+            case "CategorySelectedPopup":
+                return categorySelectedPopup.gameObject;
+            case "ChooseHighlighLetterPopup":
+                return chooseHighlighLetterPopup.gameObject;
+            case "SettingsPopup":
+                return settingsPopup.gameObject;
+            case "UnlockCategoryPopup":
+                return unlockCategoryPopup.gameObject;
+            case "NotEnoughCoinsPopup":
+                return notEnoughCoinsPopup.gameObject;
+            case "NotEnoughKeysPopup":
+                return notEnoughKeysPopup.gameObject;
+            case "RewardAdGranted":
+                return rewardAdGranted.gameObject;
+            case "StorePopup":
+                return storePopup.gameObject;
+            default:
+                return null;
+        }
+    }
+    public CanvasGroup GetPopupCV(string key)
+    {
+        switch (key)
+        {
+            case "LevelCompletePopup":
+                return levelCompletePopup.GetComponent<CanvasGroup>();
+            case "CategorySelectedPopup":
+                return categorySelectedPopup.GetComponent<CanvasGroup>();
+            case "ChooseHighlighLetterPopup":
+                return chooseHighlighLetterPopup.GetComponent<CanvasGroup>();
+            case "SettingsPopup":
+                return settingsPopup.GetComponent<CanvasGroup>();
+            case "UnlockCategoryPopup":
+                return unlockCategoryPopup.GetComponent<CanvasGroup>();
+            case "NotEnoughCoinsPopup":
+                return notEnoughCoinsPopup.GetComponent<CanvasGroup>();
+            case "NotEnoughKeysPopup":
+                return notEnoughKeysPopup.GetComponent<CanvasGroup>();
+            case "RewardAdGranted":
+                return rewardAdGranted.GetComponent<CanvasGroup>();
+            case "StorePopup":
+                return storePopup.GetComponent<CanvasGroup>();
+            default:
+                return null;
+        }
+    }
 
 
 }

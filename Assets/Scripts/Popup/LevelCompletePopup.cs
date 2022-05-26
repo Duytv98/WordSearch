@@ -45,7 +45,7 @@ public class LevelCompletePopup : MonoBehaviour
     }
     public void CloseLevelCompletePopup()
     {
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("LevelCompletePopup");
     }
     public void OnClickNextLevel()
     {

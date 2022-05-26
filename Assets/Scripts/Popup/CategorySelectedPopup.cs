@@ -54,7 +54,7 @@ public class CategorySelectedPopup : MonoBehaviour
 
     public void ClosePopupCategorySelected()
     {
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("CategorySelectedPopup");
         OpenModeContainer();
         // Debug.Log("You have clicked the button!");
     }

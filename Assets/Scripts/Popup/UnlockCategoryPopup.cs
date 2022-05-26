@@ -36,7 +36,7 @@ public class UnlockCategoryPopup : MonoBehaviour
 
     public void CloseUnlockCategoryButton()
     {
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
         // Debug.Log("You have clicked the button!");
     }
 

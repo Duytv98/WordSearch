@@ -52,7 +52,7 @@ public class SettingsPopup : MonoBehaviour
 
     public void CloseSettingsPopup()
     {
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("SettingsPopup");
     }
 
     IEnumerator checkInternetConnection(Action<bool> action)

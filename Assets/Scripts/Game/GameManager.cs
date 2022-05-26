@@ -432,7 +432,7 @@ public class GameManager : SingletonComponent<GameManager>
 
                     UnlockedCategories.Add(categoryInfo.saveId);
                     screenManager.RefreshLevelScreen();
-                    PopupContainer.Instance.ClosePopup();
+                    PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
                     SaveableManager.Instance.SaveData();
                     return true;
                 }
@@ -519,7 +519,7 @@ public class GameManager : SingletonComponent<GameManager>
         ActiveBoard.letterHintsUsed.Add(letter);
         characterGrid.ShowLetterHint(letter);
         Coins -= coinCostLetterHint;
-        PopupContainer.Instance.ClosePopup();
+        PopupContainer.Instance.ClosePopup("ChooseHighlighLetterPopup");
         SaveCurrentBoard();
 
     }
@@ -660,6 +660,9 @@ public class GameManager : SingletonComponent<GameManager>
     {
         playerInfo.coins = Coins;
         playerInfo.keys = Keys;
+        playerInfo.coins = 0;
+
+        // playerInfo.keys = 0;
         // LastCompletedLevels["birds"] = 25;
         // playerInfo.activeBoard = ActiveBoard;
         playerInfo.lastCompletedLevels = Utilities.ConvertToJsonString(LastCompletedLevels);
@@ -680,7 +683,7 @@ public class GameManager : SingletonComponent<GameManager>
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
-        Debug.Log("contentsBoard: " + contentsBoard);
+        // Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
