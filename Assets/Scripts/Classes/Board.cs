@@ -90,7 +90,7 @@ public class Board
         for (int i = 0; i < json["foundWords"].AsArray.Count; i++)
         {
             foundWords.Add(json["foundWords"].AsArray[i].Value);
-            Debug.Log(json["foundWords"].AsArray[i].Value);
+            // Debug.Log(json["foundWords"].AsArray[i].Value);
         }
         for (int i = 0; i < json["recommendWords"].AsArray.Count; i++)
         {

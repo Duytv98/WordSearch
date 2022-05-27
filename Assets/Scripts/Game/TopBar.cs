@@ -28,7 +28,7 @@ public class TopBar : MonoBehaviour
     }
     public void OnSwitchingScreens(string toScreenId)
     {
-        if (toScreenId == "main")
+        if (toScreenId == "home")
         {
             mainScreenContainer.alpha = 1f;
             categoryContainer.alpha = 0f;

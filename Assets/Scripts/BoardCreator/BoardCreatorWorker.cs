@@ -728,7 +728,7 @@ public class BoardCreatorWorker : Worker
             str += "\n";
         }
 
-        Debug.Log(str);
+        // Debug.Log(str);
 
         return str;
     }
@@ -757,7 +757,7 @@ public class BoardCreatorWorker : Worker
             }
         }
 
-        Debug.Log(str);
+        // Debug.Log(str);
 
         return str;
     }

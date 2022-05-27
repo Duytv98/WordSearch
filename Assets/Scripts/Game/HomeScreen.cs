@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 // using PolyAndCode.UI;
-// public class MainScreen : MonoBehaviour, IRecyclableScrollRectDataSource
-public class MainScreen : MonoBehaviour
+public class HomeScreen : MonoBehaviour
 {
     [SerializeField] private string id = "main";
 
-    // public void Initialize()
-    // {
+    public void Initialize()
+    {
 
-    // }
+    }
 
     public void OnSelectCategory()
     {
-        ScreenManager.Instance.ShowScreenLevel();
+        // Debug.Log("OnSelectCategory");
+        // ScreenManager.Instance.ShowScreenLevel();
+        ScreenManager.Instance.Show("levels");
     }
     public void OnPlayNextLevelRandomCategory()
     {

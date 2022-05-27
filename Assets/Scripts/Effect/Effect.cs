@@ -20,4 +20,10 @@ public class Effect : MonoBehaviour
 
         });
     }
+
+    
+    void OnParticleSystemStopped()
+    {
+        Debug.Log("System has stopped!");
+    }
 }

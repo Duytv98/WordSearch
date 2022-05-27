@@ -21,7 +21,7 @@ public class LevelCompletePopup : MonoBehaviour
     private bool playmode = false;
     public void OnShowing(int coinsAwarded, int keysAwarded)
     {
-        Debug.Log("coinsAwarded: " + coinsAwarded + "  keysAwarded: " + keysAwarded);
+        // Debug.Log("coinsAwarded: " + coinsAwarded + "  keysAwarded: " + keysAwarded);
         bool awardCoins = coinsAwarded > 0;
         bool awardKeys = keysAwarded > 0;
 
@@ -37,7 +37,7 @@ public class LevelCompletePopup : MonoBehaviour
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(GameManager.Instance.ActiveCategoryInfo);
 
         nextLevelButton.SetActive(playmode && !allLevelsCompleted);
-        Debug.Log("playmode: " + playmode + "   Đang chơi dở Casual: " + casualHasProgress + "        AllLevelsComplete: " + allLevelsCompleted);
+        // Debug.Log("playmode: " + playmode + "   Đang chơi dở Casual: " + casualHasProgress + "        AllLevelsComplete: " + allLevelsCompleted);
 
 
         coinRewardAmountText.text = "x " + coinsAwarded;

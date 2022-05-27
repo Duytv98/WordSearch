@@ -132,7 +132,7 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
 
     public void OnItemClicked()
     {
-        Debug.Log("click: " + category.displayName);
+        // Debug.Log("click: " + category.displayName);
         // Don't call Expand or collapse while the handler is expanding an item, the handler will just ignore those calls
         // Debug.Log("IsExpanded: " + IsExpanded);
         if (ExpandableListHandler.IsExpandingOrCollapsing)
@@ -160,7 +160,7 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
                 if (levelActive < 10) this.levelOfDifficult = 0;
                 else if (levelActive < 20) this.levelOfDifficult = 1;
                 else this.levelOfDifficult = 2;
-                Debug.Log("this.levelOfDifficult: " + this.levelOfDifficult);
+                // Debug.Log("this.levelOfDifficult: " + this.levelOfDifficult);
 
                 ShowPurdah(this.levelOfDifficult);
 

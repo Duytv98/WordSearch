@@ -26,7 +26,7 @@ public class SettingsPopup : MonoBehaviour
     }
     public void SetButton(bool isLogIn, bool isConnected = true)
     {
-        Debug.Log("SetButton   isLogIn: " + isLogIn);
+        // Debug.Log("SetButton   isLogIn: " + isLogIn);
         btnLogIn.alpha = isLogIn ? 0 : isConnected ? 1 : 0.7f;
         btnLogIn.interactable = !isLogIn && isConnected;
         btnLogIn.blocksRaycasts = !isLogIn && isConnected;

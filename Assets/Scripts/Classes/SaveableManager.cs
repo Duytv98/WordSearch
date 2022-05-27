@@ -54,10 +54,10 @@ public class SaveableManager : SingletonComponent<SaveableManager>
 
     public void SetUserId(string userId)
     {
-        Debug.Log("userId1");
+        // Debug.Log("userId1");
         PlayerPrefs.SetString("UserId", userId);
 
-        Debug.Log("userId2");
+        // Debug.Log("userId2");
     }
     public string GetUserId()
     {

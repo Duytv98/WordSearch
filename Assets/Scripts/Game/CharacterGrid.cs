@@ -442,7 +442,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         }
         else
         {
-            Debug.Log("============ ELSE  ==========");
+            // Debug.Log("============ ELSE  ==========");
             selectedWord.Clear();
         }
     }

@@ -133,7 +133,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
             }
             else
             {
-                Debug.Log("Sign In Successful.");
+                // Debug.Log("Sign In Successful.");
                 // User player = new User();
                 // player.UserName = task.Result.DisplayName;
                 // player.Email = task.Result.Email;
@@ -143,7 +143,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
                 // btnSignIn.interactable = false;
                 // btnSignOut.interactable = true;
                 // infoText.text = "Đăng nhập thành công";
-                Debug.Log("Đăng nhập thành công" + "\nUserName: " + task.Result.DisplayName + "  Email: " + task.Result.Email);
+                // Debug.Log("Đăng nhập thành công" + "\nUserName: " + task.Result.DisplayName + "  Email: " + task.Result.Email);
 
                 // GameControler.Instance.SetLoadData(player);
                 GameManager.Instance.IdPlayer = task.Result.UserId;
@@ -174,7 +174,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
     }
     private void OnSignOut()
     {
-        Debug.Log("Calling SignOut");
+        // Debug.Log("Calling SignOut");
         GoogleSignIn.DefaultInstance.SignOut();
 
 
@@ -184,7 +184,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
 
         user = auth.CurrentUser;
-        Debug.Log(user.DisplayName);
+        // Debug.Log(user.DisplayName);
 
         GameManager.Instance.IsLogIn = false;
         SaveableManager.Instance.SetLogIn(false);
@@ -236,7 +236,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
     public void SaveData(PlayerInfo user)
     {
         string UserId = GameManager.Instance.IdPlayer;
-        Debug.Log("id: " + UserId);
+        // Debug.Log("id: " + UserId);
         StartCoroutine(checkInternetConnection((isConnected) =>
           {
               if (isConnected)
@@ -268,10 +268,10 @@ public class FireBaseController : SingletonComponent<FireBaseController>
                        DataSnapshot snapshot = task.Result;
                        //    Debug.Log("Get data successdully");
                        PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
-                       Debug.Log("playerLocal: ");
-                       Debug.Log(playerLocal.ToString());
-                       Debug.Log("playerFireBase: ");
-                       Debug.Log(playerFireBase.ToString());
+                    //    Debug.Log("playerLocal: ");
+                    //    Debug.Log(playerLocal.ToString());
+                    //    Debug.Log("playerFireBase: ");
+                    //    Debug.Log(playerFireBase.ToString());
                        PlayerInfo playerInfo = new PlayerInfo();
                        playerInfo.Union(playerLocal, playerFireBase);
                        //    Debug.Log(playerInfo.ToString());

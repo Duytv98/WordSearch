@@ -40,14 +40,14 @@ public class WordListContainer : MonoBehaviour
     {
         UnusedWords = new HashSet<string>();
         listWordDeleted = board.listWordDeleted;
-        GameManager.Instance.LogHashSetString(listWordDeleted);
+        // GameManager.Instance.LogHashSetString(listWordDeleted);
         Clear();
         board.ShuffleListString();
         foreach (var word in board.words)
         {
             CreateWordListItem(word);
         }
-        Debug.Log("board.words.count: " + board.words.Count + "   wordListItems.count: " + wordListItems.Count);
+        // Debug.Log("board.words.count: " + board.words.Count + "   wordListItems.count: " + wordListItems.Count);
         Canvas.ForceUpdateCanvases();
         CreateRowWordList(3);
         float phantram = GetTotalWidthWordList() / (wordListContainer.rect.width * 3);
@@ -165,7 +165,7 @@ public class WordListContainer : MonoBehaviour
         if (foundWords.Count >= indexWordMin + soTuDuaRa)
         {
             int w = 0;
-            Debug.Log("min: " + (indexWordMin) + "  max: " + (indexWordMin + soTuDuaRa));
+            // Debug.Log("min: " + (indexWordMin) + "  max: " + (indexWordMin + soTuDuaRa));
             foreach (var word in foundWords)
             {
                 // Debug.Log("word: " + word);
@@ -177,8 +177,8 @@ public class WordListContainer : MonoBehaviour
                 if (wordListItems.ContainsKey(word)) listWordDie.Add(word);
                 w++;
             }
-            Debug.Log("listPositionEnd.Count: " + listWordDie.Count);
-            Debug.Log("listStar.Count: " + listStar.Count);
+            // Debug.Log("listPositionEnd.Count: " + listWordDie.Count);
+            // Debug.Log("listStar.Count: " + listStar.Count);
             int index = 0;
 
             indexWordMin += soTuDuaRa;
@@ -186,20 +186,20 @@ public class WordListContainer : MonoBehaviour
             {
                 if (index >= listWordDie.Count) return;
                 WordListItem wordDieScript = wordListItems[listWordDie[index]];
-                Debug.Log("word: " + wordDieScript.Word);
+                // Debug.Log("word: " + wordDieScript.Word);
                 WordListItem reuseWordScript = wordListItems[reuseWord];
                 // SwapWord(wordDieScript, reuseWord, wordDieScript.transform.parent, position);
                 MoveStar(wordDieScript, reuseWordScript, index, index == listWordDie.Count - 1);
 
                 index++;
             }
-            Debug.Log(55555);
+            // Debug.Log(55555);
         }
 
     }
     private void MoveStar(WordListItem wordDieScript, WordListItem reuseWordScript, int index, bool isLastStar)
     {
-        Debug.Log("word remove: " + wordDieScript.Word + "    new Word: " + reuseWordScript.Word + "   index: " + index + "   sao cuối: " + isLastStar);
+        // Debug.Log("word remove: " + wordDieScript.Word + "    new Word: " + reuseWordScript.Word + "   index: " + index + "   sao cuối: " + isLastStar);
         Vector3 position = wordDieScript.transform.position;
         Transform transformStar = listStar[index];
         transformStar.DOMove(position, 1f)
@@ -213,7 +213,7 @@ public class WordListContainer : MonoBehaviour
                                       {
                                           listStar.RemoveRange(0, index + 1);
                                           GameManager.Instance.SaveCurrentBoard();
-                                          Debug.Log("listStar count: " + listStar.Count);
+                                        //   Debug.Log("listStar count: " + listStar.Count);
                                       }
                                   });
     }
@@ -276,8 +276,8 @@ public class WordListContainer : MonoBehaviour
 
         float viewportTop = viewport.anchoredPosition.y;
         float viewportbottom = viewport.anchoredPosition.y + viewport.rect.height;
-        Debug.Log("viewportTop: " + viewportTop + "   viewportbottom: " + viewportbottom + "  placeholder.rect.height: " + placeholder.rect.height);
-        Debug.Log("placeholderTop: " + placeholderTop + "   placeholderbottom: " + placeholderbottom + "   viewport.rect.height: " + viewport.rect.height);
+        // Debug.Log("viewportTop: " + viewportTop + "   viewportbottom: " + viewportbottom + "  placeholder.rect.height: " + placeholder.rect.height);
+        // Debug.Log("placeholderTop: " + placeholderTop + "   placeholderbottom: " + placeholderbottom + "   viewport.rect.height: " + viewport.rect.height);
 
         return placeholderTop < viewportbottom && placeholderbottom > viewportTop;
     }
@@ -352,7 +352,7 @@ public class WordListContainer : MonoBehaviour
         Destroy(wordDieScript.gameObject);
         listWordDeleted.Add(wordDieScript.Word);
         GameManager.Instance.AddWordDeleted(wordDieScript.Word);
-        Debug.Log("2.  listWordDeleted.Count: " + listWordDeleted.Count);
+        // Debug.Log("2.  listWordDeleted.Count: " + listWordDeleted.Count);
         wordListItems.Remove(wordDieScript.Word);
 
         reuseWordScript.gameObject.SetActive(true);

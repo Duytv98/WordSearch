@@ -5,46 +5,60 @@ using DG.Tweening;
 
 public class ScreenManager : SingletonComponent<ScreenManager>
 {
-    [SerializeField] private MainScreen mainScreen = null;
+    [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private LevelScreen levelScreen = null;
     [SerializeField] private TopBar topBar = null;
     private List<string> backStack;
     private GameObject currentScreen;
 
-    // public void Initialize()
-    // {
-    //     // MainScreen _mainScreenScript = mainScreen.GetComponent<MainScreen>();
-    //     mainScreen.Initialize();
-    // }
-    public void ShowScreenMain()
+    void Start()
     {
-        AddBackStack("main");
-        if (currentScreen) SetVisibility(currentScreen, false);
-        SetVisibility(mainScreen.gameObject, true);
-        currentScreen = mainScreen.gameObject;
+        backStack = new List<string>();
+        Show("home");
     }
-    public void ShowScreenGame()
+    public void Show(string id, bool isVisible = true)
     {
-        AddBackStack("game");
-        if (currentScreen) SetVisibility(currentScreen, false);
-        SetVisibility(gameScreen.gameObject, true);
-        currentScreen = gameScreen.gameObject;
-
-        // GameScreen _gameScript = gameScreen.GetComponent<GameScreen>();
-        gameScreen.Initialize();
+        // Debug.Log("======== Show =======");
+        if (currentScreen) Close(currentScreen);
+        GameObject screen = null;
+        AddBackStack(id);
+        switch (id)
+        {
+            case "home":
+                screen = homeScreen.gameObject;
+                currentScreen = screen;
+                screen.SetActive(true);
+                homeScreen.Initialize();
+                break;
+            case "levels":
+                screen = levelScreen.gameObject;
+                currentScreen = screen;
+                SetVisibilityLevle(screen, true);
+                levelScreen.Initialize();
+                break;
+            case "game":
+                screen = gameScreen.gameObject;
+                currentScreen = screen;
+                screen.SetActive(true);
+                gameScreen.Initialize();
+                break;
+            default:
+                return;
+        }
+        ConfigTopbar(isVisible);
+        Debug.Log("backStack.Count: " + backStack.Count);
 
     }
 
-    public void ShowScreenLevel()
+    public void Close(GameObject screen)
     {
-        AddBackStack("levels");
-        if (currentScreen) SetVisibility(currentScreen, false);
-        SetVisibility(levelScreen.gameObject, true);
-        currentScreen = levelScreen.gameObject;
-
-        // LevelScreen _levelScript = levelScreen.GetComponent<LevelScreen>();
-        levelScreen.Initialize();
+        // Debug.Log("======== Close =======");
+        
+        // Debug.Log("backStack.Count: " + backStack.Count);
+        if(screen.name == "CanvasLevels"){
+            SetVisibilityLevle(screen, false);
+        }else screen.SetActive(false);
     }
 
     private void AddBackStack(string nameScreen)
@@ -55,30 +69,10 @@ public class ScreenManager : SingletonComponent<ScreenManager>
             backStack.Add(nameScreen);
         }
     }
-    private void SetVisibility(GameObject screen, bool isVisible)
-    {
-        CanvasGroup screenCG = screen.GetComponent<CanvasGroup>();
-        
-        screenCG.alpha = isVisible ? 1f : 0f;
-        screenCG.interactable = isVisible ? true : false;
-        screenCG.blocksRaycasts = isVisible ? true : false;
-        if (backStack.Count > 1) topBar.SetAlphaBackButton(true);
-        else topBar.SetAlphaBackButton(false);
-        if (isVisible)
-        {
-            topBar.OnSwitchingScreens(backStack[backStack.Count - 1]);
-        }
-    }
-    void Start()
-    {
-        backStack = new List<string>();
-        ShowScreenMain();
-    }
     public void BackToHome()
     {
         backStack.Clear();
-        ShowScreenMain();
-        // mainScreen.ReloadData();
+        Show("home");
     }
     public void RefreshLevelScreen()
     {
@@ -86,33 +80,37 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     }
 
 
+    GameObject GetScreenById(string id)
+    {
+        switch (id)
+        {
+            case "home":
+                return homeScreen.gameObject;
+            case "levels":
+                return levelScreen.gameObject;
+            case "game":
+                return gameScreen.gameObject;
+            default:
+                return null;
+        }
+    }
 
 
-    // void HideCurrentScreen()
-    // {
-    //     if (currentScreen) currentScreen.SetActive(false);
-    // }
-    // GameObject GetScreenById(string id)
-    // {
-    //     GameObject result = null;
-    //     switch (id)
-    //     {
-    //         case "main":
-    //             result = mainScreen;
-    //             break;
-    //         case "levels":
-    //             result = levelScreen;
-    //             break;
-    //         case "game":
-    //             result = gameScreen;
-    //             break;
-    //     }
-    //     return result;
-    // }
+    private void ConfigTopbar(bool isVisible = true)
+    {
+        if (backStack.Count > 1) topBar.SetAlphaBackButton(true);
+        else topBar.SetAlphaBackButton(false);
+        if (isVisible)
+        {
+            topBar.OnSwitchingScreens(backStack[backStack.Count - 1]);
+        }
+    }
 
 
     public void BackScreen()
     {
+        // Debug.Log("======== BackScreen =======");
+
         if (backStack.Count <= 0)
         {
             Debug.LogWarning("[ScreenController] There is no screen on the back stack to go back to.");
@@ -122,41 +120,44 @@ public class ScreenManager : SingletonComponent<ScreenManager>
 
         string screenId = backStack[backStack.Count - 2];
         backStack.RemoveAt(backStack.Count - 1);
-        if (currentScreen) Hide(currentScreen);
+        if (currentScreen) Close(currentScreen);
+        // Debug.Log("screenId: " + screenId);
+
         switch (screenId)
         {
-            case "main":
-                currentScreen = mainScreen.gameObject;
-                SetVisibility(mainScreen.gameObject, true);
-                MainScreen _mainScreenScript = mainScreen.GetComponent<MainScreen>();
-                // _mainScreenScript.ReloadData();
+            case "home":
+                backStack.Clear();
+                currentScreen = homeScreen.gameObject;
+                homeScreen.gameObject.SetActive(true);
+                AddBackStack("home");
                 break;
             case "levels":
                 currentScreen = levelScreen.gameObject;
-                SetVisibility(levelScreen.gameObject, true);
-
-                LevelScreen _levelScript = levelScreen.GetComponent<LevelScreen>();
-                _levelScript.ReloadData();
+                // levelScreen.gameObject.SetActive(true);
+                SetVisibilityLevle(levelScreen.gameObject, true);
+                levelScreen.ReloadData();
+                AddBackStack("levels");
                 break;
             case "game":
                 currentScreen = gameScreen.gameObject;
-                SetVisibility(gameScreen.gameObject, true);
-
+                gameScreen.gameObject.SetActive(true);
+                AddBackStack("game");
                 SaveableManager.Instance.SaveData();
-                ///////////////////////////////////////////////////////
+                /////////////////////////////
                 break;
         }
+        ConfigTopbar();
 
+        // Debug.Log("backStack.Count: " + backStack.Count);
     }
-    private void Hide(GameObject screen)
+
+    private void SetVisibilityLevle(GameObject screen, bool isVisible)
     {
         CanvasGroup screenCG = screen.GetComponent<CanvasGroup>();
-        screenCG.alpha = 0f;
-        screenCG.interactable = false;
-        screenCG.blocksRaycasts = false;
-    }
-    // private void Show()
-    // {
 
-    // }
+        screenCG.alpha = isVisible ? 1f : 0f;
+        screenCG.interactable = isVisible ? true : false;
+        screenCG.blocksRaycasts = isVisible ? true : false;
+    }
+
 }

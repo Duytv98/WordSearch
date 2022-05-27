@@ -82,7 +82,7 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     public void ClosePopup(string keyName, bool isActiveBackground = false)
     {
 
-        Debug.Log("close 1111111111111");
+        // Debug.Log("close 1111111111111");
 
         var activeEvent = background.GetComponent<Button>();
         activeEvent.interactable = false;

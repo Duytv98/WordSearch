@@ -80,12 +80,12 @@ public class CategorySelectedPopup : MonoBehaviour
     }
     public void PlayWithCategory()
     {
-        Debug.Log("PlayWithCategory");
+        // Debug.Log("PlayWithCategory");
         OpenDifficultyContainer();
     }
     public void ContinueWithCategory()
     {
-        Debug.Log("ContinueWithCategory");
+        // Debug.Log("ContinueWithCategory");
         GameManager.Instance.ContinueCasual(this.categoryInfo);
         ClosePopupCategorySelected();
         // OpenDifficultyContainer();
@@ -103,7 +103,9 @@ public class CategorySelectedPopup : MonoBehaviour
     {
         ClosePopupCategorySelected();
         OpenModeContainer();
-        ScreenManager.Instance.ShowScreenLevel();
+        // ScreenManager.Instance.ShowScreenLevel();
+        
+        ScreenManager.Instance.Show("levels");
     }
 
     public void OnDifficultySelected(int difficultyIndex)

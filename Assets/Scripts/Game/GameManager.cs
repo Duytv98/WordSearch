@@ -88,16 +88,16 @@ public class GameManager : SingletonComponent<GameManager>
         characterGrid.Initialize();
         wordListContainer.Initialize();
     }
-    void Start()
-    {
-        // SaveableManager.Instance.LoadSaveData();
-        // screenManager.Initialize();
-    }
+    // void Start()
+    // {
+    //     // SaveableManager.Instance.LoadSaveData();
+    //     // screenManager.Initialize();
+    // }
 
     public void ConfigData(PlayerInfo playerInfo)
     {
-        Debug.Log("ConfigData: ");
-        Debug.Log(playerInfo.ToString());
+        // Debug.Log("ConfigData: ");
+        // Debug.Log(playerInfo.ToString());
         Coins = playerInfo.coins;
         Keys = playerInfo.keys;
         // ActiveBoard = playerInfo.activeBoard;
@@ -150,12 +150,13 @@ public class GameManager : SingletonComponent<GameManager>
         IsCompleted = false;
         ActiveBoard = board;
         // Debug.Log("Count: " + ActiveBoard.recommendWords.Count);
-        characterGrid.SetUp(board);
-        wordListContainer.Setup(board);
 
         if (levelIndex >= 0)
         {
-            ScreenManager.Instance.ShowScreenGame();
+            // ScreenManager.Instance.ShowScreenGame();
+            ScreenManager.Instance.Show("game");
+            characterGrid.SetUp(board);
+            wordListContainer.Setup(board);
             topBar.SetTextLevel(levelIndex);
             topBar.SetCategoryName(ActiveCategoryInfo.displayName);
         }
@@ -207,7 +208,8 @@ public class GameManager : SingletonComponent<GameManager>
         // wordListContainer.Clear();
         SetupGame(savedBoard);
 
-        ScreenManager.Instance.ShowScreenGame();
+        // ScreenManager.Instance.ShowScreenGame();
+        ScreenManager.Instance.Show("game");
         // ShowGameScreen();
     }
     private void GenerateRandomBoard(DifficultyInfo difficultyInfo)
@@ -240,17 +242,19 @@ public class GameManager : SingletonComponent<GameManager>
         {
             str += (item + " , ");
         }
-        Debug.Log(str);
+        // Debug.Log(str);
         // Create the board settings that will be passed to BoardCreator.CreateBoard
         BoardCreator.BoardConfig boardConfig = new BoardCreator.BoardConfig();
         boardConfig.rows = difficultyInfo.boardRowSize;
         boardConfig.cols = difficultyInfo.boardColumnSize;
         boardConfig.words = words;
         boardConfig.randomCharacters = characters;
-        Debug.Log(JsonUtility.ToJson(boardConfig));
+        // Debug.Log(JsonUtility.ToJson(boardConfig));
 
         ActiveGameState = GameState.GeneratingBoard;
-        ScreenManager.Instance.ShowScreenGame();
+        // ScreenManager.Instance.ShowScreenGame();
+
+        ScreenManager.Instance.Show("game");
         loadingIndicator.SetActive(true);
 
         // // Start the creation of the board
@@ -258,7 +262,7 @@ public class GameManager : SingletonComponent<GameManager>
     }
     private void OnCasualBoardCreated(Board board)
     {
-        Debug.Log(32222222);
+        // Debug.Log(32222222);
         board.difficultyIndex = ActiveDifficultyIndex;
 
         // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
@@ -328,7 +332,7 @@ public class GameManager : SingletonComponent<GameManager>
             {
                 // Thêm vào danh sách từ đã tìm thấy
                 ActiveBoard.foundWords.Add(word);
-                Debug.Log(" GameManaer ActiveBoard.foundWords.Count: " + ActiveBoard.foundWords.Count);
+                // Debug.Log(" GameManaer ActiveBoard.foundWords.Count: " + ActiveBoard.foundWords.Count);
                 if (ActiveBoard.recommendWords.Contains(word)) ActiveBoard.recommendWords.Remove(word);
                 // Debug.Log("ActiveBoard.foundWords.count: " + ActiveBoard.foundWords.Count + );
                 // Debug.Log("kiểm tra tồn tại trong recomment: " + ActiveBoard.recommendWords.Contains(word));
@@ -407,7 +411,7 @@ public class GameManager : SingletonComponent<GameManager>
     }
     public int IsLevelPlayable(CategoryInfo categoryInfo)
     {
-        Debug.Log("IsLevelPlayable: " + categoryInfo.displayName);
+        // Debug.Log("IsLevelPlayable: " + categoryInfo.displayName);
         if (!LastCompletedLevels.ContainsKey(categoryInfo.saveId)) return 0;
         else return LastCompletedLevels[categoryInfo.saveId];
     }
@@ -470,7 +474,7 @@ public class GameManager : SingletonComponent<GameManager>
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0)
         {
-            Debug.Log("nonFoundWords.Count = 0 ");
+            // Debug.Log("nonFoundWords.Count = 0 ");
             return;
         }
 
@@ -545,7 +549,7 @@ public class GameManager : SingletonComponent<GameManager>
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0)
         {
-            Debug.Log("nonFoundWords.Count = 0 ");
+            // Debug.Log("nonFoundWords.Count = 0 ");
             return;
         }
         if (Coins < coinCostWordHint)
@@ -597,7 +601,7 @@ public class GameManager : SingletonComponent<GameManager>
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0)
         {
-            Debug.Log("nonFoundWords.Count = 0 ");
+            // Debug.Log("nonFoundWords.Count = 0 ");
             return;
         }
         if (Coins < coinCostWordHint)
@@ -767,7 +771,7 @@ public class GameManager : SingletonComponent<GameManager>
             a += ", ";
             a += word;
         }
-        Debug.Log(a);
+        // Debug.Log(a);
     }
 
 }
