@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class NotEnoughKeysPopup : MonoBehaviour
 {
-    public void CloseNotEnoughKeysPopup()
-    {
-        PopupContainer.Instance.ClosePopup("NotEnoughKeysPopup");
-    }
+    // public void CloseNotEnoughKeysPopup()
+    // {
+    //     PopupContainer.Instance.ClosePopup("NotEnoughKeysPopup");
+    // }
 
 }

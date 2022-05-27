@@ -34,10 +34,10 @@ public class UnlockCategoryPopup : MonoBehaviour
         GameManager.Instance.UnlockCategory(this.category);
     }
 
-    public void CloseUnlockCategoryButton()
-    {
-        PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
-        // Debug.Log("You have clicked the button!");
-    }
+    // public void CloseUnlockCategoryButton()
+    // {
+    //     PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
+    //     // Debug.Log("You have clicked the button!");
+    // }
 
 }

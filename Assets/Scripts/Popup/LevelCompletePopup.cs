@@ -50,16 +50,22 @@ public class LevelCompletePopup : MonoBehaviour
     public void OnClickNextLevel()
     {
         GameManager.Instance.StartLevel(GameManager.Instance.ActiveCategoryInfo, GameManager.Instance.ActiveLevelIndex + 1);
-        CloseLevelCompletePopup();
+        // CloseLevelCompletePopup();
+        PopupContainer.Instance.CloseCurrentPopup();
+
     }
     public void OnClickPlayAgainButton()
     {
         GameManager.Instance.StartCasual(GameManager.Instance.ActiveCategoryInfo, GameManager.Instance.ActiveDifficultyIndex);
-        CloseLevelCompletePopup();
+        // CloseLevelCompletePopup();
+        PopupContainer.Instance.CloseCurrentPopup();
+
     }
     public void OnClickBackToCategoriesButton()
     {
         ScreenManager.Instance.BackToHome();
-        CloseLevelCompletePopup();
+        // CloseLevelCompletePopup();
+        PopupContainer.Instance.CloseCurrentPopup();
+
     }
 }

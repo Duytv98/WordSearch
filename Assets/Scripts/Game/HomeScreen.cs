@@ -17,6 +17,7 @@ public class HomeScreen : MonoBehaviour
         // Debug.Log("OnSelectCategory");
         // ScreenManager.Instance.ShowScreenLevel();
         ScreenManager.Instance.Show("levels");
+        AudioManager.Instance.Play_Click_Button_Sound();
     }
     public void OnPlayNextLevelRandomCategory()
     {
@@ -25,14 +26,15 @@ public class HomeScreen : MonoBehaviour
         for (int i = 0; i < categoryInfos.Count; i++)
         {
             bool isCategoryLocked = GameManager.Instance.IsCategoryLocked(categoryInfos[i]);
-            
+
             if (!isCategoryLocked) listIndexCategorys.Add(i);
         }
         int indexCategory = listIndexCategorys[Random.Range(0, listIndexCategorys.Count)];
-        
+
         GameManager.Instance.ActiveCategoryInfo = categoryInfos[indexCategory];
-        
+
         GameManager.Instance.StartNextLevel(categoryInfos[indexCategory]);
 
+        AudioManager.Instance.Play_Click_Button_Sound();
     }
 }

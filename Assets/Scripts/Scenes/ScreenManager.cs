@@ -53,12 +53,11 @@ public class ScreenManager : SingletonComponent<ScreenManager>
 
     public void Close(GameObject screen)
     {
-        // Debug.Log("======== Close =======");
-        
-        // Debug.Log("backStack.Count: " + backStack.Count);
-        if(screen.name == "CanvasLevels"){
+        if (screen.name == "CanvasLevels")
+        {
             SetVisibilityLevle(screen, false);
-        }else screen.SetActive(false);
+        }
+        else screen.SetActive(false);
     }
 
     private void AddBackStack(string nameScreen)
@@ -111,6 +110,7 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     {
         // Debug.Log("======== BackScreen =======");
 
+        AudioManager.Instance.Play_Click_Button_Sound();
         if (backStack.Count <= 0)
         {
             Debug.LogWarning("[ScreenController] There is no screen on the back stack to go back to.");

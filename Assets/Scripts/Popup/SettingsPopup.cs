@@ -47,14 +47,6 @@ public class SettingsPopup : MonoBehaviour
         btnLogOut.interactable = active;
         btnLogOut.blocksRaycasts = active;
     }
-
-
-
-    public void CloseSettingsPopup()
-    {
-        PopupContainer.Instance.ClosePopup("SettingsPopup");
-    }
-
     IEnumerator checkInternetConnection(Action<bool> action)
     {
         UnityWebRequest request = new UnityWebRequest("http://google.com");

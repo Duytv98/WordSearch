@@ -67,6 +67,8 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     }
     private void Show(string keyName)
     {
+        
+        AudioManager.Instance.Play_Click_Button_Sound();
         popupActive = keyName;
         background.SetActive(true);
         GameObject popup = GetPopup(keyName);
@@ -82,6 +84,7 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     public void ClosePopup(string keyName, bool isActiveBackground = false)
     {
 
+        AudioManager.Instance.Play_Click_Button_Sound();
         // Debug.Log("close 1111111111111");
 
         var activeEvent = background.GetComponent<Button>();
