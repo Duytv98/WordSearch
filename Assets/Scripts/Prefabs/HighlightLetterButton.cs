@@ -18,5 +18,7 @@ public class HighlightLetterButton : MonoBehaviour
     public void OnClick()
     {
         GameManager.Instance.OnChooseHighlightLetterPopupClosed(letter);
+        AudioManager.Instance.Play_Click_Button_Sound();
+        AudioManager.Instance.Play("hint-used");
     }
 }

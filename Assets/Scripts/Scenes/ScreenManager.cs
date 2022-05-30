@@ -8,6 +8,8 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private LevelScreen levelScreen = null;
+
+    [SerializeField] private GameObject flashCanvas = null;
     [SerializeField] private TopBar topBar = null;
     private List<string> backStack;
     private GameObject currentScreen;
@@ -109,8 +111,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     public void BackScreen()
     {
         // Debug.Log("======== BackScreen =======");
-
-        AudioManager.Instance.Play_Click_Button_Sound();
         if (backStack.Count <= 0)
         {
             Debug.LogWarning("[ScreenController] There is no screen on the back stack to go back to.");
@@ -158,6 +158,10 @@ public class ScreenManager : SingletonComponent<ScreenManager>
         screenCG.alpha = isVisible ? 1f : 0f;
         screenCG.interactable = isVisible ? true : false;
         screenCG.blocksRaycasts = isVisible ? true : false;
+    }
+    public void SetActiveFlashCanvas(bool isActive)
+    {
+        flashCanvas.SetActive(isActive);
     }
 
 }

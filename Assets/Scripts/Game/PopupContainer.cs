@@ -15,9 +15,10 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     [SerializeField] private NotEnoughKeysPopup notEnoughKeysPopup = null;
     [SerializeField] private RewardAdGranted rewardAdGranted = null;
     [SerializeField] private StorePopup storePopup = null;
-    [SerializeField] private GameObject background = null;
-    [SerializeField] private GameObject backgroundFade = null;
+    [SerializeField] private Image background = null;
+    [SerializeField] private Image backgroundFade = null;
 
+    private float animDuration = 0.35f;
     private string popupActive = null;
     // Start is called before the first frame update
     // private Vector3 scaleChange = new Vector3(-0.5f, -0.5f, -0.5f);
@@ -25,8 +26,12 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     public void ShowLevelCompletePopup(int coinsAwarded, int keysAwarded)
     {
         Show("LevelCompletePopup");
-        background.SetActive(false);
-        backgroundFade.SetActive(true);
+        Color colorBg = background.color;
+        colorBg.a = 0;
+        background.color = colorBg;
+        Color colorBgF = background.color;
+        colorBgF.a = 0;
+        background.color = colorBgF;
 
         levelCompletePopup.OnShowing(coinsAwarded, keysAwarded);
     }
@@ -67,41 +72,64 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     }
     private void Show(string keyName)
     {
-        
-        AudioManager.Instance.Play_Click_Button_Sound();
         popupActive = keyName;
-        background.SetActive(true);
+        if (keyName == "LevelCompletePopup") FadeInPanelBG(backgroundFade, 0.4f);
+        else FadeInPanelBG(background);
         GameObject popup = GetPopup(keyName);
         popup.SetActive(true);
-        popup.transform.DOMoveY(0, 0.5f)
+        popup.transform.DOMoveY(0, animDuration)
         .SetEase(Ease.OutBack);
     }
     public void CloseCurrentPopup()
     {
         Debug.Log("close");
+        AudioManager.Instance.Play_Click_Button_Sound();
         ClosePopup(popupActive);
     }
     public void ClosePopup(string keyName, bool isActiveBackground = false)
     {
-
-        AudioManager.Instance.Play_Click_Button_Sound();
-        // Debug.Log("close 1111111111111");
 
         var activeEvent = background.GetComponent<Button>();
         activeEvent.interactable = false;
         CanvasGroup popupCV = GetPopupCV(keyName);
         popupCV.interactable = false;
         GameObject popup = GetPopup(keyName);
-        popup.transform.DOLocalMoveY(-2880f, 0.5f)
+        popup.transform.DOLocalMoveY(-2880f, animDuration)
                        .SetEase(Ease.InBack)
                        .OnComplete(() =>
                        {
-                           background.SetActive(isActiveBackground);
-                           backgroundFade.SetActive(false);
+                           if (!isActiveBackground)
+                           {
+                               if (keyName == "LevelCompletePopup")
+                               {
+                                   FadeOutPanelBG(backgroundFade, 0.4f);
+                               }
+                               else FadeOutPanelBG(background);
+                           }
                            popup.SetActive(false);
                            popupCV.interactable = true;
                            activeEvent.interactable = true;
                        });
+    }
+    public void FadeInPanelBG(Image panelPopupImg, float a = 0.8f)
+    {
+        Color col = panelPopupImg.color;
+        col.a = 0;
+        panelPopupImg.color = col;
+
+        panelPopupImg.DOFade(a, animDuration).OnComplete(() =>
+        {
+            panelPopupImg.raycastTarget = true;
+        });
+    }
+    public void FadeOutPanelBG(Image panelPopupImg, float a = 0.8f)
+    {
+        Color col = panelPopupImg.color;
+        col.a = a;
+        panelPopupImg.color = col;
+        panelPopupImg.raycastTarget = false;
+        panelPopupImg.DOFade(0f, animDuration);
+
     }
 
     public void SettingsPopupShowButton(bool isLogIn)

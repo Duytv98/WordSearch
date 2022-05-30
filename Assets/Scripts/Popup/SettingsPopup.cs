@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.Networking;
 using Firebase.Auth;
+using DG.Tweening;
 public class SettingsPopup : MonoBehaviour
 {
 
@@ -13,10 +14,16 @@ public class SettingsPopup : MonoBehaviour
     [SerializeField] private CanvasGroup btnLogIn = null;
     [SerializeField] private CanvasGroup btnLogOut = null;
 
+    [SerializeField] private Transform toggleMusic = null;
+    [SerializeField] private Transform toggleSound = null;
+
+
     public void OnShowing()
     {
-       
+
         bool isLogIn = GameManager.Instance.IsLogIn;
+        toggleMusic.localPosition = new Vector3(GameManager.Instance.IsMusic ? 50f : -50f, toggleMusic.localPosition.y, toggleMusic.localPosition.z);
+        toggleSound.localPosition = new Vector3(GameManager.Instance.IsSound ? 50f : -50f, toggleSound.localPosition.y, toggleSound.localPosition.z);
         SetButton(isLogIn);
         StartCoroutine(checkInternetConnection((isConnected) =>
         {
@@ -63,4 +70,37 @@ public class SettingsPopup : MonoBehaviour
 
         }
     }
+    public void ClickMusic()
+    {
+        Debug.Log("Click Music: ");
+        bool isMusic = GameManager.Instance.IsMusic;
+        float x_toggleMusic = isMusic ? -50f : 50f;
+        GameManager.Instance.IsMusic = !isMusic;
+        toggleMusic.DOLocalMoveX(x_toggleMusic, 0.3f);
+
+
+        if (isMusic)
+        {
+            AudioManager.Instance.PauseMusic();
+
+        }
+        else
+        {
+            AudioManager.Instance.PlayMusic();
+        }
+
+        SaveableManager.Instance.SetMusic(!isMusic);
+    }
+    public void ClickSound()
+    {
+        Debug.Log("Click Sound: ");
+        bool isSound = GameManager.Instance.IsSound;
+        float x_toggleSound = isSound ? -50f : 50f;
+        GameManager.Instance.IsSound = !isSound;
+        toggleSound.DOLocalMoveX(x_toggleSound, 0.3f);
+
+        SaveableManager.Instance.SetSound(!isSound);
+    }
+
+
 }

@@ -17,7 +17,6 @@ public class HomeScreen : MonoBehaviour
         // Debug.Log("OnSelectCategory");
         // ScreenManager.Instance.ShowScreenLevel();
         ScreenManager.Instance.Show("levels");
-        AudioManager.Instance.Play_Click_Button_Sound();
     }
     public void OnPlayNextLevelRandomCategory()
     {
@@ -34,7 +33,5 @@ public class HomeScreen : MonoBehaviour
         GameManager.Instance.ActiveCategoryInfo = categoryInfos[indexCategory];
 
         GameManager.Instance.StartNextLevel(categoryInfos[indexCategory]);
-
-        AudioManager.Instance.Play_Click_Button_Sound();
     }
 }

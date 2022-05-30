@@ -75,6 +75,11 @@ public class GameManager : SingletonComponent<GameManager>
     private bool isCompleted;
     public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
 
+    private bool isMusic = true;
+    private bool isSound = true;
+    public bool IsMusic { get => isMusic; set => isMusic = value; }
+    public bool IsSound {  get => isSound; set =>isSound = value;}
+
     protected override void Awake()
     {
         base.Awake();
@@ -93,7 +98,7 @@ public class GameManager : SingletonComponent<GameManager>
     //     // SaveableManager.Instance.LoadSaveData();
     //     // screenManager.Initialize();
     // }
-
+    // GỌi khi tất cả các data load hoàn tất
     public void ConfigData(PlayerInfo playerInfo)
     {
         // Debug.Log("ConfigData: ");
@@ -104,6 +109,10 @@ public class GameManager : SingletonComponent<GameManager>
         LastCompletedLevels = ConvertToDictionaryLastCompletedLevels(playerInfo.lastCompletedLevels);
         BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
         UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
+        //check bật nhạc
+        if (IsMusic) AudioManager.Instance.PlayMusic();
+        Debug.Log( "=========" +  "IsMusic: " + IsMusic);
+        ScreenManager.Instance.SetActiveFlashCanvas(false);
         // Debug.Log(playerInfo.activeBoard);
     }
     Board LoadLevelFile(CategoryInfo categoryInfo, int levelIndex)
@@ -394,6 +403,8 @@ public class GameManager : SingletonComponent<GameManager>
 
         SaveableManager.Instance.SaveData();
         PopupContainer.Instance.ShowLevelCompletePopup(coinsAwarded, keysAwarded);
+
+        AudioManager.Instance.Play("level-complete");
     }
     public Vector3 GetPositionWord(string word)
     {
@@ -498,7 +509,8 @@ public class GameManager : SingletonComponent<GameManager>
             // Deduct the cost
             Coins -= coinCostWordHint;
 
-            // SoundManager.Instance.Play("hint-used");
+
+            AudioManager.Instance.Play("hint-used");
         }
     }
     public void HintHighlightLetter()

@@ -2,33 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
-public class SaveableManager : SingletonComponent<SaveableManager>
+using DG.Tweening;
+public class SaveableManager  : MonoBehaviour
 {
+    
+    public static SaveableManager Instance;
+     private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+    private void Start() {
+        
+    }
     public void LoadDataOnline()
     {
-        // Debug.Log("LoadDataOnline");
-        GameManager.Instance.IdPlayer = PlayerPrefs.GetString("UserId");
-        GameManager.Instance.IsLogIn = PlayerPrefs.GetString("isLogIn") == "true" ? true : false;
-        string jsonString = PlayerPrefs.GetString("playerInfo");
-        PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
-        // GameManager.Instance.IsLogIn = true;
-        if (!GameManager.Instance.IsLogIn)
+        Debug.Log("LoadDataOnline");
+
+        Debug.Log("CheckExistData(): " + CheckExistData());
+
+        Debug.Log("=========" + "IsMusic4: " + SaveableManager.Instance.IsMusic());
+        if (CheckExistData())
         {
-            GameManager.Instance.ConfigData(playerLocal);
+            GameManager.Instance.IdPlayer = PlayerPrefs.GetString("UserId");
+            GameManager.Instance.IsLogIn = PlayerPrefs.GetString("isLogIn") == "true" ? true : false;
+            GameManager.Instance.IsMusic = IsMusic();
+            GameManager.Instance.IsSound = IsSound();
+            string jsonString = PlayerPrefs.GetString("playerInfo");
+            PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
+            // GameManager.Instance.IsLogIn = true;
+            if (!GameManager.Instance.IsLogIn)
+            {
+                GameManager.Instance.ConfigData(playerLocal);
+            }
+            else
+            {
+                FireBaseController.Instance.Read_Data(playerLocal);
+                // DOVirtual.DelayedCall(2, );
+            }
         }
         else
         {
-            FireBaseController.Instance.Read_Data(playerLocal);
+            Debug.Log("=========" + "IsMusic2: " + SaveableManager.Instance.IsMusic());
+            Debug.Log("=========" + "May chua Tung choi");
+            SaveableManager.Instance.LoadDataOffline();
         }
+
     }
     public void LoadDataOffline()
     {
-        // Debug.Log("LoadDataOffline");
+        Debug.Log("LoadDataOffline");
+        Debug.Log(" CheckExistData(): " + CheckExistData());
         if (CheckExistData())
         {
             // Người chơi đã từng tham gia trờ chơi
             GameManager.Instance.IdPlayer = GetUserId();
             GameManager.Instance.IsLogIn = IsLogIn();
+            GameManager.Instance.IsMusic = IsMusic();
+            GameManager.Instance.IsSound = IsSound();
+            Debug.Log("=========" + "IsMusic(): " + IsMusic());
             string jsonString = GetString("playerInfo");
             PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
             GameManager.Instance.ConfigData(playerLocal);
@@ -93,8 +130,31 @@ public class SaveableManager : SingletonComponent<SaveableManager>
     }
     public void SetGameDefaut()
     {
-        PlayerPrefs.SetString("Used_to_play", "true");
+        Debug.Log("SetGameDefaut");
+        PlayerPrefs.SetString("Used_to_play", "true1");
         PlayerInfo playerInfo = new PlayerInfo(GameManager.Instance.StartingCoins, GameManager.Instance.StartingKeys);
         SetPlayerInfo(playerInfo);
+
+        Debug.Log("=========" + "SetGameDefaut");
+        PlayerPrefs.SetInt("isMusic", 1);
+        PlayerPrefs.SetInt("isSound", 1);
+    }
+    public void SetSound(bool isSound)
+    {
+        Debug.Log("SetSound: " + isSound);
+        PlayerPrefs.SetInt("isSound", isSound ? 1 : -1);
+    }
+    public void SetMusic(bool isMusic)
+    {
+        Debug.Log("SetMusic: " + isMusic);
+        PlayerPrefs.SetInt("isMusic", isMusic ? 1 : -1);
+    }
+    public bool IsSound()
+    {
+        return PlayerPrefs.GetInt("isSound") > 0 ? true : false;
+    }
+    public bool IsMusic()
+    {
+        return PlayerPrefs.GetInt("isMusic") > 0 ? true : false;
     }
 }

@@ -13,11 +13,12 @@ public class AudioManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
-        else{
+        else
+        {
             Destroy(gameObject);
             return;
         }
-            DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
         foreach (var sound in soundInfos)
         {
             sound.source = gameObject.AddComponent<AudioSource>();
@@ -31,11 +32,22 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
+        // if(GameManager.Instance.IsMusic) PlayMusic();
         // Play("bkg-music");
+        
+        Debug.Log("CheckExistData()  1   :" + PlayerPrefs.HasKey("Used_to_play"));
+        Debug.Log("Used_to_play  1 :" + PlayerPrefs.GetString("Used_to_play"));
+        Debug.Log(PlayerPrefs.GetString("Used_to_play"));
+        Debug.Log("Test  1   :" + PlayerPrefs.HasKey("abvdd"));
+
+        Debug.Log(PlayerPrefs.GetInt("abvdd"));
+        Debug.Log("11111111");
+        // ScreenManager.Instance.SetActiveFlashCanvas(true)
     }
 
     public void Play(string name)
     {
+        // Debug.Log("play sound: " + name);
         Sound sound = Array.Find(soundInfos, sound => sound.name == name);
         if (sound == null)
         {
@@ -44,10 +56,17 @@ public class AudioManager : MonoBehaviour
                 return;
             }
         }
-        sound.source.Play();
+        if(GameManager.Instance.IsSound) sound.source.Play();
     }
 
-    public void Play_Click_Button_Sound(){
+    public void Play_Click_Button_Sound()
+    {
         Play("btn-click");
+    }
+    public void PauseMusic(){
+        soundInfos[0].source.Pause();
+    }
+    public void PlayMusic(){
+        soundInfos[0].source.Play();
     }
 }

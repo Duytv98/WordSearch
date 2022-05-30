@@ -106,6 +106,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
                 UpdateSelectingHighlight(eventData.position);
                 UpdateSelectedWord();
+                AudioManager.Instance.Play("highlight");
             }
 
             // Debug.Log(characterItem.Col);
@@ -154,7 +155,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             {
                 ShowWord(wordStartPosition, wordEndPosition, foundWord, true, GameManager.Instance.GetPositionWord(foundWord));
                 selectedWord.Clear(true);
-                // SoundManager.Instance.Play("word-found");
+                AudioManager.Instance.Play("word-found");
             }
             else selectedWord.Clear();
         }
@@ -360,7 +361,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             // If the new end character is different then the last play a sound
             if (lastEndCharacter != endCharacter)
             {
-                // SoundManager.Instance.Play("highlight");
+                AudioManager.Instance.Play("highlight");
             }
 
             // Set the last end character so if the player drags outside the grid container then we have somewhere to drag to

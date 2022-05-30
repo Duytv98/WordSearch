@@ -13,8 +13,10 @@ using Google;
 using TMPro;
 
 using UnityEngine.Networking;
-public class FireBaseController : SingletonComponent<FireBaseController>
+public class FireBaseController : MonoBehaviour
 {
+
+    public static FireBaseController Instance;
     public string webClientId = "<your client id here>";
     private GoogleSignInConfiguration configuration;
     private FirebaseAuth auth;
@@ -28,31 +30,55 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
     public bool SetUpFirebaseAuthSuccess { get => setUpFirebaseAuthSuccess; set => setUpFirebaseAuthSuccess = value; }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
     }
+
     void Start()
     {
-        StartCoroutine(checkInternetConnection((isConnected) =>
-           {
-               if (isConnected)
-               {
-                   if (!SaveableManager.Instance.CheckExistData())
-                   {
-                       SaveableManager.Instance.LoadDataOffline();
-                   }
-                   else
-                   {
-                       CheckFirebaseDependencies();
-                   }
-               }
-               else
-               {
-                   SaveableManager.Instance.LoadDataOffline();
-               }
-           }));
+        Debug.Log("============" + " bat Game");
+
+        Debug.Log("CheckExistData()  0   :" + PlayerPrefs.HasKey("Used_to_play"));
+        Debug.Log("Used_to_play  0 :" + PlayerPrefs.GetString("Used_to_play"));
+        Debug.Log(PlayerPrefs.GetString("Used_to_play"));
+        // ScreenManager.Instance.SetActiveFlashCanvas(true);
+        // StartCoroutine(checkInternetConnection((isConnected) =>
+        //    {
+        //        Debug.Log("============" + " trong check internet");
+        //        if (isConnected)
+        //        {
+        //            Debug.Log("======" + "có mạng");
+
+        //            Debug.Log("=========" + "IsMusic1: " + SaveableManager.Instance.IsMusic());
+        //            Debug.Log("CheckExistData()  1   :" + PlayerPrefs.HasKey("Used_to_play"));
+
+        //            Debug.Log("Used_to_play 1  :" + PlayerPrefs.GetString("Used_to_play"));
+        //            if (!PlayerPrefs.HasKey("Used_to_play"))
+        //            {
+
+        //                Debug.Log("=========" + "IsMusic2: " + SaveableManager.Instance.IsMusic());
+        //                Debug.Log("=========" + "May chua Tung choi");
+        //                SaveableManager.Instance.LoadDataOffline();
+        //            }
+        //            else
+        //            {
+        //                CheckFirebaseDependencies();
+        //            }
+        //            //    CheckFirebaseDependencies();
+        //        }
+        //        else
+        //        {
+        //            SaveableManager.Instance.LoadDataOffline();
+        //        }
+        //    }));
     }
 
 
@@ -205,6 +231,8 @@ public class FireBaseController : SingletonComponent<FireBaseController>
                 {
                     SetUpFirebaseAuth();
                     SetUpDataBaseReference();
+
+                    Debug.Log("=========" + "IsMusic3: " + SaveableManager.Instance.IsMusic());
                     SaveableManager.Instance.LoadDataOnline();
                     // Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
                     // if (GameManager.Instance.IsLogIn) Read_Data("UserId4324", playerLocal);
@@ -259,7 +287,7 @@ public class FireBaseController : SingletonComponent<FireBaseController>
 
     public void Read_Data(PlayerInfo playerLocal)
     {
-        // Debug.Log("Read_Data");
+        Debug.Log("=========" + "Read_Data");
         string userId = GameManager.Instance.IdPlayer;
         reference.Child("User").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
                {
@@ -268,10 +296,10 @@ public class FireBaseController : SingletonComponent<FireBaseController>
                        DataSnapshot snapshot = task.Result;
                        //    Debug.Log("Get data successdully");
                        PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
-                    //    Debug.Log("playerLocal: ");
-                    //    Debug.Log(playerLocal.ToString());
-                    //    Debug.Log("playerFireBase: ");
-                    //    Debug.Log(playerFireBase.ToString());
+                       //    Debug.Log("playerLocal: ");
+                       //    Debug.Log(playerLocal.ToString());
+                       //    Debug.Log("playerFireBase: ");
+                       //    Debug.Log(playerFireBase.ToString());
                        PlayerInfo playerInfo = new PlayerInfo();
                        playerInfo.Union(playerLocal, playerFireBase);
                        //    Debug.Log(playerInfo.ToString());
