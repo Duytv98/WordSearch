@@ -114,6 +114,8 @@ public class GameManager : SingletonComponent<GameManager>
         LastCompletedLevels = ConvertToDictionaryLastCompletedLevels(playerInfo.lastCompletedLevels);
         BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
         UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
+        this.playerInfo.DisplayName = playerInfo.DisplayName;
+        this.playerInfo.Email = playerInfo.Email;
         //check bật nhạc
         if (IsMusic) AudioManager.Instance.PlayMusic();
         Debug.Log("=========" + "IsMusic: " + IsMusic);
@@ -676,10 +678,15 @@ public class GameManager : SingletonComponent<GameManager>
     {
         return this.playerInfo;
     }
-    public void SetPlayerInfo()
+    public void SetPlayerInfo(string displayName = null, string email = null)
     {
         playerInfo.coins = Coins;
         playerInfo.keys = Keys;
+        if (displayName != null && email != null)
+        {
+            playerInfo.DisplayName = displayName;
+            playerInfo.Email = email;
+        }
 
         // playerInfo.keys = 0;
         // LastCompletedLevels["birds"] = 25;
@@ -689,11 +696,11 @@ public class GameManager : SingletonComponent<GameManager>
         playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
     }
 
-    public void ConfigUserFireBase(string displayName, string email)
-    {
-        playerInfo.DisplayName = displayName;
-        playerInfo.Email = email;
-    }
+    // public void ConfigUserFireBase(string displayName, string email)
+    // {
+    //     playerInfo.DisplayName = displayName;
+    //     playerInfo.Email = email;
+    // }
     public void SaveCurrentBoard()
     {
         SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);

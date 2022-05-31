@@ -170,17 +170,14 @@ public class FireBaseController : MonoBehaviour
                 // Debug.Log("Đăng nhập thành công" + "\nUserName: " + task.Result.DisplayName + "  Email: " + task.Result.Email);
 
                 // GameControler.Instance.SetLoadData(player);
+                GameManager.Instance.IsLogIn = true;
                 GameManager.Instance.IdPlayer = task.Result.UserId;
                 SaveableManager.Instance.SetUserId(task.Result.UserId);
                 SaveableManager.Instance.SetLogIn(true);
-                GameManager.Instance.ConfigUserFireBase(task.Result.DisplayName, task.Result.Email);
-                GameManager.Instance.IsLogIn = true;
+                GameManager.Instance.SetPlayerInfo(task.Result.DisplayName, task.Result.Email);
                 PopupContainer.Instance.SettingsPopupShowButton(true);
 
-                reference.Child("User").Child(task.Result.UserId).Child("DisplayName").SetValueAsync(task.Result.DisplayName);
-                reference.Child("User").Child(task.Result.UserId).Child("Email").SetValueAsync(task.Result.Email);
-
-
+                SaveableManager.Instance.SaveData();
                 string jsonString = PlayerPrefs.GetString("playerInfo");
                 PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
 
@@ -231,7 +228,7 @@ public class FireBaseController : MonoBehaviour
                     SetUpDataBaseReference();
 
                     Debug.Log("=========" + "IsMusic3: " + SaveableManager.Instance.IsMusic());
-                    
+
                     if (!isPlay) SaveableManager.Instance.LoadDataOffline();
                     else SaveableManager.Instance.LoadDataOnline();
                     // Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
@@ -297,13 +294,13 @@ public class FireBaseController : MonoBehaviour
                        DataSnapshot snapshot = task.Result;
                        //    Debug.Log("Get data successdully");
                        PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
-                       //    Debug.Log("playerLocal: ");
-                       //    Debug.Log(playerLocal.ToString());
-                       //    Debug.Log("playerFireBase: ");
-                       //    Debug.Log(playerFireBase.ToString());
+                       Debug.Log("playerLocal: ");
+                       Debug.Log(playerLocal.ToString());
+                          Debug.Log("playerFireBase: ");
+                          Debug.Log(playerFireBase.ToString());
                        PlayerInfo playerInfo = new PlayerInfo();
                        playerInfo.Union(playerLocal, playerFireBase);
-                       //    Debug.Log(playerInfo.ToString());
+                          Debug.Log(playerInfo.ToString());
                        GameManager.Instance.ConfigData(playerInfo);
 
                        GameManager.Instance.SetPlayerInfo();

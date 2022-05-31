@@ -63,6 +63,7 @@ public class SaveableManager : MonoBehaviour
     {
         // Debug.Log("save Data: ");
         // Debug.Log(GameManager.Instance.GetPlayerInfo());
+        Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
         GameManager.Instance.SetPlayerInfo();
         SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
         if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
