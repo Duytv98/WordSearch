@@ -36,8 +36,6 @@ public class CategorySelectedPopup : MonoBehaviour
         bool casualHasProgress = GameManager.Instance.HasSavedCasualBoard(categoryInfo);
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(categoryInfo);
 
-        // Debug.Log("Đang chơi dở Casual: " + casualHasProgress + "        AllLevelsComplete: " + allLevelsCompleted);
-
         casualPlayButtonText.text = casualHasProgress ? "NEW GAME" : "PLAY";
         casualContinueButton.interactable = casualHasProgress;
         casualContinueButton.alpha = casualHasProgress ? 1f : 0.3f;
@@ -56,7 +54,6 @@ public class CategorySelectedPopup : MonoBehaviour
     {
         PopupContainer.Instance.ClosePopup("CategorySelectedPopup");
         OpenModeContainer();
-        // Debug.Log("You have clicked the button!");
     }
     void OpenDifficultyContainer()
     {
@@ -80,24 +77,17 @@ public class CategorySelectedPopup : MonoBehaviour
     }
     public void PlayWithCategory()
     {
-        // Debug.Log("PlayWithCategory");
         OpenDifficultyContainer();
     }
     public void ContinueWithCategory()
     {
-        // Debug.Log("ContinueWithCategory");
         GameManager.Instance.ContinueCasual(this.categoryInfo);
         ClosePopupCategorySelected();
-        // OpenDifficultyContainer();
     }
     public void PlayNextLevelProgress()
     {
-        // Debug.Log("PlayNextLevelProgress");
         GameManager.Instance.StartNextLevel(this.categoryInfo);
         ClosePopupCategorySelected();
-        // CategoryInfo activeCategory = GameManager.Instance.ActiveCategoryInfo;
-        // int activeLevel = GameManager.Instance.LastCompletedLevels[activeCategory.saveId];
-        // TextAsset levelFile = activeCategory.levelFiles[activeLevel];
     }
     public void ShowProgressLevel()
     {
@@ -110,18 +100,6 @@ public class CategorySelectedPopup : MonoBehaviour
 
     public void OnDifficultySelected(int difficultyIndex)
     {
-        // switch (difficultyIndex)
-        // {
-        //     case 0:
-        //         Debug.Log("EasyButton");
-        //         break;
-        //     case 1:
-        //         Debug.Log("MediumButton");
-        //         break;
-        //     case 2:
-        //         Debug.Log("HardButton");
-        //         break;
-        // }
         GameManager.Instance.StartCasual(categoryInfo, difficultyIndex);
         ClosePopupCategorySelected();
     }

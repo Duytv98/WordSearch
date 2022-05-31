@@ -40,11 +40,6 @@ public class CategoryScripts : MonoBehaviour, ICell
     }
     void SetProgress(CategoryInfo category)
     {
-        // Debug.Log("   ================     ");
-        // Debug.Log("Name category: " + category.displayName);
-        // Debug.Log("Check key: " + GameManager.Instance.LastCompletedLevels.ContainsKey(category.saveId));
-        // if(GameManager.Instance.LastCompletedLevels.ContainsKey(category.saveId))  Debug.Log("level active: " + GameManager.Instance.LastCompletedLevels[category.saveId]);
-        // Debug.Log(" ");
         int totalLevels = category.levelFiles.Count;
         int numLevelsCompleted = GameManager.Instance.LastCompletedLevels.ContainsKey(category.saveId) ? GameManager.Instance.LastCompletedLevels[category.saveId] + 1 : 0;
         levelProgressBar.SetProgress((float)numLevelsCompleted / (float)totalLevels);
@@ -53,8 +48,6 @@ public class CategoryScripts : MonoBehaviour, ICell
     void SetLocked(CategoryInfo category)
     {
         bool isCategoryLocked = GameManager.Instance.IsCategoryLocked(category);
-        // Debug.Log(category.displayName + " lock " + isCategoryLocked);
-        // if (category.displayName == "CAREERS") Debug.Log(category.displayName + " lock " + isCategoryLocked);
 
         progressBarContainer.SetActive(!isCategoryLocked);
         lockedContainer.SetActive(isCategoryLocked);

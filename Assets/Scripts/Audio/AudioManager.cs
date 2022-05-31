@@ -27,27 +27,12 @@ public class AudioManager : MonoBehaviour
             sound.source.pitch = sound.pitch;
             sound.source.loop = sound.loop;
             sound.source.playOnAwake = sound.playOnAwake;
-
         }
     }
-    private void Start()
-    {
-        // if(GameManager.Instance.IsMusic) PlayMusic();
-        // Play("bkg-music");
-        
-        Debug.Log("CheckExistData()  1   :" + PlayerPrefs.HasKey("Used_to_play"));
-        Debug.Log("Used_to_play  1 :" + PlayerPrefs.GetString("Used_to_play"));
-        Debug.Log(PlayerPrefs.GetString("Used_to_play"));
-        Debug.Log("Test  1   :" + PlayerPrefs.HasKey("abvdd"));
 
-        Debug.Log(PlayerPrefs.GetInt("abvdd"));
-        Debug.Log("11111111");
-        // ScreenManager.Instance.SetActiveFlashCanvas(true)
-    }
 
     public void Play(string name)
     {
-        // Debug.Log("play sound: " + name);
         Sound sound = Array.Find(soundInfos, sound => sound.name == name);
         if (sound == null)
         {

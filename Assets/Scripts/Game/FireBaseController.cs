@@ -15,7 +15,6 @@ using TMPro;
 using UnityEngine.Networking;
 public class FireBaseController : MonoBehaviour
 {
-
     public static FireBaseController Instance;
     public string webClientId = "<your client id here>";
     private GoogleSignInConfiguration configuration;
@@ -44,41 +43,20 @@ public class FireBaseController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("============" + " bat Game");
+        bool isPlay = PlayerPrefs.HasKey("SonatGameStudio");
 
-        Debug.Log("CheckExistData()  0   :" + PlayerPrefs.HasKey("Used_to_play"));
-        Debug.Log("Used_to_play  0 :" + PlayerPrefs.GetString("Used_to_play"));
-        Debug.Log(PlayerPrefs.GetString("Used_to_play"));
-        // ScreenManager.Instance.SetActiveFlashCanvas(true);
-        // StartCoroutine(checkInternetConnection((isConnected) =>
-        //    {
-        //        Debug.Log("============" + " trong check internet");
-        //        if (isConnected)
-        //        {
-        //            Debug.Log("======" + "có mạng");
-
-        //            Debug.Log("=========" + "IsMusic1: " + SaveableManager.Instance.IsMusic());
-        //            Debug.Log("CheckExistData()  1   :" + PlayerPrefs.HasKey("Used_to_play"));
-
-        //            Debug.Log("Used_to_play 1  :" + PlayerPrefs.GetString("Used_to_play"));
-        //            if (!PlayerPrefs.HasKey("Used_to_play"))
-        //            {
-
-        //                Debug.Log("=========" + "IsMusic2: " + SaveableManager.Instance.IsMusic());
-        //                Debug.Log("=========" + "May chua Tung choi");
-        //                SaveableManager.Instance.LoadDataOffline();
-        //            }
-        //            else
-        //            {
-        //                CheckFirebaseDependencies();
-        //            }
-        //            //    CheckFirebaseDependencies();
-        //        }
-        //        else
-        //        {
-        //            SaveableManager.Instance.LoadDataOffline();
-        //        }
-        //    }));
+        ScreenManager.Instance.SetActiveFlashCanvas(true);
+        StartCoroutine(checkInternetConnection((isConnected) =>
+           {
+               if (isConnected)
+               {
+                   CheckFirebaseDependencies(isPlay);
+               }
+               else
+               {
+                   SaveableManager.Instance.LoadDataOffline();
+               }
+           }));
     }
 
 
@@ -86,15 +64,18 @@ public class FireBaseController : MonoBehaviour
     public void SetUpFirebaseAuth(bool actLogin = false)
     {
         auth = FirebaseAuth.DefaultInstance;
-        user = auth.CurrentUser;
 
 
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.Configuration.UseGameSignIn = false;
         GoogleSignIn.Configuration.RequestIdToken = true;
 
-
         SetUpFirebaseAuthSuccess = true;
+
+
+        user = auth.CurrentUser;
+
+
     }
     public FirebaseUser GetCurrentUser()
     {
@@ -115,16 +96,23 @@ public class FireBaseController : MonoBehaviour
     }
     public void SignInWithGoogle()
     {
+        Debug.Log("============== Ckicl login");
         GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(OnAuthenticationFinished);
+        Debug.Log(" ==================       SignInWithGoogle");
     }
 
     public void SignOutFromGoogle() { OnSignOut(); }
     internal void OnAuthenticationFinished(Task<GoogleSignInUser> task)
     {
+
+        Debug.Log(" ==================       OnAuthenticationFinished");
         if (task.IsFaulted)
         {
+            Debug.Log(" ==================       task.IsFaulted: " + task.IsFaulted);
+
             using (IEnumerator<Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator())
             {
+                Debug.Log(" ==================       enumerator.MoveNext(): " + enumerator.MoveNext());
                 if (enumerator.MoveNext())
                 {
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
@@ -142,23 +130,33 @@ public class FireBaseController : MonoBehaviour
         }
         else
         {
+
+            Debug.Log(" ==================       OnAuthenticationFinished           else");
             SignInWithGoogleOnFirebase(task.Result.IdToken);
         }
     }
     private void SignInWithGoogleOnFirebase(string idToken)
     {
+        Debug.Log(" ==================       SignInWithGoogleOnFirebase");
+
         Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
+        Debug.Log(" ==================       credential: " + credential);
+
 
         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
         {
+
+            Debug.Log(" ==================       SignInWithCredentialAsync:      end task");
             AggregateException ex = task.Exception;
             if (ex != null)
             {
+                Debug.Log("===================== ex  != null");
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
                     Debug.Log("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
             }
             else
             {
+                Debug.Log("=========================  dang nhao thanh cong");
                 // Debug.Log("Sign In Successful.");
                 // User player = new User();
                 // player.UserName = task.Result.DisplayName;
@@ -209,7 +207,7 @@ public class FireBaseController : MonoBehaviour
         // infoText.text = "Đăng xuất Thành Công";
 
 
-        user = auth.CurrentUser;
+        // user = auth.CurrentUser;
         // Debug.Log(user.DisplayName);
 
         GameManager.Instance.IsLogIn = false;
@@ -221,7 +219,7 @@ public class FireBaseController : MonoBehaviour
         // GameControler.Instance.SetLoadData();
     }
 
-    private void CheckFirebaseDependencies()
+    private void CheckFirebaseDependencies(bool isPlay)
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -233,7 +231,9 @@ public class FireBaseController : MonoBehaviour
                     SetUpDataBaseReference();
 
                     Debug.Log("=========" + "IsMusic3: " + SaveableManager.Instance.IsMusic());
-                    SaveableManager.Instance.LoadDataOnline();
+                    
+                    if (!isPlay) SaveableManager.Instance.LoadDataOffline();
+                    else SaveableManager.Instance.LoadDataOnline();
                     // Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
                     // if (GameManager.Instance.IsLogIn) Read_Data("UserId4324", playerLocal);
                 }
@@ -265,6 +265,7 @@ public class FireBaseController : MonoBehaviour
     {
         string UserId = GameManager.Instance.IdPlayer;
         // Debug.Log("id: " + UserId);
+        Debug.Log(user.ToString());
         StartCoroutine(checkInternetConnection((isConnected) =>
           {
               if (isConnected)

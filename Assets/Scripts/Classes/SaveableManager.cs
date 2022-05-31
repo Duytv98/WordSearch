@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 using DG.Tweening;
-public class SaveableManager  : MonoBehaviour
+public class SaveableManager : MonoBehaviour
 {
-    
+
     public static SaveableManager Instance;
-     private void Awake()
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -17,55 +17,36 @@ public class SaveableManager  : MonoBehaviour
             return;
         }
     }
-    private void Start() {
-        
+    private void Start()
+    {
+
     }
     public void LoadDataOnline()
     {
         Debug.Log("LoadDataOnline");
 
-        Debug.Log("CheckExistData(): " + CheckExistData());
 
-        Debug.Log("=========" + "IsMusic4: " + SaveableManager.Instance.IsMusic());
-        if (CheckExistData())
+        GameManager.Instance.Update4variable(GetUserId(), IsLogIn(), IsMusic(), IsSound());
+        string jsonString = PlayerPrefs.GetString("playerInfo");
+        PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
+        // GameManager.Instance.IsLogIn = true;
+        if (!GameManager.Instance.IsLogIn)
         {
-            GameManager.Instance.IdPlayer = PlayerPrefs.GetString("UserId");
-            GameManager.Instance.IsLogIn = PlayerPrefs.GetString("isLogIn") == "true" ? true : false;
-            GameManager.Instance.IsMusic = IsMusic();
-            GameManager.Instance.IsSound = IsSound();
-            string jsonString = PlayerPrefs.GetString("playerInfo");
-            PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
-            // GameManager.Instance.IsLogIn = true;
-            if (!GameManager.Instance.IsLogIn)
-            {
-                GameManager.Instance.ConfigData(playerLocal);
-            }
-            else
-            {
-                FireBaseController.Instance.Read_Data(playerLocal);
-                // DOVirtual.DelayedCall(2, );
-            }
+            GameManager.Instance.ConfigData(playerLocal);
         }
         else
         {
-            Debug.Log("=========" + "IsMusic2: " + SaveableManager.Instance.IsMusic());
-            Debug.Log("=========" + "May chua Tung choi");
-            SaveableManager.Instance.LoadDataOffline();
+            FireBaseController.Instance.Read_Data(playerLocal);
+            // DOVirtual.DelayedCall(2, );
         }
-
     }
     public void LoadDataOffline()
     {
-        Debug.Log("LoadDataOffline");
-        Debug.Log(" CheckExistData(): " + CheckExistData());
-        if (CheckExistData())
+        bool isPlay = PlayerPrefs.HasKey("SonatGameStudio");
+        if (isPlay)
         {
             // Người chơi đã từng tham gia trờ chơi
-            GameManager.Instance.IdPlayer = GetUserId();
-            GameManager.Instance.IsLogIn = IsLogIn();
-            GameManager.Instance.IsMusic = IsMusic();
-            GameManager.Instance.IsSound = IsSound();
-            Debug.Log("=========" + "IsMusic(): " + IsMusic());
+            GameManager.Instance.Update4variable(GetUserId(), IsLogIn(), IsMusic(), IsSound());
             string jsonString = GetString("playerInfo");
             PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
             GameManager.Instance.ConfigData(playerLocal);
@@ -102,24 +83,18 @@ public class SaveableManager  : MonoBehaviour
     }
     public void SetLogIn(bool isLogIn)
     {
-        PlayerPrefs.SetString("isLogIn", isLogIn == true ? "true" : "false");
+        PlayerPrefs.SetInt("isLogIn", isLogIn == true ? 1 : 0);
     }
     public bool IsLogIn()
     {
-        return PlayerPrefs.GetString("isLogIn") == "true" ? true : false;
+        return PlayerPrefs.GetInt("isLogIn") == 1 ? true : false;
     }
 
-
-    public bool CheckExistData()
-    {
-        return PlayerPrefs.HasKey("Used_to_play");
-    }
 
     public void SetString(string KeyName, string Value)
     {
         PlayerPrefs.SetString(KeyName, Value);
     }
-
     public string GetString(string KeyName)
     {
         return PlayerPrefs.GetString(KeyName);
@@ -130,14 +105,12 @@ public class SaveableManager  : MonoBehaviour
     }
     public void SetGameDefaut()
     {
-        Debug.Log("SetGameDefaut");
-        PlayerPrefs.SetString("Used_to_play", "true1");
+        PlayerPrefs.SetInt("SonatGameStudio", 1);
+        PlayerPrefs.SetInt("isMusic", 1);
+        PlayerPrefs.SetInt("isSound", 1);
         PlayerInfo playerInfo = new PlayerInfo(GameManager.Instance.StartingCoins, GameManager.Instance.StartingKeys);
         SetPlayerInfo(playerInfo);
 
-        Debug.Log("=========" + "SetGameDefaut");
-        PlayerPrefs.SetInt("isMusic", 1);
-        PlayerPrefs.SetInt("isSound", 1);
     }
     public void SetSound(bool isSound)
     {

@@ -14,8 +14,7 @@ public class HomeScreen : MonoBehaviour
 
     public void OnSelectCategory()
     {
-        // Debug.Log("OnSelectCategory");
-        // ScreenManager.Instance.ShowScreenLevel();
+        
         ScreenManager.Instance.Show("levels");
     }
     public void OnPlayNextLevelRandomCategory()

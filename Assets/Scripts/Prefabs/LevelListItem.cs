@@ -80,7 +80,6 @@ public class LevelListItem : MonoBehaviour, ICell
         if (isEvent)
         {
             GameManager.Instance.StartLevel(GameManager.Instance.ActiveCategoryInfo, levelIndex);
-            // Debug.Log(this.levelFile);
         }
     }
 }

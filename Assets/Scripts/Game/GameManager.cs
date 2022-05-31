@@ -78,7 +78,7 @@ public class GameManager : SingletonComponent<GameManager>
     private bool isMusic = true;
     private bool isSound = true;
     public bool IsMusic { get => isMusic; set => isMusic = value; }
-    public bool IsSound {  get => isSound; set =>isSound = value;}
+    public bool IsSound { get => isSound; set => isSound = value; }
 
     protected override void Awake()
     {
@@ -98,22 +98,26 @@ public class GameManager : SingletonComponent<GameManager>
     //     // SaveableManager.Instance.LoadSaveData();
     //     // screenManager.Initialize();
     // }
+    public void Update4variable(string idPlayer, bool isLogIn, bool isMusic, bool isSound)
+    {
+        IdPlayer = idPlayer;
+        IsLogIn = isLogIn;
+        IsMusic = isMusic;
+        IsSound = isSound;
+
+    }
     // GỌi khi tất cả các data load hoàn tất
     public void ConfigData(PlayerInfo playerInfo)
     {
-        // Debug.Log("ConfigData: ");
-        // Debug.Log(playerInfo.ToString());
         Coins = playerInfo.coins;
         Keys = playerInfo.keys;
-        // ActiveBoard = playerInfo.activeBoard;
         LastCompletedLevels = ConvertToDictionaryLastCompletedLevels(playerInfo.lastCompletedLevels);
         BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
         UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
         //check bật nhạc
         if (IsMusic) AudioManager.Instance.PlayMusic();
-        Debug.Log( "=========" +  "IsMusic: " + IsMusic);
+        Debug.Log("=========" + "IsMusic: " + IsMusic);
         ScreenManager.Instance.SetActiveFlashCanvas(false);
-        // Debug.Log(playerInfo.activeBoard);
     }
     Board LoadLevelFile(CategoryInfo categoryInfo, int levelIndex)
     {
@@ -676,7 +680,6 @@ public class GameManager : SingletonComponent<GameManager>
     {
         playerInfo.coins = Coins;
         playerInfo.keys = Keys;
-        playerInfo.coins = 0;
 
         // playerInfo.keys = 0;
         // LastCompletedLevels["birds"] = 25;

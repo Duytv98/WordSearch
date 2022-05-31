@@ -38,8 +38,6 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
             noLettersToShow.SetActive(false);
 
             letters.Sort();
-
-            // Debug.Log("letterButtonContainer.transform.childCount" + letterButtonContainer.transform.childCount);
             int oldChildCount = letterButtonContainer.transform.childCount;
             int count = oldChildCount > letters.Count ? oldChildCount : letters.Count;
             for (int i = 0; i < count; i++)

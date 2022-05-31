@@ -38,7 +38,6 @@ using UnityEngine;
 
 		public static void CreateBoard(BoardConfig boardConfig, System.Action<Board> callback)
 		{
-			// Debug.Log(" =======  CreateBoard   =============");
 			// Make sure there is no other worker running
 			Stop();
 
@@ -70,7 +69,7 @@ using UnityEngine;
 
 			if (onFinishedCallback != null)
 			{
-				Debug.Log("Hoàn thành tạo Board");
+				// Debug.Log("Hoàn thành tạo Board");
 				onFinishedCallback(completedBoard);
 			}
 		}

@@ -33,7 +33,6 @@ public class SettingsPopup : MonoBehaviour
     }
     public void SetButton(bool isLogIn, bool isConnected = true)
     {
-        // Debug.Log("SetButton   isLogIn: " + isLogIn);
         btnLogIn.alpha = isLogIn ? 0 : isConnected ? 1 : 0.7f;
         btnLogIn.interactable = !isLogIn && isConnected;
         btnLogIn.blocksRaycasts = !isLogIn && isConnected;
@@ -58,21 +57,11 @@ public class SettingsPopup : MonoBehaviour
     {
         UnityWebRequest request = new UnityWebRequest("http://google.com");
         yield return request.SendWebRequest();
-        if (request.error != null)
-        {
-            action(false);
-            Debug.Log("Không có mạng");
-        }
-        else
-        {
-            action(true);
-            Debug.Log("Có mạng");
-
-        }
+        if (request.error != null) action(false);
+        else action(true);
     }
     public void ClickMusic()
     {
-        Debug.Log("Click Music: ");
         bool isMusic = GameManager.Instance.IsMusic;
         float x_toggleMusic = isMusic ? -50f : 50f;
         GameManager.Instance.IsMusic = !isMusic;
@@ -93,7 +82,6 @@ public class SettingsPopup : MonoBehaviour
     }
     public void ClickSound()
     {
-        Debug.Log("Click Sound: ");
         bool isSound = GameManager.Instance.IsSound;
         float x_toggleSound = isSound ? -50f : 50f;
         GameManager.Instance.IsSound = !isSound;

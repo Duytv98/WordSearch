@@ -21,7 +21,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     }
     public void Show(string id, bool isVisible = true)
     {
-        // Debug.Log("======== Show =======");
         if (currentScreen) Close(currentScreen);
         GameObject screen = null;
         AddBackStack(id);
@@ -49,8 +48,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
                 return;
         }
         ConfigTopbar(isVisible);
-        Debug.Log("backStack.Count: " + backStack.Count);
-
     }
 
     public void Close(GameObject screen)
@@ -110,7 +107,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
 
     public void BackScreen()
     {
-        // Debug.Log("======== BackScreen =======");
         if (backStack.Count <= 0)
         {
             Debug.LogWarning("[ScreenController] There is no screen on the back stack to go back to.");
@@ -121,7 +117,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
         string screenId = backStack[backStack.Count - 2];
         backStack.RemoveAt(backStack.Count - 1);
         if (currentScreen) Close(currentScreen);
-        // Debug.Log("screenId: " + screenId);
 
         switch (screenId)
         {
@@ -133,7 +128,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
                 break;
             case "levels":
                 currentScreen = levelScreen.gameObject;
-                // levelScreen.gameObject.SetActive(true);
                 SetVisibilityLevle(levelScreen.gameObject, true);
                 levelScreen.ReloadData();
                 AddBackStack("levels");
@@ -147,8 +141,6 @@ public class ScreenManager : SingletonComponent<ScreenManager>
                 break;
         }
         ConfigTopbar();
-
-        // Debug.Log("backStack.Count: " + backStack.Count);
     }
 
     private void SetVisibilityLevle(GameObject screen, bool isVisible)
