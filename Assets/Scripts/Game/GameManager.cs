@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
-public class GameManager : SingletonComponent<GameManager>
+public class GameManager : MonoBehaviour
 {
     public enum GameMode
     {
@@ -15,19 +15,15 @@ public class GameManager : SingletonComponent<GameManager>
         GeneratingBoard,
         BoardActive
     }
+    public static GameManager Instance;
     [Header("Data")]
-    [SerializeField] private string characters = null;
     [SerializeField] private List<CategoryInfo> categoryInfos = null;
 
     [SerializeField] private List<DifficultyInfo> difficultyInfos = null;
 
     [Header("Values")]
-    [SerializeField] private int startingCoins = 0;
-    [SerializeField] private int startingKeys = 0;
     [SerializeField] private int numLevelsToAwardCoins = 0;
     [SerializeField] private int coinsToAward = 0;
-    [SerializeField] private int coinCostWordHint = 0;
-    [SerializeField] private int coinCostLetterHint = 0;
 
     [Header("Components")]
     [SerializeField] private CharacterGrid characterGrid = null;
@@ -42,10 +38,6 @@ public class GameManager : SingletonComponent<GameManager>
     public int Keys { get; set; }
 
     public List<CategoryInfo> CategoryInfos { get { return categoryInfos; } }
-    public int StartingCoins { get { return startingCoins; } }
-    public int StartingKeys { get { return startingKeys; } }
-    public int CoinCostWordHint { get { return coinCostWordHint; } }
-    public int CoinCostLetterHint { get { return coinCostLetterHint; } }
     public CategoryInfo ActiveCategoryInfo { get; set; }
     public int ActiveDifficultyIndex { get; private set; }
     public Board ActiveBoard { get; private set; }
@@ -56,6 +48,7 @@ public class GameManager : SingletonComponent<GameManager>
     public Dictionary<string, string> BoardsInProgress { get; private set; }
     public Dictionary<string, int> LastCompletedLevels = null;
     public Dictionary<string, int> ListBooter = null;
+    public Dictionary<string, int> ListBooterInGame { get; private set; }
     public List<string> UnlockedCategories { get; private set; }
 
     private PlayerInfo playerInfo = null;
@@ -77,9 +70,14 @@ public class GameManager : SingletonComponent<GameManager>
     public bool IsMusic { get => isMusic; set => isMusic = value; }
     public bool IsSound { get => isSound; set => isSound = value; }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         Application.targetFrameRate = 60;
 
         playerInfo = new PlayerInfo();
@@ -157,10 +155,11 @@ public class GameManager : SingletonComponent<GameManager>
         IsCompleted = false;
         ActiveBoard = board;
         // Debug.Log("Count: " + ActiveBoard.recommendWords.Count);
-
+        SetUpListBooterUse();
+        // Debug.Log("ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
+        // Debug.Log("ListBooterUse: " + Utilities.ConvertToJsonString(ListBooterInGame));
         if (levelIndex >= 0)
         {
-            // ScreenManager.Instance.ShowScreenGame();
             ScreenManager.Instance.Show("game");
             characterGrid.SetUp(board);
             wordListContainer.Setup(board);
@@ -255,7 +254,7 @@ public class GameManager : SingletonComponent<GameManager>
         boardConfig.rows = difficultyInfo.boardRowSize;
         boardConfig.cols = difficultyInfo.boardColumnSize;
         boardConfig.words = words;
-        boardConfig.randomCharacters = characters;
+        boardConfig.randomCharacters = GameDefine.CHARACTERS;
         // Debug.Log(JsonUtility.ToJson(boardConfig));
 
         ActiveGameState = GameState.GeneratingBoard;
@@ -439,7 +438,8 @@ public class GameManager : SingletonComponent<GameManager>
     }
     public void HintHighlightWord()
     {
-
+        bool useBooter = false;
+        string key = "Find-words";
         if (ActiveBoard == null || loadingIndicator.activeSelf)
         {
             return;
@@ -452,10 +452,6 @@ public class GameManager : SingletonComponent<GameManager>
         {
             string word = ActiveBoard.words[i];
 
-            // if (!ActiveBoard.foundWords.Contains(word) || !wordListContainer.UnusedWord.Contains(word))
-            // {
-            // nonFoundWords.Add(word);
-            // }
             if (!ActiveBoard.foundWords.Contains(word) && !wordListContainer.UnusedWords.Contains(word))
             {
                 nonFoundWords.Add(word);
@@ -463,18 +459,11 @@ public class GameManager : SingletonComponent<GameManager>
         }
 
         // Đảm bảo danh dách không âm
-        if (nonFoundWords.Count == 0)
-        {
-            // Debug.Log("nonFoundWords.Count = 0 ");
-            return;
-        }
+        if (nonFoundWords.Count == 0) return;
+        if (CheckBooterExist(key)) useBooter = true;
 
-        // Check lượng coins Player có
-        if (Coins < coinCostWordHint)
-        {
-            // Debug.Log("Coins < coinCostWordHint");
+        if (Coins < GameDefine.FIND_WORDS && !useBooter)
             PopupContainer.Instance.ShowNotEnoughCoinsPopup();
-        }
         else
         {
             // Pick a random word to show
@@ -484,10 +473,9 @@ public class GameManager : SingletonComponent<GameManager>
             OnWordSelected(wordToShow);
             // Highlight the word
             characterGrid.ShowWordHint(wordToShow);
-
-
             // Deduct the cost
-            Coins -= coinCostWordHint;
+            if (useBooter) SubtractionBooter(key, 1);
+            else Coins -= GameDefine.FIND_WORDS;
 
 
             AudioManager.Instance.Play("hint-used");
@@ -495,26 +483,34 @@ public class GameManager : SingletonComponent<GameManager>
     }
     public void HintHighlightLetter()
     {
+
+        bool useBooter = false;
+        string key = "Find-letters";
         if (ActiveBoard == null || loadingIndicator.activeSelf)
         {
             return;
         }
-        if (Coins < coinCostLetterHint)
+
+        if (CheckBooterExist(key)) useBooter = true;
+
+        if (Coins < GameDefine.FIND_LETTERS && !useBooter)
         {
             PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         }
         else
         {
-            PopupContainer.Instance.ShowHighlighLetterPopup();
+            PopupContainer.Instance.ShowHighlighLetterPopup(useBooter);
         }
     }
 
     //Nhận chữ từ HighlightLetterPopupClosed
-    public void OnChooseHighlightLetterPopupClosed(char letter)
+    public void OnChooseHighlightLetterPopupClosed(char letter, bool isBooterUse)
     {
+        string key = "Find-letters";
         ActiveBoard.letterHintsUsed.Add(letter);
         characterGrid.ShowLetterHint(letter);
-        Coins -= coinCostLetterHint;
+        if (isBooterUse) SubtractionBooter(key, 1);
+        else Coins -= GameDefine.FIND_LETTERS;
         PopupContainer.Instance.ClosePopup("ChooseHighlighLetterPopup");
         SaveCurrentBoard();
 
@@ -524,6 +520,8 @@ public class GameManager : SingletonComponent<GameManager>
 
     public void SuggestManyWords()
     {
+        bool useBooter = false;
+        string key = "Suggest-many-words";
         float timeMoveRocket = 1f;
         List<string> nonFoundWords = new List<string>();
 
@@ -539,16 +537,9 @@ public class GameManager : SingletonComponent<GameManager>
             }
         }
         // Đảm bảo danh dách không âm
-        if (nonFoundWords.Count == 0)
-        {
-            // Debug.Log("nonFoundWords.Count = 0 ");
-            return;
-        }
-        if (Coins < coinCostWordHint)
-        {
-            // Debug.Log("Coins < coinCostWordHint");
-            PopupContainer.Instance.ShowNotEnoughCoinsPopup();
-        }
+        if (nonFoundWords.Count == 0) return;
+        if (CheckBooterExist(key)) useBooter = true;
+        if (Coins < GameDefine.SUGGEST_MANY_WORDS && !useBooter) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
         {
             if (nonFoundWords.Count > 3)
@@ -566,18 +557,33 @@ public class GameManager : SingletonComponent<GameManager>
             SaveCurrentBoard();
 
             characterGrid.SuggestManyWords(timeMoveRocket, nonFoundWordsChoose);
-            Coins -= coinCostWordHint;
+
+            if (useBooter) SubtractionBooter(key, 1);
+            else Coins -= GameDefine.SUGGEST_MANY_WORDS;
         }
         effectContronler.PlayRocket(timeMoveRocket);
     }
     public void ClearWords()
     {
-        // Debug.Log("ClearWords");
-        characterGrid.ClearWords();
+        bool useBooter = false;
+        string key = "Clear-words";
+        if (CheckBooterExist(key)) useBooter = true;
+        if (Coins < GameDefine.CLEAR_WORDS && !useBooter) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
+        else
+        {
+            bool isClear = characterGrid.ClearWords();
+            if (isClear)
+            {
+                if (useBooter) SubtractionBooter(key, 1);
+                else Coins -= GameDefine.CLEAR_WORDS;
+            }
+        }
+
     }
     public void RecommendWord()
     {
-        // Debug.Log("RecommendWord");
+        bool useBooter = false;
+        string key = "Recommend-word";
 
         List<string> nonFoundWords = new List<string>();
         // Lấy ra các từ chưa được tìm thấy
@@ -591,16 +597,9 @@ public class GameManager : SingletonComponent<GameManager>
             }
         }
         // Đảm bảo danh dách không âm
-        if (nonFoundWords.Count == 0)
-        {
-            // Debug.Log("nonFoundWords.Count = 0 ");
-            return;
-        }
-        if (Coins < coinCostWordHint)
-        {
-            // Debug.Log("Coins < coinCostWordHint");
-            PopupContainer.Instance.ShowNotEnoughCoinsPopup();
-        }
+        if (nonFoundWords.Count == 0) return;
+        if (CheckBooterExist(key)) useBooter = true;
+        if (Coins < GameDefine.RECOMMEND_WORD && !useBooter) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
         {
             // Pick a random word to show
@@ -614,12 +613,9 @@ public class GameManager : SingletonComponent<GameManager>
             SaveCurrentBoard();
 
             // Set it as selected
-
-
-            // Deduct the cost
-            Coins -= coinCostWordHint;
-
-            // SoundManager.Instance.Play("hint-used");
+            if (useBooter) SubtractionBooter(key, 1);
+            else Coins -= GameDefine.RECOMMEND_WORD;
+            AudioManager.Instance.Play("hint-used");
         }
     }
     public void RotatingScreen()
@@ -653,7 +649,7 @@ public class GameManager : SingletonComponent<GameManager>
     }
     public void SetPlayerInfo(string displayName = null, string email = null)
     {
-        Debug.Log("Coins: " + Coins + "       Keys: " + Keys + "     ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
+        // Debug.Log("Coins: " + Coins + "       Keys: " + Keys + "     ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
         playerInfo.coins = Coins;
         playerInfo.keys = Keys;
         if (displayName != null && email != null)
@@ -679,7 +675,7 @@ public class GameManager : SingletonComponent<GameManager>
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
-        Debug.Log("contentsBoard: " + contentsBoard);
+        // Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
@@ -735,17 +731,40 @@ public class GameManager : SingletonComponent<GameManager>
 
     public bool SetBooter(string key, int amount)
     {
-        Debug.Log("key: " + key);
-        Debug.Log("ListBooter.Count: " + ListBooter.Count);
         if (ListBooter.ContainsKey(key))
         {
-            Debug.Log("key: " + key + "    old value: " + ListBooter[key]);
-            Debug.Log("amount: " + amount);
             ListBooter[key] += amount;
-            Debug.Log("key: " + key + "    new value: " + ListBooter[key]);
             SaveableManager.Instance.SaveData();
             return true;
         }
+        return false;
+    }
+    private void SetUpListBooterUse()
+    {
+        ListBooterInGame = new Dictionary<string, int>();
+        foreach (var booter in ListBooter)
+        {
+            string key = booter.Key;
+            int value = 0;
+            if (booter.Value < 3) value = booter.Value;
+            else value = 3;
+            ListBooterInGame.Add(key, value);
+        }
+    }
+    private bool SubtractionBooter(string key, int amount)
+    {
+        if (ListBooter.ContainsKey(key) && ListBooterInGame.ContainsKey(key))
+        {
+            ListBooter[key] -= amount;
+            ListBooterInGame[key] -= amount;
+            GameScreen.Instance.UpdateBooterInGame(key);
+            return true;
+        }
+        return false;
+    }
+    private bool CheckBooterExist(string key)
+    {
+        if (ListBooterInGame[key] > 0) return true;
         return false;
     }
 }

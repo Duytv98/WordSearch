@@ -8,9 +8,8 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
     [SerializeField] private GameObject letterButtonPrefab = null;
     [SerializeField] private Transform letterButtonContainer = null;
     [SerializeField] private GameObject noLettersToShow = null;
-    public void OnShowing()
+    public void OnShowing(bool isBooterUse)
     {
-
         Board board = GameManager.Instance.ActiveBoard;
 
         List<char> letters = new List<char>();
@@ -48,7 +47,7 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
 
                     GameObject highlightLetter = Instantiate(letterButtonPrefab, Vector3.zero, Quaternion.identity, letterButtonContainer);
                     HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                    _highlightLetterButtonScript.Setup(letter);
+                    _highlightLetterButtonScript.Setup(letter, isBooterUse);
                 }
                 else
                 {
@@ -59,7 +58,7 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
                             char letter = letters[i];
                             GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
                             HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                            _highlightLetterButtonScript.Setup(letter);
+                            _highlightLetterButtonScript.Setup(letter, isBooterUse);
                         }
                         else
                         {
@@ -74,14 +73,14 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
                             char letter = letters[i];
                             GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
                             HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                            _highlightLetterButtonScript.Setup(letter);
+                            _highlightLetterButtonScript.Setup(letter, isBooterUse);
                         }
                         else
                         {
                             char letter = letters[i];
                             GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
                             HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                            _highlightLetterButtonScript.Setup(letter);
+                            _highlightLetterButtonScript.Setup(letter, isBooterUse);
                         }
                     }
 

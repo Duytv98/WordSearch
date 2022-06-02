@@ -65,7 +65,7 @@ public class SaveableManager : MonoBehaviour
         // Debug.Log("save Data: ");
         // Debug.Log(GameManager.Instance.GetPlayerInfo());
         GameManager.Instance.SetPlayerInfo();
-        Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
+        // Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
         SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
         if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
     }
@@ -110,7 +110,7 @@ public class SaveableManager : MonoBehaviour
         PlayerPrefs.SetInt("SonatGameStudio", 1);
         PlayerPrefs.SetInt("isMusic", 1);
         PlayerPrefs.SetInt("isSound", 1);
-        PlayerInfo playerInfo = new PlayerInfo(GameManager.Instance.StartingCoins, GameManager.Instance.StartingKeys);
+        PlayerInfo playerInfo = new PlayerInfo(GameDefine.STARTING_COINS, GameDefine.STARTING_KEYS);
         playerInfo.listBooter = Utilities.ConvertToJsonString(CreateListBooterDefaut());
         SetPlayerInfo(playerInfo);
     }

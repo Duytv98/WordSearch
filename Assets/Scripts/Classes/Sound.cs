@@ -11,7 +11,6 @@ public class Sound
     public AudioClip clip;
     public SoundType type = SoundType.SoundEffect;
     public bool playOnAwake = false;
-
     public bool loop = false;
 
 

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class ScreenManager : SingletonComponent<ScreenManager>
+public class ScreenManager : MonoBehaviour
 {
+    public static ScreenManager Instance;
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private LevelScreen levelScreen = null;
@@ -13,7 +14,15 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     [SerializeField] private TopBar topBar = null;
     private List<string> backStack;
     private GameObject currentScreen;
-
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
     void Start()
     {
         backStack = new List<string>();

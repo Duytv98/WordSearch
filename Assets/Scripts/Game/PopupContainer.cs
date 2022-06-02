@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class PopupContainer : SingletonComponent<PopupContainer>
+public class PopupContainer : MonoBehaviour
 {
+    public static PopupContainer Instance;
     [SerializeField] private LevelCompletePopup levelCompletePopup = null;
     [SerializeField] private CategorySelectedPopup categorySelectedPopup = null;
     [SerializeField] private ChooseHighlighLetterPopup chooseHighlighLetterPopup = null;
@@ -22,7 +23,15 @@ public class PopupContainer : SingletonComponent<PopupContainer>
     private string popupActive = null;
     // Start is called before the first frame update
     // private Vector3 scaleChange = new Vector3(-0.5f, -0.5f, -0.5f);
-
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
     public void ShowLevelCompletePopup(int coinsAwarded, int keysAwarded)
     {
         Show("LevelCompletePopup");
@@ -40,10 +49,10 @@ public class PopupContainer : SingletonComponent<PopupContainer>
         Show("CategorySelectedPopup");
         categorySelectedPopup.OnShowing(categoryInfo);
     }
-    public void ShowHighlighLetterPopup()
+    public void ShowHighlighLetterPopup(bool isBooterUse)
     {
         Show("ChooseHighlighLetterPopup");
-        chooseHighlighLetterPopup.OnShowing();
+        chooseHighlighLetterPopup.OnShowing(isBooterUse);
     }
     public void ShowSettingsPopup()
     {

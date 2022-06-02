@@ -11,8 +11,7 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
+        if (Instance == null) Instance = this;
         else
         {
             Destroy(gameObject);
@@ -41,17 +40,19 @@ public class AudioManager : MonoBehaviour
                 return;
             }
         }
-        if(GameManager.Instance.IsSound) sound.source.Play();
+        if (GameManager.Instance.IsSound) sound.source.Play();
     }
 
     public void Play_Click_Button_Sound()
     {
         Play("btn-click");
     }
-    public void PauseMusic(){
+    public void PauseMusic()
+    {
         soundInfos[0].source.Pause();
     }
-    public void PlayMusic(){
+    public void PlayMusic()
+    {
         soundInfos[0].source.Play();
     }
 }

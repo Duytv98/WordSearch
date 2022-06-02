@@ -59,12 +59,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private List<Image> LetterHints;
 
 
-
-
     private float currentScale;
     private float currentCellSize;
-
-
 
     private bool isSelecting;
     private int selectingPointerId;
@@ -682,11 +678,11 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     }
 
 
-    public void ClearWords()
+    public bool ClearWords()
     {
         List<Position> locationUnused = UnusedLocation();
         // Debug.Log("locationUnused.Count: " + locationUnused.Count);
-        if (locationUnused.Count <= 0) return;
+        if (locationUnused.Count <= 0) return false;
         if (locationUnused.Count <= 4)
         {
             foreach (Position position in locationUnused)
@@ -712,7 +708,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             }
         }
         GameManager.Instance.SaveCurrentBoard();
-
+        return true;
     }
     public List<Position> UnusedLocation()
     {
@@ -907,9 +903,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             ShowWordRecommend(word);
         }
-
-
-
+        AudioManager.Instance.Play("hint-used");
     }
 
     private void ClearRotating()

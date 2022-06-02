@@ -32,7 +32,10 @@ public class DailyGift : MonoBehaviour
     {
         HistoryCollection = new Dictionary<string, string>();
         HistoryCollection = GetHistoryCollectionLocal();
-        if (GetIdCurrentCollectGift() != null && !CheckCollectionConsecutiveGifts())
+        Debug.Log("HistoryCollection.Count: " + HistoryCollection.Count);
+
+        if (GetIdCurrentCollectGift() != null && !CheckCollectionConsecutiveGifts() ||
+                  HistoryCollection.Count == 7 && CheckCollectionNextDay())
         {
             HistoryCollection.Clear();
             SaveHistoryCollectionLocal();
@@ -144,8 +147,19 @@ public class DailyGift : MonoBehaviour
         string lastTimeString = HistoryCollection[idLast];
         string nowTimeString = GetStringDateTimeNow();
         int day = SubtractDate(lastTimeString, nowTimeString);
-        if (day > 1) return false;
+        Debug.Log("day: " + day);
+        if (day > 1 || day < 0) return false;
         return true;
+    }
+
+    private bool CheckCollectionNextDay()
+    {
+        var idLast = GetIdCurrentCollectGift();
+        string lastTimeString = HistoryCollection[idLast];
+        string nowTimeString = GetStringDateTimeNow();
+        int day = SubtractDate(lastTimeString, nowTimeString);
+        if (day == 1) return true;
+        return false;
     }
     private GiftDay GetGiftDay(string id)
     {
@@ -173,14 +187,8 @@ public class DailyGift : MonoBehaviour
             }
             else
             {
-                string lastTimeString = HistoryCollection[idLastCollectGift];
-                string nowTimeString = GetStringDateTimeNow();
-                int day = SubtractDate(lastTimeString, nowTimeString);
-                if (day == 0) Debug.Log("Ngay mai quay lai nhan qua nha!");
-                else if (day == 1)
-                {
-                    CollectionGift(giftDayChoose);
-                }
+                if (CheckCollectionNextDay()) CollectionGift(giftDayChoose);
+                else Debug.Log("Ngay mai quay lai nhan qua nha!");
             }
         }
         else
