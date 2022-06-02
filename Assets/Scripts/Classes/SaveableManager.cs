@@ -23,7 +23,7 @@ public class SaveableManager : MonoBehaviour
     }
     public void LoadDataOnline()
     {
-        Debug.Log("LoadDataOnline");
+        // Debug.Log("LoadDataOnline");
 
 
         GameManager.Instance.Update4variable(GetUserId(), IsLogIn(), IsMusic(), IsSound());
@@ -64,8 +64,8 @@ public class SaveableManager : MonoBehaviour
     {
         // Debug.Log("save Data: ");
         // Debug.Log(GameManager.Instance.GetPlayerInfo());
-        Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
         GameManager.Instance.SetPlayerInfo();
+        Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
         SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
         if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
     }

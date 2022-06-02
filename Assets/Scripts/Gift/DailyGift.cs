@@ -45,11 +45,6 @@ public class DailyGift : MonoBehaviour
         }
         else giftInfo = GetGiftInfoLocal();
         var testGiftInfo = GetGiftInfoLocal();
-        foreach (var item in testGiftInfo)
-        {
-            Debug.Log(item.Key + "   " + item.Value);
-        }
-        Debug.Log("giftInfo.Count: " + giftInfo.Count);
         SetColorGiftDay();
     }
     private Dictionary<string, string> CreateGiftEveryDay()
@@ -74,7 +69,6 @@ public class DailyGift : MonoBehaviour
                 amount = UnityEngine.Random.Range(1, 3);
                 Booter booter = new Booter(idBooter, amount);
                 dictionary.Add(idDay, booter.GetString());
-                Debug.Log(idDay + "     " + booter.GetString());
             }
         }
         return dictionary;
@@ -188,7 +182,6 @@ public class DailyGift : MonoBehaviour
                     CollectionGift(giftDayChoose);
                 }
             }
-            Debug.Log("Nhận quà hôm nay");
         }
         else
         {
@@ -199,20 +192,26 @@ public class DailyGift : MonoBehaviour
     }
     private void CollectionGift(GiftDay giftDay)
     {
-        Debug.Log(" ====================== ");
+        Debug.Log("Nhận quà hôm nay");
         giftDay.image.color = highlightColors[2];
         HistoryCollection.Add(giftDay.id, GetStringDateTimeNow());
         SaveHistoryCollectionLocal();
         Debug.Log("Day: " + giftDay.id);
         if (giftInfo.ContainsKey(giftDay.id))
         {
-            string strBooter = giftInfo[giftDay.id];
-            Debug.Log("strBooter: " + strBooter);
-            Booter booter = JsonUtility.FromJson<Booter>(strBooter);
+            Booter booter = GetBooter(giftDay.id);
+            Debug.Log("booter: " + booter.Log());
             bool test = GameManager.Instance.SetBooter(booter.id, booter.amount);
-            Debug.Log(test);
+            Debug.Log("Set booter: " + test);
         }
+    }
+    private Booter GetBooter(string key)
+    {
+        Debug.Log(giftInfo[key]);
+        Booter booter = new Booter();
 
+        booter.StringToJson(giftInfo[key]);
+        return booter;
     }
 
 }

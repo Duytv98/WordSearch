@@ -65,16 +65,15 @@ public class GameManager : SingletonComponent<GameManager>
     [SerializeField] private bool awardKeyEveryLevel = false;
     [SerializeField] private bool awardCoinsEveryLevel = false;
 
+
     private bool isLogIn = false;
-    public bool IsLogIn { get => isLogIn; set => isLogIn = value; }
     private string idPlayer;
-    public string IdPlayer { get => idPlayer; set => idPlayer = value; }
-
     private bool isCompleted;
-    public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
-
     private bool isMusic = true;
     private bool isSound = true;
+    public bool IsLogIn { get => isLogIn; set => isLogIn = value; }
+    public string IdPlayer { get => idPlayer; set => idPlayer = value; }
+    public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
     public bool IsMusic { get => isMusic; set => isMusic = value; }
     public bool IsSound { get => isSound; set => isSound = value; }
 
@@ -88,7 +87,7 @@ public class GameManager : SingletonComponent<GameManager>
         LastCompletedLevels = new Dictionary<string, int>();
         ListBooter = new Dictionary<string, int>();
         UnlockedCategories = new List<string>();
-        Debug.Log("ListBooter.Count: " + ListBooter.Count);
+        // Debug.Log("ListBooter.Count: " + ListBooter.Count);
 
         characterGrid.Initialize();
         wordListContainer.Initialize();
@@ -114,7 +113,6 @@ public class GameManager : SingletonComponent<GameManager>
         this.playerInfo.Email = playerInfo.Email;
         //check bật nhạc
         if (IsMusic) AudioManager.Instance.PlayMusic();
-        Debug.Log("=========" + "IsMusic: " + IsMusic);
         ScreenManager.Instance.SetActiveFlashCanvas(false);
     }
     Board LoadLevelFile(CategoryInfo categoryInfo, int levelIndex)
@@ -649,13 +647,13 @@ public class GameManager : SingletonComponent<GameManager>
         wordListContainer.PlusWord(ActiveBoard.foundWords);
     }
 
-
     public PlayerInfo GetPlayerInfo()
     {
         return this.playerInfo;
     }
     public void SetPlayerInfo(string displayName = null, string email = null)
     {
+        Debug.Log("Coins: " + Coins + "       Keys: " + Keys + "     ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
         playerInfo.coins = Coins;
         playerInfo.keys = Keys;
         if (displayName != null && email != null)
@@ -681,22 +679,18 @@ public class GameManager : SingletonComponent<GameManager>
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
-        // Debug.Log("contentsBoard: " + contentsBoard);
+        Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
 
-        // Debug.Log("Get: " + BoardsInProgress.ContainsKey(saveKey));
         if (BoardsInProgress.ContainsKey(saveKey))
         {
             Board board = new Board();
 
             board.StringToJson(BoardsInProgress[saveKey]);
-            // Debug.Log("Get Board");
-            // Debug.Log(BoardsInProgress[saveKey]);
-            // Debug.Log(board.foundWords.Count);
             return board;
         }
         return null;

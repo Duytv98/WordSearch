@@ -226,13 +226,9 @@ public class FireBaseController : MonoBehaviour
                 {
                     SetUpFirebaseAuth();
                     SetUpDataBaseReference();
-
-                    Debug.Log("=========" + "IsMusic3: " + SaveableManager.Instance.IsMusic());
-
+                    
                     if (!isPlay) SaveableManager.Instance.LoadDataOffline();
                     else SaveableManager.Instance.LoadDataOnline();
-                    // Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
-                    // if (GameManager.Instance.IsLogIn) Read_Data("UserId4324", playerLocal);
                 }
 
                 else
