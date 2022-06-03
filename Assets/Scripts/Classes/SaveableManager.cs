@@ -108,8 +108,8 @@ public class SaveableManager : MonoBehaviour
     public void SetGameDefaut()
     {
         PlayerPrefs.SetInt("SonatGameStudio", 1);
-        PlayerPrefs.SetInt("isMusic", 1);
-        PlayerPrefs.SetInt("isSound", 1);
+        PlayerPrefs.SetInt("isMusic", GameDefine.DEFAULT_MUSIC);
+        PlayerPrefs.SetInt("isSound", GameDefine.DEFAULT_SOUND);
         PlayerInfo playerInfo = new PlayerInfo(GameDefine.STARTING_COINS, GameDefine.STARTING_KEYS);
         playerInfo.listBooter = Utilities.ConvertToJsonString(CreateListBooterDefaut());
         SetPlayerInfo(playerInfo);
@@ -126,12 +126,10 @@ public class SaveableManager : MonoBehaviour
     }
     public void SetSound(bool isSound)
     {
-        Debug.Log("SetSound: " + isSound);
         PlayerPrefs.SetInt("isSound", isSound ? 1 : -1);
     }
     public void SetMusic(bool isMusic)
     {
-        Debug.Log("SetMusic: " + isMusic);
         PlayerPrefs.SetInt("isMusic", isMusic ? 1 : -1);
     }
     public bool IsSound()

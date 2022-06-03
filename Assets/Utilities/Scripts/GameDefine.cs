@@ -13,5 +13,9 @@ public class GameDefine
     public static int RECOMMEND_WORD = 15;
     public static int FIND_WORDS = 20;
     public static int SUGGEST_MANY_WORDS = 30;
+    public static int DEFAULT_MUSIC = 1;
+    public static int DEFAULT_SOUND = 1;
+
+
 
 }

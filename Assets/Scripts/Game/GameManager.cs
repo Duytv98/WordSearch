@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using SimpleJSON;
 public class GameManager : MonoBehaviour
@@ -32,8 +33,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ScreenManager screenManager = null;
 
     [SerializeField] private Effect effectContronler = null;
-
-    [SerializeField] private TopBar topBar = null;
     public int Coins { get; set; }
     public int Keys { get; set; }
 
@@ -163,8 +162,6 @@ public class GameManager : MonoBehaviour
             ScreenManager.Instance.Show("game");
             characterGrid.SetUp(board);
             wordListContainer.Setup(board);
-            topBar.SetTextLevel(levelIndex);
-            topBar.SetCategoryName(ActiveCategoryInfo.displayName);
         }
         ActiveGameState = GameState.BoardActive;
 
@@ -243,11 +240,7 @@ public class GameManager : MonoBehaviour
 
             words.Add(randomWord);
         }
-        string str = "";
-        foreach (var item in words)
-        {
-            str += (item + " , ");
-        }
+        var str = words.Aggregate("", (current, item) => current + (item + " , "));
         // Debug.Log(str);
         // Create the board settings that will be passed to BoardCreator.CreateBoard
         BoardCreator.BoardConfig boardConfig = new BoardCreator.BoardConfig();
@@ -731,23 +724,19 @@ public class GameManager : MonoBehaviour
 
     public bool SetBooter(string key, int amount)
     {
-        if (ListBooter.ContainsKey(key))
-        {
-            ListBooter[key] += amount;
-            SaveableManager.Instance.SaveData();
-            return true;
-        }
-        return false;
+        if (!ListBooter.ContainsKey(key)) return false;
+        ListBooter[key] += amount;
+        SaveableManager.Instance.SaveData();
+        return true;
     }
     private void SetUpListBooterUse()
     {
         ListBooterInGame = new Dictionary<string, int>();
         foreach (var booter in ListBooter)
         {
-            string key = booter.Key;
-            int value = 0;
-            if (booter.Value < 3) value = booter.Value;
-            else value = 3;
+            var key = booter.Key;
+            var value = 0;
+            value = booter.Value < 3 ? booter.Value : 3;
             ListBooterInGame.Add(key, value);
         }
     }

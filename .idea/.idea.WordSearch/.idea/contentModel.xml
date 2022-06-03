@@ -1,0 +1,1488 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Admin\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Admin\.Rider2019.2\system\resharper-host\Local\Transient\ReSharperHost\v192\SolutionCaches\_WordSearch.-1376840277.00" t="ExcludeRecursive" />
+    <e p="D:\unity\Word\WordSearch" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="AssetFiles" t="Include">
+          <e p="Data" t="Include">
+            <e p="Animals.txt" t="Include" />
+            <e p="Animals_Levels" t="Include">
+              <e p="animals_10x10_1.json" t="Include" />
+              <e p="animals_10x10_10.json" t="Include" />
+              <e p="animals_10x10_2.json" t="Include" />
+              <e p="animals_10x10_3.json" t="Include" />
+              <e p="animals_10x10_4.json" t="Include" />
+              <e p="animals_10x10_5.json" t="Include" />
+              <e p="animals_10x10_6.json" t="Include" />
+              <e p="animals_10x10_7.json" t="Include" />
+              <e p="animals_10x10_8.json" t="Include" />
+              <e p="animals_10x10_9.json" t="Include" />
+              <e p="animals_13x13_1.json" t="Include" />
+              <e p="animals_13x13_10.json" t="Include" />
+              <e p="animals_13x13_2.json" t="Include" />
+              <e p="animals_13x13_3.json" t="Include" />
+              <e p="animals_13x13_4.json" t="Include" />
+              <e p="animals_13x13_5.json" t="Include" />
+              <e p="animals_13x13_6.json" t="Include" />
+              <e p="animals_13x13_7.json" t="Include" />
+              <e p="animals_13x13_8.json" t="Include" />
+              <e p="animals_13x13_9.json" t="Include" />
+              <e p="animals_7x7_1.json" t="Include" />
+              <e p="animals_7x7_10.json" t="Include" />
+              <e p="animals_7x7_2.json" t="Include" />
+              <e p="animals_7x7_3.json" t="Include" />
+              <e p="animals_7x7_4.json" t="Include" />
+              <e p="animals_7x7_5.json" t="Include" />
+              <e p="animals_7x7_6.json" t="Include" />
+              <e p="animals_7x7_7.json" t="Include" />
+              <e p="animals_7x7_8.json" t="Include" />
+              <e p="animals_7x7_9.json" t="Include" />
+            </e>
+            <e p="Art.txt" t="Include" />
+            <e p="Art_Levels" t="Include">
+              <e p="art_10x10_1.json" t="Include" />
+              <e p="art_10x10_10.json" t="Include" />
+              <e p="art_10x10_2.json" t="Include" />
+              <e p="art_10x10_3.json" t="Include" />
+              <e p="art_10x10_4.json" t="Include" />
+              <e p="art_10x10_5.json" t="Include" />
+              <e p="art_10x10_6.json" t="Include" />
+              <e p="art_10x10_7.json" t="Include" />
+              <e p="art_10x10_8.json" t="Include" />
+              <e p="art_10x10_9.json" t="Include" />
+              <e p="art_13x13_1.json" t="Include" />
+              <e p="art_13x13_10.json" t="Include" />
+              <e p="art_13x13_2.json" t="Include" />
+              <e p="art_13x13_3.json" t="Include" />
+              <e p="art_13x13_4.json" t="Include" />
+              <e p="art_13x13_5.json" t="Include" />
+              <e p="art_13x13_6.json" t="Include" />
+              <e p="art_13x13_7.json" t="Include" />
+              <e p="art_13x13_8.json" t="Include" />
+              <e p="art_13x13_9.json" t="Include" />
+              <e p="art_7x7_1.json" t="Include" />
+              <e p="art_7x7_10.json" t="Include" />
+              <e p="art_7x7_2.json" t="Include" />
+              <e p="art_7x7_3.json" t="Include" />
+              <e p="art_7x7_4.json" t="Include" />
+              <e p="art_7x7_5.json" t="Include" />
+              <e p="art_7x7_6.json" t="Include" />
+              <e p="art_7x7_7.json" t="Include" />
+              <e p="art_7x7_8.json" t="Include" />
+              <e p="art_7x7_9.json" t="Include" />
+            </e>
+            <e p="Birds.txt" t="Include" />
+            <e p="Birds_Levels" t="Include">
+              <e p="birds_10x10_1.json" t="Include" />
+              <e p="birds_10x10_10.json" t="Include" />
+              <e p="birds_10x10_2.json" t="Include" />
+              <e p="birds_10x10_3.json" t="Include" />
+              <e p="birds_10x10_4.json" t="Include" />
+              <e p="birds_10x10_5.json" t="Include" />
+              <e p="birds_10x10_6.json" t="Include" />
+              <e p="birds_10x10_7.json" t="Include" />
+              <e p="birds_10x10_8.json" t="Include" />
+              <e p="birds_10x10_9.json" t="Include" />
+              <e p="birds_13x13_1.json" t="Include" />
+              <e p="birds_13x13_10.json" t="Include" />
+              <e p="birds_13x13_2.json" t="Include" />
+              <e p="birds_13x13_3.json" t="Include" />
+              <e p="birds_13x13_4.json" t="Include" />
+              <e p="birds_13x13_5.json" t="Include" />
+              <e p="birds_13x13_6.json" t="Include" />
+              <e p="birds_13x13_7.json" t="Include" />
+              <e p="birds_13x13_8.json" t="Include" />
+              <e p="birds_13x13_9.json" t="Include" />
+              <e p="birds_7x7_1.json" t="Include" />
+              <e p="birds_7x7_10.json" t="Include" />
+              <e p="birds_7x7_2.json" t="Include" />
+              <e p="birds_7x7_3.json" t="Include" />
+              <e p="birds_7x7_4.json" t="Include" />
+              <e p="birds_7x7_5.json" t="Include" />
+              <e p="birds_7x7_6.json" t="Include" />
+              <e p="birds_7x7_7.json" t="Include" />
+              <e p="birds_7x7_8.json" t="Include" />
+              <e p="birds_7x7_9.json" t="Include" />
+            </e>
+            <e p="Boats.txt" t="Include" />
+            <e p="Boats_Levels" t="Include">
+              <e p="boats_10x10_1.json" t="Include" />
+              <e p="boats_10x10_10.json" t="Include" />
+              <e p="boats_10x10_2.json" t="Include" />
+              <e p="boats_10x10_3.json" t="Include" />
+              <e p="boats_10x10_4.json" t="Include" />
+              <e p="boats_10x10_5.json" t="Include" />
+              <e p="boats_10x10_6.json" t="Include" />
+              <e p="boats_10x10_7.json" t="Include" />
+              <e p="boats_10x10_8.json" t="Include" />
+              <e p="boats_10x10_9.json" t="Include" />
+              <e p="boats_13x13_1.json" t="Include" />
+              <e p="boats_13x13_10.json" t="Include" />
+              <e p="boats_13x13_2.json" t="Include" />
+              <e p="boats_13x13_3.json" t="Include" />
+              <e p="boats_13x13_4.json" t="Include" />
+              <e p="boats_13x13_5.json" t="Include" />
+              <e p="boats_13x13_6.json" t="Include" />
+              <e p="boats_13x13_7.json" t="Include" />
+              <e p="boats_13x13_8.json" t="Include" />
+              <e p="boats_13x13_9.json" t="Include" />
+              <e p="boats_7x7_1.json" t="Include" />
+              <e p="boats_7x7_10.json" t="Include" />
+              <e p="boats_7x7_2.json" t="Include" />
+              <e p="boats_7x7_3.json" t="Include" />
+              <e p="boats_7x7_4.json" t="Include" />
+              <e p="boats_7x7_5.json" t="Include" />
+              <e p="boats_7x7_6.json" t="Include" />
+              <e p="boats_7x7_7.json" t="Include" />
+              <e p="boats_7x7_8.json" t="Include" />
+              <e p="boats_7x7_9.json" t="Include" />
+            </e>
+            <e p="Business.txt" t="Include" />
+            <e p="Business_Levels" t="Include">
+              <e p="business_10x10_1.json" t="Include" />
+              <e p="business_10x10_10.json" t="Include" />
+              <e p="business_10x10_2.json" t="Include" />
+              <e p="business_10x10_3.json" t="Include" />
+              <e p="business_10x10_4.json" t="Include" />
+              <e p="business_10x10_5.json" t="Include" />
+              <e p="business_10x10_6.json" t="Include" />
+              <e p="business_10x10_7.json" t="Include" />
+              <e p="business_10x10_8.json" t="Include" />
+              <e p="business_10x10_9.json" t="Include" />
+              <e p="business_13x13_1.json" t="Include" />
+              <e p="business_13x13_10.json" t="Include" />
+              <e p="business_13x13_2.json" t="Include" />
+              <e p="business_13x13_3.json" t="Include" />
+              <e p="business_13x13_4.json" t="Include" />
+              <e p="business_13x13_5.json" t="Include" />
+              <e p="business_13x13_6.json" t="Include" />
+              <e p="business_13x13_7.json" t="Include" />
+              <e p="business_13x13_8.json" t="Include" />
+              <e p="business_13x13_9.json" t="Include" />
+              <e p="business_7x7_1.json" t="Include" />
+              <e p="business_7x7_10.json" t="Include" />
+              <e p="business_7x7_2.json" t="Include" />
+              <e p="business_7x7_3.json" t="Include" />
+              <e p="business_7x7_4.json" t="Include" />
+              <e p="business_7x7_5.json" t="Include" />
+              <e p="business_7x7_6.json" t="Include" />
+              <e p="business_7x7_7.json" t="Include" />
+              <e p="business_7x7_8.json" t="Include" />
+              <e p="business_7x7_9.json" t="Include" />
+            </e>
+            <e p="Careers.txt" t="Include" />
+            <e p="Careers_Levels" t="Include">
+              <e p="careers_10x10_1.json" t="Include" />
+              <e p="careers_10x10_10.json" t="Include" />
+              <e p="careers_10x10_2.json" t="Include" />
+              <e p="careers_10x10_3.json" t="Include" />
+              <e p="careers_10x10_4.json" t="Include" />
+              <e p="careers_10x10_5.json" t="Include" />
+              <e p="careers_10x10_6.json" t="Include" />
+              <e p="careers_10x10_7.json" t="Include" />
+              <e p="careers_10x10_8.json" t="Include" />
+              <e p="careers_10x10_9.json" t="Include" />
+              <e p="careers_13x13_1.json" t="Include" />
+              <e p="careers_13x13_10.json" t="Include" />
+              <e p="careers_13x13_2.json" t="Include" />
+              <e p="careers_13x13_3.json" t="Include" />
+              <e p="careers_13x13_4.json" t="Include" />
+              <e p="careers_13x13_5.json" t="Include" />
+              <e p="careers_13x13_6.json" t="Include" />
+              <e p="careers_13x13_7.json" t="Include" />
+              <e p="careers_13x13_8.json" t="Include" />
+              <e p="careers_13x13_9.json" t="Include" />
+              <e p="careers_7x7_1.json" t="Include" />
+              <e p="careers_7x7_10.json" t="Include" />
+              <e p="careers_7x7_2.json" t="Include" />
+              <e p="careers_7x7_3.json" t="Include" />
+              <e p="careers_7x7_4.json" t="Include" />
+              <e p="careers_7x7_5.json" t="Include" />
+              <e p="careers_7x7_6.json" t="Include" />
+              <e p="careers_7x7_7.json" t="Include" />
+              <e p="careers_7x7_8.json" t="Include" />
+              <e p="careers_7x7_9.json" t="Include" />
+            </e>
+            <e p="Carnival.txt" t="Include" />
+            <e p="Carnival_Levels" t="Include">
+              <e p="carnival_10x10_1.json" t="Include" />
+              <e p="carnival_10x10_10.json" t="Include" />
+              <e p="carnival_10x10_2.json" t="Include" />
+              <e p="carnival_10x10_3.json" t="Include" />
+              <e p="carnival_10x10_4.json" t="Include" />
+              <e p="carnival_10x10_5.json" t="Include" />
+              <e p="carnival_10x10_6.json" t="Include" />
+              <e p="carnival_10x10_7.json" t="Include" />
+              <e p="carnival_10x10_8.json" t="Include" />
+              <e p="carnival_10x10_9.json" t="Include" />
+              <e p="carnival_13x13_1.json" t="Include" />
+              <e p="carnival_13x13_10.json" t="Include" />
+              <e p="carnival_13x13_2.json" t="Include" />
+              <e p="carnival_13x13_3.json" t="Include" />
+              <e p="carnival_13x13_4.json" t="Include" />
+              <e p="carnival_13x13_5.json" t="Include" />
+              <e p="carnival_13x13_6.json" t="Include" />
+              <e p="carnival_13x13_7.json" t="Include" />
+              <e p="carnival_13x13_8.json" t="Include" />
+              <e p="carnival_13x13_9.json" t="Include" />
+              <e p="carnival_7x7_1.json" t="Include" />
+              <e p="carnival_7x7_10.json" t="Include" />
+              <e p="carnival_7x7_2.json" t="Include" />
+              <e p="carnival_7x7_3.json" t="Include" />
+              <e p="carnival_7x7_4.json" t="Include" />
+              <e p="carnival_7x7_5.json" t="Include" />
+              <e p="carnival_7x7_6.json" t="Include" />
+              <e p="carnival_7x7_7.json" t="Include" />
+              <e p="carnival_7x7_8.json" t="Include" />
+              <e p="carnival_7x7_9.json" t="Include" />
+            </e>
+            <e p="Cars.txt" t="Include" />
+            <e p="Cars_Levels" t="Include">
+              <e p="cars_10x10_1.json" t="Include" />
+              <e p="cars_10x10_10.json" t="Include" />
+              <e p="cars_10x10_2.json" t="Include" />
+              <e p="cars_10x10_3.json" t="Include" />
+              <e p="cars_10x10_4.json" t="Include" />
+              <e p="cars_10x10_5.json" t="Include" />
+              <e p="cars_10x10_6.json" t="Include" />
+              <e p="cars_10x10_7.json" t="Include" />
+              <e p="cars_10x10_8.json" t="Include" />
+              <e p="cars_10x10_9.json" t="Include" />
+              <e p="cars_13x13_1.json" t="Include" />
+              <e p="cars_13x13_10.json" t="Include" />
+              <e p="cars_13x13_2.json" t="Include" />
+              <e p="cars_13x13_3.json" t="Include" />
+              <e p="cars_13x13_4.json" t="Include" />
+              <e p="cars_13x13_5.json" t="Include" />
+              <e p="cars_13x13_6.json" t="Include" />
+              <e p="cars_13x13_7.json" t="Include" />
+              <e p="cars_13x13_8.json" t="Include" />
+              <e p="cars_13x13_9.json" t="Include" />
+              <e p="cars_7x7_1.json" t="Include" />
+              <e p="cars_7x7_10.json" t="Include" />
+              <e p="cars_7x7_2.json" t="Include" />
+              <e p="cars_7x7_3.json" t="Include" />
+              <e p="cars_7x7_4.json" t="Include" />
+              <e p="cars_7x7_5.json" t="Include" />
+              <e p="cars_7x7_6.json" t="Include" />
+              <e p="cars_7x7_7.json" t="Include" />
+              <e p="cars_7x7_8.json" t="Include" />
+              <e p="cars_7x7_9.json" t="Include" />
+            </e>
+            <e p="Clothing.txt" t="Include" />
+            <e p="Clothing_Levels" t="Include">
+              <e p="clothing_10x10_1.json" t="Include" />
+              <e p="clothing_10x10_10.json" t="Include" />
+              <e p="clothing_10x10_2.json" t="Include" />
+              <e p="clothing_10x10_3.json" t="Include" />
+              <e p="clothing_10x10_4.json" t="Include" />
+              <e p="clothing_10x10_5.json" t="Include" />
+              <e p="clothing_10x10_6.json" t="Include" />
+              <e p="clothing_10x10_7.json" t="Include" />
+              <e p="clothing_10x10_8.json" t="Include" />
+              <e p="clothing_10x10_9.json" t="Include" />
+              <e p="clothing_13x13_1.json" t="Include" />
+              <e p="clothing_13x13_10.json" t="Include" />
+              <e p="clothing_13x13_2.json" t="Include" />
+              <e p="clothing_13x13_3.json" t="Include" />
+              <e p="clothing_13x13_4.json" t="Include" />
+              <e p="clothing_13x13_5.json" t="Include" />
+              <e p="clothing_13x13_6.json" t="Include" />
+              <e p="clothing_13x13_7.json" t="Include" />
+              <e p="clothing_13x13_8.json" t="Include" />
+              <e p="clothing_13x13_9.json" t="Include" />
+              <e p="clothing_7x7_1.json" t="Include" />
+              <e p="clothing_7x7_10.json" t="Include" />
+              <e p="clothing_7x7_2.json" t="Include" />
+              <e p="clothing_7x7_3.json" t="Include" />
+              <e p="clothing_7x7_4.json" t="Include" />
+              <e p="clothing_7x7_5.json" t="Include" />
+              <e p="clothing_7x7_6.json" t="Include" />
+              <e p="clothing_7x7_7.json" t="Include" />
+              <e p="clothing_7x7_8.json" t="Include" />
+              <e p="clothing_7x7_9.json" t="Include" />
+            </e>
+            <e p="Computer.txt" t="Include" />
+            <e p="Computer_Levels" t="Include">
+              <e p="computer_10x10_1.json" t="Include" />
+              <e p="computer_10x10_10.json" t="Include" />
+              <e p="computer_10x10_2.json" t="Include" />
+              <e p="computer_10x10_3.json" t="Include" />
+              <e p="computer_10x10_4.json" t="Include" />
+              <e p="computer_10x10_5.json" t="Include" />
+              <e p="computer_10x10_6.json" t="Include" />
+              <e p="computer_10x10_7.json" t="Include" />
+              <e p="computer_10x10_8.json" t="Include" />
+              <e p="computer_10x10_9.json" t="Include" />
+              <e p="computer_13x13_1.json" t="Include" />
+              <e p="computer_13x13_10.json" t="Include" />
+              <e p="computer_13x13_2.json" t="Include" />
+              <e p="computer_13x13_3.json" t="Include" />
+              <e p="computer_13x13_4.json" t="Include" />
+              <e p="computer_13x13_5.json" t="Include" />
+              <e p="computer_13x13_6.json" t="Include" />
+              <e p="computer_13x13_7.json" t="Include" />
+              <e p="computer_13x13_8.json" t="Include" />
+              <e p="computer_13x13_9.json" t="Include" />
+              <e p="computer_7x7_1.json" t="Include" />
+              <e p="computer_7x7_10.json" t="Include" />
+              <e p="computer_7x7_2.json" t="Include" />
+              <e p="computer_7x7_3.json" t="Include" />
+              <e p="computer_7x7_4.json" t="Include" />
+              <e p="computer_7x7_5.json" t="Include" />
+              <e p="computer_7x7_6.json" t="Include" />
+              <e p="computer_7x7_7.json" t="Include" />
+              <e p="computer_7x7_8.json" t="Include" />
+              <e p="computer_7x7_9.json" t="Include" />
+            </e>
+            <e p="Country_Names.txt" t="Include" />
+            <e p="Country_Names_Levels" t="Include">
+              <e p="country_names_10x10_1.json" t="Include" />
+              <e p="country_names_10x10_10.json" t="Include" />
+              <e p="country_names_10x10_2.json" t="Include" />
+              <e p="country_names_10x10_3.json" t="Include" />
+              <e p="country_names_10x10_4.json" t="Include" />
+              <e p="country_names_10x10_5.json" t="Include" />
+              <e p="country_names_10x10_6.json" t="Include" />
+              <e p="country_names_10x10_7.json" t="Include" />
+              <e p="country_names_10x10_8.json" t="Include" />
+              <e p="country_names_10x10_9.json" t="Include" />
+              <e p="country_names_13x13_1.json" t="Include" />
+              <e p="country_names_13x13_10.json" t="Include" />
+              <e p="country_names_13x13_2.json" t="Include" />
+              <e p="country_names_13x13_3.json" t="Include" />
+              <e p="country_names_13x13_4.json" t="Include" />
+              <e p="country_names_13x13_5.json" t="Include" />
+              <e p="country_names_13x13_6.json" t="Include" />
+              <e p="country_names_13x13_7.json" t="Include" />
+              <e p="country_names_13x13_8.json" t="Include" />
+              <e p="country_names_13x13_9.json" t="Include" />
+              <e p="country_names_7x7_1.json" t="Include" />
+              <e p="country_names_7x7_10.json" t="Include" />
+              <e p="country_names_7x7_2.json" t="Include" />
+              <e p="country_names_7x7_3.json" t="Include" />
+              <e p="country_names_7x7_4.json" t="Include" />
+              <e p="country_names_7x7_5.json" t="Include" />
+              <e p="country_names_7x7_6.json" t="Include" />
+              <e p="country_names_7x7_7.json" t="Include" />
+              <e p="country_names_7x7_8.json" t="Include" />
+              <e p="country_names_7x7_9.json" t="Include" />
+            </e>
+            <e p="Dentist.txt" t="Include" />
+            <e p="Dentist_Levels" t="Include">
+              <e p="dentist_10x10_1.json" t="Include" />
+              <e p="dentist_10x10_10.json" t="Include" />
+              <e p="dentist_10x10_2.json" t="Include" />
+              <e p="dentist_10x10_3.json" t="Include" />
+              <e p="dentist_10x10_4.json" t="Include" />
+              <e p="dentist_10x10_5.json" t="Include" />
+              <e p="dentist_10x10_6.json" t="Include" />
+              <e p="dentist_10x10_7.json" t="Include" />
+              <e p="dentist_10x10_8.json" t="Include" />
+              <e p="dentist_10x10_9.json" t="Include" />
+              <e p="dentist_13x13_1.json" t="Include" />
+              <e p="dentist_13x13_10.json" t="Include" />
+              <e p="dentist_13x13_2.json" t="Include" />
+              <e p="dentist_13x13_3.json" t="Include" />
+              <e p="dentist_13x13_4.json" t="Include" />
+              <e p="dentist_13x13_5.json" t="Include" />
+              <e p="dentist_13x13_6.json" t="Include" />
+              <e p="dentist_13x13_7.json" t="Include" />
+              <e p="dentist_13x13_8.json" t="Include" />
+              <e p="dentist_13x13_9.json" t="Include" />
+              <e p="dentist_7x7_1.json" t="Include" />
+              <e p="dentist_7x7_10.json" t="Include" />
+              <e p="dentist_7x7_2.json" t="Include" />
+              <e p="dentist_7x7_3.json" t="Include" />
+              <e p="dentist_7x7_4.json" t="Include" />
+              <e p="dentist_7x7_5.json" t="Include" />
+              <e p="dentist_7x7_6.json" t="Include" />
+              <e p="dentist_7x7_7.json" t="Include" />
+              <e p="dentist_7x7_8.json" t="Include" />
+              <e p="dentist_7x7_9.json" t="Include" />
+            </e>
+            <e p="Driving.txt" t="Include" />
+            <e p="Driving_Levels" t="Include">
+              <e p="driving_10x10_1.json" t="Include" />
+              <e p="driving_10x10_10.json" t="Include" />
+              <e p="driving_10x10_2.json" t="Include" />
+              <e p="driving_10x10_3.json" t="Include" />
+              <e p="driving_10x10_4.json" t="Include" />
+              <e p="driving_10x10_5.json" t="Include" />
+              <e p="driving_10x10_6.json" t="Include" />
+              <e p="driving_10x10_7.json" t="Include" />
+              <e p="driving_10x10_8.json" t="Include" />
+              <e p="driving_10x10_9.json" t="Include" />
+              <e p="driving_13x13_1.json" t="Include" />
+              <e p="driving_13x13_10.json" t="Include" />
+              <e p="driving_13x13_2.json" t="Include" />
+              <e p="driving_13x13_3.json" t="Include" />
+              <e p="driving_13x13_4.json" t="Include" />
+              <e p="driving_13x13_5.json" t="Include" />
+              <e p="driving_13x13_6.json" t="Include" />
+              <e p="driving_13x13_7.json" t="Include" />
+              <e p="driving_13x13_8.json" t="Include" />
+              <e p="driving_13x13_9.json" t="Include" />
+              <e p="driving_7x7_1.json" t="Include" />
+              <e p="driving_7x7_10.json" t="Include" />
+              <e p="driving_7x7_2.json" t="Include" />
+              <e p="driving_7x7_3.json" t="Include" />
+              <e p="driving_7x7_4.json" t="Include" />
+              <e p="driving_7x7_5.json" t="Include" />
+              <e p="driving_7x7_6.json" t="Include" />
+              <e p="driving_7x7_7.json" t="Include" />
+              <e p="driving_7x7_8.json" t="Include" />
+              <e p="driving_7x7_9.json" t="Include" />
+            </e>
+            <e p="Emotions.txt" t="Include" />
+            <e p="Emotions_Levels" t="Include">
+              <e p="emotions_10x10_1.json" t="Include" />
+              <e p="emotions_10x10_10.json" t="Include" />
+              <e p="emotions_10x10_2.json" t="Include" />
+              <e p="emotions_10x10_3.json" t="Include" />
+              <e p="emotions_10x10_4.json" t="Include" />
+              <e p="emotions_10x10_5.json" t="Include" />
+              <e p="emotions_10x10_6.json" t="Include" />
+              <e p="emotions_10x10_7.json" t="Include" />
+              <e p="emotions_10x10_8.json" t="Include" />
+              <e p="emotions_10x10_9.json" t="Include" />
+              <e p="emotions_13x13_1.json" t="Include" />
+              <e p="emotions_13x13_10.json" t="Include" />
+              <e p="emotions_13x13_2.json" t="Include" />
+              <e p="emotions_13x13_3.json" t="Include" />
+              <e p="emotions_13x13_4.json" t="Include" />
+              <e p="emotions_13x13_5.json" t="Include" />
+              <e p="emotions_13x13_6.json" t="Include" />
+              <e p="emotions_13x13_7.json" t="Include" />
+              <e p="emotions_13x13_8.json" t="Include" />
+              <e p="emotions_13x13_9.json" t="Include" />
+              <e p="emotions_7x7_1.json" t="Include" />
+              <e p="emotions_7x7_10.json" t="Include" />
+              <e p="emotions_7x7_2.json" t="Include" />
+              <e p="emotions_7x7_3.json" t="Include" />
+              <e p="emotions_7x7_4.json" t="Include" />
+              <e p="emotions_7x7_5.json" t="Include" />
+              <e p="emotions_7x7_6.json" t="Include" />
+              <e p="emotions_7x7_7.json" t="Include" />
+              <e p="emotions_7x7_8.json" t="Include" />
+              <e p="emotions_7x7_9.json" t="Include" />
+            </e>
+            <e p="Family.txt" t="Include" />
+            <e p="Family_Levels" t="Include">
+              <e p="family_10x10_1.json" t="Include" />
+              <e p="family_10x10_10.json" t="Include" />
+              <e p="family_10x10_2.json" t="Include" />
+              <e p="family_10x10_3.json" t="Include" />
+              <e p="family_10x10_4.json" t="Include" />
+              <e p="family_10x10_5.json" t="Include" />
+              <e p="family_10x10_6.json" t="Include" />
+              <e p="family_10x10_7.json" t="Include" />
+              <e p="family_10x10_8.json" t="Include" />
+              <e p="family_10x10_9.json" t="Include" />
+              <e p="family_13x13_1.json" t="Include" />
+              <e p="family_13x13_10.json" t="Include" />
+              <e p="family_13x13_2.json" t="Include" />
+              <e p="family_13x13_3.json" t="Include" />
+              <e p="family_13x13_4.json" t="Include" />
+              <e p="family_13x13_5.json" t="Include" />
+              <e p="family_13x13_6.json" t="Include" />
+              <e p="family_13x13_7.json" t="Include" />
+              <e p="family_13x13_8.json" t="Include" />
+              <e p="family_13x13_9.json" t="Include" />
+              <e p="family_7x7_1.json" t="Include" />
+              <e p="family_7x7_10.json" t="Include" />
+              <e p="family_7x7_2.json" t="Include" />
+              <e p="family_7x7_3.json" t="Include" />
+              <e p="family_7x7_4.json" t="Include" />
+              <e p="family_7x7_5.json" t="Include" />
+              <e p="family_7x7_6.json" t="Include" />
+              <e p="family_7x7_7.json" t="Include" />
+              <e p="family_7x7_8.json" t="Include" />
+              <e p="family_7x7_9.json" t="Include" />
+            </e>
+            <e p="Farm.txt" t="Include" />
+            <e p="Farm_Levels" t="Include">
+              <e p="farm_10x10_1.json" t="Include" />
+              <e p="farm_10x10_10.json" t="Include" />
+              <e p="farm_10x10_2.json" t="Include" />
+              <e p="farm_10x10_3.json" t="Include" />
+              <e p="farm_10x10_4.json" t="Include" />
+              <e p="farm_10x10_5.json" t="Include" />
+              <e p="farm_10x10_6.json" t="Include" />
+              <e p="farm_10x10_7.json" t="Include" />
+              <e p="farm_10x10_8.json" t="Include" />
+              <e p="farm_10x10_9.json" t="Include" />
+              <e p="farm_13x13_1.json" t="Include" />
+              <e p="farm_13x13_10.json" t="Include" />
+              <e p="farm_13x13_2.json" t="Include" />
+              <e p="farm_13x13_3.json" t="Include" />
+              <e p="farm_13x13_4.json" t="Include" />
+              <e p="farm_13x13_5.json" t="Include" />
+              <e p="farm_13x13_6.json" t="Include" />
+              <e p="farm_13x13_7.json" t="Include" />
+              <e p="farm_13x13_8.json" t="Include" />
+              <e p="farm_13x13_9.json" t="Include" />
+              <e p="farm_7x7_1.json" t="Include" />
+              <e p="farm_7x7_10.json" t="Include" />
+              <e p="farm_7x7_2.json" t="Include" />
+              <e p="farm_7x7_3.json" t="Include" />
+              <e p="farm_7x7_4.json" t="Include" />
+              <e p="farm_7x7_5.json" t="Include" />
+              <e p="farm_7x7_6.json" t="Include" />
+              <e p="farm_7x7_7.json" t="Include" />
+              <e p="farm_7x7_8.json" t="Include" />
+              <e p="farm_7x7_9.json" t="Include" />
+            </e>
+            <e p="Fire_Fighting.txt" t="Include" />
+            <e p="Fire_Fighting_Levels" t="Include">
+              <e p="fire_fighting_10x10_1.json" t="Include" />
+              <e p="fire_fighting_10x10_10.json" t="Include" />
+              <e p="fire_fighting_10x10_2.json" t="Include" />
+              <e p="fire_fighting_10x10_3.json" t="Include" />
+              <e p="fire_fighting_10x10_4.json" t="Include" />
+              <e p="fire_fighting_10x10_5.json" t="Include" />
+              <e p="fire_fighting_10x10_6.json" t="Include" />
+              <e p="fire_fighting_10x10_7.json" t="Include" />
+              <e p="fire_fighting_10x10_8.json" t="Include" />
+              <e p="fire_fighting_10x10_9.json" t="Include" />
+              <e p="fire_fighting_13x13_1.json" t="Include" />
+              <e p="fire_fighting_13x13_10.json" t="Include" />
+              <e p="fire_fighting_13x13_2.json" t="Include" />
+              <e p="fire_fighting_13x13_3.json" t="Include" />
+              <e p="fire_fighting_13x13_4.json" t="Include" />
+              <e p="fire_fighting_13x13_5.json" t="Include" />
+              <e p="fire_fighting_13x13_6.json" t="Include" />
+              <e p="fire_fighting_13x13_7.json" t="Include" />
+              <e p="fire_fighting_13x13_8.json" t="Include" />
+              <e p="fire_fighting_13x13_9.json" t="Include" />
+              <e p="fire_fighting_7x7_1.json" t="Include" />
+              <e p="fire_fighting_7x7_10.json" t="Include" />
+              <e p="fire_fighting_7x7_2.json" t="Include" />
+              <e p="fire_fighting_7x7_3.json" t="Include" />
+              <e p="fire_fighting_7x7_4.json" t="Include" />
+              <e p="fire_fighting_7x7_5.json" t="Include" />
+              <e p="fire_fighting_7x7_6.json" t="Include" />
+              <e p="fire_fighting_7x7_7.json" t="Include" />
+              <e p="fire_fighting_7x7_8.json" t="Include" />
+              <e p="fire_fighting_7x7_9.json" t="Include" />
+            </e>
+            <e p="Fish.txt" t="Include" />
+            <e p="Fish_Levels" t="Include">
+              <e p="fish_10x10_1.json" t="Include" />
+              <e p="fish_10x10_10.json" t="Include" />
+              <e p="fish_10x10_2.json" t="Include" />
+              <e p="fish_10x10_3.json" t="Include" />
+              <e p="fish_10x10_4.json" t="Include" />
+              <e p="fish_10x10_5.json" t="Include" />
+              <e p="fish_10x10_6.json" t="Include" />
+              <e p="fish_10x10_7.json" t="Include" />
+              <e p="fish_10x10_8.json" t="Include" />
+              <e p="fish_10x10_9.json" t="Include" />
+              <e p="fish_13x13_1.json" t="Include" />
+              <e p="fish_13x13_10.json" t="Include" />
+              <e p="fish_13x13_2.json" t="Include" />
+              <e p="fish_13x13_3.json" t="Include" />
+              <e p="fish_13x13_4.json" t="Include" />
+              <e p="fish_13x13_5.json" t="Include" />
+              <e p="fish_13x13_6.json" t="Include" />
+              <e p="fish_13x13_7.json" t="Include" />
+              <e p="fish_13x13_8.json" t="Include" />
+              <e p="fish_13x13_9.json" t="Include" />
+              <e p="fish_7x7_1.json" t="Include" />
+              <e p="fish_7x7_10.json" t="Include" />
+              <e p="fish_7x7_2.json" t="Include" />
+              <e p="fish_7x7_3.json" t="Include" />
+              <e p="fish_7x7_4.json" t="Include" />
+              <e p="fish_7x7_5.json" t="Include" />
+              <e p="fish_7x7_6.json" t="Include" />
+              <e p="fish_7x7_7.json" t="Include" />
+              <e p="fish_7x7_8.json" t="Include" />
+              <e p="fish_7x7_9.json" t="Include" />
+            </e>
+            <e p="Food.txt" t="Include" />
+            <e p="Food_Levels" t="Include">
+              <e p="food_10x10_1.json" t="Include" />
+              <e p="food_10x10_10.json" t="Include" />
+              <e p="food_10x10_2.json" t="Include" />
+              <e p="food_10x10_3.json" t="Include" />
+              <e p="food_10x10_4.json" t="Include" />
+              <e p="food_10x10_5.json" t="Include" />
+              <e p="food_10x10_6.json" t="Include" />
+              <e p="food_10x10_7.json" t="Include" />
+              <e p="food_10x10_8.json" t="Include" />
+              <e p="food_10x10_9.json" t="Include" />
+              <e p="food_13x13_1.json" t="Include" />
+              <e p="food_13x13_10.json" t="Include" />
+              <e p="food_13x13_2.json" t="Include" />
+              <e p="food_13x13_3.json" t="Include" />
+              <e p="food_13x13_4.json" t="Include" />
+              <e p="food_13x13_5.json" t="Include" />
+              <e p="food_13x13_6.json" t="Include" />
+              <e p="food_13x13_7.json" t="Include" />
+              <e p="food_13x13_8.json" t="Include" />
+              <e p="food_13x13_9.json" t="Include" />
+              <e p="food_7x7_1.json" t="Include" />
+              <e p="food_7x7_10.json" t="Include" />
+              <e p="food_7x7_2.json" t="Include" />
+              <e p="food_7x7_3.json" t="Include" />
+              <e p="food_7x7_4.json" t="Include" />
+              <e p="food_7x7_5.json" t="Include" />
+              <e p="food_7x7_6.json" t="Include" />
+              <e p="food_7x7_7.json" t="Include" />
+              <e p="food_7x7_8.json" t="Include" />
+              <e p="food_7x7_9.json" t="Include" />
+            </e>
+            <e p="Halloween.txt" t="Include" />
+            <e p="Halloween_Levels" t="Include">
+              <e p="halloween_10x10_1.json" t="Include" />
+              <e p="halloween_10x10_10.json" t="Include" />
+              <e p="halloween_10x10_2.json" t="Include" />
+              <e p="halloween_10x10_3.json" t="Include" />
+              <e p="halloween_10x10_4.json" t="Include" />
+              <e p="halloween_10x10_5.json" t="Include" />
+              <e p="halloween_10x10_6.json" t="Include" />
+              <e p="halloween_10x10_7.json" t="Include" />
+              <e p="halloween_10x10_8.json" t="Include" />
+              <e p="halloween_10x10_9.json" t="Include" />
+              <e p="halloween_13x13_1.json" t="Include" />
+              <e p="halloween_13x13_10.json" t="Include" />
+              <e p="halloween_13x13_2.json" t="Include" />
+              <e p="halloween_13x13_3.json" t="Include" />
+              <e p="halloween_13x13_4.json" t="Include" />
+              <e p="halloween_13x13_5.json" t="Include" />
+              <e p="halloween_13x13_6.json" t="Include" />
+              <e p="halloween_13x13_7.json" t="Include" />
+              <e p="halloween_13x13_8.json" t="Include" />
+              <e p="halloween_13x13_9.json" t="Include" />
+              <e p="halloween_7x7_1.json" t="Include" />
+              <e p="halloween_7x7_10.json" t="Include" />
+              <e p="halloween_7x7_2.json" t="Include" />
+              <e p="halloween_7x7_3.json" t="Include" />
+              <e p="halloween_7x7_4.json" t="Include" />
+              <e p="halloween_7x7_5.json" t="Include" />
+              <e p="halloween_7x7_6.json" t="Include" />
+              <e p="halloween_7x7_7.json" t="Include" />
+              <e p="halloween_7x7_8.json" t="Include" />
+              <e p="halloween_7x7_9.json" t="Include" />
+            </e>
+            <e p="House.txt" t="Include" />
+            <e p="House_Levels" t="Include">
+              <e p="house_10x10_1.json" t="Include" />
+              <e p="house_10x10_10.json" t="Include" />
+              <e p="house_10x10_2.json" t="Include" />
+              <e p="house_10x10_3.json" t="Include" />
+              <e p="house_10x10_4.json" t="Include" />
+              <e p="house_10x10_5.json" t="Include" />
+              <e p="house_10x10_6.json" t="Include" />
+              <e p="house_10x10_7.json" t="Include" />
+              <e p="house_10x10_8.json" t="Include" />
+              <e p="house_10x10_9.json" t="Include" />
+              <e p="house_13x13_1.json" t="Include" />
+              <e p="house_13x13_10.json" t="Include" />
+              <e p="house_13x13_2.json" t="Include" />
+              <e p="house_13x13_3.json" t="Include" />
+              <e p="house_13x13_4.json" t="Include" />
+              <e p="house_13x13_5.json" t="Include" />
+              <e p="house_13x13_6.json" t="Include" />
+              <e p="house_13x13_7.json" t="Include" />
+              <e p="house_13x13_8.json" t="Include" />
+              <e p="house_13x13_9.json" t="Include" />
+              <e p="house_7x7_1.json" t="Include" />
+              <e p="house_7x7_10.json" t="Include" />
+              <e p="house_7x7_2.json" t="Include" />
+              <e p="house_7x7_3.json" t="Include" />
+              <e p="house_7x7_4.json" t="Include" />
+              <e p="house_7x7_5.json" t="Include" />
+              <e p="house_7x7_6.json" t="Include" />
+              <e p="house_7x7_7.json" t="Include" />
+              <e p="house_7x7_8.json" t="Include" />
+              <e p="house_7x7_9.json" t="Include" />
+            </e>
+            <e p="Kitchen.txt" t="Include" />
+            <e p="Kitchen_Levels" t="Include">
+              <e p="kitchen_10x10_1.json" t="Include" />
+              <e p="kitchen_10x10_10.json" t="Include" />
+              <e p="kitchen_10x10_2.json" t="Include" />
+              <e p="kitchen_10x10_3.json" t="Include" />
+              <e p="kitchen_10x10_4.json" t="Include" />
+              <e p="kitchen_10x10_5.json" t="Include" />
+              <e p="kitchen_10x10_6.json" t="Include" />
+              <e p="kitchen_10x10_7.json" t="Include" />
+              <e p="kitchen_10x10_8.json" t="Include" />
+              <e p="kitchen_10x10_9.json" t="Include" />
+              <e p="kitchen_13x13_1.json" t="Include" />
+              <e p="kitchen_13x13_10.json" t="Include" />
+              <e p="kitchen_13x13_2.json" t="Include" />
+              <e p="kitchen_13x13_3.json" t="Include" />
+              <e p="kitchen_13x13_4.json" t="Include" />
+              <e p="kitchen_13x13_5.json" t="Include" />
+              <e p="kitchen_13x13_6.json" t="Include" />
+              <e p="kitchen_13x13_7.json" t="Include" />
+              <e p="kitchen_13x13_8.json" t="Include" />
+              <e p="kitchen_13x13_9.json" t="Include" />
+              <e p="kitchen_7x7_1.json" t="Include" />
+              <e p="kitchen_7x7_10.json" t="Include" />
+              <e p="kitchen_7x7_2.json" t="Include" />
+              <e p="kitchen_7x7_3.json" t="Include" />
+              <e p="kitchen_7x7_4.json" t="Include" />
+              <e p="kitchen_7x7_5.json" t="Include" />
+              <e p="kitchen_7x7_6.json" t="Include" />
+              <e p="kitchen_7x7_7.json" t="Include" />
+              <e p="kitchen_7x7_8.json" t="Include" />
+              <e p="kitchen_7x7_9.json" t="Include" />
+            </e>
+            <e p="Legal_Terms.txt" t="Include" />
+            <e p="Legal_Terms_Levels" t="Include">
+              <e p="legal_terms_10x10_1.json" t="Include" />
+              <e p="legal_terms_10x10_10.json" t="Include" />
+              <e p="legal_terms_10x10_2.json" t="Include" />
+              <e p="legal_terms_10x10_3.json" t="Include" />
+              <e p="legal_terms_10x10_4.json" t="Include" />
+              <e p="legal_terms_10x10_5.json" t="Include" />
+              <e p="legal_terms_10x10_6.json" t="Include" />
+              <e p="legal_terms_10x10_7.json" t="Include" />
+              <e p="legal_terms_10x10_8.json" t="Include" />
+              <e p="legal_terms_10x10_9.json" t="Include" />
+              <e p="legal_terms_13x13_1.json" t="Include" />
+              <e p="legal_terms_13x13_10.json" t="Include" />
+              <e p="legal_terms_13x13_2.json" t="Include" />
+              <e p="legal_terms_13x13_3.json" t="Include" />
+              <e p="legal_terms_13x13_4.json" t="Include" />
+              <e p="legal_terms_13x13_5.json" t="Include" />
+              <e p="legal_terms_13x13_6.json" t="Include" />
+              <e p="legal_terms_13x13_7.json" t="Include" />
+              <e p="legal_terms_13x13_8.json" t="Include" />
+              <e p="legal_terms_13x13_9.json" t="Include" />
+              <e p="legal_terms_7x7_1.json" t="Include" />
+              <e p="legal_terms_7x7_10.json" t="Include" />
+              <e p="legal_terms_7x7_2.json" t="Include" />
+              <e p="legal_terms_7x7_3.json" t="Include" />
+              <e p="legal_terms_7x7_4.json" t="Include" />
+              <e p="legal_terms_7x7_5.json" t="Include" />
+              <e p="legal_terms_7x7_6.json" t="Include" />
+              <e p="legal_terms_7x7_7.json" t="Include" />
+              <e p="legal_terms_7x7_8.json" t="Include" />
+              <e p="legal_terms_7x7_9.json" t="Include" />
+            </e>
+            <e p="Math.txt" t="Include" />
+            <e p="Math_Levels" t="Include">
+              <e p="math_10x10_1.json" t="Include" />
+              <e p="math_10x10_10.json" t="Include" />
+              <e p="math_10x10_2.json" t="Include" />
+              <e p="math_10x10_3.json" t="Include" />
+              <e p="math_10x10_4.json" t="Include" />
+              <e p="math_10x10_5.json" t="Include" />
+              <e p="math_10x10_6.json" t="Include" />
+              <e p="math_10x10_7.json" t="Include" />
+              <e p="math_10x10_8.json" t="Include" />
+              <e p="math_10x10_9.json" t="Include" />
+              <e p="math_13x13_1.json" t="Include" />
+              <e p="math_13x13_10.json" t="Include" />
+              <e p="math_13x13_2.json" t="Include" />
+              <e p="math_13x13_3.json" t="Include" />
+              <e p="math_13x13_4.json" t="Include" />
+              <e p="math_13x13_5.json" t="Include" />
+              <e p="math_13x13_6.json" t="Include" />
+              <e p="math_13x13_7.json" t="Include" />
+              <e p="math_13x13_8.json" t="Include" />
+              <e p="math_13x13_9.json" t="Include" />
+              <e p="math_7x7_1.json" t="Include" />
+              <e p="math_7x7_10.json" t="Include" />
+              <e p="math_7x7_2.json" t="Include" />
+              <e p="math_7x7_3.json" t="Include" />
+              <e p="math_7x7_4.json" t="Include" />
+              <e p="math_7x7_5.json" t="Include" />
+              <e p="math_7x7_6.json" t="Include" />
+              <e p="math_7x7_7.json" t="Include" />
+              <e p="math_7x7_8.json" t="Include" />
+              <e p="math_7x7_9.json" t="Include" />
+            </e>
+            <e p="Measurement.txt" t="Include" />
+            <e p="Measurement_Levels" t="Include">
+              <e p="measurement_10x10_1.json" t="Include" />
+              <e p="measurement_10x10_10.json" t="Include" />
+              <e p="measurement_10x10_2.json" t="Include" />
+              <e p="measurement_10x10_3.json" t="Include" />
+              <e p="measurement_10x10_4.json" t="Include" />
+              <e p="measurement_10x10_5.json" t="Include" />
+              <e p="measurement_10x10_6.json" t="Include" />
+              <e p="measurement_10x10_7.json" t="Include" />
+              <e p="measurement_10x10_8.json" t="Include" />
+              <e p="measurement_10x10_9.json" t="Include" />
+              <e p="measurement_13x13_1.json" t="Include" />
+              <e p="measurement_13x13_10.json" t="Include" />
+              <e p="measurement_13x13_2.json" t="Include" />
+              <e p="measurement_13x13_3.json" t="Include" />
+              <e p="measurement_13x13_4.json" t="Include" />
+              <e p="measurement_13x13_5.json" t="Include" />
+              <e p="measurement_13x13_6.json" t="Include" />
+              <e p="measurement_13x13_7.json" t="Include" />
+              <e p="measurement_13x13_8.json" t="Include" />
+              <e p="measurement_13x13_9.json" t="Include" />
+              <e p="measurement_7x7_1.json" t="Include" />
+              <e p="measurement_7x7_10.json" t="Include" />
+              <e p="measurement_7x7_2.json" t="Include" />
+              <e p="measurement_7x7_3.json" t="Include" />
+              <e p="measurement_7x7_4.json" t="Include" />
+              <e p="measurement_7x7_5.json" t="Include" />
+              <e p="measurement_7x7_6.json" t="Include" />
+              <e p="measurement_7x7_7.json" t="Include" />
+              <e p="measurement_7x7_8.json" t="Include" />
+              <e p="measurement_7x7_9.json" t="Include" />
+            </e>
+            <e p="Military.txt" t="Include" />
+            <e p="Military_Levels" t="Include">
+              <e p="military_10x10_1.json" t="Include" />
+              <e p="military_10x10_10.json" t="Include" />
+              <e p="military_10x10_2.json" t="Include" />
+              <e p="military_10x10_3.json" t="Include" />
+              <e p="military_10x10_4.json" t="Include" />
+              <e p="military_10x10_5.json" t="Include" />
+              <e p="military_10x10_6.json" t="Include" />
+              <e p="military_10x10_7.json" t="Include" />
+              <e p="military_10x10_8.json" t="Include" />
+              <e p="military_10x10_9.json" t="Include" />
+              <e p="military_13x13_1.json" t="Include" />
+              <e p="military_13x13_10.json" t="Include" />
+              <e p="military_13x13_2.json" t="Include" />
+              <e p="military_13x13_3.json" t="Include" />
+              <e p="military_13x13_4.json" t="Include" />
+              <e p="military_13x13_5.json" t="Include" />
+              <e p="military_13x13_6.json" t="Include" />
+              <e p="military_13x13_7.json" t="Include" />
+              <e p="military_13x13_8.json" t="Include" />
+              <e p="military_13x13_9.json" t="Include" />
+              <e p="military_7x7_1.json" t="Include" />
+              <e p="military_7x7_10.json" t="Include" />
+              <e p="military_7x7_2.json" t="Include" />
+              <e p="military_7x7_3.json" t="Include" />
+              <e p="military_7x7_4.json" t="Include" />
+              <e p="military_7x7_5.json" t="Include" />
+              <e p="military_7x7_6.json" t="Include" />
+              <e p="military_7x7_7.json" t="Include" />
+              <e p="military_7x7_8.json" t="Include" />
+              <e p="military_7x7_9.json" t="Include" />
+            </e>
+            <e p="Money.txt" t="Include" />
+            <e p="Money_Levels" t="Include">
+              <e p="money_10x10_1.json" t="Include" />
+              <e p="money_10x10_10.json" t="Include" />
+              <e p="money_10x10_2.json" t="Include" />
+              <e p="money_10x10_3.json" t="Include" />
+              <e p="money_10x10_4.json" t="Include" />
+              <e p="money_10x10_5.json" t="Include" />
+              <e p="money_10x10_6.json" t="Include" />
+              <e p="money_10x10_7.json" t="Include" />
+              <e p="money_10x10_8.json" t="Include" />
+              <e p="money_10x10_9.json" t="Include" />
+              <e p="money_13x13_1.json" t="Include" />
+              <e p="money_13x13_10.json" t="Include" />
+              <e p="money_13x13_2.json" t="Include" />
+              <e p="money_13x13_3.json" t="Include" />
+              <e p="money_13x13_4.json" t="Include" />
+              <e p="money_13x13_5.json" t="Include" />
+              <e p="money_13x13_6.json" t="Include" />
+              <e p="money_13x13_7.json" t="Include" />
+              <e p="money_13x13_8.json" t="Include" />
+              <e p="money_13x13_9.json" t="Include" />
+              <e p="money_7x7_1.json" t="Include" />
+              <e p="money_7x7_10.json" t="Include" />
+              <e p="money_7x7_2.json" t="Include" />
+              <e p="money_7x7_3.json" t="Include" />
+              <e p="money_7x7_4.json" t="Include" />
+              <e p="money_7x7_5.json" t="Include" />
+              <e p="money_7x7_6.json" t="Include" />
+              <e p="money_7x7_7.json" t="Include" />
+              <e p="money_7x7_8.json" t="Include" />
+              <e p="money_7x7_9.json" t="Include" />
+            </e>
+            <e p="Musical_Instruments.txt" t="Include" />
+            <e p="Musical_Instruments_Levels" t="Include">
+              <e p="musical_instruments_10x10_1.json" t="Include" />
+              <e p="musical_instruments_10x10_10.json" t="Include" />
+              <e p="musical_instruments_10x10_2.json" t="Include" />
+              <e p="musical_instruments_10x10_3.json" t="Include" />
+              <e p="musical_instruments_10x10_4.json" t="Include" />
+              <e p="musical_instruments_10x10_5.json" t="Include" />
+              <e p="musical_instruments_10x10_6.json" t="Include" />
+              <e p="musical_instruments_10x10_7.json" t="Include" />
+              <e p="musical_instruments_10x10_8.json" t="Include" />
+              <e p="musical_instruments_10x10_9.json" t="Include" />
+              <e p="musical_instruments_13x13_1.json" t="Include" />
+              <e p="musical_instruments_13x13_10.json" t="Include" />
+              <e p="musical_instruments_13x13_2.json" t="Include" />
+              <e p="musical_instruments_13x13_3.json" t="Include" />
+              <e p="musical_instruments_13x13_4.json" t="Include" />
+              <e p="musical_instruments_13x13_5.json" t="Include" />
+              <e p="musical_instruments_13x13_6.json" t="Include" />
+              <e p="musical_instruments_13x13_7.json" t="Include" />
+              <e p="musical_instruments_13x13_8.json" t="Include" />
+              <e p="musical_instruments_13x13_9.json" t="Include" />
+              <e p="musical_instruments_7x7_1.json" t="Include" />
+              <e p="musical_instruments_7x7_10.json" t="Include" />
+              <e p="musical_instruments_7x7_2.json" t="Include" />
+              <e p="musical_instruments_7x7_3.json" t="Include" />
+              <e p="musical_instruments_7x7_4.json" t="Include" />
+              <e p="musical_instruments_7x7_5.json" t="Include" />
+              <e p="musical_instruments_7x7_6.json" t="Include" />
+              <e p="musical_instruments_7x7_7.json" t="Include" />
+              <e p="musical_instruments_7x7_8.json" t="Include" />
+              <e p="musical_instruments_7x7_9.json" t="Include" />
+            </e>
+            <e p="Pirates.txt" t="Include" />
+            <e p="Pirates_Levels" t="Include">
+              <e p="pirates_10x10_1.json" t="Include" />
+              <e p="pirates_10x10_10.json" t="Include" />
+              <e p="pirates_10x10_2.json" t="Include" />
+              <e p="pirates_10x10_3.json" t="Include" />
+              <e p="pirates_10x10_4.json" t="Include" />
+              <e p="pirates_10x10_5.json" t="Include" />
+              <e p="pirates_10x10_6.json" t="Include" />
+              <e p="pirates_10x10_7.json" t="Include" />
+              <e p="pirates_10x10_8.json" t="Include" />
+              <e p="pirates_10x10_9.json" t="Include" />
+              <e p="pirates_13x13_1.json" t="Include" />
+              <e p="pirates_13x13_10.json" t="Include" />
+              <e p="pirates_13x13_2.json" t="Include" />
+              <e p="pirates_13x13_3.json" t="Include" />
+              <e p="pirates_13x13_4.json" t="Include" />
+              <e p="pirates_13x13_5.json" t="Include" />
+              <e p="pirates_13x13_6.json" t="Include" />
+              <e p="pirates_13x13_7.json" t="Include" />
+              <e p="pirates_13x13_8.json" t="Include" />
+              <e p="pirates_13x13_9.json" t="Include" />
+              <e p="pirates_7x7_1.json" t="Include" />
+              <e p="pirates_7x7_10.json" t="Include" />
+              <e p="pirates_7x7_2.json" t="Include" />
+              <e p="pirates_7x7_3.json" t="Include" />
+              <e p="pirates_7x7_4.json" t="Include" />
+              <e p="pirates_7x7_5.json" t="Include" />
+              <e p="pirates_7x7_6.json" t="Include" />
+              <e p="pirates_7x7_7.json" t="Include" />
+              <e p="pirates_7x7_8.json" t="Include" />
+              <e p="pirates_7x7_9.json" t="Include" />
+            </e>
+            <e p="Plants.txt" t="Include" />
+            <e p="Plants_Levels" t="Include">
+              <e p="plants_10x10_1.json" t="Include" />
+              <e p="plants_10x10_10.json" t="Include" />
+              <e p="plants_10x10_2.json" t="Include" />
+              <e p="plants_10x10_3.json" t="Include" />
+              <e p="plants_10x10_4.json" t="Include" />
+              <e p="plants_10x10_5.json" t="Include" />
+              <e p="plants_10x10_6.json" t="Include" />
+              <e p="plants_10x10_7.json" t="Include" />
+              <e p="plants_10x10_8.json" t="Include" />
+              <e p="plants_10x10_9.json" t="Include" />
+              <e p="plants_13x13_1.json" t="Include" />
+              <e p="plants_13x13_10.json" t="Include" />
+              <e p="plants_13x13_2.json" t="Include" />
+              <e p="plants_13x13_3.json" t="Include" />
+              <e p="plants_13x13_4.json" t="Include" />
+              <e p="plants_13x13_5.json" t="Include" />
+              <e p="plants_13x13_6.json" t="Include" />
+              <e p="plants_13x13_7.json" t="Include" />
+              <e p="plants_13x13_8.json" t="Include" />
+              <e p="plants_13x13_9.json" t="Include" />
+              <e p="plants_7x7_1.json" t="Include" />
+              <e p="plants_7x7_10.json" t="Include" />
+              <e p="plants_7x7_2.json" t="Include" />
+              <e p="plants_7x7_3.json" t="Include" />
+              <e p="plants_7x7_4.json" t="Include" />
+              <e p="plants_7x7_5.json" t="Include" />
+              <e p="plants_7x7_6.json" t="Include" />
+              <e p="plants_7x7_7.json" t="Include" />
+              <e p="plants_7x7_8.json" t="Include" />
+              <e p="plants_7x7_9.json" t="Include" />
+            </e>
+            <e p="Restaurant.txt" t="Include" />
+            <e p="Restaurant_Levels" t="Include">
+              <e p="restaurant_10x10_1.json" t="Include" />
+              <e p="restaurant_10x10_10.json" t="Include" />
+              <e p="restaurant_10x10_2.json" t="Include" />
+              <e p="restaurant_10x10_3.json" t="Include" />
+              <e p="restaurant_10x10_4.json" t="Include" />
+              <e p="restaurant_10x10_5.json" t="Include" />
+              <e p="restaurant_10x10_6.json" t="Include" />
+              <e p="restaurant_10x10_7.json" t="Include" />
+              <e p="restaurant_10x10_8.json" t="Include" />
+              <e p="restaurant_10x10_9.json" t="Include" />
+              <e p="restaurant_13x13_1.json" t="Include" />
+              <e p="restaurant_13x13_10.json" t="Include" />
+              <e p="restaurant_13x13_2.json" t="Include" />
+              <e p="restaurant_13x13_3.json" t="Include" />
+              <e p="restaurant_13x13_4.json" t="Include" />
+              <e p="restaurant_13x13_5.json" t="Include" />
+              <e p="restaurant_13x13_6.json" t="Include" />
+              <e p="restaurant_13x13_7.json" t="Include" />
+              <e p="restaurant_13x13_8.json" t="Include" />
+              <e p="restaurant_13x13_9.json" t="Include" />
+              <e p="restaurant_7x7_1.json" t="Include" />
+              <e p="restaurant_7x7_10.json" t="Include" />
+              <e p="restaurant_7x7_2.json" t="Include" />
+              <e p="restaurant_7x7_3.json" t="Include" />
+              <e p="restaurant_7x7_4.json" t="Include" />
+              <e p="restaurant_7x7_5.json" t="Include" />
+              <e p="restaurant_7x7_6.json" t="Include" />
+              <e p="restaurant_7x7_7.json" t="Include" />
+              <e p="restaurant_7x7_8.json" t="Include" />
+              <e p="restaurant_7x7_9.json" t="Include" />
+            </e>
+            <e p="Sports.txt" t="Include" />
+            <e p="Sports_Levels" t="Include">
+              <e p="sports_10x10_1.json" t="Include" />
+              <e p="sports_10x10_10.json" t="Include" />
+              <e p="sports_10x10_2.json" t="Include" />
+              <e p="sports_10x10_3.json" t="Include" />
+              <e p="sports_10x10_4.json" t="Include" />
+              <e p="sports_10x10_5.json" t="Include" />
+              <e p="sports_10x10_6.json" t="Include" />
+              <e p="sports_10x10_7.json" t="Include" />
+              <e p="sports_10x10_8.json" t="Include" />
+              <e p="sports_10x10_9.json" t="Include" />
+              <e p="sports_13x13_1.json" t="Include" />
+              <e p="sports_13x13_10.json" t="Include" />
+              <e p="sports_13x13_2.json" t="Include" />
+              <e p="sports_13x13_3.json" t="Include" />
+              <e p="sports_13x13_4.json" t="Include" />
+              <e p="sports_13x13_5.json" t="Include" />
+              <e p="sports_13x13_6.json" t="Include" />
+              <e p="sports_13x13_7.json" t="Include" />
+              <e p="sports_13x13_8.json" t="Include" />
+              <e p="sports_13x13_9.json" t="Include" />
+              <e p="sports_7x7_1.json" t="Include" />
+              <e p="sports_7x7_10.json" t="Include" />
+              <e p="sports_7x7_2.json" t="Include" />
+              <e p="sports_7x7_3.json" t="Include" />
+              <e p="sports_7x7_4.json" t="Include" />
+              <e p="sports_7x7_5.json" t="Include" />
+              <e p="sports_7x7_6.json" t="Include" />
+              <e p="sports_7x7_7.json" t="Include" />
+              <e p="sports_7x7_8.json" t="Include" />
+              <e p="sports_7x7_9.json" t="Include" />
+            </e>
+            <e p="Structures.txt" t="Include" />
+            <e p="Structures_Levels" t="Include">
+              <e p="structures_10x10_1.json" t="Include" />
+              <e p="structures_10x10_10.json" t="Include" />
+              <e p="structures_10x10_2.json" t="Include" />
+              <e p="structures_10x10_3.json" t="Include" />
+              <e p="structures_10x10_4.json" t="Include" />
+              <e p="structures_10x10_5.json" t="Include" />
+              <e p="structures_10x10_6.json" t="Include" />
+              <e p="structures_10x10_7.json" t="Include" />
+              <e p="structures_10x10_8.json" t="Include" />
+              <e p="structures_10x10_9.json" t="Include" />
+              <e p="structures_13x13_1.json" t="Include" />
+              <e p="structures_13x13_10.json" t="Include" />
+              <e p="structures_13x13_2.json" t="Include" />
+              <e p="structures_13x13_3.json" t="Include" />
+              <e p="structures_13x13_4.json" t="Include" />
+              <e p="structures_13x13_5.json" t="Include" />
+              <e p="structures_13x13_6.json" t="Include" />
+              <e p="structures_13x13_7.json" t="Include" />
+              <e p="structures_13x13_8.json" t="Include" />
+              <e p="structures_13x13_9.json" t="Include" />
+              <e p="structures_7x7_1.json" t="Include" />
+              <e p="structures_7x7_10.json" t="Include" />
+              <e p="structures_7x7_2.json" t="Include" />
+              <e p="structures_7x7_3.json" t="Include" />
+              <e p="structures_7x7_4.json" t="Include" />
+              <e p="structures_7x7_5.json" t="Include" />
+              <e p="structures_7x7_6.json" t="Include" />
+              <e p="structures_7x7_7.json" t="Include" />
+              <e p="structures_7x7_8.json" t="Include" />
+              <e p="structures_7x7_9.json" t="Include" />
+            </e>
+            <e p="Transportation.txt" t="Include" />
+            <e p="Transportation_Levels" t="Include">
+              <e p="transportation_10x10_1.json" t="Include" />
+              <e p="transportation_10x10_10.json" t="Include" />
+              <e p="transportation_10x10_2.json" t="Include" />
+              <e p="transportation_10x10_3.json" t="Include" />
+              <e p="transportation_10x10_4.json" t="Include" />
+              <e p="transportation_10x10_5.json" t="Include" />
+              <e p="transportation_10x10_6.json" t="Include" />
+              <e p="transportation_10x10_7.json" t="Include" />
+              <e p="transportation_10x10_8.json" t="Include" />
+              <e p="transportation_10x10_9.json" t="Include" />
+              <e p="transportation_13x13_1.json" t="Include" />
+              <e p="transportation_13x13_10.json" t="Include" />
+              <e p="transportation_13x13_2.json" t="Include" />
+              <e p="transportation_13x13_3.json" t="Include" />
+              <e p="transportation_13x13_4.json" t="Include" />
+              <e p="transportation_13x13_5.json" t="Include" />
+              <e p="transportation_13x13_6.json" t="Include" />
+              <e p="transportation_13x13_7.json" t="Include" />
+              <e p="transportation_13x13_8.json" t="Include" />
+              <e p="transportation_13x13_9.json" t="Include" />
+              <e p="transportation_7x7_1.json" t="Include" />
+              <e p="transportation_7x7_10.json" t="Include" />
+              <e p="transportation_7x7_2.json" t="Include" />
+              <e p="transportation_7x7_3.json" t="Include" />
+              <e p="transportation_7x7_4.json" t="Include" />
+              <e p="transportation_7x7_5.json" t="Include" />
+              <e p="transportation_7x7_6.json" t="Include" />
+              <e p="transportation_7x7_7.json" t="Include" />
+              <e p="transportation_7x7_8.json" t="Include" />
+              <e p="transportation_7x7_9.json" t="Include" />
+            </e>
+            <e p="Trees.txt" t="Include" />
+            <e p="Trees_Levels" t="Include">
+              <e p="trees_10x10_1.json" t="Include" />
+              <e p="trees_10x10_10.json" t="Include" />
+              <e p="trees_10x10_2.json" t="Include" />
+              <e p="trees_10x10_3.json" t="Include" />
+              <e p="trees_10x10_4.json" t="Include" />
+              <e p="trees_10x10_5.json" t="Include" />
+              <e p="trees_10x10_6.json" t="Include" />
+              <e p="trees_10x10_7.json" t="Include" />
+              <e p="trees_10x10_8.json" t="Include" />
+              <e p="trees_10x10_9.json" t="Include" />
+              <e p="trees_13x13_1.json" t="Include" />
+              <e p="trees_13x13_10.json" t="Include" />
+              <e p="trees_13x13_2.json" t="Include" />
+              <e p="trees_13x13_3.json" t="Include" />
+              <e p="trees_13x13_4.json" t="Include" />
+              <e p="trees_13x13_5.json" t="Include" />
+              <e p="trees_13x13_6.json" t="Include" />
+              <e p="trees_13x13_7.json" t="Include" />
+              <e p="trees_13x13_8.json" t="Include" />
+              <e p="trees_13x13_9.json" t="Include" />
+              <e p="trees_7x7_1.json" t="Include" />
+              <e p="trees_7x7_10.json" t="Include" />
+              <e p="trees_7x7_2.json" t="Include" />
+              <e p="trees_7x7_3.json" t="Include" />
+              <e p="trees_7x7_4.json" t="Include" />
+              <e p="trees_7x7_5.json" t="Include" />
+              <e p="trees_7x7_6.json" t="Include" />
+              <e p="trees_7x7_7.json" t="Include" />
+              <e p="trees_7x7_8.json" t="Include" />
+              <e p="trees_7x7_9.json" t="Include" />
+            </e>
+            <e p="Weapons.txt" t="Include" />
+            <e p="Weapons_Levels" t="Include">
+              <e p="weapons_10x10_1.json" t="Include" />
+              <e p="weapons_10x10_10.json" t="Include" />
+              <e p="weapons_10x10_2.json" t="Include" />
+              <e p="weapons_10x10_3.json" t="Include" />
+              <e p="weapons_10x10_4.json" t="Include" />
+              <e p="weapons_10x10_5.json" t="Include" />
+              <e p="weapons_10x10_6.json" t="Include" />
+              <e p="weapons_10x10_7.json" t="Include" />
+              <e p="weapons_10x10_8.json" t="Include" />
+              <e p="weapons_10x10_9.json" t="Include" />
+              <e p="weapons_13x13_1.json" t="Include" />
+              <e p="weapons_13x13_10.json" t="Include" />
+              <e p="weapons_13x13_2.json" t="Include" />
+              <e p="weapons_13x13_3.json" t="Include" />
+              <e p="weapons_13x13_4.json" t="Include" />
+              <e p="weapons_13x13_5.json" t="Include" />
+              <e p="weapons_13x13_6.json" t="Include" />
+              <e p="weapons_13x13_7.json" t="Include" />
+              <e p="weapons_13x13_8.json" t="Include" />
+              <e p="weapons_13x13_9.json" t="Include" />
+              <e p="weapons_7x7_1.json" t="Include" />
+              <e p="weapons_7x7_10.json" t="Include" />
+              <e p="weapons_7x7_2.json" t="Include" />
+              <e p="weapons_7x7_3.json" t="Include" />
+              <e p="weapons_7x7_4.json" t="Include" />
+              <e p="weapons_7x7_5.json" t="Include" />
+              <e p="weapons_7x7_6.json" t="Include" />
+              <e p="weapons_7x7_7.json" t="Include" />
+              <e p="weapons_7x7_8.json" t="Include" />
+              <e p="weapons_7x7_9.json" t="Include" />
+            </e>
+            <e p="Weather.txt" t="Include" />
+            <e p="Weather_Levels" t="Include">
+              <e p="weather_10x10_1.json" t="Include" />
+              <e p="weather_10x10_10.json" t="Include" />
+              <e p="weather_10x10_2.json" t="Include" />
+              <e p="weather_10x10_3.json" t="Include" />
+              <e p="weather_10x10_4.json" t="Include" />
+              <e p="weather_10x10_5.json" t="Include" />
+              <e p="weather_10x10_6.json" t="Include" />
+              <e p="weather_10x10_7.json" t="Include" />
+              <e p="weather_10x10_8.json" t="Include" />
+              <e p="weather_10x10_9.json" t="Include" />
+              <e p="weather_13x13_1.json" t="Include" />
+              <e p="weather_13x13_10.json" t="Include" />
+              <e p="weather_13x13_2.json" t="Include" />
+              <e p="weather_13x13_3.json" t="Include" />
+              <e p="weather_13x13_4.json" t="Include" />
+              <e p="weather_13x13_5.json" t="Include" />
+              <e p="weather_13x13_6.json" t="Include" />
+              <e p="weather_13x13_7.json" t="Include" />
+              <e p="weather_13x13_8.json" t="Include" />
+              <e p="weather_13x13_9.json" t="Include" />
+              <e p="weather_7x7_1.json" t="Include" />
+              <e p="weather_7x7_10.json" t="Include" />
+              <e p="weather_7x7_2.json" t="Include" />
+              <e p="weather_7x7_3.json" t="Include" />
+              <e p="weather_7x7_4.json" t="Include" />
+              <e p="weather_7x7_5.json" t="Include" />
+              <e p="weather_7x7_6.json" t="Include" />
+              <e p="weather_7x7_7.json" t="Include" />
+              <e p="weather_7x7_8.json" t="Include" />
+              <e p="weather_7x7_9.json" t="Include" />
+            </e>
+            <e p="Winter.txt" t="Include" />
+            <e p="Winter_Levels" t="Include">
+              <e p="winter_10x10_1.json" t="Include" />
+              <e p="winter_10x10_10.json" t="Include" />
+              <e p="winter_10x10_2.json" t="Include" />
+              <e p="winter_10x10_3.json" t="Include" />
+              <e p="winter_10x10_4.json" t="Include" />
+              <e p="winter_10x10_5.json" t="Include" />
+              <e p="winter_10x10_6.json" t="Include" />
+              <e p="winter_10x10_7.json" t="Include" />
+              <e p="winter_10x10_8.json" t="Include" />
+              <e p="winter_10x10_9.json" t="Include" />
+              <e p="winter_13x13_1.json" t="Include" />
+              <e p="winter_13x13_10.json" t="Include" />
+              <e p="winter_13x13_2.json" t="Include" />
+              <e p="winter_13x13_3.json" t="Include" />
+              <e p="winter_13x13_4.json" t="Include" />
+              <e p="winter_13x13_5.json" t="Include" />
+              <e p="winter_13x13_6.json" t="Include" />
+              <e p="winter_13x13_7.json" t="Include" />
+              <e p="winter_13x13_8.json" t="Include" />
+              <e p="winter_13x13_9.json" t="Include" />
+              <e p="winter_7x7_1.json" t="Include" />
+              <e p="winter_7x7_10.json" t="Include" />
+              <e p="winter_7x7_2.json" t="Include" />
+              <e p="winter_7x7_3.json" t="Include" />
+              <e p="winter_7x7_4.json" t="Include" />
+              <e p="winter_7x7_5.json" t="Include" />
+              <e p="winter_7x7_6.json" t="Include" />
+              <e p="winter_7x7_7.json" t="Include" />
+              <e p="winter_7x7_8.json" t="Include" />
+              <e p="winter_7x7_9.json" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="AutoSave" t="Include">
+          <e p="Editor" t="Include">
+            <e p="AutoSaveExtension.cs" t="Include" />
+          </e>
+          <e p="ReadMe.txt" t="Include" />
+        </e>
+        <e p="Duong" t="Include">
+          <e p="Scrips" t="Include">
+            <e p="DestroyAfter.cs" t="Include" />
+          </e>
+        </e>
+        <e p="ExternalDependencyManager" t="Include">
+          <e p="Editor" t="Include">
+            <e p="external-dependency-manager_version-1.2.171_manifest.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Firebase" t="Include">
+          <e p="Editor" t="Include">
+            <e p="AppDependencies.xml" t="Include" />
+            <e p="AuthDependencies.xml" t="Include" />
+            <e p="DatabaseDependencies.xml" t="Include" />
+            <e p="FirebaseAuth_version-8.10.1_manifest.txt" t="Include" />
+            <e p="FirebaseDatabase_version-8.10.1_manifest.txt" t="Include" />
+          </e>
+          <e p="m2repository" t="Include">
+            <e p="com" t="Include">
+              <e p="google" t="Include">
+                <e p="Firebase" t="Include">
+                  <e p="firebase-app-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                  <e p="firebase-auth-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                  <e p="firebase-database-unity" t="Include">
+                    <e p="maven-metadata.xml" t="Include" />
+                  </e>
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="google-services.json" t="Include" />
+        <e p="GoogleSignIn" t="Include">
+          <e p="Editor" t="Include">
+            <e p="google-signin-plugin_v1.0.4.txt" t="Include" />
+            <e p="GoogleSignInDependencies.xml" t="Include" />
+            <e p="GoogleSignInSupportDependencies.xml" t="Include" />
+            <e p="m2repository" t="Include">
+              <e p="com" t="Include">
+                <e p="google" t="Include">
+                  <e p="signin" t="Include">
+                    <e p="google-signin-support" t="Include">
+                      <e p="maven-metadata.xml" t="Include" />
+                    </e>
+                  </e>
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Future.cs" t="Include" />
+          <e p="GoogleSignIn.cs" t="Include" />
+          <e p="GoogleSignInConfiguration.cs" t="Include" />
+          <e p="GoogleSignInStatusCode.cs" t="Include" />
+          <e p="GoogleSignInUser.cs" t="Include" />
+          <e p="Impl" t="Include">
+            <e p="BaseObject.cs" t="Include" />
+            <e p="GoogleSignInImpl.cs" t="Include" />
+            <e p="NativeFuture.cs" t="Include" />
+            <e p="SignInHelperObject.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Plugins" t="Include">
+          <e p="Android" t="Include">
+            <e p="FirebaseApp.androidlib" t="Include">
+              <e p="AndroidManifest.xml" t="Include" />
+              <e p="res" t="Include">
+                <e p="values" t="Include">
+                  <e p="google-services.xml" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Demigiant" t="Include">
+            <e p="DOTween" t="Include">
+              <e p="Modules" t="Include">
+                <e p="DOTweenModuleAudio.cs" t="Include" />
+                <e p="DOTweenModuleEPOOutline.cs" t="Include" />
+                <e p="DOTweenModulePhysics.cs" t="Include" />
+                <e p="DOTweenModulePhysics2D.cs" t="Include" />
+                <e p="DOTweenModuleSprite.cs" t="Include" />
+                <e p="DOTweenModuleUI.cs" t="Include" />
+                <e p="DOTweenModuleUnityVersion.cs" t="Include" />
+                <e p="DOTweenModuleUtils.cs" t="Include" />
+              </e>
+              <e p="ReadMe.txt" t="Include" />
+            </e>
+          </e>
+          <e p="SimpleJSON.cs" t="Include" />
+        </e>
+        <e p="Recyclable Scroll Rect" t="Include">
+          <e p="Main" t="Include">
+            <e p="Editor" t="Include">
+              <e p="RecyclableScrollRectEditor.cs" t="Include" />
+              <e p="RecyclableScrollViewEditorTool.cs" t="Include" />
+            </e>
+            <e p="Scripts" t="Include">
+              <e p="Interfaces" t="Include">
+                <e p="ICell.cs" t="Include" />
+                <e p="IRecyclableScrollRectDataSource.cs" t="Include" />
+              </e>
+              <e p="RecyclableScrollRect.cs" t="Include" />
+              <e p="Recycling System" t="Include">
+                <e p="HorizontalRecyclingSystem.cs" t="Include" />
+                <e p="RecyclingSystem.cs" t="Include" />
+                <e p="VerticalRecyclingSystem.cs" t="Include" />
+              </e>
+              <e p="Utils" t="Include">
+                <e p="UIExtension.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Audio" t="Include">
+            <e p="AudioManager.cs" t="Include" />
+          </e>
+          <e p="BoardCreator" t="Include">
+            <e p="BoardCreator.cs" t="Include" />
+            <e p="BoardCreatorBehaviour.cs" t="Include" />
+            <e p="BoardCreatorWorker.cs" t="Include" />
+          </e>
+          <e p="Classes" t="Include">
+            <e p="Board.cs" t="Include" />
+            <e p="Booter.cs" t="Include" />
+            <e p="CategoryInfo.cs" t="Include" />
+            <e p="CategorySmall.cs" t="Include" />
+            <e p="ContactInfo.cs" t="Include" />
+            <e p="DifficultyInfo.cs" t="Include" />
+            <e p="LevelArray.cs" t="Include" />
+            <e p="LevelPuzzle.cs" t="Include" />
+            <e p="PlayerInfo.cs" t="Include" />
+            <e p="Position.cs" t="Include" />
+            <e p="SaveableManager.cs" t="Include" />
+            <e p="Sound.cs" t="Include" />
+          </e>
+          <e p="Effect" t="Include">
+            <e p="Effect.cs" t="Include" />
+          </e>
+          <e p="Game" t="Include">
+            <e p="CharacterGrid.cs" t="Include" />
+            <e p="FireBaseController.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="GameScreen.cs" t="Include" />
+            <e p="HomeScreen.cs" t="Include" />
+            <e p="LevelScreen.cs" t="Include" />
+            <e p="PopupContainer.cs" t="Include" />
+            <e p="SelectedWord.cs" t="Include" />
+            <e p="TopBar.cs" t="Include" />
+            <e p="WordListContainer.cs" t="Include" />
+            <e p="WordListLayoutGroup.cs" t="Include" />
+          </e>
+          <e p="Gift" t="Include">
+            <e p="DailyGift.cs" t="Include" />
+            <e p="DailyPuzzle.cs" t="Include" />
+          </e>
+          <e p="Popup" t="Include">
+            <e p="CategorySelectedPopup.cs" t="Include" />
+            <e p="ChooseHighlighLetterPopup.cs" t="Include" />
+            <e p="LevelCompletePopup.cs" t="Include" />
+            <e p="NotEnoughCoinsPopup.cs" t="Include" />
+            <e p="NotEnoughKeysPopup.cs" t="Include" />
+            <e p="RewardAdGranted.cs" t="Include" />
+            <e p="SettingsPopup.cs" t="Include" />
+            <e p="StorePopup.cs" t="Include" />
+            <e p="UnlockCategoryPopup.cs" t="Include" />
+          </e>
+          <e p="Prefabs" t="Include">
+            <e p="CategoryScripts.cs" t="Include" />
+            <e p="CharacterGridItem.cs" t="Include" />
+            <e p="HighlightLetterButton.cs" t="Include" />
+            <e p="LevelListItem.cs" t="Include" />
+            <e p="ProgressBar.cs" t="Include" />
+            <e p="TestNewCategory.cs" t="Include" />
+            <e p="WordListItem.cs" t="Include" />
+          </e>
+          <e p="Scenes" t="Include">
+            <e p="ScreenManager.cs" t="Include" />
+          </e>
+        </e>
+        <e p="StreamingAssets" t="Include">
+          <e p="google-services-desktop.json" t="Include" />
+        </e>
+        <e p="TestScrollRect" t="Include">
+          <e p="CoroutineStarter.cs" t="Include" />
+          <e p="ExpandableListHandler.cs" t="Include" />
+          <e p="ExpandableListItem.cs" t="Include" />
+          <e p="ListLevelTest.cs" t="Include" />
+          <e p="TestScriptCategory.cs" t="Include" />
+          <e p="UIAnimation.cs" t="Include" />
+        </e>
+        <e p="Utilities" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="Convert.cs" t="Include" />
+            <e p="GameDefine.cs" t="Include" />
+            <e p="ObjectPool.cs" t="Include" />
+            <e p="PoolObject.cs" t="Include" />
+            <e p="SingletonComponent.cs" t="Include" />
+            <e p="Utilities.cs" t="Include" />
+            <e p="Worker.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\Bin" t="ExcludeRecursive" />
+      <e p="WordSearch.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

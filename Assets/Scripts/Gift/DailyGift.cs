@@ -15,8 +15,6 @@ public class DailyGift : MonoBehaviour
         public string id;
         public Image image;
         public Text TextDay;
-        public string idGift;
-        public int amountGift;
     };
     [SerializeField] private string id = "dailyGift";
     public Dictionary<string, string> HistoryCollection { get; private set; }

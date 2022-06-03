@@ -7,7 +7,6 @@ public class LevelScreen : MonoBehaviour
     // Start is called before the first frame update
     // [SerializeField] private GameObject levelItemPrefab = null;
     // [SerializeField] private RectTransform levlelListContainer = null;
-    [SerializeField] private TopBar topBar = null;
     [SerializeField] private string id = "levels";
 
 

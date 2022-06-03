@@ -14,19 +14,17 @@ public class PlayerInfo
     public string boardsInProgress = null;
     public string unlockedCategories = null;
     public string listBooter = null;
-
-
-
+    
     public string ToString()
     {
         return "DisplayName: " + DisplayName +
-        "\n Email: " + Email +
-        "\n coins: " + coins +
-        "\n keys: " + keys +
-        "\n lastCompletedLevels: " + lastCompletedLevels +
-        "\n boardsInProgress: " + boardsInProgress +
-        "\n unlockedCategories: " + unlockedCategories +
-        "\n listBooter: " + listBooter;
+               "\n Email: " + Email +
+               "\n coins: " + coins +
+               "\n keys: " + keys +
+               "\n lastCompletedLevels: " + lastCompletedLevels +
+               "\n boardsInProgress: " + boardsInProgress +
+               "\n unlockedCategories: " + unlockedCategories +
+               "\n listBooter: " + listBooter;
     }
     public void Union(PlayerInfo playerLocal, PlayerInfo playerFireBase)
     {
@@ -48,7 +46,7 @@ public class PlayerInfo
         foreach (var key in lastCompletedLevelsFireBaseJson.Keys)
         {
             if (dictionary.ContainsKey(key))
-                dictionary[key] = dictionary[key] >= lastCompletedLevelsFireBaseJson[key] ? dictionary[key] : lastCompletedLevelsFireBaseJson[key];
+                dictionary[key] = dictionary[key] >= lastCompletedLevelsFireBaseJson[key] ? dictionary[key] : (int) lastCompletedLevelsFireBaseJson[key];
             else dictionary.Add(key, lastCompletedLevelsFireBaseJson[key]);
         }
         lastCompletedLevels = Utilities.ConvertToJsonString(dictionary);

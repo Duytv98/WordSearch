@@ -22,6 +22,11 @@ public class HomeScreen : MonoBehaviour
 
         ScreenManager.Instance.Show("dailyGift");
     }
+    public void ShowDailyPuzzle()
+    {
+
+        ScreenManager.Instance.Show("dailyPuzzle");
+    }
     public void OnPlayNextLevelRandomCategory()
     {
         List<int> listIndexCategorys = new List<int>();

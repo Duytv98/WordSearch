@@ -10,6 +10,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private LevelScreen levelScreen = null;
     [SerializeField] private DailyGift dailyGift = null;
+    [SerializeField] private DailyPuzzle dailyPuzzle = null;
     [SerializeField] private GameObject flashCanvas = null;
     [SerializeField] private TopBar topBar = null;
     private List<string> backStack;
@@ -59,10 +60,16 @@ public class ScreenManager : MonoBehaviour
                 screen.SetActive(true);
                 dailyGift.Initialize();
                 break;
+            case "dailyPuzzle":
+                screen = dailyPuzzle.gameObject;
+                currentScreen = screen;
+                screen.SetActive(true);
+                dailyPuzzle.Initialize();
+                break;
             default:
                 return;
         }
-        ConfigTopbar(isVisible);
+        topBar.OnSwitchingScreens(id);
     }
 
     public void Close(GameObject screen)
@@ -91,35 +98,6 @@ public class ScreenManager : MonoBehaviour
     {
         levelScreen.ReloadData();
     }
-
-
-    GameObject GetScreenById(string id)
-    {
-        switch (id)
-        {
-            case "home":
-                return homeScreen.gameObject;
-            case "levels":
-                return levelScreen.gameObject;
-            case "game":
-                return gameScreen.gameObject;
-            default:
-                return null;
-        }
-    }
-
-
-    private void ConfigTopbar(bool isVisible = true)
-    {
-        if (backStack.Count > 1) topBar.SetAlphaBackButton(true);
-        else topBar.SetAlphaBackButton(false);
-        if (isVisible)
-        {
-            topBar.OnSwitchingScreens(backStack[backStack.Count - 1]);
-        }
-    }
-
-
     public void BackScreen()
     {
         if (backStack.Count <= 0)
@@ -155,7 +133,8 @@ public class ScreenManager : MonoBehaviour
                 /////////////////////////////
                 break;
         }
-        ConfigTopbar();
+
+        topBar.OnSwitchingScreens(screenId);
     }
 
     private void SetVisibilityLevle(GameObject screen, bool isVisible)

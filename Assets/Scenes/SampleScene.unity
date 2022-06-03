@@ -1364,7 +1364,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &59449952
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1382,8 +1382,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.72386, y: -99.333855}
-  m_SizeDelta: {x: 263.58813, y: 44.9298}
+  m_AnchoredPosition: {x: 179.48424, y: -91.76218}
+  m_SizeDelta: {x: 358.96848, y: 46.418335}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &59449953
 MonoBehaviour:
@@ -2911,7 +2911,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 105.2149, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &139146080
 MonoBehaviour:
@@ -3286,10 +3286,10 @@ RectTransform:
   m_Father: {fileID: 611378961}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 55, y: 0}
-  m_SizeDelta: {x: 55, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &161338323
 MonoBehaviour:
@@ -5299,10 +5299,10 @@ RectTransform:
   m_Father: {fileID: 1717451224}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -94.55}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &238209043
 MonoBehaviour:
@@ -5348,9 +5348,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6272,6 +6272,7 @@ MonoBehaviour:
   gameScreen: {fileID: 1837182581}
   levelScreen: {fileID: 1525104617}
   dailyGift: {fileID: 1637558770}
+  dailyPuzzle: {fileID: 731626475}
   flashCanvas: {fileID: 1431522731}
   topBar: {fileID: 1960475884}
 --- !u!4 &289699094
@@ -12678,10 +12679,10 @@ RectTransform:
   m_Father: {fileID: 1717451224}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -94.55}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368778869
 MonoBehaviour:
@@ -12727,9 +12728,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13516,7 +13517,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 123.78223, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &420770652
 MonoBehaviour:
@@ -15872,7 +15873,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 182.5788, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &571582716
 MonoBehaviour:
@@ -16396,7 +16397,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 588455828}
-  - component: {fileID: 588455831}
   - component: {fileID: 588455830}
   - component: {fileID: 588455829}
   m_Layer: 5
@@ -16405,7 +16405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &588455828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16468,18 +16468,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!225 &588455831
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588455827}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &592503168
 GameObject:
   m_ObjectHideFlags: 0
@@ -18108,7 +18096,6 @@ MonoBehaviour:
   loadingIndicator: {fileID: 586563903}
   screenManager: {fileID: 289699093}
   effectContronler: {fileID: 1151536256}
-  topBar: {fileID: 1960475884}
   awardKeyEveryLevel: 0
   awardCoinsEveryLevel: 1
 --- !u!4 &597182287
@@ -18315,10 +18302,10 @@ RectTransform:
   m_Father: {fileID: 713128269}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70.351, y: -37.5}
-  m_SizeDelta: {x: 120.701996, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &611378962
 MonoBehaviour:
@@ -23980,7 +23967,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -20, y: 0}
-  m_SizeDelta: {x: 140.702, y: -30}
+  m_SizeDelta: {x: 0, y: -30}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &713128270
 MonoBehaviour:
@@ -24442,7 +24429,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 108.30945, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &718137773
 MonoBehaviour:
@@ -24898,7 +24885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &731626474
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24935,6 +24922,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e9fc9e4f109b1f48b00e74e2d5ced30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: dailyPuzzle
+  GiftDays:
+  - id: Day-1
+    image: {fileID: 1710884565}
+    TextDay: {fileID: 2098211620}
+  - id: Day-2
+    image: {fileID: 368778870}
+    TextDay: {fileID: 881255473}
+  - id: Day-3
+    image: {fileID: 238209044}
+    TextDay: {fileID: 1206254812}
+  - id: Day-4
+    image: {fileID: 1595918448}
+    TextDay: {fileID: 420770653}
+  - id: Day-5
+    image: {fileID: 957219337}
+    TextDay: {fileID: 1745755549}
+  colors:
+  - {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+  - {r: 0.5529412, g: 0.8941177, b: 0.29803923, a: 1}
+  - {r: 0.9725491, g: 0.9176471, b: 0.3019608, a: 1}
+  - {r: 0.93725497, g: 0, b: 0, a: 1}
+  - {r: 0.12941177, g: 0.56078434, b: 0.94117653, a: 1}
 --- !u!1 &733794260
 GameObject:
   m_ObjectHideFlags: 0
@@ -25176,10 +25186,10 @@ RectTransform:
   m_Father: {fileID: 713128269}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70.351, y: -102.5}
-  m_SizeDelta: {x: 120.701996, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &736358550
 MonoBehaviour:
@@ -26261,10 +26271,10 @@ RectTransform:
   m_Father: {fileID: 736358549}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 55, y: 0}
-  m_SizeDelta: {x: 55, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &831155420
 MonoBehaviour:
@@ -27445,7 +27455,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 123.78223, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &881255472
 MonoBehaviour:
@@ -29285,7 +29295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -439.9}
+  m_AnchoredPosition: {x: 0, y: -439.90002}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &950952321
@@ -29361,10 +29371,10 @@ RectTransform:
   m_Father: {fileID: 1717451224}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 700, y: -94.55}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &957219336
 MonoBehaviour:
@@ -29410,9 +29420,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30576,7 +30586,6 @@ GameObject:
   - component: {fileID: 1013540250}
   - component: {fileID: 1013540253}
   - component: {fileID: 1013540252}
-  - component: {fileID: 1013540251}
   m_Layer: 5
   m_Name: MainScreenContent
   m_TagString: Untagged
@@ -30603,21 +30612,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -24.270004}
-  m_SizeDelta: {x: 353.44772, y: 121.79875}
+  m_AnchoredPosition: {x: 0, y: -13.370003}
+  m_SizeDelta: {x: 358.96848, y: 83.55301}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &1013540251
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1013540249}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!114 &1013540252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30647,14 +30644,14 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 3
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: -10
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
+  m_Spacing: -15
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -32640,7 +32637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1185129089
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32658,8 +32655,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 176.72386, y: -44.93448}
-  m_SizeDelta: {x: 353.44772, y: 83.86896}
+  m_AnchoredPosition: {x: 179.48424, y: -41.776505}
+  m_SizeDelta: {x: 358.96848, y: 83.55301}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1185129090
 MonoBehaviour:
@@ -32981,7 +32978,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 123.78223, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1206254811
 MonoBehaviour:
@@ -33452,10 +33449,10 @@ RectTransform:
   m_Father: {fileID: 611378961}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 65, y: -27.5}
-  m_SizeDelta: {x: 55.702003, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1254351277
 MonoBehaviour:
@@ -34044,7 +34041,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 627681081}
         m_TargetAssemblyTypeName: HomeScreen, Assembly-CSharp
-        m_MethodName: ShowDailyGift
+        m_MethodName: ShowDailyPuzzle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34101,10 +34098,10 @@ RectTransform:
   m_Father: {fileID: 1432511985}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 120}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -400}
+  m_SizeDelta: {x: 760, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1283966116
 MonoBehaviour:
@@ -34150,14 +34147,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: PlayGame
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -34368,10 +34365,10 @@ RectTransform:
   m_Father: {fileID: 1432511985}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 120}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -250}
+  m_SizeDelta: {x: 760, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1292766183
 MonoBehaviour:
@@ -34417,14 +34414,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: PlayGame
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37091,7 +37088,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1431522732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39171,7 +39168,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc69ce897b7cae4f9af8a7a3f63d845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topBar: {fileID: 1960475884}
   id: levels
   scrollRect: {fileID: 1404429386}
   content: {fileID: 887446411}
@@ -39949,10 +39945,10 @@ RectTransform:
   m_Father: {fileID: 1717451224}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 550, y: -94.55}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595918447
 MonoBehaviour:
@@ -39998,9 +39994,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -40597,10 +40593,10 @@ RectTransform:
   m_Father: {fileID: 736358549}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 65, y: -27.5}
-  m_SizeDelta: {x: 55.702003, y: 55}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1636927414
 MonoBehaviour:
@@ -40722,38 +40718,24 @@ MonoBehaviour:
   - id: Day-1
     image: {fileID: 1967831050}
     TextDay: {fileID: 1767375164}
-    idGift: 
-    amountGift: 0
   - id: Day-2
     image: {fileID: 1188817935}
     TextDay: {fileID: 1020592654}
-    idGift: 
-    amountGift: 0
   - id: Day-3
     image: {fileID: 1642048050}
     TextDay: {fileID: 551676345}
-    idGift: 
-    amountGift: 0
   - id: Day-4
     image: {fileID: 442238227}
     TextDay: {fileID: 982313846}
-    idGift: 
-    amountGift: 0
   - id: Day-5
     image: {fileID: 272246948}
     TextDay: {fileID: 13064215}
-    idGift: 
-    amountGift: 0
   - id: Day-6
     image: {fileID: 1849284924}
     TextDay: {fileID: 774935966}
-    idGift: 
-    amountGift: 0
   - id: Day-7
     image: {fileID: 876909861}
     TextDay: {fileID: 1471620328}
-    idGift: 
-    amountGift: 0
   highlightColors:
   - {r: 0.59607846, g: 0.33791006, b: 0, a: 1}
   - {r: 0.20156708, g: 0, b: 0.5377358, a: 1}
@@ -41844,10 +41826,10 @@ RectTransform:
   m_Father: {fileID: 1717451224}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -94.55}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710884564
 MonoBehaviour:
@@ -41893,9 +41875,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -42369,7 +42351,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 123.78223, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1745755548
 MonoBehaviour:
@@ -46309,10 +46291,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SettingsButton: {fileID: 1380590684}
-  MenuButton: {fileID: 0}
   backButton: {fileID: 225618803}
-  mainScreenContainer: {fileID: 1013540251}
-  categoryContainer: {fileID: 588455831}
+  mainScreenContainer: {fileID: 1013540249}
+  mainText: {fileID: 1185129091}
+  pickCategoryText: {fileID: 59449954}
+  categoryContainer: {fileID: 588455827}
   categoryNameText: {fileID: 1972522392}
   levelNumberText: {fileID: 1372669889}
   coinAmountText: {fileID: 1636927415}
@@ -46815,7 +46798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1972522390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -47415,7 +47398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2009391484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48003,10 +47986,10 @@ RectTransform:
   m_Father: {fileID: 1432511985}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 120}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -100}
+  m_SizeDelta: {x: 760, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2056999971
 MonoBehaviour:
@@ -48052,14 +48035,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1637558770}
-        m_TargetAssemblyTypeName: DailyGift, Assembly-CSharp
-        m_MethodName: Onclick
+      - m_Target: {fileID: 731626475}
+        m_TargetAssemblyTypeName: DailyPuzzle, Assembly-CSharp
+        m_MethodName: PlayGame
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -48746,7 +48729,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 123.78223, y: 58.79656}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2098211619
 MonoBehaviour:
