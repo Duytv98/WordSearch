@@ -53,11 +53,9 @@ public class GameManager : SingletonComponent<GameManager>
     public GameMode ActiveGameMode { get; private set; }
     public GameState ActiveGameState { get; private set; }
 
-
-
-
     public Dictionary<string, string> BoardsInProgress { get; private set; }
     public Dictionary<string, int> LastCompletedLevels = null;
+    public Dictionary<string, int> ListBooter = null;
     public List<string> UnlockedCategories { get; private set; }
 
     private PlayerInfo playerInfo = null;
@@ -88,32 +86,30 @@ public class GameManager : SingletonComponent<GameManager>
         playerInfo = new PlayerInfo();
         BoardsInProgress = new Dictionary<string, string>();
         LastCompletedLevels = new Dictionary<string, int>();
+        ListBooter = new Dictionary<string, int>();
         UnlockedCategories = new List<string>();
+        Debug.Log("ListBooter.Count: " + ListBooter.Count);
 
         characterGrid.Initialize();
         wordListContainer.Initialize();
     }
-    // void Start()
-    // {
-    //     // SaveableManager.Instance.LoadSaveData();
-    //     // screenManager.Initialize();
-    // }
+
     public void Update4variable(string idPlayer, bool isLogIn, bool isMusic, bool isSound)
     {
         IdPlayer = idPlayer;
         IsLogIn = isLogIn;
         IsMusic = isMusic;
         IsSound = isSound;
-
     }
     // GỌi khi tất cả các data load hoàn tất
     public void ConfigData(PlayerInfo playerInfo)
     {
         Coins = playerInfo.coins;
         Keys = playerInfo.keys;
-        LastCompletedLevels = ConvertToDictionaryLastCompletedLevels(playerInfo.lastCompletedLevels);
-        BoardsInProgress = ConvertToDictionaryBoardsInProgress(playerInfo.boardsInProgress);
-        UnlockedCategories = ConvertToListStringUnlockedCategories(playerInfo.unlockedCategories);
+        LastCompletedLevels = Convert.ToDictionarySI(playerInfo.lastCompletedLevels);
+        ListBooter = Convert.ToDictionarySI(playerInfo.listBooter);
+        BoardsInProgress = Convert.ToDictionarySS(playerInfo.boardsInProgress);
+        UnlockedCategories = Convert.ToListS(playerInfo.unlockedCategories);
         this.playerInfo.DisplayName = playerInfo.DisplayName;
         this.playerInfo.Email = playerInfo.Email;
         //check bật nhạc
@@ -130,8 +126,6 @@ public class GameManager : SingletonComponent<GameManager>
         // Debug.Log(board.foundWords);
         return board;
     }
-
-
     // Start Progress
     public void StartLevel(CategoryInfo categoryInfo, int levelIndex)
     {
@@ -314,7 +308,6 @@ public class GameManager : SingletonComponent<GameManager>
         return GetSavedBoard(categoryInfo) != null;
     }
 
-
     public string OnWordSelected(string selectedWord)
     {
 
@@ -349,23 +342,6 @@ public class GameManager : SingletonComponent<GameManager>
                 ActiveBoard.foundWords.Add(word);
                 // Debug.Log(" GameManaer ActiveBoard.foundWords.Count: " + ActiveBoard.foundWords.Count);
                 if (ActiveBoard.recommendWords.Contains(word)) ActiveBoard.recommendWords.Remove(word);
-                // Debug.Log("ActiveBoard.foundWords.count: " + ActiveBoard.foundWords.Count + );
-                // Debug.Log("kiểm tra tồn tại trong recomment: " + ActiveBoard.recommendWords.Contains(word));
-                // Debug.Log("Số từ đã tìm thấy: " +  ActiveBoard.foundWords.Count);
-
-                // Thông báo cho wordListContainer tiến hành đánh dấu word đã được chọn
-                // wordListContainer.SetWordFound(word);
-
-                // wordListContainer.PlusWord(ActiveBoard.foundWords);
-
-                // CheckBoardCompleted();
-
-
-
-                //kiểm tra đã tìm đủ word chưa
-
-
-                // Return the word with the spaces
                 return word;
             }
         }
@@ -692,15 +668,11 @@ public class GameManager : SingletonComponent<GameManager>
         // LastCompletedLevels["birds"] = 25;
         // playerInfo.activeBoard = ActiveBoard;
         playerInfo.lastCompletedLevels = Utilities.ConvertToJsonString(LastCompletedLevels);
+        playerInfo.listBooter = Utilities.ConvertToJsonString(ListBooter);
         playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
         playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
     }
 
-    // public void ConfigUserFireBase(string displayName, string email)
-    // {
-    //     playerInfo.DisplayName = displayName;
-    //     playerInfo.Email = email;
-    // }
     public void SaveCurrentBoard()
     {
         SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);
@@ -732,35 +704,6 @@ public class GameManager : SingletonComponent<GameManager>
     private string GetSaveKey(CategoryInfo categoryInfo, int levelIndex = -1)
     {
         return string.Format("{0}_{1}", categoryInfo.saveId, levelIndex);
-    }
-    private Dictionary<string, int> ConvertToDictionaryLastCompletedLevels(string contents)
-    {
-        Dictionary<string, int> dictionary = new Dictionary<string, int>();
-        JSONNode json = JSON.Parse(contents);
-        foreach (var key in json.Keys)
-        {
-            // Debug.Log("key: " + key + "  value: " + json[key]);
-            dictionary.Add(key, json[key]);
-        }
-        return dictionary;
-    }
-    private Dictionary<string, string> ConvertToDictionaryBoardsInProgress(string contents)
-    {
-        Dictionary<string, string> dictionary = new Dictionary<string, string>();
-        JSONNode json = JSON.Parse(contents);
-        foreach (var key in json.Keys)
-        {
-            // Debug.Log("key: " + key + "  value: " + json[key]);
-            dictionary.Add(key, json[key]);
-        }
-        return dictionary;
-    }
-
-    private List<string> ConvertToListStringUnlockedCategories(string contents)
-    {
-        string[] lines = contents.Split(',');
-        List<string> someList = new List<string>(lines);
-        return someList;
     }
     public void ActiveLoading()
     {
@@ -796,4 +739,19 @@ public class GameManager : SingletonComponent<GameManager>
         // Debug.Log(a);
     }
 
+    public bool SetBooter(string key, int amount)
+    {
+        Debug.Log("key: " + key);
+        Debug.Log("ListBooter.Count: " + ListBooter.Count);
+        if (ListBooter.ContainsKey(key))
+        {
+            Debug.Log("key: " + key + "    old value: " + ListBooter[key]);
+            Debug.Log("amount: " + amount);
+            ListBooter[key] += amount;
+            Debug.Log("key: " + key + "    new value: " + ListBooter[key]);
+            SaveableManager.Instance.SaveData();
+            return true;
+        }
+        return false;
+    }
 }

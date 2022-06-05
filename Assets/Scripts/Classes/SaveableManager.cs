@@ -40,6 +40,7 @@ public class SaveableManager : MonoBehaviour
             // DOVirtual.DelayedCall(2, );
         }
     }
+
     public void LoadDataOffline()
     {
         bool isPlay = PlayerPrefs.HasKey("SonatGameStudio");
@@ -110,8 +111,18 @@ public class SaveableManager : MonoBehaviour
         PlayerPrefs.SetInt("isMusic", 1);
         PlayerPrefs.SetInt("isSound", 1);
         PlayerInfo playerInfo = new PlayerInfo(GameManager.Instance.StartingCoins, GameManager.Instance.StartingKeys);
+        playerInfo.listBooter = Utilities.ConvertToJsonString(CreateListBooterDefaut());
         SetPlayerInfo(playerInfo);
-
+    }
+    private Dictionary<string, int> CreateListBooterDefaut()
+    {
+        Dictionary<string, int> ListBooter = new Dictionary<string, int>();
+        ListBooter.Add("Clear-words", 0);
+        ListBooter.Add("Find-letters", 0);
+        ListBooter.Add("Recommend-word", 0);
+        ListBooter.Add("Find-words", 0);
+        ListBooter.Add("Suggest-many-words", 0);
+        return ListBooter;
     }
     public void SetSound(bool isSound)
     {

@@ -14,8 +14,13 @@ public class HomeScreen : MonoBehaviour
 
     public void OnSelectCategory()
     {
-        
+
         ScreenManager.Instance.Show("levels");
+    }
+    public void ShowDailyGift()
+    {
+
+        ScreenManager.Instance.Show("dailyGift");
     }
     public void OnPlayNextLevelRandomCategory()
     {

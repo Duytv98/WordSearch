@@ -8,7 +8,7 @@ public class ScreenManager : SingletonComponent<ScreenManager>
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private LevelScreen levelScreen = null;
-
+    [SerializeField] private DailyGift dailyGift = null;
     [SerializeField] private GameObject flashCanvas = null;
     [SerializeField] private TopBar topBar = null;
     private List<string> backStack;
@@ -43,6 +43,12 @@ public class ScreenManager : SingletonComponent<ScreenManager>
                 currentScreen = screen;
                 screen.SetActive(true);
                 gameScreen.Initialize();
+                break;
+            case "dailyGift":
+                screen = dailyGift.gameObject;
+                currentScreen = screen;
+                screen.SetActive(true);
+                dailyGift.Initialize();
                 break;
             default:
                 return;

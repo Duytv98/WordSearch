@@ -10,11 +10,10 @@ public class PlayerInfo
     public string Email;
     public int coins = 0;
     public int keys = 0;
-    // public CategoryInfo activeCategoryInfo = null;
-    // public Board activeBoard = null;
     public string lastCompletedLevels = null;
     public string boardsInProgress = null;
     public string unlockedCategories = null;
+    public string listBooter = null;
 
 
 
@@ -26,7 +25,8 @@ public class PlayerInfo
         "\n keys: " + keys +
         "\n lastCompletedLevels: " + lastCompletedLevels +
         "\n boardsInProgress: " + boardsInProgress +
-        "\n unlockedCategories: " + unlockedCategories;
+        "\n unlockedCategories: " + unlockedCategories +
+        "\n listBooter: " + listBooter;
     }
     public void Union(PlayerInfo playerLocal, PlayerInfo playerFireBase)
     {
@@ -47,17 +47,13 @@ public class PlayerInfo
         }
         foreach (var key in lastCompletedLevelsFireBaseJson.Keys)
         {
-            if (dictionary.ContainsKey(key)){
-                // Debug.Log("key: " + key);
-                // Debug.Log("Tồn tại");
-                // Debug.Log("dictionary[key]:  " + dictionary[key] );
-                // Debug.Log("lastCompletedLevelsFireBaseJson[key]: " + lastCompletedLevelsFireBaseJson[key]);
+            if (dictionary.ContainsKey(key))
                 dictionary[key] = dictionary[key] >= lastCompletedLevelsFireBaseJson[key] ? dictionary[key] : lastCompletedLevelsFireBaseJson[key];
-            } 
             else dictionary.Add(key, lastCompletedLevelsFireBaseJson[key]);
         }
         lastCompletedLevels = Utilities.ConvertToJsonString(dictionary);
         boardsInProgress = "";
+        listBooter = playerLocal.listBooter;
 
         string[] linesCategoriesLocal = playerLocal.unlockedCategories.Split(',');
         string[] linesFireBaseLocal = playerFireBase.unlockedCategories.Split(',');
@@ -70,9 +66,6 @@ public class PlayerInfo
         }
         unlockedCategories = string.Join(",", listCategories);
     }
-
-
-
     public PlayerInfo()
     {
     }
@@ -81,85 +74,9 @@ public class PlayerInfo
         this.coins = coins;
         this.keys = keys;
     }
-
-
-    public int GetCoins()
-    {
-        return this.coins;
-    }
-
-    public void SetCoins(int coins)
-    {
-        this.coins = coins;
-    }
-    public void DecreaseCoins(int coins)
-    {
-        this.coins -= coins;
-    }
-    public void IncreaseCoins(int coins)
-    {
-        this.coins += coins;
-    }
-
-    public int GetKeys()
-    {
-        return this.keys;
-    }
-
-    public void SetKeys(int keys)
-    {
-        this.keys = keys;
-    }
-
-    // public CategoryInfo GetActiveCategoryInfo()
-    // {
-    //     return this.activeCategoryInfo;
-    // }
-
-    // public void SetActiveCategoryInfo(CategoryInfo activeCategoryInfo)
-    // {
-    //     this.activeCategoryInfo = activeCategoryInfo;
-    // }
-
-    // public Board GetActiveBoard()
-    // {
-    //     return this.activeBoard;
-    // }
-
-    // public void SetActiveBoard(Board activeBoard)
-    // {
-    //     this.activeBoard = activeBoard;
-    // }
-    public string GetLastCompletedLevels()
-    {
-        return this.lastCompletedLevels;
-    }
-
-    public void SetLastCompletedLevels(string lastCompletedLevels)
-    {
-        this.lastCompletedLevels = lastCompletedLevels;
-    }
-    public string getUnlockedCategories()
-    {
-        return this.unlockedCategories;
-    }
-
-    public void setUnlockedCategories(string unlockedCategories)
-    {
-        this.unlockedCategories = unlockedCategories;
-    }
-    public static PlayerInfo CreateFromJSON(string jsonString)
-    {
-        return JsonUtility.FromJson<PlayerInfo>(jsonString);
-    }
     public string SaveToString()
     {
         return JsonUtility.ToJson(this);
-    }
-
-    public PlayerInfo GetPlayerInfo()
-    {
-        return this;
     }
 
 }
