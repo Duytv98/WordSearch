@@ -16,6 +16,7 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private NotEnoughKeysPopup notEnoughKeysPopup = null;
     [SerializeField] private RewardAdGranted rewardAdGranted = null;
     [SerializeField] private StorePopup storePopup = null;
+    [SerializeField] private Gift giftPopup = null;
     [SerializeField] private Image background = null;
     [SerializeField] private Image backgroundFade = null;
 
@@ -78,6 +79,12 @@ public class PopupContainer : MonoBehaviour
     }
     public void ShowStorePopup()
     {
+    }
+    public void ShowGiftPopup(string headerText, string messageText)
+    {
+        Debug.Log("ShowGiftPopup");
+        Show("GiftPopup");
+        giftPopup.OnShowing(headerText, messageText);
     }
     private void Show(string keyName)
     {
@@ -167,6 +174,8 @@ public class PopupContainer : MonoBehaviour
                 return rewardAdGranted.gameObject;
             case "StorePopup":
                 return storePopup.gameObject;
+            case "GiftPopup":
+                return giftPopup.gameObject;
             default:
                 return null;
         }
@@ -193,6 +202,8 @@ public class PopupContainer : MonoBehaviour
                 return rewardAdGranted.GetComponent<CanvasGroup>();
             case "StorePopup":
                 return storePopup.GetComponent<CanvasGroup>();
+            case "GiftPopup":
+                return giftPopup.GetComponent<CanvasGroup>();
             default:
                 return null;
         }

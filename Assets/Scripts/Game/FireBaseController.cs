@@ -26,11 +26,7 @@ public class FireBaseController : MonoBehaviour
     private DatabaseReference reference;
 
 
-    public bool SetUpFirebaseAuthSuccess
-    {
-        get => setUpFirebaseAuthSuccess;
-        set => setUpFirebaseAuthSuccess = value;
-    }
+    public bool SetUpFirebaseAuthSuccess { get => setUpFirebaseAuthSuccess; set => setUpFirebaseAuthSuccess = value; }
 
     private void Awake()
     {
@@ -42,26 +38,29 @@ public class FireBaseController : MonoBehaviour
             return;
         }
 
-        configuration = new GoogleSignInConfiguration
-            {WebClientId = webClientId, RequestEmail = true, RequestIdToken = true};
+        configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
     }
 
     private void Start()
     {
-        var isPlay = PlayerPrefs.HasKey("SonatGameStudio");
+        bool isPlay = PlayerPrefs.HasKey("SonatGameStudio1");
+        Debug.Log("isPlay: " + isPlay);
 
         ScreenManager.Instance.SetActiveFlashCanvas(true);
         StartCoroutine(checkInternetConnection((isConnected) =>
-        {
-            if (isConnected)
-            {
-                CheckFirebaseDependencies(isPlay);
-            }
-            else
-            {
-                SaveableManager.Instance.LoadDataOffline();
-            }
-        }));
+           {
+               if (isConnected)
+               {
+
+                   Debug.Log("Check Firebase");
+                   CheckFirebaseDependencies(isPlay);
+               }
+               else
+               {
+                   Debug.Log("truc tiep load data off");
+                   SaveableManager.Instance.LoadDataOffline();
+               }
+           }));
     }
 
 
@@ -101,9 +100,9 @@ public class FireBaseController : MonoBehaviour
 
     public void SignInWithGoogle()
     {
-//        Debug.Log("============== Click login");
+        Debug.Log("============== Click login");
         GoogleSignIn.DefaultInstance.SignIn().ContinueWithOnMainThread(OnAuthenticationFinished);
-//        Debug.Log(" ==================       SignInWithGoogle");
+        Debug.Log(" ==================       SignInWithGoogle");
     }
 
     public void SignOutFromGoogle()
@@ -113,17 +112,17 @@ public class FireBaseController : MonoBehaviour
 
     private void OnAuthenticationFinished(Task<GoogleSignInUser> task)
     {
-//        Debug.Log(" ==================       OnAuthenticationFinished");
+        //        Debug.Log(" ==================       OnAuthenticationFinished");
         if (task.IsFaulted)
         {
-//            Debug.Log(" ==================       task.IsFaulted: " + task.IsFaulted);
+            //            Debug.Log(" ==================       task.IsFaulted: " + task.IsFaulted);
 
             using (IEnumerator<Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator())
             {
-//                Debug.Log(" ==================       enumerator.MoveNext(): " + enumerator.MoveNext());
+                //                Debug.Log(" ==================       enumerator.MoveNext(): " + enumerator.MoveNext());
                 if (enumerator.MoveNext())
                 {
-                    GoogleSignIn.SignInException error = (GoogleSignIn.SignInException) enumerator.Current;
+                    GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
                     Debug.Log("Got Error: " + error.Status + " " + error.Message);
                 }
                 else
@@ -153,17 +152,17 @@ public class FireBaseController : MonoBehaviour
 
         auth.SignInWithCredentialAsync(credential).ContinueWithOnMainThread(task =>
         {
-//            Debug.Log(" ==================       SignInWithCredentialAsync:      end task");
+            //            Debug.Log(" ==================       SignInWithCredentialAsync:      end task");
             AggregateException ex = task.Exception;
             if (ex != null)
             {
-//                Debug.Log("===================== ex  != null");
+                //                Debug.Log("===================== ex  != null");
                 if (ex.InnerExceptions[0] is FirebaseException inner && (inner.ErrorCode != 0))
                     Debug.Log("\nError code = " + inner.ErrorCode + " Message = " + inner.Message);
             }
             else
             {
-//                Debug.Log("=========================  dang nhao thanh cong");
+                //                Debug.Log("=========================  dang nhao thanh cong");
                 // Debug.Log("Sign In Successful.");
                 // User player = new User();
                 // player.UserName = task.Result.DisplayName;
@@ -224,6 +223,7 @@ public class FireBaseController : MonoBehaviour
 
     private void CheckFirebaseDependencies(bool isPlay)
     {
+        Debug.Log("CheckFirebaseDependencies");
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
@@ -257,7 +257,7 @@ public class FireBaseController : MonoBehaviour
     //RealtimeDatabase
 
 
-    private void SetUpDataBaseReference()
+    public void SetUpDataBaseReference()
     {
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
@@ -268,20 +268,22 @@ public class FireBaseController : MonoBehaviour
         // Debug.Log("id: " + UserId);
         Debug.Log(user.ToString());
         StartCoroutine(checkInternetConnection((isConnected) =>
-        {
-            if (isConnected)
-            {
-                user.boardsInProgress = null;
-                string json = JsonUtility.ToJson(user);
-                reference.Child("User").Child(UserId).SetRawJsonValueAsync(json)
-                    .ContinueWith(task =>
-                    {
-                        Debug.Log(task.IsCompleted ? "successdully added data to firebase" : "not successdully");
-                    });
-            }
-
-            ;
-        }));
+          {
+              if (isConnected)
+              {
+                  user.boardsInProgress = null;
+                  string json = JsonUtility.ToJson(user);
+                  reference.Child("User").Child(UserId).SetRawJsonValueAsync(json)
+                  .ContinueWith(task =>
+                  {
+                      if (task.IsCompleted)
+                      {
+                          Debug.Log("successdully added data to firebase");
+                      }
+                      else Debug.Log("not successdully");
+                  });
+              };
+          }));
     }
 
     public void Read_Data(PlayerInfo playerLocal)
@@ -289,25 +291,28 @@ public class FireBaseController : MonoBehaviour
         Debug.Log("=========" + "Read_Data");
         string userId = GameManager.Instance.IdPlayer;
         reference.Child("User").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                //    Debug.Log("Get data successdully");
-                PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
-                Debug.Log("playerLocal: ");
-                Debug.Log(playerLocal.ToString());
-                Debug.Log("playerFireBase: ");
-                Debug.Log(playerFireBase.ToString());
-                PlayerInfo playerInfo = new PlayerInfo();
-                playerInfo.Union(playerLocal, playerFireBase);
-                Debug.Log(playerInfo.ToString());
-                GameManager.Instance.ConfigData(playerInfo);
+                      {
+                          if (task.IsCompleted)
+                          {
+                              DataSnapshot snapshot = task.Result;
+                              //    Debug.Log("Get data successdully");
+                              PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
+                              Debug.Log("playerLocal: ");
+                              Debug.Log(playerLocal.ToString());
+                              Debug.Log("playerFireBase: ");
+                              Debug.Log(playerFireBase.ToString());
+                              PlayerInfo playerInfo = new PlayerInfo();
+                              playerInfo.Union(playerLocal, playerFireBase);
+                              Debug.Log(playerInfo.ToString());
+                              GameManager.Instance.ConfigData(playerInfo);
 
-                GameManager.Instance.SetPlayerInfo();
-                SaveableManager.Instance.SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
-            }
-            else Debug.Log("not successdully");
-        });
+                              GameManager.Instance.SetPlayerInfo();
+                              SaveableManager.Instance.SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
+
+
+                          }
+                          else Debug.Log("not successdully");
+                      });
+
     }
 }

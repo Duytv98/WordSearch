@@ -23,12 +23,15 @@ public class SaveableManager : MonoBehaviour
     }
     public void LoadDataOnline()
     {
-        // Debug.Log("LoadDataOnline");
+        Debug.Log("LoadDataOnline");
 
 
         GameManager.Instance.Update4variable(GetUserId(), IsLogIn(), IsMusic(), IsSound());
         string jsonString = PlayerPrefs.GetString("playerInfo");
         PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
+        Debug.Log("loacal: ");
+        Debug.Log(playerLocal.ToString());
+        Debug.Log("islogin: " + GameManager.Instance.IsLogIn);
         // GameManager.Instance.IsLogIn = true;
         if (!GameManager.Instance.IsLogIn)
         {
@@ -43,7 +46,8 @@ public class SaveableManager : MonoBehaviour
 
     public void LoadDataOffline()
     {
-        bool isPlay = PlayerPrefs.HasKey("SonatGameStudio");
+        Debug.Log("LoadDataOffline");
+        bool isPlay = PlayerPrefs.HasKey("SonatGameStudio1");
         if (isPlay)
         {
             // Người chơi đã từng tham gia trờ chơi
@@ -107,7 +111,7 @@ public class SaveableManager : MonoBehaviour
     }
     public void SetGameDefaut()
     {
-        PlayerPrefs.SetInt("SonatGameStudio", 1);
+        PlayerPrefs.SetInt("SonatGameStudio1", 1);
         PlayerPrefs.SetInt("isMusic", GameDefine.DEFAULT_MUSIC);
         PlayerPrefs.SetInt("isSound", GameDefine.DEFAULT_SOUND);
         PlayerInfo playerInfo = new PlayerInfo(GameDefine.STARTING_COINS, GameDefine.STARTING_KEYS);

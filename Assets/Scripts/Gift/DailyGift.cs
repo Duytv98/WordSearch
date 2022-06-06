@@ -8,7 +8,6 @@ using SimpleJSON;
 
 public class DailyGift : MonoBehaviour
 {
-
     [System.Serializable]
     private class GiftDay
     {
@@ -16,6 +15,7 @@ public class DailyGift : MonoBehaviour
         public Image image;
         public Text TextDay;
     };
+
     [SerializeField] private string id = "dailyGift";
     public Dictionary<string, string> HistoryCollection { get; private set; }
     [SerializeField] private GiftDay[] GiftDays = null;
@@ -30,14 +30,15 @@ public class DailyGift : MonoBehaviour
     {
         HistoryCollection = new Dictionary<string, string>();
         HistoryCollection = GetHistoryCollectionLocal();
-        Debug.Log("HistoryCollection.Count: " + HistoryCollection.Count);
+        //        Debug.Log("HistoryCollection.Count: " + HistoryCollection.Count);
 
         if (GetIdCurrentCollectGift() != null && !CheckCollectionConsecutiveGifts() ||
-                  HistoryCollection.Count == 7 && CheckCollectionNextDay())
+            HistoryCollection.Count == 7 && CheckCollectionNextDay())
         {
             HistoryCollection.Clear();
             SaveHistoryCollectionLocal();
         }
+
         idLastCollectGift = GetIdCurrentCollectGift();
         if (idLastCollectGift == null)
         {
@@ -45,13 +46,16 @@ public class DailyGift : MonoBehaviour
             SaveGiftInfoLocal();
         }
         else giftInfo = GetGiftInfoLocal();
+
         var testGiftInfo = GetGiftInfoLocal();
         SetColorGiftDay();
     }
+
     private Dictionary<string, string> CreateGiftEveryDay()
     {
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
-        string[] idGifts = new string[] { "Clear-words", "Find-letters", "Recommend-word", "Find-words", "Suggest-many-words" };
+        string[] idGifts = new string[]
+            {"Clear-words", "Find-letters", "Recommend-word", "Find-words", "Suggest-many-words"};
         for (int i = 1; i < 8; i++)
         {
             string idDay = "Day-" + i;
@@ -67,11 +71,13 @@ public class DailyGift : MonoBehaviour
                 {
                     idBooter = idGifts[UnityEngine.Random.Range(3, 5)];
                 }
+
                 amount = UnityEngine.Random.Range(1, 3);
                 Booter booter = new Booter(idBooter, amount);
                 dictionary.Add(idDay, booter.GetString());
             }
         }
+
         return dictionary;
     }
 
@@ -111,34 +117,43 @@ public class DailyGift : MonoBehaviour
             }
         }
     }
+
     private Dictionary<string, string> GetHistoryCollectionLocal()
     {
         return Convert.ToDictionarySS(PlayerPrefs.GetString("HistoryCollection"));
     }
+
     private void SaveHistoryCollectionLocal()
     {
         PlayerPrefs.SetString("HistoryCollection", Utilities.ConvertToJsonString(HistoryCollection));
     }
+
     private Dictionary<string, string> GetGiftInfoLocal()
     {
-        return Convert.ToDictionarySS(PlayerPrefs.GetString("GiftInfo")); ;
+        return Convert.ToDictionarySS(PlayerPrefs.GetString("GiftInfo"));
+        ;
     }
+
     private void SaveGiftInfoLocal()
     {
         PlayerPrefs.SetString("GiftInfo", Utilities.ConvertToJsonString(giftInfo));
     }
+
     public DateTime StringToDateTime(string dateTimestring)
     {
         return DateTime.ParseExact(dateTimestring, "dd'/'MM'/'yyyy HH:mm:ss", CultureInfo.InvariantCulture);
     }
+
     public string GetStringDateTimeNow()
     {
         return DateTime.Now.ToLocalTime().ToString("dd'/'MM'/'yyyy HH:mm:ss");
     }
+
     public int SubtractDate(string start, string end)
     {
         return StringToDateTime(end).Subtract(StringToDateTime(start)).Days;
     }
+
     private bool CheckCollectionConsecutiveGifts()
     {
         var idLast = GetIdCurrentCollectGift();
@@ -159,16 +174,18 @@ public class DailyGift : MonoBehaviour
         if (day == 1) return true;
         return false;
     }
+
     private GiftDay GetGiftDay(string id)
     {
         return Array.Find(GiftDays, giftDay => giftDay.id == id);
-
     }
+
     private string GetIdCurrentCollectGift()
     {
         if (HistoryCollection.Count <= 0) return null;
         return "Day-" + HistoryCollection.Count;
     }
+
     public void Onclick(int idInt)
     {
         int idIntCurr = HistoryCollection.Count;
@@ -176,6 +193,8 @@ public class DailyGift : MonoBehaviour
         if (idInt <= idIntCurr)
         {
             Debug.Log("Bạn đã nhận quà");
+
+            PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "You received a gift today");
         }
         else if (idInt == idIntCurr + 1)
         {
@@ -186,16 +205,18 @@ public class DailyGift : MonoBehaviour
             else
             {
                 if (CheckCollectionNextDay()) CollectionGift(giftDayChoose);
-                else Debug.Log("Ngay mai quay lai nhan qua nha!");
+                else PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "Come back early tomorrow");
+
             }
         }
         else
         {
-            Debug.Log("Bạn cần nhận quà liên tiếp " + (idInt - (idIntCurr + 1)) + " ngày tiếp theo để nhận được phần quà này.");
+            PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "You need to receive the gift in the next " + (idInt - (idIntCurr + 1)) + " consecutive days to receive this gift.");
         }
 
         idLastCollectGift = GetIdCurrentCollectGift();
     }
+
     private void CollectionGift(GiftDay giftDay)
     {
         Debug.Log("Nhận quà hôm nay");
@@ -209,8 +230,12 @@ public class DailyGift : MonoBehaviour
             Debug.Log("booter: " + booter.Log());
             bool test = GameManager.Instance.SetBooter(booter.id, booter.amount);
             Debug.Log("Set booter: " + test);
+            PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "YOU GET:\n" + booter.amount + " " + booter.id);
         }
+
+
     }
+
     private Booter GetBooter(string key)
     {
         Debug.Log(giftInfo[key]);
@@ -219,5 +244,4 @@ public class DailyGift : MonoBehaviour
         booter.StringToJson(giftInfo[key]);
         return booter;
     }
-
 }

@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
     // GỌi khi tất cả các data load hoàn tất
     public void ConfigData(PlayerInfo playerInfo)
     {
+        Debug.Log("ConfigData");
         Coins = playerInfo.coins;
         Keys = playerInfo.keys;
         LastCompletedLevels = Convert.ToDictionarySI(playerInfo.lastCompletedLevels);

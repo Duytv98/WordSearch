@@ -35,7 +35,6 @@ public class Booter
         JSONNode json = JSON.Parse(contents);
         id = json["id"];
         amount = json["amount"].AsInt;
-
     }
     public string Log()
     {
