@@ -39,8 +39,17 @@ public class DailyGift : MonoBehaviour
             HistoryCollection.Clear();
             SaveHistoryCollectionLocal();
         }
-        Debug.Log("CheckCollectionNextDay(): " + CheckCollectionNextDay());
-        if (CheckCollectionNextDay() && GetStatusGiftFast() < 0) SetStatusGiftFast(1);
+        if (GetIdCurrentCollectGift() == null)
+        {
+            if (GetStatusGiftFast() < 0) SetStatusGiftFast(1);
+        }
+        else
+        {
+            Debug.Log("CheckCollectionNextDay(): " + CheckCollectionNextDay());
+            if (CheckCollectionNextDay() && GetStatusGiftFast() < 0) SetStatusGiftFast(1);
+        }
+
+
         idLastCollectGift = GetIdCurrentCollectGift();
         if (idLastCollectGift == null)
         {
@@ -62,6 +71,7 @@ public class DailyGift : MonoBehaviour
         int idIntCurr = HistoryCollection.Count;
         string idCollect = "Day-" + (idIntCurr + 1);
 
+        Debug.Log("GetStatusGiftFast(): " + GetStatusGiftFast());
         if (GetStatusGiftFast() <= 0) return null;
         else if (idIntCurr == 0 || CheckCollectionNextDay())
         {
