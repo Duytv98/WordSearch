@@ -19,8 +19,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [Header("Data")]
     [SerializeField] private List<CategoryInfo> categoryInfos = null;
-
-    [SerializeField] private List<DifficultyInfo> difficultyInfos = null;
+    public List<CategoryInfo> CategoryInfos { get { return categoryInfos; } }
 
     [Header("Values")]
     [SerializeField] private int numLevelsToAwardCoins = 0;
@@ -30,17 +29,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CharacterGrid characterGrid = null;
     [SerializeField] private WordListContainer wordListContainer = null;
     [SerializeField] private GameObject loadingIndicator = null;
-    [SerializeField] private ScreenManager screenManager = null;
-
+    // [SerializeField] private ScreenManager screenManager = null;
     [SerializeField] private Effect effectContronler = null;
     public int Coins { get; set; }
     public int Keys { get; set; }
 
-    public List<CategoryInfo> CategoryInfos { get { return categoryInfos; } }
     public CategoryInfo ActiveCategoryInfo { get; set; }
     public int ActiveDifficultyIndex { get; private set; }
     public Board ActiveBoard { get; private set; }
     public int ActiveLevelIndex { get; private set; }
+
+    private Board casualBoard = null;
+    public Board CasualBoard { get => casualBoard; set => casualBoard = value; }
+
     public GameMode ActiveGameMode { get; private set; }
     public GameState ActiveGameState { get; private set; }
 
@@ -133,7 +134,7 @@ public class GameManager : MonoBehaviour
         {
             board = LoadLevelFile(categoryInfo, levelIndex);
         }
-        SetupGame(board, levelIndex);
+        SetupGame(board);
 
         // SetBoardInProgress(board, categoryInfo, levelIndex);
         SaveCurrentBoard();
@@ -150,7 +151,8 @@ public class GameManager : MonoBehaviour
 
         StartLevel(categoryInfo, nextLevelIndex);
     }
-    private void SetupGame(Board board, int levelIndex = -1)
+    // private void SetupGame(Board board, int levelIndex = -1)
+    private void SetupGame(Board board)
     {
         IsCompleted = false;
         ActiveBoard = board;
@@ -158,12 +160,19 @@ public class GameManager : MonoBehaviour
         SetUpListBooterUse();
         // Debug.Log("ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
         // Debug.Log("ListBooterUse: " + Utilities.ConvertToJsonString(ListBooterInGame));
-        if (levelIndex >= 0)
-        {
-            ScreenManager.Instance.Show("game");
-            characterGrid.SetUp(board);
-            wordListContainer.Setup(board);
-        }
+        // if (levelIndex >= 0)
+        // {
+        //     ScreenManager.Instance.Show("game");
+        //     characterGrid.SetUp(board);
+        //     wordListContainer.Setup(board);
+        // }
+
+        if (ActiveGameMode == GameMode.Progress) ScreenManager.Instance.Show("game");
+        else ScreenManager.Instance.InitializeGameScreen();
+        characterGrid.SetUp(board);
+        wordListContainer.Setup(board);
+
+
         ActiveGameState = GameState.BoardActive;
 
         SaveableManager.Instance.SaveData();
@@ -173,127 +182,37 @@ public class GameManager : MonoBehaviour
         return LastCompletedLevels.ContainsKey(categoryInfo.saveId) && LastCompletedLevels[categoryInfo.saveId] >= categoryInfo.levelFiles.Count - 1;
     }
 
-    // Start Casual
-    public void StartCasual(CategoryInfo categoryInfo, int difficultyIndex)
+    public void StartCasual()
     {
-        ActiveCategoryInfo = categoryInfo;
-        ActiveDifficultyIndex = difficultyIndex;
-        ActiveLevelIndex = -1;
+
         ActiveGameMode = GameMode.Casual;
-
-        // Debug.Log("ActiveDifficultyIndex: " + ActiveDifficultyIndex);
-
-        // Clear the board from any previous game
-        characterGrid.Clear();
-        wordListContainer.Clear();
-
-        // Generate a new random board to use
-        GenerateRandomBoard(difficultyInfos[difficultyIndex]);
-
-        // ShowGameScreen();
+        SetupGame(CasualBoard);
     }
-    public void ContinueCasual(CategoryInfo categoryInfo)
-    {
-        Board savedBoard = GetSavedBoard(categoryInfo);
 
-        if (savedBoard == null)
-        {
-            Debug.LogError("[GameManager] ContinueCasual: There is no saved casual board for category " + categoryInfo.saveId);
+    // public void ContinueCasual(CategoryInfo categoryInfo)
+    // {
+    //     Board savedBoard = GetSavedBoard(categoryInfo);
 
-            return;
-        }
+    //     if (savedBoard == null)
+    //     {
+    //         Debug.LogError("[GameManager] ContinueCasual: There is no saved casual board for category " + categoryInfo.saveId);
 
-        ActiveCategoryInfo = categoryInfo;
-        ActiveDifficultyIndex = savedBoard.difficultyIndex;
-        ActiveLevelIndex = -1;
-        ActiveGameMode = GameMode.Casual;
+    //         return;
+    //     }
 
-        // characterGrid.Clear();
-        // wordListContainer.Clear();
-        SetupGame(savedBoard);
+    //     ActiveCategoryInfo = categoryInfo;
+    //     ActiveDifficultyIndex = savedBoard.difficultyIndex;
+    //     ActiveLevelIndex = -1;
+    //     ActiveGameMode = GameMode.Casual;
 
-        // ScreenManager.Instance.ShowScreenGame();
-        ScreenManager.Instance.Show("game");
-        // ShowGameScreen();
-    }
-    private void GenerateRandomBoard(DifficultyInfo difficultyInfo)
-    {
-        // Load all the category words
-        List<string> categoryWords = LoadWords(ActiveCategoryInfo, difficultyInfo.maxWordLength);
-        // string str = "";
-        // foreach (var item in categoryWords)
-        // {
-        //     str += (item + " , ");
-        // }
-        // Debug.Log(str);
-        // Debug.Log("count: " + categoryWords.Count + "  difficultyInfo.maxWordLength: " + difficultyInfo.maxWordLength);
+    //     // characterGrid.Clear();
+    //     // wordListContainer.Clear();
+    //     SetupGame(savedBoard);
 
-        List<string> words = new List<string>();
-
-        // Randomly choose words to use
-        for (int i = 0; i < categoryWords.Count && words.Count < difficultyInfo.maxWords; i++)
-        {
-            int randomIndex = Random.Range(i, categoryWords.Count);
-            string randomWord = categoryWords[randomIndex];
-
-            categoryWords[randomIndex] = categoryWords[i];
-            categoryWords[i] = randomWord;
-
-            words.Add(randomWord);
-        }
-        var str = words.Aggregate("", (current, item) => current + (item + " , "));
-        // Debug.Log(str);
-        // Create the board settings that will be passed to BoardCreator.CreateBoard
-        BoardCreator.BoardConfig boardConfig = new BoardCreator.BoardConfig();
-        boardConfig.rows = difficultyInfo.boardRowSize;
-        boardConfig.cols = difficultyInfo.boardColumnSize;
-        boardConfig.words = words;
-        boardConfig.randomCharacters = GameDefine.CHARACTERS;
-        // Debug.Log(JsonUtility.ToJson(boardConfig));
-
-        ActiveGameState = GameState.GeneratingBoard;
-        // ScreenManager.Instance.ShowScreenGame();
-
-        ScreenManager.Instance.Show("game");
-        loadingIndicator.SetActive(true);
-
-        // // Start the creation of the board
-        BoardCreator.CreateBoard(boardConfig, OnCasualBoardCreated);
-    }
-    private void OnCasualBoardCreated(Board board)
-    {
-        // Debug.Log(32222222);
-        board.difficultyIndex = ActiveDifficultyIndex;
-
-        // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
-
-        SetupGame(board);
-
-        SetBoardInProgress(board, ActiveCategoryInfo);
-
-        loadingIndicator.SetActive(false);
-    }
-    private List<string> LoadWords(CategoryInfo categoryInfo, int maxLength)
-    {
-        string contents = categoryInfo.wordFile.text;
-        string[] lines = contents.Split('\n');
-
-        List<string> words = new List<string>();
-        HashSet<string> seenWords = new HashSet<string>();
-
-        for (int i = 0; i < lines.Length; i++)
-        {
-            string word = lines[i].TrimEnd('\r', '\n');
-
-            if (!string.IsNullOrEmpty(word) && !seenWords.Contains(word) && word.Length <= maxLength)
-            {
-                words.Add(word);
-                seenWords.Add(word);
-            }
-        }
-
-        return words;
-    }
+    //     // ScreenManager.Instance.ShowScreenGame();
+    //     ScreenManager.Instance.Show("game");
+    //     // ShowGameScreen();
+    // }
     public bool HasSavedCasualBoard(CategoryInfo categoryInfo)
     {
         return GetSavedBoard(categoryInfo) != null;
@@ -358,7 +277,8 @@ public class GameManager : MonoBehaviour
         IsCompleted = true;
         // Debug.Log("ActiveCategoryInfo: " + ActiveCategoryInfo + "  ActiveLevelIndex: " + ActiveLevelIndex + "  Key: " + GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
         // Debug.Log(Utilities.ConvertToJsonString(BoardsInProgress));
-        BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
+        if (ActiveGameMode == GameMode.Progress) BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
+        else ScreenManager.Instance.CompleteLevelCasual();
 
         // Debug.Log("ActiveCategoryInfo: " + ActiveCategoryInfo + "  ActiveLevelIndex: " + ActiveLevelIndex + "  Key: " + GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
         // Debug.Log(Utilities.ConvertToJsonString(BoardsInProgress));
@@ -419,7 +339,7 @@ public class GameManager : MonoBehaviour
                     Keys -= categoryInfo.unlockAmount;
 
                     UnlockedCategories.Add(categoryInfo.saveId);
-                    screenManager.RefreshLevelScreen();
+                    ScreenManager.Instance.RefreshLevelScreen();
                     PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
                     SaveableManager.Instance.SaveData();
                     return true;
@@ -434,7 +354,7 @@ public class GameManager : MonoBehaviour
     {
         bool useBooter = false;
         string key = "Find-words";
-        if (ActiveBoard == null || loadingIndicator.activeSelf)
+        if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading())
         {
             return;
         }
@@ -480,7 +400,7 @@ public class GameManager : MonoBehaviour
 
         bool useBooter = false;
         string key = "Find-letters";
-        if (ActiveBoard == null || loadingIndicator.activeSelf)
+        if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading())
         {
             return;
         }
@@ -663,13 +583,14 @@ public class GameManager : MonoBehaviour
 
     public void SaveCurrentBoard()
     {
-        SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);
+        if (ActiveGameMode == GameMode.Progress) SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);
+        else ScreenManager.Instance.SaveProgressCasual();
     }
     private void SetBoardInProgress(Board board, CategoryInfo categoryInfo, int levelIndex = -1)
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
-        // Debug.Log("contentsBoard: " + contentsBoard);
+        Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
@@ -689,14 +610,14 @@ public class GameManager : MonoBehaviour
     {
         return string.Format("{0}_{1}", categoryInfo.saveId, levelIndex);
     }
-    public void ActiveLoading()
-    {
-        loadingIndicator.SetActive(true);
-    }
-    public void DeactivateLoading()
-    {
-        loadingIndicator.SetActive(false);
-    }
+    // public void ActiveLoading()
+    // {
+    //     loadingIndicator.SetActive(true);
+    // }
+    // public void DeactivateLoading()
+    // {
+    //     loadingIndicator.SetActive(false);
+    // }
 
     public bool IsCategoryLocked(CategoryInfo categoryInfo)
     {

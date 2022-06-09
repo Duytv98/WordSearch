@@ -81,7 +81,7 @@ public class CategorySelectedPopup : MonoBehaviour
     }
     public void ContinueWithCategory()
     {
-        GameManager.Instance.ContinueCasual(this.categoryInfo);
+        // GameManager.Instance.ContinueCasual(this.categoryInfo);
         ClosePopupCategorySelected();
     }
     public void PlayNextLevelProgress()
@@ -100,7 +100,7 @@ public class CategorySelectedPopup : MonoBehaviour
 
     public void OnDifficultySelected(int difficultyIndex)
     {
-        GameManager.Instance.StartCasual(categoryInfo, difficultyIndex);
+        // GameManager.Instance.StartCasual(categoryInfo, difficultyIndex);
         ClosePopupCategorySelected();
     }
 }

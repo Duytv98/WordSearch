@@ -6,6 +6,8 @@ using DG.Tweening;
 public class ScreenManager : MonoBehaviour
 {
     public static ScreenManager Instance;
+
+    [SerializeField] private GameObject loadingIndicator = null;
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private LevelScreen levelScreen = null;
@@ -108,8 +110,11 @@ public class ScreenManager : MonoBehaviour
         }
 
         string screenId = backStack[backStack.Count - 2];
+        if (backStack[backStack.Count - 1] == "game") SaveableManager.Instance.SaveData();
         backStack.RemoveAt(backStack.Count - 1);
         if (currentScreen) Close(currentScreen);
+        Debug.Log("Back dailyPuzzle");
+        Debug.Log("screenId" + screenId);
 
         switch (screenId)
         {
@@ -129,8 +134,13 @@ public class ScreenManager : MonoBehaviour
                 currentScreen = gameScreen.gameObject;
                 gameScreen.gameObject.SetActive(true);
                 AddBackStack("game");
-                SaveableManager.Instance.SaveData();
                 /////////////////////////////
+                break;
+            case "dailyPuzzle":
+                currentScreen = dailyPuzzle.gameObject;
+                dailyPuzzle.gameObject.SetActive(true);
+                dailyPuzzle.Initialize();
+                AddBackStack("dailyPuzzle");
                 break;
         }
 
@@ -150,4 +160,54 @@ public class ScreenManager : MonoBehaviour
         flashCanvas.SetActive(isActive);
     }
 
+
+    //  Ho Tro Daily Puzzle
+    public void ActiveDefaultGameScreen(int level)
+    {
+        if (currentScreen) Close(currentScreen);
+        GameObject screen = gameScreen.gameObject;
+        currentScreen = screen;
+        gameScreen.SetDefault();
+        screen.SetActive(true);
+        AddBackStack("game");
+        topBar.SetTopBarCasualGame(level);
+    }
+
+    public void DailyPuzzleChooseLevel()
+    {
+        dailyPuzzle.CreateLevelEnd();
+    }
+    public void SaveProgressCasual()
+    {
+        dailyPuzzle.SaveCurrentBoard();
+    }
+    public void SaveLocalProgressCasual()
+    {
+        dailyPuzzle.SaveLocalProgress();
+    }
+    public void CompleteLevelCasual()
+    {
+        dailyPuzzle.LevelCasualSuccessful();
+    }
+    public bool NextLevelCasual()
+    {
+        return dailyPuzzle.NextLevelCasual();
+    }
+
+    public void InitializeGameScreen()
+    {
+        gameScreen.Initialize();
+    }
+    public void ActiveLoading()
+    {
+        loadingIndicator.SetActive(true);
+    }
+    public void DeactivateLoading()
+    {
+        loadingIndicator.SetActive(false);
+    }
+    public bool IsActiveLoading()
+    {
+        return loadingIndicator.activeSelf;
+    }
 }

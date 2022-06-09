@@ -9,4 +9,12 @@ public class DifficultyInfo
     public int boardColumnSize;
     public int maxWords;
     public int maxWordLength;
+
+    public DifficultyInfo(int boardRowSize, int boardColumnSize, int maxWords, int maxWordLength)
+    {
+        this.boardRowSize = boardRowSize;
+        this.boardColumnSize = boardColumnSize;
+        this.maxWords = maxWords;
+        this.maxWordLength = maxWordLength;
+    }
 }

@@ -66,12 +66,23 @@ public class SaveableManager : MonoBehaviour
 
     public void SaveData()
     {
-        // Debug.Log("save Data: ");
-        // Debug.Log(GameManager.Instance.GetPlayerInfo());
-        GameManager.Instance.SetPlayerInfo();
-        // Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
-        SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
-        if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
+        // Debug.Log("SaveableManager  SaveData()");
+        // Debug.Log("GameManager.Instance.ActiveGameMode: " + GameManager.Instance.ActiveGameMode);
+        if (GameManager.Instance.ActiveGameMode == GameManager.GameMode.Progress)
+        {
+            // Debug.Log("GameManager.Instance.ActiveGameMode == GameManager.GameMode.Progress");
+            // Debug.Log("save Data: ");
+            // Debug.Log(GameManager.Instance.GetPlayerInfo());
+            GameManager.Instance.SetPlayerInfo();
+            // Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
+            SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
+            if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
+        }
+        else
+        {
+            // Debug.Log("ScreenManager.Instance.SaveLocalProgressCasual");
+            ScreenManager.Instance.SaveLocalProgressCasual();
+        }
     }
 
 

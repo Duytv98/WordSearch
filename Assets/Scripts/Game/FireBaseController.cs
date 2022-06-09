@@ -15,19 +15,12 @@ using UnityEngine.Networking;
 public class FireBaseController : MonoBehaviour
 {
     public static FireBaseController Instance;
-    public string webClientId = "<your client id here>";
     private GoogleSignInConfiguration configuration;
     private FirebaseAuth auth;
     private FirebaseUser user;
-
     private bool setUpFirebaseAuthSuccess = false;
-
-
     private DatabaseReference reference;
-
-
     public bool SetUpFirebaseAuthSuccess { get => setUpFirebaseAuthSuccess; set => setUpFirebaseAuthSuccess = value; }
-
     private void Awake()
     {
         if (Instance == null)
@@ -38,7 +31,7 @@ public class FireBaseController : MonoBehaviour
             return;
         }
 
-        configuration = new GoogleSignInConfiguration { WebClientId = webClientId, RequestEmail = true, RequestIdToken = true };
+        configuration = new GoogleSignInConfiguration { WebClientId = GameDefine.WEBCLIENTID, RequestEmail = true, RequestIdToken = true };
     }
 
     private void Start()

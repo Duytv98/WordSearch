@@ -10,6 +10,7 @@ public class HomeScreen : MonoBehaviour
     [SerializeField] private GiftsFast giftsFast = null;
     [SerializeField] private DailyGift dailyGift = null;
     private Tuple<string, Booter> infoGift = null;
+
     private string idCollect = null;
 
     public void Initialize()
@@ -26,6 +27,7 @@ public class HomeScreen : MonoBehaviour
             infoGift = tuple;
             PopupContainer.Instance.ShowGiftsFastPopup(infoGift);
         }
+        // casualGame.StartCasual(0);
     }
     public void CollectionGift()
     {

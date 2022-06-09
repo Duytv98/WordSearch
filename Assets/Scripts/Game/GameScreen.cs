@@ -15,7 +15,8 @@ public class GameScreen : MonoBehaviour
     };
 
     [SerializeField] private string id = "game";
-
+    [SerializeField] private CharacterGrid characterGrid = null;
+    [SerializeField] private WordListContainer wordListContainer = null;
     public static GameScreen Instance;
     [SerializeField] private Plus[] arrayPlus = null;
 
@@ -53,6 +54,11 @@ public class GameScreen : MonoBehaviour
         Plus plus = Array.Find(arrayPlus, plus => plus.id == key);
         plus.txtPlus.text = "+ " + amountBooter;
         if (amountBooter <= 0) plus.transform.gameObject.SetActive(false);
+    }
+    public void SetDefault()
+    {
+        characterGrid.Clear();
+        wordListContainer.Clear();
     }
 
 

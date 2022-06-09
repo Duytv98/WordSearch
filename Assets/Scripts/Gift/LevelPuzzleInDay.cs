@@ -36,6 +36,7 @@ public class LevelPuzzleInDay : MonoBehaviour
 
     public void SetUp(bool isComplete, bool isProgress, Color color)
     {
+        // Debug.Log("isComplete: " + isComplete + "   isProgress: " + isProgress);
         Button btnLevel = gameObject.GetComponent<Button>();
 
         iconPlay.SetActive(false);

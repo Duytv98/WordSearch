@@ -65,6 +65,33 @@ public class TopBar : MonoBehaviour
                 break;
         }
     }
+    public void SetTopBarCasualGame(int level)
+    {
+        SetActiveBackButton(true);
+        mainScreenContainer.SetActive(false);
+        categoryContainer.SetActive(true);
+        categoryNameText.gameObject.SetActive(true);
+        categoryNameText.text = "Daily Puzzle";
+        levelNumberText.gameObject.SetActive(true);
+        string textLevel;
+        switch (level)
+        {
+            case 0:
+                textLevel = "Easy";
+                break;
+            case 1:
+                textLevel = "Medium";
+                break;
+            case 2:
+                textLevel = "Hard";
+                break;
+            default:
+                textLevel = null;
+                break;
+
+        }
+        levelNumberText.text = textLevel;
+    }
     private void SetActiveBackButton(bool isActive)
     {
         backButton.alpha = isActive ? 1f : 0f;

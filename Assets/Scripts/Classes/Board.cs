@@ -37,7 +37,7 @@ public class Board
     // Tập hợp các từ gợi ý
     public HashSet<string> recommendWords = new HashSet<string>();
     public HashSet<string> listWordDeleted = new HashSet<string>();
-    public List<Position> locationUnuseds;
+    public List<Position> locationUnuseds = new List<Position>();
 
     // Tập hợp vị trí các từ bị loại bỏ
     //

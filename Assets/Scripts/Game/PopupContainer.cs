@@ -107,6 +107,7 @@ public class PopupContainer : MonoBehaviour
     public void CloseCurrentPopup()
     {
         Debug.Log("close");
+        Debug.Log("popupActive: " + popupActive);
         AudioManager.Instance.Play_Click_Button_Sound();
         ClosePopup(popupActive);
     }

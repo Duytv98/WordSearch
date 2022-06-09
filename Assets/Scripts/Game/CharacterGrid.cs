@@ -230,9 +230,9 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     // set chữ lên màn chơi
     IEnumerator SetUpValue(Board board)
     {
-        GameManager.Instance.ActiveLoading();
+        ScreenManager.Instance.ActiveLoading();
         yield return new WaitForSeconds(0.01f);
-        GameManager.Instance.DeactivateLoading();
+        ScreenManager.Instance.DeactivateLoading();
         // Debug.Log("board.foundWords: " + board.foundWords.Count);
         foreach (string foundWord in board.foundWords)
         {

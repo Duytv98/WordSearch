@@ -52,7 +52,7 @@ public class LevelCompletePopup : MonoBehaviour
     }
     public void OnClickPlayAgainButton()
     {
-        GameManager.Instance.StartCasual(GameManager.Instance.ActiveCategoryInfo, GameManager.Instance.ActiveDifficultyIndex);
+        // GameManager.Instance.StartCasual(GameManager.Instance.ActiveCategoryInfo, GameManager.Instance.ActiveDifficultyIndex);
         // CloseLevelCompletePopup();
         PopupContainer.Instance.CloseCurrentPopup();
 

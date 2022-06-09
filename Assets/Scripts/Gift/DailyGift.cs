@@ -57,13 +57,13 @@ public class DailyGift : MonoBehaviour
             SaveGiftInfoLocal();
         }
         else giftInfo = GetGiftInfoLocal();
-        string str = null;
-        foreach (var gift in giftInfo)
-        {
-            str += gift.Key;
-            str += (" --- " + gift.Value + ";   ");
-        }
-        Debug.Log(str);
+        // string str = null;
+        // foreach (var gift in giftInfo)
+        // {
+        //     str += gift.Key;
+        //     str += (" --- " + gift.Value + ";   ");
+        // }
+        // Debug.Log(str);
     }
     public Tuple<string, Booter> GetGiftDay()
     {
@@ -71,7 +71,6 @@ public class DailyGift : MonoBehaviour
         int idIntCurr = HistoryCollection.Count;
         string idCollect = "Day-" + (idIntCurr + 1);
 
-        Debug.Log("GetStatusGiftFast(): " + GetStatusGiftFast());
         if (GetStatusGiftFast() <= 0) return null;
         else if (idIntCurr == 0 || CheckCollectionNextDay())
         {

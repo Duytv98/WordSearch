@@ -11,9 +11,6 @@ public class LevelPuzzle
     public int easy;
     public int medium;
     public int hard;
-    public string boardEasy = "";
-    public string boardMedium = "";
-    public string boardHard = "";
 
     public LevelPuzzle(string id)
     {
@@ -26,12 +23,6 @@ public class LevelPuzzle
     {
     }
 
-    public void CheckBoard()
-    {
-        if (String.IsNullOrEmpty(boardEasy)) boardEasy = "";
-        if (String.IsNullOrEmpty(boardMedium)) boardMedium = "";
-        if (String.IsNullOrEmpty(boardHard)) boardHard = "";
-    }
     public string GetString()
     {
         return Utilities.ConvertToJsonString(this.ToJson());
@@ -45,9 +36,6 @@ public class LevelPuzzle
         json["easy"] = easy;
         json["medium"] = medium;
         json["hard"] = hard;
-        json["boardEasy"] = boardEasy;
-        json["boardMedium"] = boardMedium;
-        json["boardHard"] = boardHard;
         return json;
     }
 
@@ -58,13 +46,10 @@ public class LevelPuzzle
         easy = json["easy"].AsInt;
         medium = json["medium"].AsInt;
         hard = json["hard"].AsInt;
-        boardEasy = json["boardEasy"];
-        boardMedium = json["boardMedium"];
-        boardHard = json["boardHard"];
     }
 
     public string Log()
     {
-        return "id: " + id + "\n   easy: " + easy + "   medium: " + medium + "   hard: " + hard + "\n   boardEasy: " + boardEasy + "\n   boardMedium: " + boardMedium + "\n   boardHard: " + boardHard;
+        return "id: " + id + "\n   easy: " + easy + "   medium: " + medium + "   hard: " + hard;
     }
 }
