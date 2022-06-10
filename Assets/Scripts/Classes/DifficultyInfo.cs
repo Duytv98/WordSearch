@@ -17,4 +17,8 @@ public class DifficultyInfo
         this.maxWords = maxWords;
         this.maxWordLength = maxWordLength;
     }
+    public string Log()
+    {
+        return "boardRowSize: " + boardRowSize + "  boardColumnSize: " + boardColumnSize + "  maxWords: " + maxWords + "  maxWordLength: " + maxWordLength;
+    }
 }

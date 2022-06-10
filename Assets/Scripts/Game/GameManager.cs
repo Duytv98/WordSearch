@@ -213,10 +213,10 @@ public class GameManager : MonoBehaviour
     //     ScreenManager.Instance.Show("game");
     //     // ShowGameScreen();
     // }
-    public bool HasSavedCasualBoard(CategoryInfo categoryInfo)
-    {
-        return GetSavedBoard(categoryInfo) != null;
-    }
+    // public bool HasSavedCasualBoard(CategoryInfo categoryInfo)
+    // {
+    //     return GetSavedBoard(categoryInfo) != null;
+    // }
 
     public string OnWordSelected(string selectedWord)
     {

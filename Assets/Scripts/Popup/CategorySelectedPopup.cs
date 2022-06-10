@@ -33,12 +33,12 @@ public class CategorySelectedPopup : MonoBehaviour
         categoryIconImage.sprite = categoryInfo.icon;
         OpenModeContainer();
 
-        bool casualHasProgress = GameManager.Instance.HasSavedCasualBoard(categoryInfo);
+        // bool casualHasProgress = GameManager.Instance.HasSavedCasualBoard(categoryInfo);
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(categoryInfo);
 
-        casualPlayButtonText.text = casualHasProgress ? "NEW GAME" : "PLAY";
-        casualContinueButton.interactable = casualHasProgress;
-        casualContinueButton.alpha = casualHasProgress ? 1f : 0.3f;
+        // casualPlayButtonText.text = casualHasProgress ? "NEW GAME" : "PLAY";
+        // casualContinueButton.interactable = casualHasProgress;
+        // casualContinueButton.alpha = casualHasProgress ? 1f : 0.3f;
 
 
         progressPlayButton.interactable = !allLevelsCompleted;

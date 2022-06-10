@@ -16,6 +16,7 @@ public class DailyPuzzle : MonoBehaviour
         public Image rounded;
     };
     [SerializeField] CasualGame casualGame = null;
+    [SerializeField] ProgressPuzzle progressPuzzle = null;
     public Dictionary<string, string> HistoryPuzzle { get; private set; }
     private string startDateTimePuzzle = null;
     [SerializeField] private GiftDay[] GiftDays = null;
@@ -33,6 +34,8 @@ public class DailyPuzzle : MonoBehaviour
         puzzleInfos = GetPuzzleInfosLocal();
         casualBoardsProgress = GetLocalProgress();
         startDateTimePuzzle = GetStartDateTimePuzzle();
+
+        progressPuzzle.Initialize(GetTotalLevelComplate(), 15);
         if (String.IsNullOrEmpty(startDateTimePuzzle))
         {
             puzzleInfos = CreatePuzzleInfos();
@@ -106,12 +109,15 @@ public class DailyPuzzle : MonoBehaviour
 
     public void LevelCasualSuccessful()
     {
+        Debug.Log("LevelCasualSuccessful");
         casualBoardsProgress.Remove(GetKeyBoardsProgress(idDayChoose, levelChoose));
 
         LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);
         if (levelChoose == "Easy") dayChoose.easy = 1;
         else if (levelChoose == "Medium") dayChoose.medium = 1;
         else if (levelChoose == "Hard") dayChoose.hard = 1;
+
+        Debug.Log("Easy: " + dayChoose.easy + "  Medium: " + dayChoose.medium + "   Hard: " + dayChoose.hard);
 
         puzzleInfos[idDayChoose] = Utilities.ConvertToJsonString(dayChoose.ToJson());
         SavePuzzleInfosLocal();
@@ -174,6 +180,20 @@ public class DailyPuzzle : MonoBehaviour
         LevelPuzzle levelPuzzle = new LevelPuzzle();
         levelPuzzle.StringToJson(puzzleInfos[key]);
         return levelPuzzle;
+    }
+
+    private int GetTotalLevelComplate()
+    {
+        int totalLevel = 0;
+        foreach (var puzzle in puzzleInfos)
+        {
+            LevelPuzzle levelPuzzle = new LevelPuzzle();
+            levelPuzzle.StringToJson(puzzle.Value);
+            if (levelPuzzle.easy > 0) totalLevel += 1;
+            if (levelPuzzle.medium > 0) totalLevel += 1;
+            if (levelPuzzle.hard > 0) totalLevel += 1;
+        }
+        return totalLevel;
     }
 
     public DateTime StringToDateTime(string dateTimestring)
@@ -278,8 +298,16 @@ public class DailyPuzzle : MonoBehaviour
         LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);
         if (levelChoose == "Easy")
         {
-            PlayGame(1);
-            return true;
+            if (dayChoose.medium < 0)
+            {
+                PlayGame(1);
+                return true;
+            }
+            else if (dayChoose.hard < 0)
+            {
+                PlayGame(2);
+                return true;
+            }
         }
         else if (levelChoose == "Medium")
         {
@@ -288,7 +316,7 @@ public class DailyPuzzle : MonoBehaviour
                 PlayGame(0);
                 return true;
             }
-            else if(dayChoose.hard < 0)
+            else if (dayChoose.hard < 0)
             {
                 PlayGame(2);
                 return true;
@@ -309,6 +337,14 @@ public class DailyPuzzle : MonoBehaviour
             }
         }
         return false;
+    }
+    public bool CheckCompletedAllLevel()
+    {
+        LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);
+        if (dayChoose.easy < 0) return false;
+        else if (dayChoose.medium < 0) return false;
+        else if (dayChoose.hard < 0) return false;
+        return true;
     }
 
     public void PlayGame(int id)

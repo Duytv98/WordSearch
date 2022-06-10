@@ -7,8 +7,10 @@ public class LevelCompletePopup : MonoBehaviour
 {
     [Space]
 
-    [SerializeField] private GameObject playAgainButton = null;
+    // [SerializeField] private GameObject playAgainButton = null;
     [SerializeField] private GameObject nextLevelButton = null;
+    [SerializeField] private GameObject backToCategoriesButton = null;
+    [SerializeField] private GameObject backToDailyPuzzle = null;
 
     [Space]
 
@@ -21,19 +23,27 @@ public class LevelCompletePopup : MonoBehaviour
     private bool playmode = false;
     public void OnShowing(int coinsAwarded, int keysAwarded)
     {
+        Debug.Log("OnShowing");
         bool awardCoins = coinsAwarded > 0;
         bool awardKeys = keysAwarded > 0;
 
         coinRewardContainer.SetActive(awardCoins);
 
         playmode = GameManager.Instance.ActiveGameMode == GameManager.GameMode.Casual ? false : true;
-        playAgainButton.SetActive(!playmode);
-        keyRewardContainer.SetActive(playmode && awardKeys);
 
-        bool casualHasProgress = GameManager.Instance.HasSavedCasualBoard(GameManager.Instance.ActiveCategoryInfo);
+        bool allLevelsCompletedCasual = ScreenManager.Instance.CheckAllLevelCompleteCasual();
+        // playAgainButton.SetActive(!playmode);
+        keyRewardContainer.SetActive(playmode && awardKeys);
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(GameManager.Instance.ActiveCategoryInfo);
 
-        nextLevelButton.SetActive(playmode && !allLevelsCompleted);
+        Debug.Log("playmode: " + playmode);
+        Debug.Log("allLevelsCompletedCasual: " + allLevelsCompletedCasual);
+        if (playmode) nextLevelButton.SetActive(!allLevelsCompleted);
+        else nextLevelButton.SetActive(!allLevelsCompletedCasual);
+
+        backToCategoriesButton.SetActive(playmode);
+        backToDailyPuzzle.SetActive(!playmode);
+
 
 
         coinRewardAmountText.text = "x " + coinsAwarded;
@@ -45,7 +55,8 @@ public class LevelCompletePopup : MonoBehaviour
     }
     public void OnClickNextLevel()
     {
-        GameManager.Instance.StartLevel(GameManager.Instance.ActiveCategoryInfo, GameManager.Instance.ActiveLevelIndex + 1);
+        if (playmode) GameManager.Instance.StartLevel(GameManager.Instance.ActiveCategoryInfo, GameManager.Instance.ActiveLevelIndex + 1);
+        else ScreenManager.Instance.NextLevelCasual();
         // CloseLevelCompletePopup();
         PopupContainer.Instance.CloseCurrentPopup();
 
@@ -60,7 +71,6 @@ public class LevelCompletePopup : MonoBehaviour
     public void OnClickBackToCategoriesButton()
     {
         ScreenManager.Instance.BackToHome();
-        // CloseLevelCompletePopup();
         PopupContainer.Instance.CloseCurrentPopup();
 
     }

@@ -193,6 +193,10 @@ public class ScreenManager : MonoBehaviour
     {
         return dailyPuzzle.NextLevelCasual();
     }
+    public bool CheckAllLevelCompleteCasual()
+    {
+        return dailyPuzzle.CheckCompletedAllLevel();
+    }
 
     public void InitializeGameScreen()
     {
