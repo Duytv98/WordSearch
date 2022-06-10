@@ -9,6 +9,7 @@ using SimpleJSON;
 public class EditorContronler : MonoBehaviour
 {
 
+    [Header("In Data")]
     [SerializeField] Button btnLoadFile = null;
     [SerializeField] Button btnGenerateBoard = null;
     [SerializeField] Button btnSaveBoard = null;
@@ -25,6 +26,12 @@ public class EditorContronler : MonoBehaviour
     private bool isLoad = false;
     private bool isGenerate = false;
 
+
+    [Header("Out Data")]
+
+    [SerializeField] Text txtWordUse = null;
+    [SerializeField] Text Indifficulty = null;
+    [SerializeField] Text Outdifficulty = null;
     private void Start()
     {
         difficultyInfo = GameDefine.DIFFICULTYINFOS[0];
@@ -56,6 +63,9 @@ public class EditorContronler : MonoBehaviour
 
     public void GenerateBoard()
     {
+        isGenerate = false;
+        ClearBoardOut();
+        SetActiveSaveBoard();
         if (string.IsNullOrEmpty(listWord)) return;
         List<string> categoryWords = LoadWords(listWord, difficultyInfo.maxWordLength);
         // string str = "";
@@ -110,12 +120,45 @@ public class EditorContronler : MonoBehaviour
         SetActiveSaveBoard();
         this.board = board;
         txtBorad = Utilities.ConvertToJsonString(board.ToJson());
-        // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+        Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+        ShowBoard();
+    }
+
+    private void ShowBoard()
+    {
+        var listWord = board.words;
+        var str = "\n Total word: " + listWord.Count + "\n";
+        var maxCountWord = listWord[0].Length;
+        foreach (var word in listWord)
+        {
+            if (word.Length > maxCountWord) maxCountWord = word.Length;
+            str += ("\n" + word);
+        }
+
+        txtWordUse.text = str;
+
+        string indif = string.Format("Row Size: {0}\n Column Size: {1}\n Max Word: {2}\n Max Word Length: {3}",
+                                        difficultyInfo.boardRowSize, difficultyInfo.boardColumnSize, difficultyInfo.maxWords, difficultyInfo.maxWordLength);
+        string outdif = string.Format("Row Size: {0}\n Column Size: {1}\n Max Word: {2}\n Max Word Length: {3}",
+        board.rows, board.cols, board.words.Count, maxCountWord);
+
+        Indifficulty.text = indif;
+        Outdifficulty.text = outdif;
+
+
+        // Debug.Log();
+    }
+    private void ClearBoardOut()
+    {
+        txtWordUse.text = "";
+        Indifficulty.text = "";
+        Outdifficulty.text = "";
     }
 
     public void LoadFile()
     {
         isLoad = false;
+        ClearBoardOut();
         SetActiveGenerateBoard();
         SetActiveSaveBoard();
         var paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", "txt", false);
