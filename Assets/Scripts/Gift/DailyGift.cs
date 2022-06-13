@@ -24,21 +24,23 @@ public class DailyGift : MonoBehaviour
     private Dictionary<string, string> giftInfo;
 
     // private int sttCurrentCollectGift = 0;
-
-
     public void Initialize()
+    {
+        SetUp();
+        SetColorGiftDay();
+    }
+    public void SetUp()
     {
         HistoryCollection = new Dictionary<string, string>();
         HistoryCollection = GetHistoryCollectionLocal();
-        //        Debug.Log("HistoryCollection.Count: " + HistoryCollection.Count);
-
         if (GetIdCurrentCollectGift() != null && !CheckCollectionConsecutiveGifts() ||
             HistoryCollection.Count == 7 && CheckCollectionNextDay())
         {
             HistoryCollection.Clear();
             SaveHistoryCollectionLocal();
         }
-
+        Debug.Log("CheckCollectionNextDay(): " + CheckCollectionNextDay());
+        if (CheckCollectionNextDay() && GetStatusGiftFast() < 0) SetStatusGiftFast(1);
         idLastCollectGift = GetIdCurrentCollectGift();
         if (idLastCollectGift == null)
         {
@@ -46,9 +48,32 @@ public class DailyGift : MonoBehaviour
             SaveGiftInfoLocal();
         }
         else giftInfo = GetGiftInfoLocal();
+        string str = null;
+        foreach (var gift in giftInfo)
+        {
+            str += gift.Key;
+            str += (" --- " + gift.Value + ";   ");
+        }
+        Debug.Log(str);
+    }
+    public Tuple<string, Booter> GetGiftDay()
+    {
+        SetUp();
+        int idIntCurr = HistoryCollection.Count;
+        string idCollect = "Day-" + (idIntCurr + 1);
 
-        var testGiftInfo = GetGiftInfoLocal();
-        SetColorGiftDay();
+        if (GetStatusGiftFast() <= 0) return null;
+        else if (idIntCurr == 0 || CheckCollectionNextDay())
+        {
+            return Tuple.Create(idCollect, GetBooter(idCollect));
+        }
+        return null;
+    }
+    public void CollectionFastGift(Tuple<string, Booter> tuple)
+    {
+        HistoryCollection.Add(tuple.Item1, GetStringDateTimeNow());
+        SaveHistoryCollectionLocal();
+        GameManager.Instance.SetBooter(tuple.Item2.id, tuple.Item2.amount);
     }
 
     private Dictionary<string, string> CreateGiftEveryDay()
@@ -160,7 +185,6 @@ public class DailyGift : MonoBehaviour
         string lastTimeString = HistoryCollection[idLast];
         string nowTimeString = GetStringDateTimeNow();
         int day = SubtractDate(lastTimeString, nowTimeString);
-        Debug.Log("day: " + day);
         if (day > 1 || day < 0) return false;
         return true;
     }
@@ -189,6 +213,7 @@ public class DailyGift : MonoBehaviour
     public void Onclick(int idInt)
     {
         int idIntCurr = HistoryCollection.Count;
+        Debug.Log("idInt: " + idInt + "   idIntCurr: " + idIntCurr);
         GiftDay giftDayChoose = GiftDays[idInt - 1];
         if (idInt <= idIntCurr)
         {
@@ -198,6 +223,7 @@ public class DailyGift : MonoBehaviour
         }
         else if (idInt == idIntCurr + 1)
         {
+            Debug.Log("vào else if");
             if (idIntCurr == 0)
             {
                 CollectionGift(giftDayChoose);
@@ -223,6 +249,7 @@ public class DailyGift : MonoBehaviour
         giftDay.image.color = highlightColors[2];
         HistoryCollection.Add(giftDay.id, GetStringDateTimeNow());
         SaveHistoryCollectionLocal();
+        SetStatusGiftFast(-1);
         Debug.Log("Day: " + giftDay.id);
         if (giftInfo.ContainsKey(giftDay.id))
         {
@@ -232,16 +259,20 @@ public class DailyGift : MonoBehaviour
             Debug.Log("Set booter: " + test);
             PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "YOU GET:\n" + booter.amount + " " + booter.id);
         }
-
-
     }
 
-    private Booter GetBooter(string key)
+    public Booter GetBooter(string key)
     {
-        Debug.Log(giftInfo[key]);
         Booter booter = new Booter();
-
         booter.StringToJson(giftInfo[key]);
         return booter;
+    }
+    private void SetStatusGiftFast(int status)
+    {
+        PlayerPrefs.SetInt("StatusGiftFast", status);
+    }
+    private int GetStatusGiftFast()
+    {
+        return PlayerPrefs.GetInt("StatusGiftFast");
     }
 }

@@ -2,15 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 // using PolyAndCode.UI;
 public class HomeScreen : MonoBehaviour
 {
     [SerializeField] private string id = "main";
+    [SerializeField] private GiftsFast giftsFast = null;
+    [SerializeField] private DailyGift dailyGift = null;
+    private Tuple<string, Booter> infoGift = null;
+    private string idCollect = null;
 
     public void Initialize()
     {
-
+        StartCoroutine(CheckDailyGift());
     }
+
+    private IEnumerator CheckDailyGift()
+    {
+        var tuple = dailyGift.GetGiftDay();
+        yield return new WaitForSeconds(1f);
+        if (tuple != null)
+        {
+            infoGift = tuple;
+            PopupContainer.Instance.ShowGiftsFastPopup(infoGift);
+        }
+    }
+    public void CollectionGift()
+    {
+        dailyGift.CollectionFastGift(infoGift);
+        giftsFast.Close(-1);
+    }
+
 
     public void OnSelectCategory()
     {
@@ -37,7 +59,7 @@ public class HomeScreen : MonoBehaviour
 
             if (!isCategoryLocked) listIndexCategorys.Add(i);
         }
-        int indexCategory = listIndexCategorys[Random.Range(0, listIndexCategorys.Count)];
+        int indexCategory = listIndexCategorys[UnityEngine.Random.Range(0, listIndexCategorys.Count)];
 
         GameManager.Instance.ActiveCategoryInfo = categoryInfos[indexCategory];
 

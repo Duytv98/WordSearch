@@ -44,7 +44,7 @@ public class FireBaseController : MonoBehaviour
     private void Start()
     {
         bool isPlay = PlayerPrefs.HasKey("SonatGameStudio1");
-        Debug.Log("isPlay: " + isPlay);
+        // Debug.Log("isPlay: " + isPlay);
 
         ScreenManager.Instance.SetActiveFlashCanvas(true);
         StartCoroutine(checkInternetConnection((isConnected) =>
@@ -52,7 +52,7 @@ public class FireBaseController : MonoBehaviour
                if (isConnected)
                {
 
-                   Debug.Log("Check Firebase");
+                //    Debug.Log("Check Firebase");
                    CheckFirebaseDependencies(isPlay);
                }
                else
@@ -223,7 +223,7 @@ public class FireBaseController : MonoBehaviour
 
     private void CheckFirebaseDependencies(bool isPlay)
     {
-        Debug.Log("CheckFirebaseDependencies");
+        // Debug.Log("CheckFirebaseDependencies");
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System;
 
 public class PopupContainer : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private RewardAdGranted rewardAdGranted = null;
     [SerializeField] private StorePopup storePopup = null;
     [SerializeField] private Gift giftPopup = null;
+    [SerializeField] private GiftsFast giftsFastPopup = null;
     [SerializeField] private Image background = null;
     [SerializeField] private Image backgroundFade = null;
 
@@ -85,6 +87,12 @@ public class PopupContainer : MonoBehaviour
         Debug.Log("ShowGiftPopup");
         Show("GiftPopup");
         giftPopup.OnShowing(headerText, messageText);
+    }
+    public void ShowGiftsFastPopup(Tuple<string, Booter> tuple)
+    {
+        Debug.Log("ShowGiftsFastPopup");
+        Show("GiftsFastPopup");
+        giftsFastPopup.OnShowing(tuple);
     }
     private void Show(string keyName)
     {
@@ -176,6 +184,8 @@ public class PopupContainer : MonoBehaviour
                 return storePopup.gameObject;
             case "GiftPopup":
                 return giftPopup.gameObject;
+            case "GiftsFastPopup":
+                return giftsFastPopup.gameObject;
             default:
                 return null;
         }
@@ -204,6 +214,8 @@ public class PopupContainer : MonoBehaviour
                 return storePopup.GetComponent<CanvasGroup>();
             case "GiftPopup":
                 return giftPopup.GetComponent<CanvasGroup>();
+            case "GiftsFastPopup":
+                return giftsFastPopup.GetComponent<CanvasGroup>();
             default:
                 return null;
         }
