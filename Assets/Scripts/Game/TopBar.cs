@@ -20,8 +20,8 @@ public class TopBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        coinAmountText.text = "x " + GameManager.Instance.Coins.ToString();
-        keyAmountText.text = "x " + GameManager.Instance.Keys.ToString();
+        coinAmountText.text = GameManager.Instance.Coins.ToString();
+        keyAmountText.text = GameManager.Instance.Keys.ToString();
     }
     public void OnSwitchingScreens(string toScreenId)
     {

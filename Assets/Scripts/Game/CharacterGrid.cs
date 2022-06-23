@@ -24,15 +24,15 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [Header("Letter Settings")]
     [SerializeField] private Font letterFont = null;
     [SerializeField] private int letterFontSize = 150;
-    [SerializeField] private Color letterColor = Color.black;
-    [SerializeField] private Color letterHighlightedColor = Color.white;
+    [SerializeField] private Color letterHighlightedColor;
+    [SerializeField] private Sprite letterHighlightedsprite;
     [SerializeField] private Vector2 letterOffsetInCell = Vector2.zero;
 
     [Header("Highlight Settings")]
     [SerializeField] private HighlighPosition highlightPosition = HighlighPosition.AboveLetters;
     [SerializeField] private Sprite highlightSprite = null;
     [SerializeField] private float highlightExtraSize = -35f;
-    [SerializeField] private List<Color> highlightColors = null;
+    // [SerializeField] private List<Color> highlightColors = null;
 
 
 
@@ -79,6 +79,13 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     private bool activeRotating = false;
     private bool rotating = false;
+
+
+
+    [SerializeField] private Sprite[] arrSquare = null;
+    [SerializeField] private Color[] colorsTextSquare = null;
+
+    private int indexColor;
 
 
     public void OnPointerDown(PointerEventData eventData)
@@ -134,7 +141,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (startCharacter != null && lastEndCharacter != null && GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
             // trả lại màu đen cho chữ trên màn chơi
-            SetTextColor(startCharacter, lastEndCharacter, letterColor, false, true);
+            // set IsHighlighted = false
+            SetTextColor(startCharacter, lastEndCharacter, true, true);
 
             // VỊ trí bắt đầu và kết thúc
             Position wordStartPosition = new Position(startCharacter.Row, startCharacter.Col);
@@ -208,12 +216,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 char text = board.boardCharacters[i][j];
                 GameObject _characterItem = Instantiate(characterGridItemPrefab, Vector3.zero, Quaternion.identity, gridContainer);
                 CharacterGridItem _characterItemScript = _characterItem.GetComponent<CharacterGridItem>();
-                _characterItemScript.Setup(text, letterColor, new Vector3(currentScale, currentScale, 1f), ScaledLetterOffsetInCell);
-
-                _characterItemScript.Row = i;
-                _characterItemScript.Col = j;
-                _characterItemScript.IsHighlighted = false;
-                // Debug.Log(_characterItemScript.Log());
+                _characterItemScript.Setup(text, new Vector3(currentScale, currentScale, 1f), ScaledLetterOffsetInCell, i, j, false);
                 characterItems[i].Add(_characterItemScript);
             }
         }
@@ -261,13 +264,34 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
 
     //set clolor Highligh
+
+    //set clolor Highligh
+    // private void AssignHighlighColor(Image highlight)
+    // {
+    //     Color color = Color.white;
+
+    //     if (highlightColors.Count > 0)
+    //     {
+    //         color = highlightColors[Random.Range(0, highlightColors.Count)];
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError("[CharacterGrid] Highlight Colors is empty.");
+    //     }
+
+    //     highlight.color = color;
+    // }
+    //set clolor Highligh
     private void AssignHighlighColor(Image highlight)
     {
         Color color = Color.white;
 
-        if (highlightColors.Count > 0)
+        if (colorsTextSquare.Length > 0)
         {
-            color = highlightColors[Random.Range(0, highlightColors.Count)];
+            indexColor = Random.Range(0, colorsTextSquare.Length);
+            letterHighlightedColor = colorsTextSquare[indexColor];
+            letterHighlightedsprite = arrSquare[indexColor];
+            color = letterHighlightedColor;
         }
         else
         {
@@ -345,14 +369,15 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             if (lastEndCharacter != null)
             {
                 // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
-                SetTextColor(startCharacter, lastEndCharacter, letterColor, false);
+                // set IsHighlighted = false
+                SetTextColor(startCharacter, lastEndCharacter, false, true);
             }
-
             // Set kích thước, vị trí , dóc nghiêng của Highlight
             PositionHighlight(SelectingHighlight, startCharacter, endCharacter);
 
             // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
-            SetTextColor(startCharacter, endCharacter, letterHighlightedColor, false);
+            // set IsHighlighted = false
+            SetTextColor(startCharacter, endCharacter, false, false);
 
             // If the new end character is different then the last play a sound
             if (lastEndCharacter != endCharacter)
@@ -366,7 +391,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     }
 
     // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
-    private void SetTextColor(CharacterGridItem start, CharacterGridItem end, Color color, bool isHighlighted, bool onPointerUp = false)
+    private void SetTextColor(CharacterGridItem start, CharacterGridItem end, bool onPointerUp = false, bool unDoColor = false)
     {
         int rowInc = (start.Row == end.Row) ? 0 : (start.Row < end.Row ? 1 : -1);
         int colInc = (start.Col == end.Col) ? 0 : (start.Col < end.Col ? 1 : -1);
@@ -375,20 +400,11 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         for (int i = 0; i <= incAmount; i++)
         {
             CharacterGridItem characterGridItem = characterItems[start.Row + i * rowInc][start.Col + i * colInc];
-            if (characterGridItem.IsHighlighted)
-            {
-                characterGridItem.characterText.color = letterHighlightedColor;
-            }
+            if (unDoColor) characterGridItem.UnDoColor();
             else
             {
-                if (isHighlighted)
-                {
-                    characterGridItem.IsHighlighted = isHighlighted;
-                }
-                // if(!characterGridItem.IsActive)
-                // characterGridItem.characterText.color = characterGridItem.IsActive ? color : Color.grey;
-                if (onPointerUp) characterGridItem.characterText.color = characterGridItem.IsActive ? color : Color.grey;
-                else characterGridItem.characterText.color = color;
+                if (onPointerUp) characterGridItem.SetChoose(letterHighlightedColor, letterHighlightedsprite);
+                else characterGridItem.SetColor(letterHighlightedColor, letterHighlightedsprite);
             }
         }
     }
@@ -599,7 +615,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         PositionHighlight(highlight, startCharacterItem, endCharacterItem);
 
         // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
-        SetTextColor(startCharacterItem, endCharacterItem, letterHighlightedColor, true);
+        // set IsHighlighted = true
+        SetTextColor(startCharacterItem, endCharacterItem, true, false);
 
         if (useSelectedColour && SelectingHighlight != null)
         {
@@ -638,11 +655,21 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     {
         GridLayoutGroup gridLayoutGroup = gridContainer.GetComponent<GridLayoutGroup>();
 
-        float cellWidth = gridContainer.rect.width / (float)columns;
-        float cellHeight = gridContainer.rect.height / (float)rows;
+        float cellWidth = gridContainer.rect.width / (float)(columns + 0.6f);
+        float cellHeight = gridContainer.rect.height / (float)(rows + 0.6f);
         float cellSize = Mathf.Min(cellWidth, cellHeight, maxCellSize);
 
+        float maxSpaceW = gridContainer.rect.width - cellSize * columns;
+        float maxSpaceH = gridContainer.rect.height - cellSize * rows;
+        float spaceW = maxSpaceW / (float)(columns + 1);
+        float spaceH = maxSpaceH / (float)(rows + 1);
+        // Debug.Log("cellWidth: " + cellWidth + "   cellHeight: " + cellHeight + "   cellSize: " + cellSize);
+
+        Debug.Log(string.Format("gridContainer width: {0}, height: {1}", gridContainer.rect.width, gridContainer.rect.height));
+
+
         gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
+        gridLayoutGroup.spacing = new Vector2(spaceW, spaceH);
         gridLayoutGroup.childAlignment = TextAnchor.MiddleCenter;
         gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayoutGroup.constraintCount = columns;
@@ -669,7 +696,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 Image highlight = HighlightWord(startPosition, startPosition, false);
 
                 // wordListContainer.SetWordRecommend(word, highlight.color);
-                GameManager.Instance.wordListContainer_SetWordRecommend(word, highlight.color);
+                GameManager.Instance.wordListContainer_SetWordRecommend(word, indexColor);
                 break;
             }
         }

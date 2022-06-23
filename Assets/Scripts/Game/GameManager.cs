@@ -547,9 +547,9 @@ public class GameManager : MonoBehaviour
         wordListContainer.SetWordFound(word);
     }
 
-    public void wordListContainer_SetWordRecommend(string word, Color color)
+    public void wordListContainer_SetWordRecommend(string word, int indexColor)
     {
-        wordListContainer.SetWordRecommend(word, color);
+        wordListContainer.SetWordRecommend(word, indexColor);
     }
 
     public void WordListContainer_PlusWord()
@@ -590,7 +590,7 @@ public class GameManager : MonoBehaviour
     {
         string saveKey = GetSaveKey(categoryInfo, levelIndex);
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
-        Debug.Log("contentsBoard: " + contentsBoard);
+        // Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)

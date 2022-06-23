@@ -11,8 +11,15 @@ public class WordListItem : MonoBehaviour
     [SerializeField] private CanvasGroup _wordCVG = null;
     [SerializeField] private CanvasGroup _wordBGCVG = null;
 
+    [SerializeField] private Color colorTextMatched;
+
+    
+    [SerializeField] private Color[] colorsBG = null;
+    [SerializeField] private Color[] colorsWord = null;
+
     private string word = null;
     public string Word { get => word; set => word = value; }
+
 
     public void Setup(string word)
     {
@@ -26,16 +33,17 @@ public class WordListItem : MonoBehaviour
     {
         background.gameObject.SetActive(false);
 
-        textBack.color = Color.black;
+        textBack.color = colorTextMatched;
         _wordBGCVG.alpha = 0.5f;
     }
-    public void SetRecommendWord(Color color)
+    public void SetRecommendWord(int indexColor)
     {
         background.gameObject.SetActive(true);
-        background.color = color;
+        background.color = colorsBG[indexColor];
+        
 
-        textBack.color = Color.white;
-        wordText.color = Color.white;
+        textBack.color = colorsWord[indexColor];
+        wordText.color = colorsWord[indexColor];
     }
     public void SetAlpha(bool isActive)
     {

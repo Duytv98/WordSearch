@@ -9,23 +9,42 @@ public class CharacterGridItem : MonoBehaviour
 {
     [SerializeField] private Font font = null;
     [SerializeField] private int fontSize = 150;
+    [SerializeField] private Image Bg = null;
     public Text characterText;
     private Text cloneText;
     public int Row { get; set; }
     public int Col { get; set; }
     public bool IsHighlighted { get; set; }
-
-
-
+    private bool isChoose = false;
     private bool isActive = true;
     public bool IsActive { get => isActive; set => isActive = value; }
+    public bool IsChoose { get => isChoose; set => isChoose = value; }
 
-    public void Setup(char text, Color color, Vector3 scale, Vector2 scaledLetterOffsetInCell)
+
+    [SerializeField] private Color defaultColor;
+    [SerializeField] private Sprite defaultSprite;
+
+
+    private Color color;
+    private Sprite sprite;
+
+    public void SetChoose(Color color, Sprite sprite)
+    {
+        IsChoose = true;
+        this.color = color;
+        this.sprite = sprite;
+        SetColor(color, sprite);
+    }
+
+    public void Setup(char text, Vector3 scale, Vector2 scaledLetterOffsetInCell, int row, int col, bool isChoose)
     {
         characterText.text = text.ToString();
-        characterText.color = color;
+        characterText.color = defaultColor;
         characterText.transform.localScale = scale;
         (transform as RectTransform).anchoredPosition = scaledLetterOffsetInCell;
+        IsChoose = isChoose;
+        Row = row;
+        Col = col;
     }
     public string Log()
     {
@@ -70,5 +89,23 @@ public class CharacterGridItem : MonoBehaviour
     {
         characterText.color = Color.grey;
         IsActive = false;
+    }
+    public void SetColor(Color color, Sprite sprite)
+    {
+        characterText.color = color;
+        Bg.sprite = sprite;
+    }
+    public void UnDoColor()
+    {
+        if (IsChoose)
+        {
+            characterText.color = color;
+            Bg.sprite = sprite;
+        }
+        else
+        {
+            characterText.color = defaultColor;
+            Bg.sprite = defaultSprite;
+        }
     }
 }

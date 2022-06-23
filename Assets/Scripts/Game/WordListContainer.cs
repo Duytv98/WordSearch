@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 using DG.Tweening;
 
@@ -16,6 +17,7 @@ public class WordListContainer : MonoBehaviour
 
     public HashSet<string> listWordDeleted;
     [SerializeField] private Text textPlus = null;
+    [SerializeField] private TextMeshProUGUI textPlusPro = null;
     [SerializeField] private Transform star = null;
     [SerializeField] private Transform starPrefab = null;
 
@@ -120,7 +122,8 @@ public class WordListContainer : MonoBehaviour
             VLG.padding.bottom = 25;
         }
         CreateStar(UnusedWords.Count);
-        textPlus.text = "+ " + UnusedWords.Count;
+        // textPlus.text = "+ " + UnusedWords.Count;
+        textPlusPro.text  = "+ " + UnusedWords.Count;
 
     }
 
@@ -136,9 +139,9 @@ public class WordListContainer : MonoBehaviour
             Debug.LogError("[WordList] Word does not exist in the word list: " + word);
         }
     }
-    public void SetWordRecommend(string word, Color color)
+    public void SetWordRecommend(string word, int indexColor)
     {
-        if (wordListItems.ContainsKey(word)) wordListItems[word].SetRecommendWord(color);
+        if (wordListItems.ContainsKey(word)) wordListItems[word].SetRecommendWord(indexColor);
         else Debug.LogError("[WordList] Word does not exist in the word list: " + word);
     }
     public Vector3 GetPositionWord(string word)
@@ -362,6 +365,7 @@ public class WordListContainer : MonoBehaviour
 
         UnusedWords.Remove(reuseWordScript.Word);
         textPlus.text = "+ " + UnusedWords.Count;
+        textPlusPro.text = "+ " + UnusedWords.Count;
 
 
     }

@@ -252,7 +252,9 @@ public class FireBaseController : MonoBehaviour
 
     public void SetUpDataBaseReference()
     {
+        Debug.Log("aaaaaaaa");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+        Debug.Log("bbbbbbbbb");
     }
 
     public void SaveData(PlayerInfo user)
