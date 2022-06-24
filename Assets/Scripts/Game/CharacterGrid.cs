@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [Header("Letter Settings")]
     [SerializeField] private Font letterFont = null;
     [SerializeField] private int letterFontSize = 150;
-    [SerializeField] private Color letterHighlightedColor;
+    [SerializeField] private Color HighlightedTextColor;
     [SerializeField] private Sprite letterHighlightedsprite;
     [SerializeField] private Vector2 letterOffsetInCell = Vector2.zero;
 
@@ -83,7 +84,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
 
     [SerializeField] private Sprite[] arrSquare = null;
-    [SerializeField] private Color[] colorsTextSquare = null;
+    // [SerializeField] private Color[] colorsTextSquare = null;
 
     private int indexColor;
 
@@ -142,7 +143,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             // trả lại màu đen cho chữ trên màn chơi
             // set IsHighlighted = false
-            SetTextColor(startCharacter, lastEndCharacter, true, true);
+            SetTextColor(startCharacter, lastEndCharacter, true, true, null);
 
             // VỊ trí bắt đầu và kết thúc
             Position wordStartPosition = new Position(startCharacter.Row, startCharacter.Col);
@@ -286,12 +287,13 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     {
         Color color = Color.white;
 
-        if (colorsTextSquare.Length > 0)
+        if (GameDefine.COLOR_TEXT_BOARD.Length > 0)
         {
-            indexColor = Random.Range(0, colorsTextSquare.Length);
-            letterHighlightedColor = colorsTextSquare[indexColor];
+
+            indexColor = Random.Range(0, GameDefine.COLOR_TEXT_BOARD.Length);
+            HighlightedTextColor = GameDefine.COLOR_TEXT_BOARD[indexColor];
             letterHighlightedsprite = arrSquare[indexColor];
-            color = letterHighlightedColor;
+            color = GameDefine.COLOR_LINE[indexColor];
         }
         else
         {
@@ -370,14 +372,14 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             {
                 // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
                 // set IsHighlighted = false
-                SetTextColor(startCharacter, lastEndCharacter, false, true);
+                SetTextColor(startCharacter, lastEndCharacter, false, true, null);
             }
             // Set kích thước, vị trí , dóc nghiêng của Highlight
             PositionHighlight(SelectingHighlight, startCharacter, endCharacter);
 
             // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
             // set IsHighlighted = false
-            SetTextColor(startCharacter, endCharacter, false, false);
+            SetTextColor(startCharacter, endCharacter, false, false, null);
 
             // If the new end character is different then the last play a sound
             if (lastEndCharacter != endCharacter)
@@ -391,7 +393,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     }
 
     // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
-    private void SetTextColor(CharacterGridItem start, CharacterGridItem end, bool onPointerUp = false, bool unDoColor = false)
+    private void SetTextColor(CharacterGridItem start, CharacterGridItem end, bool onPointerUp, bool unDoColor, Sprite sprite)
     {
         int rowInc = (start.Row == end.Row) ? 0 : (start.Row < end.Row ? 1 : -1);
         int colInc = (start.Col == end.Col) ? 0 : (start.Col < end.Col ? 1 : -1);
@@ -403,8 +405,9 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             if (unDoColor) characterGridItem.UnDoColor();
             else
             {
-                if (onPointerUp) characterGridItem.SetChoose(letterHighlightedColor, letterHighlightedsprite);
-                else characterGridItem.SetColor(letterHighlightedColor, letterHighlightedsprite);
+                if (onPointerUp) characterGridItem.SetChoose(HighlightedTextColor, letterHighlightedsprite);
+                else characterGridItem.SetColor(HighlightedTextColor, letterHighlightedsprite);
+
             }
         }
     }
@@ -451,7 +454,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             Position wordStartPosition = new Position(startCharacter.Row, startCharacter.Col);
             Position wordEndPosition = new Position(lastEndCharacter.Row, lastEndCharacter.Col);
 
-            selectedWord.SetSelectedWord(GetWord(wordStartPosition, wordEndPosition), SelectingHighlight.color);
+            selectedWord.SetSelectedWord(GetWord(wordStartPosition, wordEndPosition), indexColor);
         }
         else
         {
@@ -603,6 +606,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public Image HighlightWord(Position start, Position end, bool useSelectedColour)
     {
         // Debug.Log("start: " + start.Log() + "  start:  " + start.Log());
+        var test = arrSquare[indexColor];
 
         Image highlight = CreateNewHighlight();
 
@@ -616,12 +620,12 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
         // set IsHighlighted = true
-        SetTextColor(startCharacterItem, endCharacterItem, true, false);
+        SetTextColor(startCharacterItem, endCharacterItem, true, false, test);
 
-        if (useSelectedColour && SelectingHighlight != null)
-        {
-            highlight.color = SelectingHighlight.color;
-        }
+        // if (useSelectedColour && SelectingHighlight != null)
+        // {
+        //     highlight.color = SelectingHighlight.color;
+        // }
         return highlight;
     }
 

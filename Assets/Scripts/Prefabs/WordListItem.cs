@@ -13,9 +13,8 @@ public class WordListItem : MonoBehaviour
 
     [SerializeField] private Color colorTextMatched;
 
-    
+
     [SerializeField] private Color[] colorsBG = null;
-    [SerializeField] private Color[] colorsWord = null;
 
     private string word = null;
     public string Word { get => word; set => word = value; }
@@ -27,6 +26,41 @@ public class WordListItem : MonoBehaviour
         textBack.text = word;
         wordText.text = word;
         background.gameObject.SetActive(false);
+        if (Responsive.Instance.IsSmallScreen) SetFontSizeSmallScreen();
+    }
+    private void SetFontSizeSmallScreen()
+    {
+        textBack.fontSize = 45;
+        wordText.fontSize = 45;
+        var rtWord = wordText.GetComponent<RectTransform>();
+        rtWord.anchoredPosition = new Vector3(0, 4, 0);
+
+        RectTransform rectTransform = background.GetComponent<RectTransform>();
+        SetLeft(rectTransform, -9f);
+        SetRight(rectTransform, -9f);
+        SetTop(rectTransform, 8.5f);
+        SetBottom(rectTransform, 0.5f);
+
+        background.pixelsPerUnitMultiplier = 1;
+    }
+    public void SetLeft(RectTransform rt, float left)
+    {
+        rt.offsetMin = new Vector2(left, rt.offsetMin.y);
+    }
+
+    public void SetRight(RectTransform rt, float right)
+    {
+        rt.offsetMax = new Vector2(-right, rt.offsetMax.y);
+    }
+
+    public void SetTop(RectTransform rt, float top)
+    {
+        rt.offsetMax = new Vector2(rt.offsetMax.x, -top);
+    }
+
+    public void SetBottom(RectTransform rt, float bottom)
+    {
+        rt.offsetMin = new Vector2(rt.offsetMin.x, bottom);
     }
 
     public void SetWordFound()
@@ -39,11 +73,11 @@ public class WordListItem : MonoBehaviour
     public void SetRecommendWord(int indexColor)
     {
         background.gameObject.SetActive(true);
-        background.color = colorsBG[indexColor];
-        
+        background.color = GameDefine.COLOR_BG[indexColor];
 
-        textBack.color = colorsWord[indexColor];
-        wordText.color = colorsWord[indexColor];
+
+        textBack.color = GameDefine.COLOR_TEXT_HIGHLIGHT[indexColor];
+        wordText.color = GameDefine.COLOR_TEXT_HIGHLIGHT[indexColor];
     }
     public void SetAlpha(bool isActive)
     {
@@ -60,5 +94,6 @@ public class WordListItem : MonoBehaviour
         RectTransform _wordItemRecT = textBack.GetComponent<RectTransform>();
         return _wordItemRecT.sizeDelta.x;
     }
+
 
 }

@@ -17,7 +17,7 @@ public class SelectedWord : MonoBehaviour
 
 
 
-    public void SetSelectedWord(string word, Color color)
+    public void SetSelectedWord(string word, int indexColor)
     {
         if (activeSequence)
         {
@@ -30,13 +30,27 @@ public class SelectedWord : MonoBehaviour
         selectedWordContainer.SetActive(true);
         canvasGroup.alpha = 1;
 
-        selectedWordBkgImage.color = color;
+        selectedWordBkgImage.color = GameDefine.COLOR_BG[indexColor];
+        selectedWordText.color = GameDefine.COLOR_TEXT_HIGHLIGHT[indexColor];
         // Debug.Log("size: " + backGround.sizeDelta);
+        
+        if (Responsive.Instance.IsSmallScreen) SetFontSizeSmallScreen();
+    }
+
+    private void SetFontSizeSmallScreen()
+    {
+       VerticalLayoutGroup verticalLayoutGroup = gameObject.GetComponent<VerticalLayoutGroup>();
+       verticalLayoutGroup.padding.left = 20;
+       verticalLayoutGroup.padding.right = 20;
+       verticalLayoutGroup.padding.top = 0;
+       verticalLayoutGroup.padding.bottom = 5;
+       selectedWordBkgImage.pixelsPerUnitMultiplier = 1;
+       selectedWordText.fontSize = 50;
     }
 
     public void Clear(bool chooseRight = false)
     {
-        if (chooseRight) RightChoice();  
+        if (chooseRight) RightChoice();
         else WrongChoice();
     }
 
