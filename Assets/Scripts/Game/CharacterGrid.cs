@@ -16,8 +16,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         AboveLetters,
         BelowLetters
     }
-
-    [SerializeField] private WordListContainer wordListContainer = null;
     [SerializeField] private float maxCellSize = 200;
     [SerializeField] private SelectedWord selectedWord = null;
 
@@ -208,6 +206,9 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         Clear();
         currentCellSize = SetupGridContainer(board.rows, board.cols);
         currentScale = currentCellSize / maxCellSize;
+        var dicWord = GameManager.Instance.DicWord;
+        Debug.Log("currentCellSize: " + currentCellSize + "   currentScale: " + currentScale);
+        Debug.Log("listWord.DicWord.Count: " + dicWord.Count);
 
         for (int i = 0; i < board.boardCharacters.Count; i++)
         {
@@ -217,7 +218,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 char text = board.boardCharacters[i][j];
                 GameObject _characterItem = Instantiate(characterGridItemPrefab, Vector3.zero, Quaternion.identity, gridContainer);
                 CharacterGridItem _characterItemScript = _characterItem.GetComponent<CharacterGridItem>();
-                _characterItemScript.Setup(text, new Vector3(currentScale, currentScale, 1f), ScaledLetterOffsetInCell, i, j, false);
+                _characterItemScript.Setup(text, new Vector3(currentScale, currentScale, 1f), ScaledLetterOffsetInCell, i, j, dicWord[text]);
                 characterItems[i].Add(_characterItemScript);
             }
         }

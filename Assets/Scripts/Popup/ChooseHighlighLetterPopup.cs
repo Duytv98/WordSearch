@@ -28,68 +28,50 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
             }
         }
 
-        if (letters.Count == 0)
-        {
-            noLettersToShow.SetActive(true);
-        }
+        if (letters.Count == 0) noLettersToShow.SetActive(true);
         else
         {
             noLettersToShow.SetActive(false);
-
             letters.Sort();
             int oldChildCount = letterButtonContainer.transform.childCount;
             int count = oldChildCount > letters.Count ? oldChildCount : letters.Count;
             for (int i = 0; i < count; i++)
             {
-                if (oldChildCount == 0)
-                {
-                    char letter = letters[i];
-
-                    GameObject highlightLetter = Instantiate(letterButtonPrefab, Vector3.zero, Quaternion.identity, letterButtonContainer);
-                    HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                    _highlightLetterButtonScript.Setup(letter, isBooterUse);
-                }
+                char letter = letters[i];
+                var sprite = GameManager.Instance.DicWord[letter];
+                if (oldChildCount == 0) CreateHighlightLetter(letter, sprite, isBooterUse);
                 else
                 {
                     if (letters.Count < oldChildCount)
                     {
-                        if (i < letters.Count)
-                        {
-                            char letter = letters[i];
-                            GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
-                            HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                            _highlightLetterButtonScript.Setup(letter, isBooterUse);
-                        }
-                        else
-                        {
-                            GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
-                            highlightLetter.SetActive(false);
-                        }
+                        if (i < letters.Count) ChangeHighlightLetter(i, letter, sprite, isBooterUse);
+                        else DeactivateHighlightLetter(i);
                     }
                     else
                     {
-                        if (i < oldChildCount)
-                        {
-                            char letter = letters[i];
-                            GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
-                            HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                            _highlightLetterButtonScript.Setup(letter, isBooterUse);
-                        }
-                        else
-                        {
-                            char letter = letters[i];
-                            GameObject highlightLetter = letterButtonContainer.transform.GetChild(i).gameObject;
-                            HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
-                            _highlightLetterButtonScript.Setup(letter, isBooterUse);
-                        }
+                        if (i < oldChildCount) ChangeHighlightLetter(i, letter, sprite, isBooterUse);
+                        else CreateHighlightLetter(letter, sprite, isBooterUse);
                     }
-
                 }
-
-
-
             }
         }
+    }
+    private void CreateHighlightLetter(char letter, Sprite sprite, bool isBooterUse)
+    {
+        GameObject highlightLetter = Instantiate(letterButtonPrefab, Vector3.zero, Quaternion.identity, letterButtonContainer);
+        HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
+        _highlightLetterButtonScript.Setup(letter, sprite, isBooterUse);
+    }
+    private void ChangeHighlightLetter(int index, char letter, Sprite sprite, bool isBooterUse)
+    {
+        GameObject highlightLetter = letterButtonContainer.transform.GetChild(index).gameObject;
+        HighlightLetterButton _highlightLetterButtonScript = highlightLetter.GetComponent<HighlightLetterButton>();
+        _highlightLetterButtonScript.Setup(letter, sprite, isBooterUse);
+    }
+    private void DeactivateHighlightLetter(int index)
+    {
+        GameObject highlightLetter = letterButtonContainer.transform.GetChild(index).gameObject;
+        highlightLetter.SetActive(false);
     }
 
 }

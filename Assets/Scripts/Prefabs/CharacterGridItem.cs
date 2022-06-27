@@ -10,7 +10,9 @@ public class CharacterGridItem : MonoBehaviour
     [SerializeField] private Font font = null;
     [SerializeField] private int fontSize = 150;
     [SerializeField] private Image Bg = null;
-    public Text characterText;
+    [SerializeField] private Image imgCharacter;
+
+    private char text;
     private Text cloneText;
     public int Row { get; set; }
     public int Col { get; set; }
@@ -36,19 +38,31 @@ public class CharacterGridItem : MonoBehaviour
         SetColor(color, sprite);
     }
 
-    public void Setup(char text, Vector3 scale, Vector2 scaledLetterOffsetInCell, int row, int col, bool isChoose)
+    public void Setup(char text, Vector3 scale, Vector2 scaledLetterOffsetInCell, int row, int col, Sprite sprite)
     {
-        characterText.text = text.ToString();
-        characterText.color = defaultColor;
-        characterText.transform.localScale = scale;
+        var maxSize = GameManager.Instance.ActiveBoard.cols;
+        this.text = text;
         (transform as RectTransform).anchoredPosition = scaledLetterOffsetInCell;
-        IsChoose = isChoose;
         Row = row;
         Col = col;
+        imgCharacter.sprite = sprite;
+        imgCharacter.transform.localScale = scale;
+        imgCharacter.SetNativeSize();
+        if (maxSize > 10)
+        {
+            var rt = (RectTransform)imgCharacter.transform;
+            rt.anchoredPosition = Vector2.zero;
+        }
+        else if (maxSize > 7)
+        {
+            var rt = (RectTransform)imgCharacter.transform;
+            rt.anchoredPosition = new Vector2(0f, 3f);
+        }
+
     }
     public string Log()
     {
-        return string.Format("characterText: {0}, row: {1}, col: {2}, anchoredPosition: {3}", characterText.text, Row, Col, (transform as RectTransform).anchoredPosition);
+        return string.Format("characterText: {0}, row: {1}, col: {2}, anchoredPosition: {3}", text, Row, Col, (transform as RectTransform).anchoredPosition);
     }
     public Vector3 GetPosition(Camera cam)
     {
@@ -62,7 +76,7 @@ public class CharacterGridItem : MonoBehaviour
         }
         GameObject newText = new GameObject("TextClone");
         newText.transform.SetParent(parent);
-        newText.transform.localScale = characterText.transform.localScale;
+        // newText.transform.localScale = characterText.transform.localScale;
         newText.transform.localPosition = this.transform.localPosition;
 
         ContentSizeFitter contentSizeFitter = newText.AddComponent<ContentSizeFitter>();
@@ -70,7 +84,7 @@ public class CharacterGridItem : MonoBehaviour
         contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         cloneText = newText.AddComponent<Text>();
-        cloneText.text = characterText.text;
+        // cloneText.text = characterText.text;
 
         cloneText.font = font;
         cloneText.fontSize = fontSize;
@@ -87,24 +101,27 @@ public class CharacterGridItem : MonoBehaviour
     }
     public void SetWordUnuseds()
     {
-        characterText.color = Color.grey;
+        // characterText.color = Color.grey;
         IsActive = false;
     }
     public void SetColor(Color color, Sprite sprite)
     {
-        characterText.color = color;
+        // characterText.color = color;
+        imgCharacter.color = color;
         Bg.sprite = sprite;
     }
     public void UnDoColor()
     {
         if (IsChoose)
         {
-            characterText.color = color;
+            // characterText.color = color;
+            imgCharacter.color = color;
             Bg.sprite = sprite;
         }
         else
         {
-            characterText.color = defaultColor;
+            // characterText.color = defaultColor;
+            imgCharacter.color = defaultColor;
             Bg.sprite = defaultSprite;
         }
     }

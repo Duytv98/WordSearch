@@ -19,7 +19,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [Header("Data")]
     [SerializeField] private List<CategoryInfo> categoryInfos = null;
+    [SerializeField] private Sprite[] arrSpire;
+    private Dictionary<char, Sprite> dicWord = null;
     public List<CategoryInfo> CategoryInfos { get { return categoryInfos; } }
+    public Dictionary<char, Sprite> DicWord { get => dicWord; set => dicWord = value; }
 
     [Header("Values")]
     [SerializeField] private int numLevelsToAwardCoins = 0;
@@ -89,6 +92,16 @@ public class GameManager : MonoBehaviour
 
         characterGrid.Initialize();
         wordListContainer.Initialize();
+    }
+    private void Start()
+    {
+        DicWord = new Dictionary<char, Sprite>();
+
+        for (int i = 0; i < GameDefine.CHARACTERS.Length; i++)
+        {
+            DicWord.Add(GameDefine.CHARACTERS[i], arrSpire[i]);
+        }
+        Debug.Log("COunt: " + DicWord.Count);
     }
 
     public void Update4variable(string idPlayer, bool isLogIn, bool isMusic, bool isSound)

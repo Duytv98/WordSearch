@@ -5,17 +5,18 @@ using UnityEngine;
 using UnityEngine.UI;
 public class HighlightLetterButton : MonoBehaviour
 {
-
-    [SerializeField] private Text letterText = null;
+    [SerializeField] private Image imgText = null;
     private char letter;
     private bool isBooterUse = false;
-    public void Setup(char letter, bool isBooterUse)
+    public void Setup(char letter, Sprite sprite, bool isBooterUse)
     {
         this.isBooterUse = isBooterUse;
         this.letter = letter;
-        letterText.text = letter.ToString();
-        Vector3 localPosition = transform.localPosition;
-        transform.localPosition = new Vector3(localPosition.x, localPosition.y, 0f);
+        imgText.sprite = sprite;
+        
+        imgText.SetNativeSize();
+        // Vector3 localPosition = transform.localPosition;
+        // transform.localPosition = new Vector3(localPosition.x, localPosition.y, 0f);
     }
     public void OnClick()
     {
