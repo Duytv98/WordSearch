@@ -78,7 +78,7 @@ public class SettingsPopup : MonoBehaviour
             AudioManager.Instance.PlayMusic();
         }
 
-        SaveableManager.Instance.SetMusic(!isMusic);
+        SaveableManager.Instance.SaveMusic(!isMusic);
     }
     public void ClickSound()
     {
@@ -87,7 +87,7 @@ public class SettingsPopup : MonoBehaviour
         GameManager.Instance.IsSound = !isSound;
         toggleSound.DOLocalMoveX(x_toggleSound, 0.3f);
 
-        SaveableManager.Instance.SetSound(!isSound);
+        SaveableManager.Instance.SaveSound(!isSound);
     }
 
 

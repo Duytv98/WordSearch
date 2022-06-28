@@ -6,37 +6,30 @@ using SimpleJSON;
 [System.Serializable]
 public class PlayerInfo
 {
-    public string DisplayName;
-    public string Email;
+    public string displayName;
     public int coins = 0;
     public int keys = 0;
     public string lastCompletedLevels = null;
-    public string boardsInProgress = null;
     public string unlockedCategories = null;
     public string listBooter = null;
     
     public string ToString()
     {
-        return "DisplayName: " + DisplayName +
-               "\n Email: " + Email +
+        return "DisplayName: " + displayName +
                "\n coins: " + coins +
                "\n keys: " + keys +
                "\n lastCompletedLevels: " + lastCompletedLevels +
-               "\n boardsInProgress: " + boardsInProgress +
                "\n unlockedCategories: " + unlockedCategories +
                "\n listBooter: " + listBooter;
     }
     public void Union(PlayerInfo playerLocal, PlayerInfo playerFireBase)
     {
-        DisplayName = playerFireBase.DisplayName;
-        Email = playerFireBase.Email;
+        displayName = playerFireBase.displayName;
         coins = playerLocal.coins >= playerFireBase.coins ? playerLocal.coins : playerFireBase.coins;
         keys = playerLocal.keys >= playerFireBase.keys ? playerLocal.keys : playerFireBase.keys;
 
         JSONNode lastCompletedLevelsLocalJson = JSON.Parse(playerLocal.lastCompletedLevels);
         JSONNode lastCompletedLevelsFireBaseJson = JSON.Parse(playerFireBase.lastCompletedLevels);
-        // Debug.Log("lastCompletedLevelsLocalJson: " + playerLocal.lastCompletedLevels);
-        // Debug.Log("lastCompletedLevelsFireBaseJson: " + playerFireBase.lastCompletedLevels);
 
         Dictionary<string, int> dictionary = new Dictionary<string, int>();
         foreach (var key in lastCompletedLevelsLocalJson.Keys)
@@ -50,7 +43,6 @@ public class PlayerInfo
             else dictionary.Add(key, lastCompletedLevelsFireBaseJson[key]);
         }
         lastCompletedLevels = Utilities.ConvertToJsonString(dictionary);
-        boardsInProgress = "";
         listBooter = playerLocal.listBooter;
 
         string[] linesCategoriesLocal = playerLocal.unlockedCategories.Split(',');

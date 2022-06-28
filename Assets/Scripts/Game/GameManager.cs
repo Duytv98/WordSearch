@@ -101,8 +101,32 @@ public class GameManager : MonoBehaviour
         {
             DicWord.Add(GameDefine.CHARACTERS[i], arrSpire[i]);
         }
-        Debug.Log("COunt: " + DicWord.Count);
     }
+
+    public void GetAllDataUser()
+    {
+        
+        Coins = SaveableManager.Instance.GetCoins();
+        Keys = SaveableManager.Instance.GetKeys();
+
+        LastCompletedLevels = SaveableManager.Instance.GetLastCompletedLevels();
+        ListBooter = SaveableManager.Instance.GetListBooster();
+        BoardsInProgress = SaveableManager.Instance.GetBoardsInProgress();
+        UnlockedCategories = SaveableManager.Instance.GetUnlockedCategories();
+        
+        ScreenManager.Instance.SetActiveFlashCanvas(false);
+
+    }
+    public void GetDataBackground()
+    {
+        IsLogIn = SaveableManager.Instance.IsLogIn();
+        IsMusic = SaveableManager.Instance.IsMusic();
+        IsSound = SaveableManager.Instance.IsSound();
+
+        
+        if (IsMusic) AudioManager.Instance.PlayMusic();
+    }
+
 
     public void Update4variable(string idPlayer, bool isLogIn, bool isMusic, bool isSound)
     {
@@ -119,10 +143,10 @@ public class GameManager : MonoBehaviour
         Keys = playerInfo.keys;
         LastCompletedLevels = Convert.ToDictionarySI(playerInfo.lastCompletedLevels);
         ListBooter = Convert.ToDictionarySI(playerInfo.listBooter);
-        BoardsInProgress = Convert.ToDictionarySS(playerInfo.boardsInProgress);
+        // BoardsInProgress = Convert.ToDictionarySS(playerInfo.boardsInProgress);
         UnlockedCategories = Convert.ToListS(playerInfo.unlockedCategories);
-        this.playerInfo.DisplayName = playerInfo.DisplayName;
-        this.playerInfo.Email = playerInfo.Email;
+        this.playerInfo.displayName = playerInfo.displayName;
+        // this.playerInfo.Email = playerInfo.Email;
         //check bật nhạc
         if (IsMusic) AudioManager.Instance.PlayMusic();
         ScreenManager.Instance.SetActiveFlashCanvas(false);
@@ -581,8 +605,8 @@ public class GameManager : MonoBehaviour
         playerInfo.keys = Keys;
         if (displayName != null && email != null)
         {
-            playerInfo.DisplayName = displayName;
-            playerInfo.Email = email;
+            playerInfo.displayName = displayName;
+            // playerInfo.Email = email;
         }
 
         // playerInfo.keys = 0;
@@ -590,7 +614,7 @@ public class GameManager : MonoBehaviour
         // playerInfo.activeBoard = ActiveBoard;
         playerInfo.lastCompletedLevels = Utilities.ConvertToJsonString(LastCompletedLevels);
         playerInfo.listBooter = Utilities.ConvertToJsonString(ListBooter);
-        playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
+        // playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
         playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
     }
 

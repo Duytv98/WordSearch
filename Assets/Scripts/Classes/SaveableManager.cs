@@ -26,20 +26,17 @@ public class SaveableManager : MonoBehaviour
         // Debug.Log("LoadDataOnline");
 
 
-        GameManager.Instance.Update4variable(GetUserId(), IsLogIn(), IsMusic(), IsSound());
-        string jsonString = PlayerPrefs.GetString("playerInfo");
-        PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
-        // Debug.Log("loacal: ");
-        // Debug.Log(playerLocal.ToString());
-        // Debug.Log("islogin: " + GameManager.Instance.IsLogIn);
-        // GameManager.Instance.IsLogIn = true;
+        GameManager.Instance.GetDataBackground();
+        Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
         if (!GameManager.Instance.IsLogIn)
         {
-            GameManager.Instance.ConfigData(playerLocal);
+            Debug.Log("aaaaaaaaaaaa");
+            GameManager.Instance.GetAllDataUser();
         }
         else
         {
-            FireBaseController.Instance.Read_Data(playerLocal);
+            //////////////////////
+            // FireBaseController.Instance.Read_Data(playerLocal);
             // DOVirtual.DelayedCall(2, );
         }
     }
@@ -47,14 +44,12 @@ public class SaveableManager : MonoBehaviour
     public void LoadDataOffline()
     {
         Debug.Log("LoadDataOffline");
-        bool isPlay = PlayerPrefs.HasKey("SonatGameStudio1");
+        bool isPlay = IsActiveGame();
         if (isPlay)
         {
             // Người chơi đã từng tham gia trờ chơi
-            GameManager.Instance.Update4variable(GetUserId(), IsLogIn(), IsMusic(), IsSound());
-            string jsonString = GetString("playerInfo");
-            PlayerInfo playerLocal = JsonUtility.FromJson<PlayerInfo>(jsonString);
-            GameManager.Instance.ConfigData(playerLocal);
+            GameManager.Instance.GetDataBackground();
+            GameManager.Instance.GetAllDataUser();
 
         }
         else
@@ -76,7 +71,9 @@ public class SaveableManager : MonoBehaviour
             GameManager.Instance.SetPlayerInfo();
             // Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
             SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
-            if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
+            //////////////////////
+
+            // if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
         }
         else
         {
@@ -86,24 +83,16 @@ public class SaveableManager : MonoBehaviour
     }
 
 
-
-    public void SetUserId(string userId)
-    {
-        // Debug.Log("userId1");
-        PlayerPrefs.SetString("UserId", userId);
-
-        // Debug.Log("userId2");
-    }
-    public string GetUserId()
-    {
-        return PlayerPrefs.GetString("UserId");
-    }
     public void SetLogIn(bool isLogIn)
     {
+        Debug.Log("setLOgin: " + isLogIn);
         PlayerPrefs.SetInt("isLogIn", isLogIn == true ? 1 : 0);
+
+        Debug.Log("get: " + PlayerPrefs.GetInt("isLogIn"));
     }
     public bool IsLogIn()
     {
+        Debug.Log("get: " + PlayerPrefs.GetInt("isLogIn"));
         return PlayerPrefs.GetInt("isLogIn") == 1 ? true : false;
     }
 
@@ -120,15 +109,6 @@ public class SaveableManager : MonoBehaviour
     {
         PlayerPrefs.SetString("playerInfo", playerInfo.SaveToString());
     }
-    public void SetGameDefaut()
-    {
-        PlayerPrefs.SetInt("SonatGameStudio1", 1);
-        PlayerPrefs.SetInt("isMusic", GameDefine.DEFAULT_MUSIC);
-        PlayerPrefs.SetInt("isSound", GameDefine.DEFAULT_SOUND);
-        PlayerInfo playerInfo = new PlayerInfo(GameDefine.STARTING_COINS, GameDefine.STARTING_KEYS);
-        playerInfo.listBooter = Utilities.ConvertToJsonString(CreateListBooterDefaut());
-        SetPlayerInfo(playerInfo);
-    }
     private Dictionary<string, int> CreateListBooterDefaut()
     {
         Dictionary<string, int> ListBooter = new Dictionary<string, int>();
@@ -139,11 +119,49 @@ public class SaveableManager : MonoBehaviour
         ListBooter.Add("Suggest-many-words", 0);
         return ListBooter;
     }
-    public void SetSound(bool isSound)
+
+    public void SetActiveGame()
+    {
+        PlayerPrefs.SetInt(GameDefine.KEY_GAME, 1);
+    }
+    public bool IsActiveGame()
+    {
+        return PlayerPrefs.HasKey(GameDefine.KEY_GAME);
+    }
+
+    public void SaveUserOff(User user)
+    {
+        PlayerPrefs.SetString(GameDefine.KEY_USER, JsonUtility.ToJson(user));
+    }
+    public User GetUserOff()
+    {
+        var strUser = PlayerPrefs.GetString(GameDefine.KEY_USER);
+        if (string.IsNullOrEmpty(strUser)) return null;
+        return JsonUtility.FromJson<User>(strUser);
+    }
+
+    public void SetGameDefaut()
+    {
+        SetActiveGame();
+
+        SaveMusic(GameDefine.DEFAULT_MUSIC);
+        SaveSound(GameDefine.DEFAULT_SOUND);
+        SaveCoins(GameDefine.STARTING_COINS);
+        SaveKeys(GameDefine.STARTING_KEYS);
+        SaveListBooster(CreateListBooterDefaut());
+        // PlayerInfo playerInfo = new PlayerInfo(GameDefine.STARTING_COINS, GameDefine.STARTING_KEYS);
+        // playerInfo.listBooter = Utilities.ConvertToJsonString(CreateListBooterDefaut());
+        // SetPlayerInfo(playerInfo);
+    }
+
+
+
+
+    public void SaveSound(bool isSound)
     {
         PlayerPrefs.SetInt("isSound", isSound ? 1 : -1);
     }
-    public void SetMusic(bool isMusic)
+    public void SaveMusic(bool isMusic)
     {
         PlayerPrefs.SetInt("isMusic", isMusic ? 1 : -1);
     }
@@ -155,4 +173,100 @@ public class SaveableManager : MonoBehaviour
     {
         return PlayerPrefs.GetInt("isMusic") > 0 ? true : false;
     }
+
+    public void SaveListBooster(Dictionary<string, int> listBooster)
+    {
+        var str = Utilities.ConvertToJsonString(listBooster);
+        PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, str);
+    }
+    public Dictionary<string, int> GetListBooster()
+    {
+        var str = PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER);
+        return Convert.ToDictionarySI(str);
+    }
+
+
+
+
+
+    public void SaveCoins(int coins)
+    {
+        PlayerPrefs.SetInt(GameDefine.KEY_USER_COINS, coins);
+    }
+    public void SaveKeys(int keys)
+    {
+        PlayerPrefs.SetInt(GameDefine.KEY_USER_KEYS, keys);
+    }
+
+    public int GetCoins()
+    {
+        return PlayerPrefs.GetInt(GameDefine.KEY_USER_COINS);
+    }
+
+    public int GetKeys()
+    {
+        return PlayerPrefs.GetInt(GameDefine.KEY_USER_KEYS);
+    }
+
+
+    public void SaveLastCompletedLevels(Dictionary<string, int> lastCompletedLevels)
+    {
+        var str = Utilities.ConvertToJsonString(lastCompletedLevels);
+        PlayerPrefs.SetString(GameDefine.KEY_LAST_COMPLETED_LEVELS, str);
+    }
+    public Dictionary<string, int> GetLastCompletedLevels()
+    {
+        var str = PlayerPrefs.GetString(GameDefine.KEY_LAST_COMPLETED_LEVELS);
+        return Convert.ToDictionarySI(str);
+    }
+
+    public void SaveBoardsInProgress(Dictionary<string, string> boardsInProgress)
+    {
+        var str = Utilities.ConvertToJsonString(boardsInProgress);
+        PlayerPrefs.SetString(GameDefine.KEY_BOARDS_IN_PROGRESS, str);
+    }
+    public Dictionary<string, string> GetBoardsInProgress()
+    {
+        var str = PlayerPrefs.GetString(GameDefine.KEY_BOARDS_IN_PROGRESS);
+        return Convert.ToDictionarySS(str);
+    }
+    public void SaveUnlockedCategories(List<string> unlockedCategories)
+    {
+        var str = string.Join(",", unlockedCategories);
+        PlayerPrefs.SetString(GameDefine.KEY_UNLOCKED_CATEGORIES, str);
+    }
+    public List<string> GetUnlockedCategories()
+    {
+        var str = PlayerPrefs.GetString(GameDefine.KEY_UNLOCKED_CATEGORIES);
+        return Convert.ToListS(str);
+    }
+
+    private void SaveDisplayNameUser(string name)
+    {
+        PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, name);
+    }
+    public string GetDisplayNameUser()
+    {
+        return PlayerPrefs.GetString(GameDefine.KEY_DISPLAY_NAME);
+    }
+    private void SaveUserId(string userId)
+    {
+        PlayerPrefs.SetString(GameDefine.KEY_USERID, userId);
+    }
+    public string GetUserId()
+    {
+        return PlayerPrefs.GetString(GameDefine.KEY_USERID);
+    }
+
+    public void SaveDataUser(string name, string userId)
+    {
+        SaveDisplayNameUser(name);
+        SaveUserId(userId);
+    }
+
+
+
+
+
+
 }
