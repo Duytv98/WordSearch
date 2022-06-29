@@ -32,10 +32,10 @@ public class GameScreen : MonoBehaviour
     }
     public void Initialize()
     {
-        Dictionary<string, int> ListBooterInGame = GameManager.Instance.ListBooterInGame;
+        Dictionary<string, int> ListBoosterInGame = GameManager.Instance.ListBoosterInGame;
         foreach (var plus in arrayPlus)
         {
-            int amountBooter = ListBooterInGame[plus.id];
+            int amountBooter = ListBoosterInGame[plus.id];
             if (amountBooter <= 0)
             {
                 plus.transform.gameObject.SetActive(false);
@@ -49,8 +49,8 @@ public class GameScreen : MonoBehaviour
     }
     public void UpdateBooterInGame(string key)
     {
-        Dictionary<string, int> ListBooterInGame = GameManager.Instance.ListBooterInGame;
-        int amountBooter = ListBooterInGame[key];
+        Dictionary<string, int> ListBoosterInGame = GameManager.Instance.ListBoosterInGame;
+        int amountBooter = ListBoosterInGame[key];
         Plus plus = Array.Find(arrayPlus, plus => plus.id == key);
         plus.txtPlus.text = "+ " + amountBooter;
         if (amountBooter <= 0) plus.transform.gameObject.SetActive(false);

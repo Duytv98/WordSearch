@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using Firebase.Auth;
 using SimpleJSON;
 using DG.Tweening;
 public class SaveableManager : MonoBehaviour
 {
 
     public static SaveableManager Instance;
+    [SerializeField] private FireBaseController fireBaseController = null;
     private void Awake()
     {
         if (Instance == null)
@@ -21,36 +24,14 @@ public class SaveableManager : MonoBehaviour
     {
 
     }
-    public void LoadDataOnline()
-    {
-        // Debug.Log("LoadDataOnline");
-
-
-        GameManager.Instance.GetDataBackground();
-        Debug.Log("GameManager.Instance.IsLogIn: " + GameManager.Instance.IsLogIn);
-        if (!GameManager.Instance.IsLogIn)
-        {
-            Debug.Log("aaaaaaaaaaaa");
-            GameManager.Instance.GetAllDataUser();
-        }
-        else
-        {
-            //////////////////////
-            // FireBaseController.Instance.Read_Data(playerLocal);
-            // DOVirtual.DelayedCall(2, );
-        }
-    }
-
     public void LoadDataOffline()
     {
         Debug.Log("LoadDataOffline");
         bool isPlay = IsActiveGame();
         if (isPlay)
         {
-            // Người chơi đã từng tham gia trờ chơi
             GameManager.Instance.GetDataBackground();
             GameManager.Instance.GetAllDataUser();
-
         }
         else
         {
@@ -59,56 +40,40 @@ public class SaveableManager : MonoBehaviour
         }
     }
 
-    public void SaveData()
-    {
-        // Debug.Log("SaveableManager  SaveData()");
-        // Debug.Log("GameManager.Instance.ActiveGameMode: " + GameManager.Instance.ActiveGameMode);
-        if (GameManager.Instance.ActiveGameMode == GameManager.GameMode.Progress)
-        {
-            // Debug.Log("GameManager.Instance.ActiveGameMode == GameManager.GameMode.Progress");
-            // Debug.Log("save Data: ");
-            // Debug.Log(GameManager.Instance.GetPlayerInfo());
-            GameManager.Instance.SetPlayerInfo();
-            // Debug.Log(GameManager.Instance.GetPlayerInfo().ToString());
-            SetPlayerInfo(GameManager.Instance.GetPlayerInfo());
-            //////////////////////
 
-            // if (GameManager.Instance.IsLogIn) FireBaseController.Instance.SaveData(GameManager.Instance.GetPlayerInfo());
-        }
-        else
-        {
-            // Debug.Log("ScreenManager.Instance.SaveLocalProgressCasual");
-            ScreenManager.Instance.SaveLocalProgressCasual();
-        }
+
+    //Login and Default
+    private void SetActiveGame()
+    {
+        PlayerPrefs.SetInt(GameDefine.KEY_GAME, 1);
     }
 
+    public bool IsActiveGame()
+    {
+        return PlayerPrefs.HasKey(GameDefine.KEY_GAME);
+    }
 
     public void SetLogIn(bool isLogIn)
     {
-        Debug.Log("setLOgin: " + isLogIn);
         PlayerPrefs.SetInt("isLogIn", isLogIn == true ? 1 : 0);
-
-        Debug.Log("get: " + PlayerPrefs.GetInt("isLogIn"));
+        GameManager.Instance.IsLogIn = isLogIn;
     }
+
     public bool IsLogIn()
     {
-        Debug.Log("get: " + PlayerPrefs.GetInt("isLogIn"));
         return PlayerPrefs.GetInt("isLogIn") == 1 ? true : false;
     }
 
+    public void SaveProvidersLogin(string providers)
+    {
+        PlayerPrefs.SetString(GameDefine.KEY_PROVIDERS, providers);
+    }
 
-    public void SetString(string KeyName, string Value)
+    public string GetProvidersLogin()
     {
-        PlayerPrefs.SetString(KeyName, Value);
+        return PlayerPrefs.GetString(GameDefine.KEY_PROVIDERS);
     }
-    public string GetString(string KeyName)
-    {
-        return PlayerPrefs.GetString(KeyName);
-    }
-    public void SetPlayerInfo(PlayerInfo playerInfo)
-    {
-        PlayerPrefs.SetString("playerInfo", playerInfo.SaveToString());
-    }
+
     private Dictionary<string, int> CreateListBooterDefaut()
     {
         Dictionary<string, int> ListBooter = new Dictionary<string, int>();
@@ -120,27 +85,7 @@ public class SaveableManager : MonoBehaviour
         return ListBooter;
     }
 
-    public void SetActiveGame()
-    {
-        PlayerPrefs.SetInt(GameDefine.KEY_GAME, 1);
-    }
-    public bool IsActiveGame()
-    {
-        return PlayerPrefs.HasKey(GameDefine.KEY_GAME);
-    }
-
-    public void SaveUserOff(User user)
-    {
-        PlayerPrefs.SetString(GameDefine.KEY_USER, JsonUtility.ToJson(user));
-    }
-    public User GetUserOff()
-    {
-        var strUser = PlayerPrefs.GetString(GameDefine.KEY_USER);
-        if (string.IsNullOrEmpty(strUser)) return null;
-        return JsonUtility.FromJson<User>(strUser);
-    }
-
-    public void SetGameDefaut()
+    private void SetGameDefaut()
     {
         SetActiveGame();
 
@@ -149,53 +94,63 @@ public class SaveableManager : MonoBehaviour
         SaveCoins(GameDefine.STARTING_COINS);
         SaveKeys(GameDefine.STARTING_KEYS);
         SaveListBooster(CreateListBooterDefaut());
-        // PlayerInfo playerInfo = new PlayerInfo(GameDefine.STARTING_COINS, GameDefine.STARTING_KEYS);
-        // playerInfo.listBooter = Utilities.ConvertToJsonString(CreateListBooterDefaut());
-        // SetPlayerInfo(playerInfo);
+    }
+
+    public void CheckAccount(FirebaseUser user, string providers)
+    {
+        if (IsLogIn())
+        {
+            Debug.Log("Tung login");
+            var lastUseId = GetUserId();
+            if(lastUseId.Equals(user.UserId)) Debug.Log("Tai Khoan Cu");
+            else Debug.Log("Tai Khoan Moi");
+        }
+        else
+        {
+            SetLogIn(true);
+            SaveProvidersLogin(providers);
+            SaveDataUser(user.DisplayName, user.UserId);
+
+            fireBaseController.Read_Data();
+        }
     }
 
 
-
-
+    //Sound
     public void SaveSound(bool isSound)
     {
         PlayerPrefs.SetInt("isSound", isSound ? 1 : -1);
     }
+
     public void SaveMusic(bool isMusic)
     {
         PlayerPrefs.SetInt("isMusic", isMusic ? 1 : -1);
     }
+
     public bool IsSound()
     {
         return PlayerPrefs.GetInt("isSound") > 0 ? true : false;
     }
+
     public bool IsMusic()
     {
         return PlayerPrefs.GetInt("isMusic") > 0 ? true : false;
     }
 
-    public void SaveListBooster(Dictionary<string, int> listBooster)
-    {
-        var str = Utilities.ConvertToJsonString(listBooster);
-        PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, str);
-    }
-    public Dictionary<string, int> GetListBooster()
-    {
-        var str = PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER);
-        return Convert.ToDictionarySI(str);
-    }
 
 
 
-
-
-    public void SaveCoins(int coins)
+    //InProgress
+    private void SaveCoins(int coins)
     {
         PlayerPrefs.SetInt(GameDefine.KEY_USER_COINS, coins);
+        fireBaseController.SaveCoins();
     }
-    public void SaveKeys(int keys)
+
+    private void SaveKeys(int keys)
     {
         PlayerPrefs.SetInt(GameDefine.KEY_USER_KEYS, keys);
+        fireBaseController.SaveKeys();
     }
 
     public int GetCoins()
@@ -208,12 +163,13 @@ public class SaveableManager : MonoBehaviour
         return PlayerPrefs.GetInt(GameDefine.KEY_USER_KEYS);
     }
 
-
     public void SaveLastCompletedLevels(Dictionary<string, int> lastCompletedLevels)
     {
         var str = Utilities.ConvertToJsonString(lastCompletedLevels);
         PlayerPrefs.SetString(GameDefine.KEY_LAST_COMPLETED_LEVELS, str);
+        fireBaseController.SaveLastCompletedLevels();
     }
+
     public Dictionary<string, int> GetLastCompletedLevels()
     {
         var str = PlayerPrefs.GetString(GameDefine.KEY_LAST_COMPLETED_LEVELS);
@@ -225,43 +181,87 @@ public class SaveableManager : MonoBehaviour
         var str = Utilities.ConvertToJsonString(boardsInProgress);
         PlayerPrefs.SetString(GameDefine.KEY_BOARDS_IN_PROGRESS, str);
     }
+
     public Dictionary<string, string> GetBoardsInProgress()
     {
         var str = PlayerPrefs.GetString(GameDefine.KEY_BOARDS_IN_PROGRESS);
         return Convert.ToDictionarySS(str);
     }
+
     public void SaveUnlockedCategories(List<string> unlockedCategories)
     {
         var str = string.Join(",", unlockedCategories);
         PlayerPrefs.SetString(GameDefine.KEY_UNLOCKED_CATEGORIES, str);
+        fireBaseController.SaveUnlockedCategories();
     }
+
     public List<string> GetUnlockedCategories()
     {
         var str = PlayerPrefs.GetString(GameDefine.KEY_UNLOCKED_CATEGORIES);
         return Convert.ToListS(str);
     }
 
+    public void SaveListBooster(Dictionary<string, int> listBooster)
+    {
+        var str = Utilities.ConvertToJsonString(listBooster);
+        PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, str);
+        fireBaseController.SaveListBooster();
+    }
+
+    public Dictionary<string, int> GetListBooster()
+    {
+        var str = PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER);
+        return Convert.ToDictionarySI(str);
+    }
+
     private void SaveDisplayNameUser(string name)
     {
         PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, name);
     }
+
     public string GetDisplayNameUser()
     {
         return PlayerPrefs.GetString(GameDefine.KEY_DISPLAY_NAME);
     }
+
     private void SaveUserId(string userId)
     {
         PlayerPrefs.SetString(GameDefine.KEY_USERID, userId);
     }
+
     public string GetUserId()
     {
         return PlayerPrefs.GetString(GameDefine.KEY_USERID);
     }
 
+
     public void SaveDataUser(string name, string userId)
     {
         SaveDisplayNameUser(name);
         SaveUserId(userId);
+    }
+
+    public PlayerInfo GetPlayerLocal()
+    {
+        PlayerInfo playerInfo = new PlayerInfo();
+        playerInfo.displayName = PlayerPrefs.GetString(GameDefine.KEY_DISPLAY_NAME);
+        playerInfo.coins = PlayerPrefs.GetInt(GameDefine.KEY_USER_COINS);
+        playerInfo.keys = PlayerPrefs.GetInt(GameDefine.KEY_USER_KEYS);
+        playerInfo.lastCompletedLevels = PlayerPrefs.GetString(GameDefine.KEY_LAST_COMPLETED_LEVELS);
+        playerInfo.unlockedCategories = PlayerPrefs.GetString(GameDefine.KEY_UNLOCKED_CATEGORIES);
+        playerInfo.listBooster = PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER);
+        return playerInfo;
+    }
+
+    public void SaveDataPlayerLocal(PlayerInfo playerInfo)
+    {
+        Debug.Log(JsonUtility.ToJson(playerInfo));
+        PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, playerInfo.displayName);
+        PlayerPrefs.SetInt(GameDefine.KEY_USER_COINS, playerInfo.coins);
+        PlayerPrefs.SetInt(GameDefine.KEY_USER_KEYS, playerInfo.keys);
+        PlayerPrefs.SetString(GameDefine.KEY_LAST_COMPLETED_LEVELS, playerInfo.lastCompletedLevels);
+        PlayerPrefs.SetString(GameDefine.KEY_UNLOCKED_CATEGORIES, playerInfo.unlockedCategories);
+        PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, playerInfo.listBooster);
     }
 
 

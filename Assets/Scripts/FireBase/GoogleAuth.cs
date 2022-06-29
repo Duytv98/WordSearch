@@ -73,6 +73,8 @@ public class GoogleAuth : MonoBehaviour
             }
             else
             {
+                FirebaseUser newuser = task.Result;
+                SaveableManager.Instance.CheckAccount(newuser, GameDefine.KEY_PROVIDERS_GG);
                 CheckCurrentUser();
             }
         });
@@ -82,13 +84,6 @@ public class GoogleAuth : MonoBehaviour
     {
         GoogleSignIn.DefaultInstance.SignOut();
         auth.SignOut();
-
-        GameManager.Instance.IsLogIn = false;
-        SaveableManager.Instance.SetLogIn(false);
-        PopupContainer.Instance.SettingsPopupShowButton(false);
-
-
-
     }
     private void CheckCurrentUser()
     {

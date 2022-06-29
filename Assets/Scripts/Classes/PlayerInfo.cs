@@ -11,8 +11,8 @@ public class PlayerInfo
     public int keys = 0;
     public string lastCompletedLevels = null;
     public string unlockedCategories = null;
-    public string listBooter = null;
-    
+    public string listBooster = null;
+
     public string ToString()
     {
         return "DisplayName: " + displayName +
@@ -20,7 +20,7 @@ public class PlayerInfo
                "\n keys: " + keys +
                "\n lastCompletedLevels: " + lastCompletedLevels +
                "\n unlockedCategories: " + unlockedCategories +
-               "\n listBooter: " + listBooter;
+               "\n listBooster: " + listBooster;
     }
     public void Union(PlayerInfo playerLocal, PlayerInfo playerFireBase)
     {
@@ -28,6 +28,7 @@ public class PlayerInfo
         coins = playerLocal.coins >= playerFireBase.coins ? playerLocal.coins : playerFireBase.coins;
         keys = playerLocal.keys >= playerFireBase.keys ? playerLocal.keys : playerFireBase.keys;
 
+        //lastCompletedLevels
         JSONNode lastCompletedLevelsLocalJson = JSON.Parse(playerLocal.lastCompletedLevels);
         JSONNode lastCompletedLevelsFireBaseJson = JSON.Parse(playerFireBase.lastCompletedLevels);
 
@@ -39,12 +40,12 @@ public class PlayerInfo
         foreach (var key in lastCompletedLevelsFireBaseJson.Keys)
         {
             if (dictionary.ContainsKey(key))
-                dictionary[key] = dictionary[key] >= lastCompletedLevelsFireBaseJson[key] ? dictionary[key] : (int) lastCompletedLevelsFireBaseJson[key];
+                dictionary[key] = dictionary[key] >= lastCompletedLevelsFireBaseJson[key] ? dictionary[key] : (int)lastCompletedLevelsFireBaseJson[key];
             else dictionary.Add(key, lastCompletedLevelsFireBaseJson[key]);
         }
         lastCompletedLevels = Utilities.ConvertToJsonString(dictionary);
-        listBooter = playerLocal.listBooter;
 
+        //unlockedCategories
         string[] linesCategoriesLocal = playerLocal.unlockedCategories.Split(',');
         string[] linesFireBaseLocal = playerFireBase.unlockedCategories.Split(',');
 
@@ -55,14 +56,29 @@ public class PlayerInfo
             if (!listCategories.Contains(categoryName)) listCategories.Add(categoryName);
         }
         unlockedCategories = string.Join(",", listCategories);
+
+
+        //listBooster
+        JSONNode listBoosterLocalJson = JSON.Parse(playerLocal.listBooster);
+        JSONNode listBoosterFireBaseJson = JSON.Parse(playerFireBase.listBooster);
+
+        Dictionary<string, int> dicListBooster = new Dictionary<string, int>();
+        foreach (var key in listBoosterLocalJson.Keys)
+        {
+            dicListBooster.Add(key, listBoosterLocalJson[key]);
+        }
+        foreach (var key in listBoosterFireBaseJson.Keys)
+        {
+            if (dicListBooster.ContainsKey(key))
+                dicListBooster[key] = dicListBooster[key] >= listBoosterFireBaseJson[key] ? dicListBooster[key] : (int)listBoosterFireBaseJson[key];
+            else dicListBooster.Add(key, listBoosterFireBaseJson[key]);
+        }
+        listBooster = Utilities.ConvertToJsonString(dicListBooster);
+
+
     }
     public PlayerInfo()
     {
-    }
-    public PlayerInfo(int coins, int keys)
-    {
-        this.coins = coins;
-        this.keys = keys;
     }
     public string SaveToString()
     {

@@ -18,9 +18,12 @@ public class GameManager : MonoBehaviour
     }
     public static GameManager Instance;
     [Header("Data")]
+
+    [SerializeField] private Sprite[] arrSquare = null;
     [SerializeField] private List<CategoryInfo> categoryInfos = null;
     [SerializeField] private Sprite[] arrSpire;
     private Dictionary<char, Sprite> dicWord = null;
+    public Sprite[] ArrSquare { get => arrSquare; set => arrSquare = value; }
     public List<CategoryInfo> CategoryInfos { get { return categoryInfos; } }
     public Dictionary<char, Sprite> DicWord { get => dicWord; set => dicWord = value; }
 
@@ -50,8 +53,8 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, string> BoardsInProgress { get; private set; }
     public Dictionary<string, int> LastCompletedLevels = null;
-    public Dictionary<string, int> ListBooter = null;
-    public Dictionary<string, int> ListBooterInGame { get; private set; }
+    public Dictionary<string, int> ListBooster = null;
+    public Dictionary<string, int> ListBoosterInGame { get; private set; }
     public List<string> UnlockedCategories { get; private set; }
 
     private PlayerInfo playerInfo = null;
@@ -63,12 +66,10 @@ public class GameManager : MonoBehaviour
 
 
     private bool isLogIn = false;
-    private string idPlayer;
     private bool isCompleted;
     private bool isMusic = true;
     private bool isSound = true;
     public bool IsLogIn { get => isLogIn; set => isLogIn = value; }
-    public string IdPlayer { get => idPlayer; set => idPlayer = value; }
     public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
     public bool IsMusic { get => isMusic; set => isMusic = value; }
     public bool IsSound { get => isSound; set => isSound = value; }
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
         playerInfo = new PlayerInfo();
         BoardsInProgress = new Dictionary<string, string>();
         LastCompletedLevels = new Dictionary<string, int>();
-        ListBooter = new Dictionary<string, int>();
+        ListBooster = new Dictionary<string, int>();
         UnlockedCategories = new List<string>();
         // Debug.Log("ListBooter.Count: " + ListBooter.Count);
 
@@ -105,15 +106,15 @@ public class GameManager : MonoBehaviour
 
     public void GetAllDataUser()
     {
-        
+
         Coins = SaveableManager.Instance.GetCoins();
         Keys = SaveableManager.Instance.GetKeys();
 
         LastCompletedLevels = SaveableManager.Instance.GetLastCompletedLevels();
-        ListBooter = SaveableManager.Instance.GetListBooster();
+        ListBooster = SaveableManager.Instance.GetListBooster();
         BoardsInProgress = SaveableManager.Instance.GetBoardsInProgress();
         UnlockedCategories = SaveableManager.Instance.GetUnlockedCategories();
-        
+
         ScreenManager.Instance.SetActiveFlashCanvas(false);
 
     }
@@ -123,41 +124,15 @@ public class GameManager : MonoBehaviour
         IsMusic = SaveableManager.Instance.IsMusic();
         IsSound = SaveableManager.Instance.IsSound();
 
-        
+
         if (IsMusic) AudioManager.Instance.PlayMusic();
     }
 
-
-    public void Update4variable(string idPlayer, bool isLogIn, bool isMusic, bool isSound)
-    {
-        IdPlayer = idPlayer;
-        IsLogIn = isLogIn;
-        IsMusic = isMusic;
-        IsSound = isSound;
-    }
-    // GỌi khi tất cả các data load hoàn tất
-    public void ConfigData(PlayerInfo playerInfo)
-    {
-        // Debug.Log("ConfigData");
-        Coins = playerInfo.coins;
-        Keys = playerInfo.keys;
-        LastCompletedLevels = Convert.ToDictionarySI(playerInfo.lastCompletedLevels);
-        ListBooter = Convert.ToDictionarySI(playerInfo.listBooter);
-        // BoardsInProgress = Convert.ToDictionarySS(playerInfo.boardsInProgress);
-        UnlockedCategories = Convert.ToListS(playerInfo.unlockedCategories);
-        this.playerInfo.displayName = playerInfo.displayName;
-        // this.playerInfo.Email = playerInfo.Email;
-        //check bật nhạc
-        if (IsMusic) AudioManager.Instance.PlayMusic();
-        ScreenManager.Instance.SetActiveFlashCanvas(false);
-    }
     Board LoadLevelFile(CategoryInfo categoryInfo, int levelIndex)
     {
         TextAsset levelFile = categoryInfo.levelFiles[levelIndex];
-        // Debug.Log(levelFile);
         Board board = new Board();
         board.FromJson(levelFile);
-        // Debug.Log(board.foundWords);
         return board;
     }
     // Start Progress
@@ -166,26 +141,14 @@ public class GameManager : MonoBehaviour
         ActiveLevelIndex = levelIndex;
         ActiveGameMode = GameMode.Progress;
         Board board = GetSavedBoard(categoryInfo, levelIndex);
-        // Debug.Log(board);
-        if (board == null)
-        {
-            board = LoadLevelFile(categoryInfo, levelIndex);
-        }
+        if (board == null) board = LoadLevelFile(categoryInfo, levelIndex);
         SetupGame(board);
-
-        // SetBoardInProgress(board, categoryInfo, levelIndex);
         SaveCurrentBoard();
     }
     public void StartNextLevel(CategoryInfo categoryInfo)
     {
-        // Debug.Log(JsonUtility.ToJson(categoryInfo));
         int nextLevelIndex = LastCompletedLevels.ContainsKey(categoryInfo.saveId) ? LastCompletedLevels[categoryInfo.saveId] + 1 : 0;
-        // Debug.Log("nextLevelIndex: " + nextLevelIndex);
-        if (nextLevelIndex >= categoryInfo.levelFiles.Count)
-        {
-            nextLevelIndex = categoryInfo.levelFiles.Count - 1;
-        }
-
+        if (nextLevelIndex >= categoryInfo.levelFiles.Count) nextLevelIndex = categoryInfo.levelFiles.Count - 1;
         StartLevel(categoryInfo, nextLevelIndex);
     }
     // private void SetupGame(Board board, int levelIndex = -1)
@@ -193,26 +156,15 @@ public class GameManager : MonoBehaviour
     {
         IsCompleted = false;
         ActiveBoard = board;
-        // Debug.Log("Count: " + ActiveBoard.recommendWords.Count);
-        SetUpListBooterUse();
-        // Debug.Log("ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
-        // Debug.Log("ListBooterUse: " + Utilities.ConvertToJsonString(ListBooterInGame));
-        // if (levelIndex >= 0)
-        // {
-        //     ScreenManager.Instance.Show("game");
-        //     characterGrid.SetUp(board);
-        //     wordListContainer.Setup(board);
-        // }
 
+        SetUpListBooterUse();
         if (ActiveGameMode == GameMode.Progress) ScreenManager.Instance.Show("game");
-        else ScreenManager.Instance.InitializeGameScreen();
+        // else ScreenManager.Instance.InitializeGameScreen();
         characterGrid.SetUp(board);
         wordListContainer.Setup(board);
 
 
         ActiveGameState = GameState.BoardActive;
-
-        SaveableManager.Instance.SaveData();
     }
     public bool AllLevelsComplete(CategoryInfo categoryInfo)
     {
@@ -331,7 +283,8 @@ public class GameManager : MonoBehaviour
         Keys += keysAwarded;
 
 
-        SaveableManager.Instance.SaveData();
+        SaveableManager.Instance.SaveBoardsInProgress(BoardsInProgress);
+        SaveableManager.Instance.SaveLastCompletedLevels(LastCompletedLevels);
         PopupContainer.Instance.ShowLevelCompletePopup(coinsAwarded, keysAwarded);
 
         AudioManager.Instance.Play("level-complete");
@@ -378,7 +331,7 @@ public class GameManager : MonoBehaviour
                     UnlockedCategories.Add(categoryInfo.saveId);
                     ScreenManager.Instance.RefreshLevelScreen();
                     PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
-                    SaveableManager.Instance.SaveData();
+                    SaveableManager.Instance.SaveUnlockedCategories(UnlockedCategories);
                     return true;
                 }
 
@@ -613,7 +566,7 @@ public class GameManager : MonoBehaviour
         // LastCompletedLevels["birds"] = 25;
         // playerInfo.activeBoard = ActiveBoard;
         playerInfo.lastCompletedLevels = Utilities.ConvertToJsonString(LastCompletedLevels);
-        playerInfo.listBooter = Utilities.ConvertToJsonString(ListBooter);
+        playerInfo.listBooster = Utilities.ConvertToJsonString(ListBooster);
         // playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
         playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
     }
@@ -683,36 +636,38 @@ public class GameManager : MonoBehaviour
 
     public bool SetBooter(string key, int amount)
     {
-        if (!ListBooter.ContainsKey(key)) return false;
-        ListBooter[key] += amount;
-        SaveableManager.Instance.SaveData();
+        if (!ListBooster.ContainsKey(key)) return false;
+        ListBooster[key] += amount;
+        SaveableManager.Instance.SaveListBooster(ListBooster);
         return true;
     }
     private void SetUpListBooterUse()
     {
-        ListBooterInGame = new Dictionary<string, int>();
-        foreach (var booter in ListBooter)
+        ListBoosterInGame = new Dictionary<string, int>();
+        foreach (var booter in ListBooster)
         {
             var key = booter.Key;
             var value = 0;
             value = booter.Value < 3 ? booter.Value : 3;
-            ListBooterInGame.Add(key, value);
+            ListBoosterInGame.Add(key, value);
         }
     }
     private bool SubtractionBooter(string key, int amount)
     {
-        if (ListBooter.ContainsKey(key) && ListBooterInGame.ContainsKey(key))
+        if (ListBooster.ContainsKey(key) && ListBooster.ContainsKey(key))
         {
-            ListBooter[key] -= amount;
-            ListBooterInGame[key] -= amount;
+            ListBooster[key] -= amount;
+            ListBoosterInGame[key] -= amount;
             GameScreen.Instance.UpdateBooterInGame(key);
+            SaveableManager.Instance.SaveListBooster(ListBooster);
+
             return true;
         }
         return false;
     }
     private bool CheckBooterExist(string key)
     {
-        if (ListBooterInGame[key] > 0) return true;
+        if (ListBoosterInGame[key] > 0) return true;
         return false;
     }
 }

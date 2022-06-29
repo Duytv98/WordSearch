@@ -8,86 +8,87 @@ using Firebase.Auth;
 using DG.Tweening;
 public class SettingsPopup : MonoBehaviour
 {
-
-    // [SerializeField] private ToggleSlider musicToggle = null;
-    // [SerializeField] private ToggleSlider soundToggle = null;
-    [SerializeField] private CanvasGroup btnLogIn = null;
-    [SerializeField] private CanvasGroup btnLogOut = null;
-
-    [SerializeField] private Transform toggleMusic = null;
-    [SerializeField] private Transform toggleSound = null;
+    [SerializeField] private RectTransform shineMusic = null;
+    [SerializeField] private RectTransform shineSound = null;
+    [SerializeField] private Image imgMusic = null;
+    [SerializeField] private Image imgSound = null;
+    [SerializeField] private Sprite bgOn = null;
+    [SerializeField] private Sprite bgOff = null;
+    [SerializeField] private GameObject txtMusicOn = null;
+    [SerializeField] private GameObject txtMusicOff = null;
+    [SerializeField] private GameObject txtSoundOn = null;
+    [SerializeField] private GameObject txtSoundOff = null;
 
 
     public void OnShowing()
     {
+        shineMusic.anchoredPosition = new Vector2(GameManager.Instance.IsMusic ? 54f : -54f, shineMusic.anchoredPosition.y);
+        shineSound.anchoredPosition = new Vector2(GameManager.Instance.IsSound ? 54f : -54f, shineSound.anchoredPosition.y);
+        if (GameManager.Instance.IsMusic) SetOnMusic();
+        else SetOffMusic();
+        if (GameManager.Instance.IsSound) SetOnSound();
+        else SetOffSound();
 
-        bool isLogIn = GameManager.Instance.IsLogIn;
-        toggleMusic.localPosition = new Vector3(GameManager.Instance.IsMusic ? 50f : -50f, toggleMusic.localPosition.y, toggleMusic.localPosition.z);
-        toggleSound.localPosition = new Vector3(GameManager.Instance.IsSound ? 50f : -50f, toggleSound.localPosition.y, toggleSound.localPosition.z);
-        SetButton(isLogIn);
-        StartCoroutine(checkInternetConnection((isConnected) =>
-        {
-            SetButton(isLogIn, isConnected);
-        }));
-
-    }
-    public void SetButton(bool isLogIn, bool isConnected = true)
-    {
-        btnLogIn.alpha = isLogIn ? 0 : isConnected ? 1 : 0.7f;
-        btnLogIn.interactable = !isLogIn && isConnected;
-        btnLogIn.blocksRaycasts = !isLogIn && isConnected;
-
-        btnLogOut.alpha = isLogIn ? isConnected ? 1 : 0.7f : 0;
-        btnLogOut.interactable = isLogIn && isConnected;
-        btnLogOut.blocksRaycasts = isLogIn && isConnected;
-    }
-    public void SetActiveButtonLogin(bool active)
-    {
-        btnLogIn.alpha = active ? 1 : 0;
-        btnLogIn.interactable = active;
-        btnLogIn.blocksRaycasts = active;
-    }
-    public void SetActiveButtonLogout(bool active)
-    {
-        btnLogOut.alpha = active ? 1 : 0;
-        btnLogOut.interactable = active;
-        btnLogOut.blocksRaycasts = active;
-    }
-    IEnumerator checkInternetConnection(Action<bool> action)
-    {
-        UnityWebRequest request = new UnityWebRequest("http://google.com");
-        yield return request.SendWebRequest();
-        if (request.error != null) action(false);
-        else action(true);
     }
     public void ClickMusic()
     {
         bool isMusic = GameManager.Instance.IsMusic;
-        float x_toggleMusic = isMusic ? -50f : 50f;
+        float x_shineMusic = isMusic ? -54f : 54f;
         GameManager.Instance.IsMusic = !isMusic;
-        toggleMusic.DOLocalMoveX(x_toggleMusic, 0.3f);
-
-
-        if (isMusic)
+        if (GameManager.Instance.IsMusic)
         {
-            AudioManager.Instance.PauseMusic();
-
+            SetOnMusic();
+            AudioManager.Instance.PlayMusic();
         }
         else
         {
-            AudioManager.Instance.PlayMusic();
+            SetOffMusic();
+            AudioManager.Instance.PauseMusic();
         }
+        shineMusic.DOAnchorPosX(x_shineMusic, 0.2f);
 
         SaveableManager.Instance.SaveMusic(!isMusic);
     }
     public void ClickSound()
     {
         bool isSound = GameManager.Instance.IsSound;
-        float x_toggleSound = isSound ? -50f : 50f;
+        float x_shineSound = isSound ? -54f : 54f;
         GameManager.Instance.IsSound = !isSound;
-        toggleSound.DOLocalMoveX(x_toggleSound, 0.3f);
+
+        if (GameManager.Instance.IsSound) SetOnSound();
+        else SetOffSound();
+        shineSound.DOAnchorPosX(x_shineSound, 0.2f);
 
         SaveableManager.Instance.SaveSound(!isSound);
+    }
+
+    public void SetOnSound()
+    {
+        imgSound.sprite = bgOn;
+        imgSound.SetNativeSize();
+        txtSoundOn.SetActive(true);
+        txtSoundOff.SetActive(false);
+    }
+    public void SetOffSound()
+    {
+        imgSound.sprite = bgOff;
+        imgSound.SetNativeSize();
+        txtSoundOn.SetActive(false);
+        txtSoundOff.SetActive(true);
+    }
+    public void SetOnMusic()
+    {
+        imgMusic.sprite = bgOn;
+        imgMusic.SetNativeSize();
+        txtMusicOn.SetActive(true);
+        txtMusicOff.SetActive(false);
+    }
+    public void SetOffMusic()
+    {
+        imgMusic.sprite = bgOff;
+        imgMusic.SetNativeSize();
+        txtMusicOn.SetActive(false);
+        txtMusicOff.SetActive(true);
     }
 
 

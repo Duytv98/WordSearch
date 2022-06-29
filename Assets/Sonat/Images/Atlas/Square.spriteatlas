@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Square
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 9b494898decd09f45bb6620e5462443d, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 07ead500aa480dd4393b65c2a1cc93fa, type: 3}
+  - {fileID: 21300000, guid: 284911c0f02fb094b808f252ce3a638a, type: 3}
+  - {fileID: 21300000, guid: 919d6b93f6bd2024793c98bce5cbe760, type: 3}
+  - {fileID: 21300000, guid: 1ec14de6179588e4a81c2448025fc0d9, type: 3}
+  - {fileID: 21300000, guid: 00bd65f7e1d1a174e8aed7f2127d9803, type: 3}
+  - {fileID: 21300000, guid: 4289643975ddb1745bd5d19cedce9ad7, type: 3}
+  - {fileID: 21300000, guid: 57fe3b1b3d4158148b359e6aef1c0e8b, type: 3}
+  - {fileID: 21300000, guid: 6313776b41b972b44b158dc86cf538c7, type: 3}
+  - {fileID: 21300000, guid: 2da95bcbf9ba4634cbe8998e528e18b9, type: 3}
+  - {fileID: 21300000, guid: 7aa1bcec8e5f4ae4f96175f809731f37, type: 3}
+  - {fileID: 21300000, guid: 5363d26d0dcb79c469f189dd177a6a99, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - btn_square_yellow
+  - btn_square_red
+  - btn_square_tim
+  - btn_square_hong
+  - btn_square_green
+  - btn_square_xanh_ngoc
+  - btn_square_basic
+  - btn_square_xanh_da_troi
+  - btn_square_tim_than
+  - btn_square_cam
+  - btn_square_blue
+  m_RenderDataMap: {}
+  m_Tag: Square
+  m_IsVariant: 0

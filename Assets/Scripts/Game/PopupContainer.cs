@@ -74,7 +74,7 @@ public class PopupContainer : MonoBehaviour
     public void ShowNotEnoughKeysPopup()
     {
         ClosePopup("UnlockCategoryPopup", true);
-        Show("NotEnoughKeysPopup");
+        Show("NotEnoughKeysPopup", false);
     }
     public void ShowRewardAdGranted()
     {
@@ -94,11 +94,11 @@ public class PopupContainer : MonoBehaviour
         Show("GiftsFastPopup");
         giftsFastPopup.OnShowing(tuple);
     }
-    private void Show(string keyName)
+    private void Show(string keyName, bool active = true)
     {
         popupActive = keyName;
         if (keyName == "LevelCompletePopup") FadeInPanelBG(backgroundFade, 0.4f);
-        else FadeInPanelBG(background);
+        else if(active) FadeInPanelBG(background);
         GameObject popup = GetPopup(keyName);
         popup.SetActive(true);
         popup.transform.DOMoveY(0, animDuration)
@@ -129,7 +129,10 @@ public class PopupContainer : MonoBehaviour
                                {
                                    FadeOutPanelBG(backgroundFade, 0.4f);
                                }
-                               else FadeOutPanelBG(background);
+                               else
+                               {
+                                   FadeOutPanelBG(background);
+                               }
                            }
                            popup.SetActive(false);
                            popupCV.interactable = true;
@@ -157,10 +160,10 @@ public class PopupContainer : MonoBehaviour
 
     }
 
-    public void SettingsPopupShowButton(bool isLogIn)
-    {
-        settingsPopup.SetButton(isLogIn);
-    }
+    // public void SettingsPopupShowButton(bool isLogIn)
+    // {
+    //     settingsPopup.SetButton(isLogIn);
+    // }
     public GameObject GetPopup(string key)
     {
         switch (key)

@@ -34,30 +34,54 @@ public class GameDefine
     // };
     public static Color[] COLOR_TEXT_BOARD = new Color[]
     {
-        new Color32(20, 88, 172,255),
-        new Color32(20,128, 15,255),
-        new Color32(139, 11, 17,255),
-        new Color32(178, 91, 24, 255)
-    };    public static Color[] COLOR_TEXT_HIGHLIGHT = new Color[]
+        new Color32(20, 88, 172,255),   //#1458ac
+        new Color32(167, 55, 11,255),   //#A7370B
+        new Color32(20,128, 15,255),    //#14800f
+        new Color32(164,46, 84,255),    //#A42E54
+        new Color32(139, 11, 17,255),   //#8b0b11
+        new Color32(163, 53, 119,255),  //#A33577
+        new Color32(54, 33, 142,255),   //#36218E
+        new Color32(34, 105, 174,255),  //#2269AE
+        new Color32(20, 124, 111,255),  //#147C6F
+        new Color32(178, 91, 24, 255)   //#b25b18
+    }; public static Color[] COLOR_TEXT_HIGHLIGHT = new Color[]
     {
-        new Color32(7, 68, 144,255),
-        new Color32(9,99, 15,255),
-        new Color32(139, 11, 17,255),
-        new Color32(178, 91, 24, 255)
+        new Color32(7, 68, 144,255),    //#074490
+        new Color32(167, 55, 11,255),   //#A7370B
+        new Color32(9,99, 15,255),      //#096305
+        new Color32(164,46, 84,255),    //#A42E54
+        new Color32(139, 11, 17,255),   //#8b0b11
+        new Color32(163, 53, 119,255),  //#A33577
+        new Color32(54, 33, 142,255),   //#36218E
+        new Color32(34, 105, 174,255),  //#2269AE
+        new Color32(20, 124, 111,255),  //#147C6F
+        new Color32(178, 91, 24, 255)   //#b25b18
     };
     public static Color[] COLOR_BG = new Color[]
     {
-        new Color32(51, 119, 170,255),
-        new Color32(48,184, 97,255),
-        new Color32(240, 113, 83,255),
-        new Color32(241, 205, 42, 255)
+        new Color32(51, 119, 170,255), //#37adff
+        new Color32(248, 151, 74,255), //#F8974A
+        new Color32(48,184, 97,255),   //#30b861
+        new Color32(254,131, 185,255), //#FE83B9
+        new Color32(240, 113, 83,255), //#f07153
+        new Color32(237, 123, 241,255),//#ED7BF1
+        new Color32(141, 121, 252,255),//#8D79FC
+        new Color32(115, 220, 241,255),//#73DCF1
+        new Color32(76, 190, 178,255), //#4CBEB2
+        new Color32(241, 205, 42, 255) //#f1cd2a
     };
     public static Color[] COLOR_LINE = new Color[]
     {
-        new Color32(53, 167, 230,255),
-        new Color32(78,202, 106,255),
-        new Color32(255, 0, 42,255),
-        new Color32(239, 197, 39, 255)
+        new Color32(53, 167, 230,255),  //#35a7e6
+        new Color32(248, 151, 74,255),  //#F8974A
+        new Color32(78,202, 106,255),   //#4eca6a
+        new Color32(254,131, 185,255),  //#FE83B9
+        new Color32(255, 0, 42,255),    //#ff002a
+        new Color32(237, 123, 241,255), //#ED7BF1
+        new Color32(141, 121, 252,255), //#8D79FC
+        new Color32(115, 220, 241,255), //#73DCF1
+        new Color32(76, 190, 178,255),  //#4CBEB2
+        new Color32(239, 197, 39, 255)  //#efc527
     };
 
 
@@ -73,6 +97,9 @@ public class GameDefine
 
     public static string KEY_DISPLAY_NAME = "KEY_DISPLAY_NAME";
     public static string KEY_USERID = "KEY_USERID";
+    public static string KEY_PROVIDERS = "KEY_PROVIDERS";
+    public static string KEY_PROVIDERS_GG = "KEY_PROVIDERS_GG";
+    public static string KEY_PROVIDERS_FB = "KEY_PROVIDERS_FB";
 
 
 

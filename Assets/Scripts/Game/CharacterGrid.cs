@@ -79,9 +79,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private bool activeRotating = false;
     private bool rotating = false;
 
-
-
-    [SerializeField] private Sprite[] arrSquare = null;
     // [SerializeField] private Color[] colorsTextSquare = null;
 
     private int indexColor;
@@ -293,7 +290,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
             indexColor = Random.Range(0, GameDefine.COLOR_TEXT_BOARD.Length);
             HighlightedTextColor = GameDefine.COLOR_TEXT_BOARD[indexColor];
-            letterHighlightedsprite = arrSquare[indexColor];
+            letterHighlightedsprite = GameManager.Instance.ArrSquare[indexColor];
             color = GameDefine.COLOR_LINE[indexColor];
         }
         else
@@ -607,7 +604,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public Image HighlightWord(Position start, Position end, bool useSelectedColour)
     {
         // Debug.Log("start: " + start.Log() + "  start:  " + start.Log());
-        var test = arrSquare[indexColor];
+        var test = GameManager.Instance.ArrSquare[indexColor];
 
         Image highlight = CreateNewHighlight();
 

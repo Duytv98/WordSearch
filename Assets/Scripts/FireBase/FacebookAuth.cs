@@ -72,13 +72,12 @@ public class FacebookAuth : MonoBehaviour
                 Debug.Log("singin encountered error" + task.Exception);
             }
             FirebaseUser newuser = task.Result;
-            SaveableManager.Instance.SetLogIn(true);
-            SaveableManager.Instance.SaveDataUser(newuser.DisplayName, newuser.UserId);
+            SaveableManager.Instance.CheckAccount(newuser, GameDefine.KEY_PROVIDERS_FB);
+
+
             CheckCurrentUser();
         });
     }
-
-
 
     private void CheckCurrentUser()
     {

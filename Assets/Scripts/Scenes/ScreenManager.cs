@@ -110,7 +110,7 @@ public class ScreenManager : MonoBehaviour
         }
 
         string screenId = backStack[backStack.Count - 2];
-        if (backStack[backStack.Count - 1] == "game") SaveableManager.Instance.SaveData();
+        if (backStack[backStack.Count - 1] == "game") SaveableManager.Instance.SaveBoardsInProgress(GameManager.Instance.BoardsInProgress);
         backStack.RemoveAt(backStack.Count - 1);
         if (currentScreen) Close(currentScreen);
         Debug.Log("Back dailyPuzzle");

@@ -42,11 +42,7 @@ public class FireBaseController : MonoBehaviour
 
         Debug.Log("isPlay: " + SaveableManager.Instance.IsActiveGame());
         Debug.Log("IsLogIn: " + SaveableManager.Instance.IsLogIn());
-        if (!SaveableManager.Instance.IsActiveGame() || !SaveableManager.Instance.IsLogIn())
-        {
-            SaveableManager.Instance.LoadDataOffline();
-        }
-
+        if (!SaveableManager.Instance.IsActiveGame() || !SaveableManager.Instance.IsLogIn()) SaveableManager.Instance.LoadDataOffline();
     }
 
     private void CheckFirebaseDependencies()
@@ -83,19 +79,41 @@ public class FireBaseController : MonoBehaviour
         if (request.error != null) action(false);
         else action(true);
     }
-    //RealtimeDatabase
+
+
 
 
     public void Facebook_Login()
     {
         Debug.Log("Facebook_Login");
-        facebookAuth.Login();
+        if (!SaveableManager.Instance.IsLogIn()) facebookAuth.Login();
     }
     public void Google_Login()
     {
         Debug.Log("Google_Login");
-        googleAuth.Login();
+        if (!SaveableManager.Instance.IsLogIn()) googleAuth.Login();
+    }
+    public void LogOut()
+    {
+        var providers = SaveableManager.Instance.GetProvidersLogin();
+        if (providers.Equals(GameDefine.KEY_PROVIDERS_FB)) facebookAuth.LogOut();
+        else if (providers.Equals(GameDefine.KEY_PROVIDERS_GG)) googleAuth.LogOut();
+
+        SaveableManager.Instance.SetLogIn(false);
     }
 
+
+
+
+    public void Read_Data()
+    {
+        realtimeDatabase.Read_Data();
+    }
+
+    public void SaveCoins() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveCoins(); }
+    public void SaveKeys() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveKeys(); }
+    public void SaveLastCompletedLevels() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveLastCompletedLevels(); }
+    public void SaveUnlockedCategories() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveUnlockedCategories(); }
+    public void SaveListBooster() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveListBooster(); }
 
 }
