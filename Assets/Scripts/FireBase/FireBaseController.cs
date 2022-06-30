@@ -19,6 +19,8 @@ public class FireBaseController : MonoBehaviour
     [SerializeField] private FacebookAuth facebookAuth = null;
     [SerializeField] private GoogleAuth googleAuth = null;
     [SerializeField] private RealtimeDatabase realtimeDatabase = null;
+
+    [SerializeField] private Timer timer = null;
     private void Awake()
     {
         if (Instance == null)
@@ -43,6 +45,9 @@ public class FireBaseController : MonoBehaviour
         Debug.Log("isPlay: " + SaveableManager.Instance.IsActiveGame());
         Debug.Log("IsLogIn: " + SaveableManager.Instance.IsLogIn());
         if (!SaveableManager.Instance.IsActiveGame() || !SaveableManager.Instance.IsLogIn()) SaveableManager.Instance.LoadDataOffline();
+
+        // timer.StartTimer();
+        // StartCoroutine(waiter());
     }
 
     private void CheckFirebaseDependencies()
@@ -115,5 +120,13 @@ public class FireBaseController : MonoBehaviour
     public void SaveLastCompletedLevels() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveLastCompletedLevels(); }
     public void SaveUnlockedCategories() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveUnlockedCategories(); }
     public void SaveListBooster() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveListBooster(); }
+    public void SaveTimeCompleteLevel() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveTimeCompleteLevel(); }
 
+
+
+    IEnumerator waiter()
+    {
+        yield return new WaitForSeconds(10);
+        timer.StopTimer();
+    }
 }

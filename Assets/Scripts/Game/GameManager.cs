@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public GameState ActiveGameState { get; private set; }
 
     public Dictionary<string, string> BoardsInProgress { get; private set; }
+    public Dictionary<string, float> TimeCompleteLevel { get; private set; }
     public Dictionary<string, int> LastCompletedLevels = null;
     public Dictionary<string, int> ListBooster = null;
     public Dictionary<string, int> ListBoosterInGame { get; private set; }
@@ -63,7 +64,6 @@ public class GameManager : MonoBehaviour
     [Header("Debug / Testing")]
     [SerializeField] private bool awardKeyEveryLevel = false;
     [SerializeField] private bool awardCoinsEveryLevel = false;
-
 
     private bool isLogIn = false;
     private bool isCompleted;
@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
 
         playerInfo = new PlayerInfo();
         BoardsInProgress = new Dictionary<string, string>();
+        TimeCompleteLevel = new Dictionary<string, float>();
         LastCompletedLevels = new Dictionary<string, int>();
         ListBooster = new Dictionary<string, int>();
         UnlockedCategories = new List<string>();
@@ -177,36 +178,6 @@ public class GameManager : MonoBehaviour
         ActiveGameMode = GameMode.Casual;
         SetupGame(CasualBoard);
     }
-
-    // public void ContinueCasual(CategoryInfo categoryInfo)
-    // {
-    //     Board savedBoard = GetSavedBoard(categoryInfo);
-
-    //     if (savedBoard == null)
-    //     {
-    //         Debug.LogError("[GameManager] ContinueCasual: There is no saved casual board for category " + categoryInfo.saveId);
-
-    //         return;
-    //     }
-
-    //     ActiveCategoryInfo = categoryInfo;
-    //     ActiveDifficultyIndex = savedBoard.difficultyIndex;
-    //     ActiveLevelIndex = -1;
-    //     ActiveGameMode = GameMode.Casual;
-
-    //     // characterGrid.Clear();
-    //     // wordListContainer.Clear();
-    //     SetupGame(savedBoard);
-
-    //     // ScreenManager.Instance.ShowScreenGame();
-    //     ScreenManager.Instance.Show("game");
-    //     // ShowGameScreen();
-    // }
-    // public bool HasSavedCasualBoard(CategoryInfo categoryInfo)
-    // {
-    //     return GetSavedBoard(categoryInfo) != null;
-    // }
-
     public string OnWordSelected(string selectedWord)
     {
 
@@ -264,15 +235,11 @@ public class GameManager : MonoBehaviour
     private void BoardCompleted()
     {
         IsCompleted = true;
-        // Debug.Log("ActiveCategoryInfo: " + ActiveCategoryInfo + "  ActiveLevelIndex: " + ActiveLevelIndex + "  Key: " + GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
-        // Debug.Log(Utilities.ConvertToJsonString(BoardsInProgress));
         if (ActiveGameMode == GameMode.Progress) BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
         else ScreenManager.Instance.CompleteLevelCasual();
-
-        // Debug.Log("ActiveCategoryInfo: " + ActiveCategoryInfo + "  ActiveLevelIndex: " + ActiveLevelIndex + "  Key: " + GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
-        // Debug.Log(Utilities.ConvertToJsonString(BoardsInProgress));
-        // Debug.Log(BoardsInProgress.Count);
-        if (ActiveGameMode == GameMode.Progress && (!LastCompletedLevels.ContainsKey(ActiveCategoryInfo.saveId) || LastCompletedLevels[ActiveCategoryInfo.saveId] < ActiveLevelIndex))
+        if (ActiveGameMode == GameMode.Progress &&
+            (!LastCompletedLevels.ContainsKey(ActiveCategoryInfo.saveId) ||
+            LastCompletedLevels[ActiveCategoryInfo.saveId] < ActiveLevelIndex))
         {
             LastCompletedLevels[ActiveCategoryInfo.saveId] = ActiveLevelIndex;
         }
@@ -332,6 +299,7 @@ public class GameManager : MonoBehaviour
                     ScreenManager.Instance.RefreshLevelScreen();
                     PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
                     SaveableManager.Instance.SaveUnlockedCategories(UnlockedCategories);
+                    SaveableManager.Instance.SaveKeys(Keys);
                     return true;
                 }
 
@@ -547,29 +515,6 @@ public class GameManager : MonoBehaviour
         wordListContainer.PlusWord(ActiveBoard.foundWords);
     }
 
-    public PlayerInfo GetPlayerInfo()
-    {
-        return this.playerInfo;
-    }
-    public void SetPlayerInfo(string displayName = null, string email = null)
-    {
-        // Debug.Log("Coins: " + Coins + "       Keys: " + Keys + "     ListBooter: " + Utilities.ConvertToJsonString(ListBooter));
-        playerInfo.coins = Coins;
-        playerInfo.keys = Keys;
-        if (displayName != null && email != null)
-        {
-            playerInfo.displayName = displayName;
-            // playerInfo.Email = email;
-        }
-
-        // playerInfo.keys = 0;
-        // LastCompletedLevels["birds"] = 25;
-        // playerInfo.activeBoard = ActiveBoard;
-        playerInfo.lastCompletedLevels = Utilities.ConvertToJsonString(LastCompletedLevels);
-        playerInfo.listBooster = Utilities.ConvertToJsonString(ListBooster);
-        // playerInfo.boardsInProgress = Utilities.ConvertToJsonString(BoardsInProgress);
-        playerInfo.unlockedCategories = string.Join(",", UnlockedCategories);
-    }
 
     public void SaveCurrentBoard()
     {
@@ -582,6 +527,11 @@ public class GameManager : MonoBehaviour
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
         // Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
+    }
+    private void SetTimeCompleteLevel(CategoryInfo categoryInfo, int levelIndex, float time)
+    {
+        string saveKey = GetSaveKey(categoryInfo, levelIndex);
+        TimeCompleteLevel[saveKey] = time;
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
     {
@@ -600,14 +550,6 @@ public class GameManager : MonoBehaviour
     {
         return string.Format("{0}_{1}", categoryInfo.saveId, levelIndex);
     }
-    // public void ActiveLoading()
-    // {
-    //     loadingIndicator.SetActive(true);
-    // }
-    // public void DeactivateLoading()
-    // {
-    //     loadingIndicator.SetActive(false);
-    // }
 
     public bool IsCategoryLocked(CategoryInfo categoryInfo)
     {

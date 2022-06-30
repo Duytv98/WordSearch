@@ -9,9 +9,12 @@ public class PlayerInfo
     public string displayName;
     public int coins = 0;
     public int keys = 0;
+    public string avatar = null;
     public string lastCompletedLevels = null;
     public string unlockedCategories = null;
     public string listBooster = null;
+    public string timeCompleteLevel = null;
+
 
     public string ToString()
     {
@@ -20,7 +23,8 @@ public class PlayerInfo
                "\n keys: " + keys +
                "\n lastCompletedLevels: " + lastCompletedLevels +
                "\n unlockedCategories: " + unlockedCategories +
-               "\n listBooster: " + listBooster;
+               "\n listBooster: " + listBooster +
+               "\n timeCompleteLevel: " + timeCompleteLevel;
     }
     public void Union(PlayerInfo playerLocal, PlayerInfo playerFireBase)
     {
@@ -76,6 +80,27 @@ public class PlayerInfo
         listBooster = Utilities.ConvertToJsonString(dicListBooster);
 
 
+
+        //timeCompleteLevel
+        JSONNode timeCompleteLevelLocalJson = JSON.Parse(playerLocal.timeCompleteLevel);
+        JSONNode timeCompleteLevelFireBaseJson = JSON.Parse(playerFireBase.timeCompleteLevel);
+        Debug.Log("timeCompleteLevelLocalJson: " + timeCompleteLevelLocalJson.Count);
+        Debug.Log("timeCompleteLevelFireBaseJson: " + timeCompleteLevelFireBaseJson.Count);
+        Dictionary<string, float> dicTime = new Dictionary<string, float>();
+        foreach (var key in timeCompleteLevelLocalJson.Keys)
+        {
+            dicTime.Add(key, timeCompleteLevelLocalJson[key]);
+        }
+        foreach (var key in timeCompleteLevelFireBaseJson.Keys)
+        {
+            if (dicTime.ContainsKey(key))
+                dicTime[key] = dicTime[key] <= timeCompleteLevelFireBaseJson[key] ? dicTime[key] : (int)timeCompleteLevelFireBaseJson[key];
+            else dicTime.Add(key, timeCompleteLevelFireBaseJson[key]);
+        }
+        timeCompleteLevel = Utilities.ConvertToJsonString(dicTime);
+
+
+        avatar= playerFireBase.avatar;
     }
     public PlayerInfo()
     {

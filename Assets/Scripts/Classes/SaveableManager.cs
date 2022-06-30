@@ -96,20 +96,21 @@ public class SaveableManager : MonoBehaviour
         SaveListBooster(CreateListBooterDefaut());
     }
 
-    public void CheckAccount(FirebaseUser user, string providers)
+    public void CheckAccount(FirebaseUser user, string providers, string avatar = null)
     {
         if (IsLogIn())
         {
             Debug.Log("Tung login");
             var lastUseId = GetUserId();
-            if(lastUseId.Equals(user.UserId)) Debug.Log("Tai Khoan Cu");
+            if (lastUseId.Equals(user.UserId)) Debug.Log("Tai Khoan Cu");
             else Debug.Log("Tai Khoan Moi");
         }
         else
         {
+            Debug.Log("chua tung log");
             SetLogIn(true);
             SaveProvidersLogin(providers);
-            SaveDataUser(user.DisplayName, user.UserId);
+            SaveDataUser(user.DisplayName, user.UserId, avatar);
 
             fireBaseController.Read_Data();
         }
@@ -147,7 +148,7 @@ public class SaveableManager : MonoBehaviour
         fireBaseController.SaveCoins();
     }
 
-    private void SaveKeys(int keys)
+    public void SaveKeys(int keys)
     {
         PlayerPrefs.SetInt(GameDefine.KEY_USER_KEYS, keys);
         fireBaseController.SaveKeys();
@@ -214,6 +215,14 @@ public class SaveableManager : MonoBehaviour
         return Convert.ToDictionarySI(str);
     }
 
+    public void SaveTimeCompleteLevel(Dictionary<string, float> timeCompleteLevel)
+    {
+        var str = Utilities.ConvertToJsonString(timeCompleteLevel);
+        PlayerPrefs.SetString(GameDefine.KEY_TIME_COMPLETE_LEVEL, str);
+        fireBaseController.SaveTimeCompleteLevel();
+    }
+
+
     private void SaveDisplayNameUser(string name)
     {
         PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, name);
@@ -233,12 +242,23 @@ public class SaveableManager : MonoBehaviour
     {
         return PlayerPrefs.GetString(GameDefine.KEY_USERID);
     }
-
-
-    public void SaveDataUser(string name, string userId)
+    private void SaveAvatar(string avatar)
     {
-        SaveDisplayNameUser(name);
-        SaveUserId(userId);
+        PlayerPrefs.SetString(GameDefine.KEY_AVATAR, avatar);
+    }
+    public string GetAvatar()
+    {
+        return PlayerPrefs.GetString(GameDefine.KEY_AVATAR);
+    }
+
+
+
+
+    public void SaveDataUser(string name, string userId, string avatar)
+    {
+        PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, name);
+        PlayerPrefs.SetString(GameDefine.KEY_USERID, userId);
+        PlayerPrefs.SetString(GameDefine.KEY_AVATAR, avatar);
     }
 
     public PlayerInfo GetPlayerLocal()
@@ -250,6 +270,7 @@ public class SaveableManager : MonoBehaviour
         playerInfo.lastCompletedLevels = PlayerPrefs.GetString(GameDefine.KEY_LAST_COMPLETED_LEVELS);
         playerInfo.unlockedCategories = PlayerPrefs.GetString(GameDefine.KEY_UNLOCKED_CATEGORIES);
         playerInfo.listBooster = PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER);
+        playerInfo.timeCompleteLevel = PlayerPrefs.GetString(GameDefine.KEY_TIME_COMPLETE_LEVEL);
         return playerInfo;
     }
 
@@ -262,6 +283,7 @@ public class SaveableManager : MonoBehaviour
         PlayerPrefs.SetString(GameDefine.KEY_LAST_COMPLETED_LEVELS, playerInfo.lastCompletedLevels);
         PlayerPrefs.SetString(GameDefine.KEY_UNLOCKED_CATEGORIES, playerInfo.unlockedCategories);
         PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, playerInfo.listBooster);
+        PlayerPrefs.SetString(GameDefine.KEY_AVATAR, playerInfo.avatar);
     }
 
 

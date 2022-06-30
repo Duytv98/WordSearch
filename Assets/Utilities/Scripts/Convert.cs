@@ -31,4 +31,18 @@ public static class Convert
         List<string> someList = new List<string>(lines);
         return someList;
     }
+
+    public static string Base64Texture(Texture2D texture2D)
+    {
+        byte[] bytes = texture2D.EncodeToPNG();
+
+        return System.Convert.ToBase64String(bytes);
+    }
+    public static Texture2D Base64ToTexture(string base64)
+    {
+        byte[] imageBytes = System.Convert.FromBase64String(base64);
+        Texture2D tex = new Texture2D(128, 128);
+        tex.LoadImage(imageBytes);
+        return tex;
+    }
 }

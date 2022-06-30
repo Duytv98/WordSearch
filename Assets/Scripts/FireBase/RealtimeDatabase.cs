@@ -14,6 +14,8 @@ using UnityEngine.Networking;
 public class RealtimeDatabase : MonoBehaviour
 {
     private DatabaseReference reference;
+    
+    [SerializeField] private Image avatar = null;
     public void SetUp()
     {
         Debug.Log("reference SetUp");
@@ -23,23 +25,32 @@ public class RealtimeDatabase : MonoBehaviour
     public void Read_Data()
     {
         string userId = SaveableManager.Instance.GetUserId();
+        Debug.Log("userid: " + userId);
         reference.Child("User").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
                       {
                           if (task.IsCompleted)
                           {
+                              Debug.Log("aaaaaaaaaaaaaaaaaa");
                               DataSnapshot snapshot = task.Result;
                               if (string.IsNullOrEmpty(snapshot.GetRawJsonValue()))
                               {
+                                  Debug.Log(null);
                                   SaveableManager.Instance.LoadDataOffline();
                                   CreateData();
                                   return;
                               }
-
                               PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
+                            //   Debug.Log("playerFireBase: " + JsonUtility.ToJson(playerFireBase));
                               PlayerInfo playerLocal = SaveableManager.Instance.GetPlayerLocal();
 
+                            //   Debug.Log("playerLocal: " + JsonUtility.ToJson(playerLocal));
                               PlayerInfo playerInfo = new PlayerInfo();
+                            //   Debug.Log(1111);
                               playerInfo.Union(playerLocal, playerFireBase);
+                            //   Debug.Log(222222);
+                            //   Debug.Log("playerInfo: " + JsonUtility.ToJson(playerInfo));
+                              DisplayAvatar(playerInfo.avatar);
+
                               SaveableManager.Instance.SaveDataPlayerLocal(playerInfo);
 
                               SaveableManager.Instance.LoadDataOffline();
@@ -129,6 +140,37 @@ public class RealtimeDatabase : MonoBehaviour
         });
     }
 
+    public void SaveTimeCompleteLevel()
+    {
+        var userId = SaveableManager.Instance.GetUserId();
+
+        var timeCompleteLevel = PlayerPrefs.GetString(GameDefine.KEY_TIME_COMPLETE_LEVEL);
+        reference.Child("User").Child(userId).Child("timeCompleteLevel").SetValueAsync(timeCompleteLevel)
+        .ContinueWith(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("successdully added data to firebase");
+            }
+            else Debug.Log("not successdully");
+        });
+    }
+    public void EditData(string keyOnline, string keyLocal)
+    {
+        var userId = SaveableManager.Instance.GetUserId();
+
+        var value = PlayerPrefs.GetString(keyLocal);
+        reference.Child("User").Child(userId).Child("keyOnline").SetValueAsync(value)
+        .ContinueWith(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("successdully added data to firebase");
+            }
+            else Debug.Log("not successdully");
+        });
+    }
+
     public void CreateData()
     {
         Debug.Log("CreateData");
@@ -141,6 +183,8 @@ public class RealtimeDatabase : MonoBehaviour
         playerInfo.lastCompletedLevels = PlayerPrefs.GetString(GameDefine.KEY_LAST_COMPLETED_LEVELS);
         playerInfo.unlockedCategories = PlayerPrefs.GetString(GameDefine.KEY_UNLOCKED_CATEGORIES);
         playerInfo.listBooster = PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER);
+        playerInfo.timeCompleteLevel = PlayerPrefs.GetString(GameDefine.KEY_TIME_COMPLETE_LEVEL);
+        playerInfo.avatar = PlayerPrefs.GetString(GameDefine.KEY_AVATAR);
 
         string json = JsonUtility.ToJson(playerInfo);
         reference.Child("User").Child(UserId).SetRawJsonValueAsync(json)
@@ -154,6 +198,11 @@ public class RealtimeDatabase : MonoBehaviour
         });
     }
 
-
+    private void DisplayAvatar(string enc)
+    {
+        Texture2D tex = Convert.Base64ToTexture(enc);
+        avatar.sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+        avatar.rectTransform.sizeDelta = new Vector2(tex.width, tex.height);
+    }
 
 }

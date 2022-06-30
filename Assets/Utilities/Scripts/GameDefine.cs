@@ -13,8 +13,8 @@ public class GameDefine
     public static int RECOMMEND_WORD = 15;
     public static int FIND_WORDS = 20;
     public static int SUGGEST_MANY_WORDS = 30;
-    public static bool DEFAULT_MUSIC = true;
-    public static bool DEFAULT_SOUND = true;
+    public static bool DEFAULT_MUSIC = false;
+    public static bool DEFAULT_SOUND = false;
 
     //firebase controller
     public static string WEBCLIENTID = "494966323998-60ifa1jku7g4d21fg8ak8gghgehsf1kp.apps.googleusercontent.com";
@@ -90,10 +90,12 @@ public class GameDefine
     public static string KEY_USER = "KEY_USER";
     public static string KEY_USER_COINS = "KEY_USER_COINS";
     public static string KEY_USER_KEYS = "KEY_USER_KEYS";
+    public static string KEY_AVATAR = "KEY_AVATAR";
     public static string KEY_LIST_BOOSTER = "KEY_LIST_BOOSTER";
     public static string KEY_LAST_COMPLETED_LEVELS = "KEY_LAST_COMPLETED_LEVELS";
     public static string KEY_BOARDS_IN_PROGRESS = "KEY_BOARDS_IN_PROGRESS";
     public static string KEY_UNLOCKED_CATEGORIES = "KEY_UNLOCKED_CATEGORIES";
+    public static string KEY_TIME_COMPLETE_LEVEL = "KEY_TIME_COMPLETE_LEVEL";
 
     public static string KEY_DISPLAY_NAME = "KEY_DISPLAY_NAME";
     public static string KEY_USERID = "KEY_USERID";
