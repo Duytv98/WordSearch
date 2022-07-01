@@ -20,7 +20,6 @@ public class FireBaseController : MonoBehaviour
     [SerializeField] private GoogleAuth googleAuth = null;
     [SerializeField] private RealtimeDatabase realtimeDatabase = null;
 
-    [SerializeField] private Timer timer = null;
     private void Awake()
     {
         if (Instance == null)
@@ -46,8 +45,6 @@ public class FireBaseController : MonoBehaviour
         Debug.Log("IsLogIn: " + SaveableManager.Instance.IsLogIn());
         if (!SaveableManager.Instance.IsActiveGame() || !SaveableManager.Instance.IsLogIn()) SaveableManager.Instance.LoadDataOffline();
 
-        // timer.StartTimer();
-        // StartCoroutine(waiter());
     }
 
     private void CheckFirebaseDependencies()
@@ -124,9 +121,4 @@ public class FireBaseController : MonoBehaviour
 
 
 
-    IEnumerator waiter()
-    {
-        yield return new WaitForSeconds(10);
-        timer.StopTimer();
-    }
 }

@@ -17,15 +17,22 @@ public class TopBar : MonoBehaviour
     [SerializeField] private Text coinAmountText = null;
     [SerializeField] private Text keyAmountText = null;
 
+    [SerializeField] private GameObject keyContainer = null;
+    [SerializeField] private GameObject timeContainer = null;
+
+
     // Update is called once per frame
     void Update()
     {
-        coinAmountText.text = GameManager.Instance.Coins.ToString();
-        keyAmountText.text = GameManager.Instance.Keys.ToString();
+        if (int.Parse(coinAmountText.text) != GameManager.Instance.Coins) coinAmountText.text = GameManager.Instance.Coins.ToString();
+        if (int.Parse(keyAmountText.text) != GameManager.Instance.Keys) keyAmountText.text = GameManager.Instance.Keys.ToString();
+
     }
     public void OnSwitchingScreens(string toScreenId)
     {
         SetActiveBackButton(true);
+        keyContainer.SetActive(true);
+        timeContainer.SetActive(false);
         switch (toScreenId)
         {
             case "home":
@@ -48,6 +55,9 @@ public class TopBar : MonoBehaviour
                 categoryNameText.text = GameManager.Instance.ActiveCategoryInfo.displayName;
                 levelNumberText.gameObject.SetActive(true);
                 levelNumberText.text = "LEVEL " + (GameManager.Instance.ActiveLevelIndex + 1);
+                
+                keyContainer.SetActive(false);
+                timeContainer.SetActive(true);
                 break;
             case "dailyGift":
                 mainScreenContainer.SetActive(false);

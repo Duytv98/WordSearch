@@ -14,6 +14,16 @@ public static class Convert
             dictionary.Add(key, json[key]);
         }
         return dictionary;
+    }    
+    public static Dictionary<string, float> ToDictionarySF(string contents)
+    {
+        Dictionary<string, float>dictionary = new Dictionary<string, float>();
+        JSONNode json = JSON.Parse(contents);
+        foreach (var key in json.Keys)
+        {
+            dictionary.Add(key, json[key]);
+        }
+        return dictionary;
     }
     public static Dictionary<string, string> ToDictionarySS(string contents)
     {

@@ -340,6 +340,7 @@ public class DailyPuzzle : MonoBehaviour
     }
     public bool CheckCompletedAllLevel()
     {
+        Debug.Log("idDayChoose: " + idDayChoose);
         LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);
         if (dayChoose.easy < 0) return false;
         else if (dayChoose.medium < 0) return false;

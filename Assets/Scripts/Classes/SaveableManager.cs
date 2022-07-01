@@ -223,6 +223,13 @@ public class SaveableManager : MonoBehaviour
     }
 
 
+    public Dictionary<string, float> GetTimeCompleteLevel()
+    {
+        var str = PlayerPrefs.GetString(GameDefine.KEY_TIME_COMPLETE_LEVEL);
+        return Convert.ToDictionarySF(str);
+    }
+
+
     private void SaveDisplayNameUser(string name)
     {
         PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, name);
@@ -283,6 +290,7 @@ public class SaveableManager : MonoBehaviour
         PlayerPrefs.SetString(GameDefine.KEY_LAST_COMPLETED_LEVELS, playerInfo.lastCompletedLevels);
         PlayerPrefs.SetString(GameDefine.KEY_UNLOCKED_CATEGORIES, playerInfo.unlockedCategories);
         PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, playerInfo.listBooster);
+        PlayerPrefs.SetString(GameDefine.KEY_TIME_COMPLETE_LEVEL, playerInfo.timeCompleteLevel);
         PlayerPrefs.SetString(GameDefine.KEY_AVATAR, playerInfo.avatar);
     }
 

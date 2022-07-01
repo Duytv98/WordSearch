@@ -8,17 +8,17 @@ public class LevelCompletePopup : MonoBehaviour
     [Space]
 
     // [SerializeField] private GameObject playAgainButton = null;
-    [SerializeField] private GameObject nextLevelButton = null;
-    [SerializeField] private GameObject backToCategoriesButton = null;
-    [SerializeField] private GameObject backToDailyPuzzle = null;
+    // [SerializeField] private GameObject nextLevelButton = null;
+    // [SerializeField] private GameObject backToCategoriesButton = null;
+    // [SerializeField] private GameObject backToDailyPuzzle = null;
 
     [Space]
 
     [SerializeField] private GameObject rewardsContainer = null;
     [SerializeField] private GameObject coinRewardContainer = null;
-    [SerializeField] private GameObject keyRewardContainer = null;
-    [SerializeField] private Text coinRewardAmountText = null;
-    [SerializeField] private Text keyRewardAmountText = null;
+    // [SerializeField] private GameObject keyRewardContainer = null;
+    // [SerializeField] private Text coinRewardAmountText = null;
+    // [SerializeField] private Text keyRewardAmountText = null;
 
     private bool playmode = false;
     public void OnShowing(int coinsAwarded, int keysAwarded)
@@ -31,23 +31,23 @@ public class LevelCompletePopup : MonoBehaviour
 
         playmode = GameManager.Instance.ActiveGameMode == GameManager.GameMode.Casual ? false : true;
 
-        bool allLevelsCompletedCasual = ScreenManager.Instance.CheckAllLevelCompleteCasual();
+        bool allLevelsCompletedCasual = playmode == false ? ScreenManager.Instance.CheckAllLevelCompleteCasual() : false;
         // playAgainButton.SetActive(!playmode);
-        keyRewardContainer.SetActive(playmode && awardKeys);
+        // keyRewardContainer.SetActive(playmode && awardKeys);
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(GameManager.Instance.ActiveCategoryInfo);
 
         Debug.Log("playmode: " + playmode);
         Debug.Log("allLevelsCompletedCasual: " + allLevelsCompletedCasual);
-        if (playmode) nextLevelButton.SetActive(!allLevelsCompleted);
-        else nextLevelButton.SetActive(!allLevelsCompletedCasual);
+        // if (playmode) nextLevelButton.SetActive(!allLevelsCompleted);
+        // else nextLevelButton.SetActive(!allLevelsCompletedCasual);
 
-        backToCategoriesButton.SetActive(playmode);
-        backToDailyPuzzle.SetActive(!playmode);
+        // backToCategoriesButton.SetActive(playmode);
+        // backToDailyPuzzle.SetActive(!playmode);
 
 
 
-        coinRewardAmountText.text = "x " + coinsAwarded;
-        keyRewardAmountText.text = "x " + keysAwarded;
+        // coinRewardAmountText.text = "x " + coinsAwarded;
+        // keyRewardAmountText.text = "x " + keysAwarded;
     }
     public void CloseLevelCompletePopup()
     {

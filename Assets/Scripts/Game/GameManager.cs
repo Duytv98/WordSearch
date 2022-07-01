@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
         ListBooster = SaveableManager.Instance.GetListBooster();
         BoardsInProgress = SaveableManager.Instance.GetBoardsInProgress();
         UnlockedCategories = SaveableManager.Instance.GetUnlockedCategories();
+        TimeCompleteLevel = SaveableManager.Instance.GetTimeCompleteLevel();
 
         ScreenManager.Instance.SetActiveFlashCanvas(false);
 
@@ -220,16 +221,17 @@ public class GameManager : MonoBehaviour
 
         return null;
     }
-    public void CheckBoardCompleted()
+    public bool CheckBoardCompleted()
     {
         if (ActiveBoard.foundWords.Count == ActiveBoard.words.Count)
         {
             if (!IsCompleted) BoardCompleted();
-            Debug.Log("Thắng");
+            return true;
         }
         else
         {
             SaveCurrentBoard();
+            return false;
         }
     }
     private void BoardCompleted()
@@ -528,10 +530,11 @@ public class GameManager : MonoBehaviour
         // Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
     }
-    private void SetTimeCompleteLevel(CategoryInfo categoryInfo, int levelIndex, float time)
+    public void SetTimeCompleteLevel(float time)
     {
-        string saveKey = GetSaveKey(categoryInfo, levelIndex);
+        string saveKey = GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex);
         TimeCompleteLevel[saveKey] = time;
+        SaveableManager.Instance.SaveTimeCompleteLevel(TimeCompleteLevel);
     }
     private Board GetSavedBoard(CategoryInfo categoryInfo, int levelIndex = -1)
     {
@@ -549,6 +552,10 @@ public class GameManager : MonoBehaviour
     private string GetSaveKey(CategoryInfo categoryInfo, int levelIndex = -1)
     {
         return string.Format("{0}_{1}", categoryInfo.saveId, levelIndex);
+    }
+    public string GetSaveKeyInCategory()
+    {
+        return string.Format("{0}_{1}", ActiveCategoryInfo.saveId, ActiveLevelIndex);
     }
 
     public bool IsCategoryLocked(CategoryInfo categoryInfo)
