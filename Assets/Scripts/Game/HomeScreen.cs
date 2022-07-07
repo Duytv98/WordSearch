@@ -44,7 +44,8 @@ public class HomeScreen : MonoBehaviour
     public void ShowDailyGift()
     {
 
-        ScreenManager.Instance.Show("dailyGift");
+        // ScreenManager.Instance.Show("dailyGift");
+        PopupContainer.Instance.ShowDailyGift();
     }
     public void ShowDailyPuzzle()
     {

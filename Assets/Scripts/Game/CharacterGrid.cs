@@ -11,8 +11,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     // Start is called before the first frame update
 
     [SerializeField] private Camera cam;
-
     [Header("Container")]
+    [SerializeField] private ButtonInGameContainer buttonInGameContainer;
     private RectTransform gridContainer;
     private RectTransform gridOverlayContainer;
     private RectTransform gridUnderlayContainer;
@@ -30,6 +30,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     [Header("Letter Settings")]
     [SerializeField] private Font letterFont = null;
+    [SerializeField] private RectTransform[] positionKill = null;
     private int letterFontSize = 150;
     private Color highlightedTextColor;
     private Sprite letterHighlightedsprite;
@@ -56,7 +57,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     private List<List<CharacterGridItem>> characterItems;
     private List<Image> highlights;
     private List<Image> LetterHints;
-
+    private List<Position> locationUnused;
 
     private float currentScale;
     private float currentCellSize;
@@ -81,11 +82,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (selectingPointerId != -1)
-        {
-            // There is already a mouse/pointer highlighting words 
-            return;
-        }
+        if (selectingPointerId != -1) return;
+
         if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
             CharacterGridItem characterItem = GetCharacterItemAtPosition(eventData.position);
@@ -112,10 +110,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public void OnDrag(PointerEventData eventData)
     {
         // Debug.Log("OnDrag: ");
-        if (eventData.pointerId != selectingPointerId)
-        {
-            return;
-        }
+        if (eventData.pointerId != selectingPointerId) return;
 
         if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
@@ -125,10 +120,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (eventData.pointerId != selectingPointerId)
-        {
-            return;
-        }
+        if (eventData.pointerId != selectingPointerId) return;
 
         if (startCharacter != null && lastEndCharacter != null && GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
         {
@@ -202,8 +194,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         currentCellSize = SetupGridContainer(board.rows, board.cols);
         currentScale = currentCellSize / maxCellSize;
         var dicWord = GameManager.Instance.DicWord;
-        Debug.Log("currentCellSize: " + currentCellSize + "   currentScale: " + currentScale);
-        Debug.Log("listWord.DicWord.Count: " + dicWord.Count);
+        // Debug.Log("currentCellSize: " + currentCellSize + "   currentScale: " + currentScale);
+        // Debug.Log("listWord.DicWord.Count: " + dicWord.Count);
 
         for (int i = 0; i < board.boardCharacters.Count; i++)
         {
@@ -218,68 +210,33 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             }
         }
         timer.StartTimer(textTime);
-        // selectingPointerId = -1;
 
         currentBoard = board;
-        // if (board.foundWords.Count != 0 && board.recommendWords.Count != 0)
-        // {
-        //     StartCoroutine(SetUpValue(board));
-        // }
         StartCoroutine(SetUpValue(board));
 
     }
     // set chữ lên màn chơi
     IEnumerator SetUpValue(Board board)
     {
-        ScreenManager.Instance.ActiveLoading();
-        yield return new WaitForSeconds(0.01f);
-        ScreenManager.Instance.DeactivateLoading();
+        // ScreenManager.Instance.ActiveLoading();
+        yield return new WaitForSeconds(0.5f);
+        // ScreenManager.Instance.DeactivateLoading();
         // Debug.Log("board.foundWords: " + board.foundWords.Count);
-        foreach (string foundWord in board.foundWords)
-        {
-            SetWordFound(foundWord, board.listWordDeleted);
-        }
-        // Debug.Log("board.letterHintsUsed: " + board.letterHintsUsed.Count);
-        foreach (char letter in board.letterHintsUsed)
-        {
-            ShowLetterHint(letter);
-        }
-        // Debug.Log("count: " + board.recommendWords);
-        foreach (string word in board.recommendWords)
-        {
-            ShowWordRecommend(word);
-        }
-        // Debug.Log("số từ bay đi: " + board.locationUnuseds.Count);
-        foreach (Position position in board.locationUnuseds)
-        {
-            CharacterGridItem characterItem = characterItems[position.row][position.col];
-            characterItem.SetWordUnuseds();
-        }
+        foreach (string foundWord in board.foundWords) SetWordFound(foundWord, board.listWordDeleted);
+
+        foreach (char letter in board.letterHintsUsed) ShowLetterHint(letter);
+
+        foreach (string word in board.recommendWords) ShowWordRecommend(word);
+        
+        foreach (Position position in board.locationUnuseds) characterItems[position.row][position.col].SetWordUnuseds();
+
+        locationUnused = UnusedLocation();
+
+        GameManager.Instance.CharacterItems = characterItems;
+
+        GameManager.Instance.ActionButtonRecommendWord();
+        buttonInGameContainer.SetInteractableButtonClearWords(locationUnused.Count == 0 ? false : true);
     }
-
-
-
-
-
-    //set clolor Highligh
-
-    //set clolor Highligh
-    // private void AssignHighlighColor(Image highlight)
-    // {
-    //     Color color = Color.white;
-
-    //     if (highlightColors.Count > 0)
-    //     {
-    //         color = highlightColors[Random.Range(0, highlightColors.Count)];
-    //     }
-    //     else
-    //     {
-    //         Debug.LogError("[CharacterGrid] Highlight Colors is empty.");
-    //     }
-
-    //     highlight.color = color;
-    // }
-    //set clolor Highligh
     private void AssignHighlighColor(Image highlight)
     {
         Color color = Color.white;
@@ -306,71 +263,14 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             CharacterGridItem endCharacter = GetCharacterItemAtPosition(screenPosition);
 
-            // If endCharacter is null then the mouse position must be off the grid container
-            if (endCharacter != null)
-            {
-                int startRow = startCharacter.Row;
-                int startCol = startCharacter.Col;
+            Position positionEnd = null;
+            if (endCharacter != null) positionEnd = GetPositionEnd(endCharacter);
+            else endCharacter = lastEndCharacter;
+            if (positionEnd != null) endCharacter = characterItems[positionEnd.row][positionEnd.col];
+            endCharacter = GetEndCharacter(startCharacter, endCharacter);
 
-                int endRow = endCharacter.Row;
-                int endCol = endCharacter.Col;
 
-                int rowDiff = endRow - startRow;
-                int colDiff = endCol - startCol;
-
-                // check đường đi Highlight là thẳng, ngang hay chéo
-                if (rowDiff != colDiff && rowDiff != 0 && colDiff != 0)
-                {
-                    // Lấy ra một vị trí kết thúc cuối cùng hợp lý nhất
-                    if (Mathf.Abs(colDiff) > Mathf.Abs(rowDiff))
-                    {
-                        if (Mathf.Abs(colDiff) - Mathf.Abs(rowDiff) > Mathf.Abs(rowDiff))
-                        {
-                            rowDiff = 0;
-                        }
-                        else
-                        {
-                            colDiff = AssignKeepSign(colDiff, rowDiff);
-                        }
-                    }
-                    else
-                    {
-                        if (Mathf.Abs(rowDiff) - Mathf.Abs(colDiff) > Mathf.Abs(colDiff))
-                        {
-                            colDiff = 0;
-                        }
-                        else
-                        {
-                            colDiff = AssignKeepSign(colDiff, rowDiff);
-                        }
-                    }
-
-                    if (startCol + colDiff < 0)
-                    {
-                        colDiff = colDiff - (startCol + colDiff);
-                        rowDiff = AssignKeepSign(rowDiff, Mathf.Abs(colDiff));
-                    }
-                    else if (startCol + colDiff >= currentBoard.cols)
-                    {
-                        colDiff = colDiff - (startCol + colDiff - currentBoard.cols + 1);
-                        rowDiff = AssignKeepSign(rowDiff, Mathf.Abs(colDiff));
-                    }
-
-                    endCharacter = characterItems[startRow + rowDiff][startCol + colDiff];
-                }
-            }
-            else
-            {
-                // Use the last selected end character
-                endCharacter = lastEndCharacter;
-            }
-
-            if (lastEndCharacter != null)
-            {
-                // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
-                // set IsHighlighted = false
-                SetTextColor(startCharacter, lastEndCharacter, false, true, null);
-            }
+            if (lastEndCharacter != null) SetTextColor(startCharacter, lastEndCharacter, false, true, null);
             // Set kích thước, vị trí , dóc nghiêng của Highlight
             PositionHighlight(selectingHighlight, startCharacter, endCharacter);
 
@@ -379,14 +279,69 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             SetTextColor(startCharacter, endCharacter, false, false, null);
 
             // If the new end character is different then the last play a sound
-            if (lastEndCharacter != endCharacter)
-            {
-                AudioManager.Instance.Play("highlight");
-            }
+            if (lastEndCharacter != endCharacter) AudioManager.Instance.Play("highlight");
+
 
             // Set the last end character so if the player drags outside the grid container then we have somewhere to drag to
             lastEndCharacter = endCharacter;
         }
+    }
+
+    private Position GetPositionEnd(CharacterGridItem endCharacter)
+    {
+        int startRow = startCharacter.Row;
+        int startCol = startCharacter.Col;
+
+        int endRow = endCharacter.Row;
+        int endCol = endCharacter.Col;
+
+        int rowDiff = endRow - startRow;
+        int colDiff = endCol - startCol;
+
+        // check đường đi Highlight là thẳng, ngang hay chéo
+        if (rowDiff != colDiff && rowDiff != 0 && colDiff != 0)
+        {
+            // Lấy ra một vị trí kết thúc cuối cùng hợp lý nhất
+            if (Mathf.Abs(colDiff) > Mathf.Abs(rowDiff))
+            {
+                if (Mathf.Abs(colDiff) - Mathf.Abs(rowDiff) > Mathf.Abs(rowDiff)) rowDiff = 0;
+                else colDiff = AssignKeepSign(colDiff, rowDiff);
+            }
+            else
+            {
+                if (Mathf.Abs(rowDiff) - Mathf.Abs(colDiff) > Mathf.Abs(colDiff)) colDiff = 0;
+                else colDiff = AssignKeepSign(colDiff, rowDiff);
+            }
+            if (startCol + colDiff < 0)
+            {
+                colDiff = colDiff - (startCol + colDiff);
+                rowDiff = AssignKeepSign(rowDiff, Mathf.Abs(colDiff));
+            }
+            else if (startCol + colDiff >= currentBoard.cols)
+            {
+                colDiff = colDiff - (startCol + colDiff - currentBoard.cols + 1);
+                rowDiff = AssignKeepSign(rowDiff, Mathf.Abs(colDiff));
+            }
+            return new Position((startRow + rowDiff), (startCol + colDiff));
+        }
+        return null;
+    }
+
+    private CharacterGridItem GetEndCharacter(CharacterGridItem start, CharacterGridItem end)
+    {
+
+        int rowInc = (start.Row == end.Row) ? 0 : (start.Row < end.Row ? 1 : -1);
+        int colInc = (start.Col == end.Col) ? 0 : (start.Col < end.Col ? 1 : -1);
+        int incAmount = Mathf.Max(Mathf.Abs(start.Row - end.Row), Mathf.Abs(start.Col - end.Col));
+        CharacterGridItem character = null;
+
+        for (int i = 0; i <= incAmount; i++)
+        {
+            CharacterGridItem characterGridItem = characterItems[start.Row + i * rowInc][start.Col + i * colInc];
+            if (!characterGridItem.IsActive) return character;
+            character = characterGridItem;
+        }
+        return character;
     }
 
     // tìm và set màu chữ từ vị trí bắt đầu đến vị trí kết thúc
@@ -404,7 +359,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             {
                 if (onPointerUp) characterGridItem.SetChoose(highlightedTextColor, letterHighlightedsprite);
                 else characterGridItem.SetColor(highlightedTextColor, letterHighlightedsprite);
-
             }
         }
     }
@@ -418,26 +372,16 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         float highlightWidth = currentCellSize + distance + ScaledHighlighExtraSize;
         float highlightHeight = currentCellSize + ScaledHighlighExtraSize;
         float scale = highlightHeight / highlight.sprite.rect.height;
-        // Debug.Log("currentCellSize: " + currentCellSize + "   ScaledHighlighExtraSize: " + ScaledHighlighExtraSize + "  currentScale: " + currentScale);
-        // Debug.Log("highlightHeight: " + highlightHeight + "   highlight.sprite.rect.height: " + highlight.sprite.rect.height + "  scale: " + scale);
 
         // Set position and size
         highlightRectT.anchoredPosition = startPosition + (endPosition - startPosition) / 2f;
-        // Debug.Log("start: " + start.Log());
-        // Debug.Log("end: " + end.Log());
-        // Debug.Log("startPosition: " + startPosition + "      endPosition: " + endPosition);
-        // Debug.Log("anchoredPosition: " + (startPosition + (endPosition - startPosition) / 2f));
-        // Now Set the size of the highlight
         highlightRectT.localScale = new Vector3(scale, scale);
         highlightRectT.sizeDelta = new Vector2(highlightWidth / scale, highlight.sprite.rect.height);
 
         // Set angle
         float angle = Vector2.Angle(new Vector2(1f, 0f), endPosition - startPosition);
 
-        if (startPosition.y > endPosition.y)
-        {
-            angle = -angle;
-        }
+        if (startPosition.y > endPosition.y) angle = -angle;
 
         highlightRectT.eulerAngles = new Vector3(0f, 0f, angle);
     }
@@ -491,7 +435,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 localPoint.x += CellFullWidth / 2f;
                 localPoint.y += CellFullHeight / 2f;
 
-                if (localPoint.x >= 0 && localPoint.y >= 0 && localPoint.x < CellFullWidth && localPoint.y < CellFullHeight)
+                if (localPoint.x >= 0 && localPoint.y >= 0 && localPoint.x < CellFullWidth && localPoint.y < CellFullHeight && characterItems[i][j].IsActive)
                 {
                     return characterItems[i][j];
                 }
@@ -583,10 +527,11 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             GameManager.Instance.WordListContainer_SetWordFound(word);
             GameManager.Instance.WordListContainer_PlusWord();
             var boardCompleted = GameManager.Instance.CheckBoardCompleted();
-            if(boardCompleted && timer.IsPlay) {
+            if (boardCompleted && timer.IsPlay)
+            {
                 var totalTime = timer.StopTimer();
                 GameManager.Instance.SetTimeCompleteLevel(totalTime);
-                Debug.Log("totalTime: " + totalTime );
+                Debug.Log("totalTime: " + totalTime);
             }
             Destroy(floatingText.gameObject);
         });
@@ -704,35 +649,39 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public bool ClearWords()
     {
-        List<Position> locationUnused = UnusedLocation();
-        // Debug.Log("locationUnused.Count: " + locationUnused.Count);
+        Debug.Log("locationUnused.Count: " + locationUnused.Count);
         if (locationUnused.Count <= 0) return false;
         if (locationUnused.Count <= 4)
         {
-            foreach (Position position in locationUnused)
+            for (int i = 0; i < locationUnused.Count; i++)
             {
-                GameManager.Instance.SetLocationUnusedInBoard(position);
-                CharacterGridItem characterItem = characterItems[position.row][position.col];
-                characterItem.FlyWord();
+                Debug.Log(i);
+                FlyWord(locationUnused[i], positionKill[i].position);
             }
+            locationUnused.Clear();
+            buttonInGameContainer.SetInteractableButtonClearWords(false);
         }
         else
         {
-            int i = 4;
-            while (i > 0)
+            int i = 3;
+            while (i >= 0)
             {
                 int index = Random.Range(0, locationUnused.Count);
                 Position position = locationUnused[index];
-                GameManager.Instance.SetLocationUnusedInBoard(position);
-                CharacterGridItem characterItem = characterItems[position.row][position.col];
-                characterItem.FlyWord();
+                FlyWord(position, positionKill[i].position);
                 locationUnused.RemoveAt(index);
-                // Debug.Log("i: " + i);
                 i--;
             }
         }
-        GameManager.Instance.SaveCurrentBoard();
+        // GameManager.Instance.SetBoardInProgress();
         return true;
+    }
+    private void FlyWord(Position index, Vector3 positionKill)
+    {
+        GameManager.Instance.SetLocationUnusedInBoard(index);
+        CharacterGridItem characterItem = characterItems[index.row][index.col];
+        characterItem.FlyWord(gridOverlayContainer, positionKill);
+
     }
     public List<Position> UnusedLocation()
     {
@@ -742,15 +691,12 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         for (int i = 0; i < currentBoard.wordPlacements.Count; i++)
         {
             Board.WordPlacement wordPlacement = currentBoard.wordPlacements[i];
-            // Debug.Log(JsonUtility.ToJson(wordPlacement));
             int j = wordPlacement.word.Length;
-            // Debug.Log("Số lượng chữ: " + j);
             int x = wordPlacement.startingPosition.row;
             int y = wordPlacement.startingPosition.col;
             while (j > 0)
             {
                 string str = "row: " + x + "  col: " + y;
-                // Debug.Log(str);
                 Position position = new Position(x, y);
                 if (!locationUse.ContainsKey(str)) locationUse.Add(str, position);
                 x += wordPlacement.verticalDirection;
@@ -769,7 +715,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 if (!locationUse.ContainsKey(str) && characterItem.IsActive)
                 {
                     locationUnused.Add(position);
-                    characterItem.Clone(gridOverlayContainer);
                 }
             }
         }
@@ -809,20 +754,19 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     }
     public void ShowLetterHint(char letterToShow)
     {
-        for (int row = 0; row < currentBoard.rows; row++)
-        {
-            for (int col = 0; col < currentBoard.cols; col++)
-            {
-                char letter = currentBoard.boardCharacters[row][col];
 
-                if (letter == letterToShow)
+        foreach (var row in characterItems)
+        {
+            foreach (var item in row)
+            {
+                char letter = item.Text;
+                if (letter.Equals(letterToShow) && item.IsActive)
                 {
                     Image highlightImage = CreateHighlightLetterImage();
                     LetterHints.Add(highlightImage);
 
-                    CharacterGridItem characterGridItem = characterItems[row][col];
-
-                    Vector2 position = (characterGridItem.transform as RectTransform).anchoredPosition;
+                    Vector2 position = (item.transform as RectTransform).anchoredPosition;
+                    position.y += ScaledHightlightLetterSize / 15;
 
                     RectTransform highlightImageT = highlightImage.GetComponent<RectTransform>();
 
@@ -937,6 +881,15 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         {
             child.Rotate(Vector3.zero);
         }
+    }
+
+    public void SetInteractableButtonSuggestManyWords(bool status)
+    {
+        buttonInGameContainer.SetInteractableButtonSuggestManyWords(status);
+    }
+    public void SetInteractableButtonRecommendWord(bool status)
+    {
+        buttonInGameContainer.SetInteractableButtonRecommendWord(status);
     }
 
 

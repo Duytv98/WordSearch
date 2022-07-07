@@ -45,7 +45,7 @@ public class EditorContronler : MonoBehaviour
     public void OnChangeDifficulty(int val)
     {
         if (val >= 0 && val <= 2) difficultyInfo = GameDefine.DIFFICULTYINFOS[val];
-        Debug.Log(difficultyInfo.Log());
+        // Debug.Log(difficultyInfo.Log());
 
     }
 
@@ -120,7 +120,7 @@ public class EditorContronler : MonoBehaviour
         SetActiveSaveBoard();
         this.board = board;
         txtBorad = Utilities.ConvertToJsonString(board.ToJson());
-        Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+        // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
         ShowBoard();
     }
 

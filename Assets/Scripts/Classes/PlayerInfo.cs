@@ -84,8 +84,8 @@ public class PlayerInfo
         //timeCompleteLevel
         JSONNode timeCompleteLevelLocalJson = JSON.Parse(playerLocal.timeCompleteLevel);
         JSONNode timeCompleteLevelFireBaseJson = JSON.Parse(playerFireBase.timeCompleteLevel);
-        Debug.Log("timeCompleteLevelLocalJson: " + timeCompleteLevelLocalJson.Count);
-        Debug.Log("timeCompleteLevelFireBaseJson: " + timeCompleteLevelFireBaseJson.Count);
+        // Debug.Log("timeCompleteLevelLocalJson: " + timeCompleteLevelLocalJson.Count);
+        // Debug.Log("timeCompleteLevelFireBaseJson: " + timeCompleteLevelFireBaseJson.Count);
         Dictionary<string, float> dicTime = new Dictionary<string, float>();
         foreach (var key in timeCompleteLevelLocalJson.Keys)
         {

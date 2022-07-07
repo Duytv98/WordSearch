@@ -18,10 +18,6 @@ public class GiftsFast : MonoBehaviour
     private string idCollect = null;
 
     [SerializeField] private ItemProgress[] listItemProgress = null;
-    public void Test1()
-    {
-        Debug.Log("Log Test 1");
-    }
     public void OnShowing(Tuple<string, Booter> tuple)
     {
         idCollect = tuple.Item1;
@@ -42,7 +38,7 @@ public class GiftsFast : MonoBehaviour
     public void Close(int status)
     {
         PlayerPrefs.SetInt("StatusGiftFast", status);
-        Debug.Log(PlayerPrefs.GetInt("StatusGiftFast"));
+        // Debug.Log(PlayerPrefs.GetInt("StatusGiftFast"));
         PopupContainer.Instance.CloseCurrentPopup();
         AudioManager.Instance.Play_Click_Button_Sound();
 

@@ -26,7 +26,7 @@ public class SaveableManager : MonoBehaviour
     }
     public void LoadDataOffline()
     {
-        Debug.Log("LoadDataOffline");
+        // Debug.Log("LoadDataOffline");
         bool isPlay = IsActiveGame();
         if (isPlay)
         {
@@ -100,14 +100,14 @@ public class SaveableManager : MonoBehaviour
     {
         if (IsLogIn())
         {
-            Debug.Log("Tung login");
+            // Debug.Log("Tung login");
             var lastUseId = GetUserId();
             if (lastUseId.Equals(user.UserId)) Debug.Log("Tai Khoan Cu");
             else Debug.Log("Tai Khoan Moi");
         }
         else
         {
-            Debug.Log("chua tung log");
+            // Debug.Log("chua tung log");
             SetLogIn(true);
             SaveProvidersLogin(providers);
             SaveDataUser(user.DisplayName, user.UserId, avatar);
@@ -142,7 +142,7 @@ public class SaveableManager : MonoBehaviour
 
 
     //InProgress
-    private void SaveCoins(int coins)
+    public void SaveCoins(int coins)
     {
         PlayerPrefs.SetInt(GameDefine.KEY_USER_COINS, coins);
         fireBaseController.SaveCoins();
@@ -283,7 +283,7 @@ public class SaveableManager : MonoBehaviour
 
     public void SaveDataPlayerLocal(PlayerInfo playerInfo)
     {
-        Debug.Log(JsonUtility.ToJson(playerInfo));
+        // Debug.Log(JsonUtility.ToJson(playerInfo));
         PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, playerInfo.displayName);
         PlayerPrefs.SetInt(GameDefine.KEY_USER_COINS, playerInfo.coins);
         PlayerPrefs.SetInt(GameDefine.KEY_USER_KEYS, playerInfo.keys);

@@ -9,6 +9,8 @@ public class NotEnoughCoinsPopup : MonoBehaviour
     {
         GameManager.Instance.Coins += 100;
         PopupContainer.Instance.CloseCurrentPopup();
+
+        SaveableManager.Instance.SaveCoins(GameManager.Instance.Coins);
         // CloseNotEnoughCoinsPopup();
     }
 

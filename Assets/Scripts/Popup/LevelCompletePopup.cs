@@ -36,8 +36,8 @@ public class LevelCompletePopup : MonoBehaviour
         // keyRewardContainer.SetActive(playmode && awardKeys);
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(GameManager.Instance.ActiveCategoryInfo);
 
-        Debug.Log("playmode: " + playmode);
-        Debug.Log("allLevelsCompletedCasual: " + allLevelsCompletedCasual);
+        // Debug.Log("playmode: " + playmode);
+        // Debug.Log("allLevelsCompletedCasual: " + allLevelsCompletedCasual);
         // if (playmode) nextLevelButton.SetActive(!allLevelsCompleted);
         // else nextLevelButton.SetActive(!allLevelsCompletedCasual);
 

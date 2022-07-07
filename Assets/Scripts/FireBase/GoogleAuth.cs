@@ -87,7 +87,7 @@ public class GoogleAuth : MonoBehaviour
     }
     private void CheckCurrentUser()
     {
-        Debug.Log(" ===== CheckCurrentUser");
+        // Debug.Log(" ===== CheckCurrentUser");
         var user = auth.CurrentUser;
         if (user != null)
         {

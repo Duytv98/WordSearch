@@ -17,6 +17,8 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private NotEnoughKeysPopup notEnoughKeysPopup = null;
     [SerializeField] private RewardAdGranted rewardAdGranted = null;
     [SerializeField] private StorePopup storePopup = null;
+
+    [SerializeField] private TestDailyGift dailyGift = null;
     [SerializeField] private Gift giftPopup = null;
     [SerializeField] private GiftsFast giftsFastPopup = null;
     [SerializeField] private Image background = null;
@@ -88,6 +90,12 @@ public class PopupContainer : MonoBehaviour
         Show("GiftPopup");
         giftPopup.OnShowing(headerText, messageText);
     }
+    public void ShowDailyGift()
+    {
+        Debug.Log("ShowDailyGift");
+        Show("dailyGift");
+        dailyGift.OnShowing();
+    }
     public void ShowGiftsFastPopup(Tuple<string, Booter> tuple)
     {
         Debug.Log("ShowGiftsFastPopup");
@@ -98,7 +106,7 @@ public class PopupContainer : MonoBehaviour
     {
         popupActive = keyName;
         if (keyName == "LevelCompletePopup") FadeInPanelBG(backgroundFade, 0.4f);
-        else if(active) FadeInPanelBG(background);
+        else if (active) FadeInPanelBG(background);
         GameObject popup = GetPopup(keyName);
         popup.SetActive(true);
         popup.transform.DOMoveY(0, animDuration)
@@ -116,11 +124,11 @@ public class PopupContainer : MonoBehaviour
 
         var activeEvent = background.GetComponent<Button>();
         activeEvent.interactable = false;
-        CanvasGroup popupCV = GetPopupCV(keyName);
-        popupCV.interactable = false;
+        // CanvasGroup popupCV = GetPopupCV(keyName);
+        // popupCV.interactable = false;
         GameObject popup = GetPopup(keyName);
-        popup.transform.DOLocalMoveY(-2880f, animDuration)
-                       .SetEase(Ease.InBack)
+        popup.transform.DOLocalMoveY(1920, animDuration*0.5f)
+                       .SetEase(Ease.OutSine)
                        .OnComplete(() =>
                        {
                            if (!isActiveBackground)
@@ -134,12 +142,13 @@ public class PopupContainer : MonoBehaviour
                                    FadeOutPanelBG(background);
                                }
                            }
+                           popup.transform.localPosition = new Vector3(0, -2880f, 0);
                            popup.SetActive(false);
-                           popupCV.interactable = true;
+                        //    popupCV.interactable = true;
                            activeEvent.interactable = true;
                        });
     }
-    public void FadeInPanelBG(Image panelPopupImg, float a = 0.8f)
+    public void FadeInPanelBG(Image panelPopupImg, float a = 0.92f)
     {
         Color col = panelPopupImg.color;
         col.a = 0;
@@ -150,13 +159,13 @@ public class PopupContainer : MonoBehaviour
             panelPopupImg.raycastTarget = true;
         });
     }
-    public void FadeOutPanelBG(Image panelPopupImg, float a = 0.8f)
+    public void FadeOutPanelBG(Image panelPopupImg, float a = 0.92f)
     {
         Color col = panelPopupImg.color;
         col.a = a;
         panelPopupImg.color = col;
         panelPopupImg.raycastTarget = false;
-        panelPopupImg.DOFade(0f, animDuration);
+        panelPopupImg.DOFade(0f, animDuration*0.5f);
 
     }
 
@@ -188,6 +197,8 @@ public class PopupContainer : MonoBehaviour
                 return storePopup.gameObject;
             case "GiftPopup":
                 return giftPopup.gameObject;
+            case "dailyGift":
+                return dailyGift.gameObject;
             case "GiftsFastPopup":
                 return giftsFastPopup.gameObject;
             default:

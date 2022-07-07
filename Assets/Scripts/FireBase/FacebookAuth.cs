@@ -50,12 +50,12 @@ public class FacebookAuth : MonoBehaviour
 
     private void AuthCallBack(ILoginResult result)
     {
-        Debug.Log(result);
-        Debug.Log(FB.IsLoggedIn);
+        // Debug.Log(result);
+        // Debug.Log(FB.IsLoggedIn);
         if (FB.IsLoggedIn)
         {
             AccessToken aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-            Debug.Log("aToken.UserId: " + aToken.UserId);
+            // Debug.Log("aToken.UserId: " + aToken.UserId);
             foreach (string perm in aToken.Permissions)
             {
                 Debug.Log(perm);

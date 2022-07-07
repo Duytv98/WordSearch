@@ -117,7 +117,7 @@ public class DailyGift : MonoBehaviour
 
     private void SetColorGiftDay()
     {
-        Debug.Log("HistoryCollection.Count: " + HistoryCollection.Count);
+        // Debug.Log("HistoryCollection.Count: " + HistoryCollection.Count);
         int idIntCurr = HistoryCollection.Count;
         for (int i = 0; i < GiftDays.Length; i++)
         {
@@ -165,7 +165,6 @@ public class DailyGift : MonoBehaviour
     private Dictionary<string, string> GetGiftInfoLocal()
     {
         return Convert.ToDictionarySS(PlayerPrefs.GetString("GiftInfo"));
-        ;
     }
 
     private void SaveGiftInfoLocal()
@@ -222,17 +221,16 @@ public class DailyGift : MonoBehaviour
     public void Onclick(int idInt)
     {
         int idIntCurr = HistoryCollection.Count;
-        Debug.Log("idInt: " + idInt + "   idIntCurr: " + idIntCurr);
+        // Debug.Log("idInt: " + idInt + "   idIntCurr: " + idIntCurr);
         GiftDay giftDayChoose = GiftDays[idInt - 1];
         if (idInt <= idIntCurr)
         {
-            Debug.Log("Bạn đã nhận quà");
-
+            // Debug.Log("Bạn đã nhận quà");
             PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "You received a gift today");
         }
         else if (idInt == idIntCurr + 1)
         {
-            Debug.Log("vào else if");
+            // Debug.Log("vào else if");
             if (idIntCurr == 0)
             {
                 CollectionGift(giftDayChoose);
@@ -248,24 +246,23 @@ public class DailyGift : MonoBehaviour
         {
             PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "You need to receive the gift in the next " + (idInt - (idIntCurr + 1)) + " consecutive days to receive this gift.");
         }
-
         idLastCollectGift = GetIdCurrentCollectGift();
     }
 
     private void CollectionGift(GiftDay giftDay)
     {
-        Debug.Log("Nhận quà hôm nay");
+        // Debug.Log("Nhận quà hôm nay");
         giftDay.image.color = highlightColors[2];
         HistoryCollection.Add(giftDay.id, GetStringDateTimeNow());
         SaveHistoryCollectionLocal();
         SetStatusGiftFast(-1);
-        Debug.Log("Day: " + giftDay.id);
+        // Debug.Log("Day: " + giftDay.id);
         if (giftInfo.ContainsKey(giftDay.id))
         {
             Booter booter = GetBooter(giftDay.id);
-            Debug.Log("booter: " + booter.Log());
+            // Debug.Log("booter: " + booter.Log());
             bool test = GameManager.Instance.SetBooter(booter.id, booter.amount);
-            Debug.Log("Set booter: " + test);
+            // Debug.Log("Set booter: " + test);
             PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "YOU GET:\n" + booter.amount + " " + booter.id);
         }
     }

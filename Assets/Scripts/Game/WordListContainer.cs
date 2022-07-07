@@ -123,7 +123,7 @@ public class WordListContainer : MonoBehaviour
         }
         CreateStar(UnusedWords.Count);
         // textPlus.text = "+ " + UnusedWords.Count;
-        textPlusPro.text  = "+ " + UnusedWords.Count;
+        textPlusPro.text = "+ " + UnusedWords.Count;
 
     }
 
@@ -215,8 +215,8 @@ public class WordListContainer : MonoBehaviour
                                       if (isLastStar)
                                       {
                                           listStar.RemoveRange(0, index + 1);
-                                          GameManager.Instance.SaveCurrentBoard();
-                                        //   Debug.Log("listStar count: " + listStar.Count);
+                                          GameManager.Instance.SetBoardInProgress();
+                                          //   Debug.Log("listStar count: " + listStar.Count);
                                       }
                                   });
     }

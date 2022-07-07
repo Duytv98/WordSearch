@@ -13,7 +13,7 @@ public class CharacterGridItem : MonoBehaviour
     [SerializeField] private Image imgCharacter;
 
     private char text;
-    private Text cloneText;
+    // private Text cloneText;
     public int Row { get; set; }
     public int Col { get; set; }
     public bool IsHighlighted { get; set; }
@@ -21,7 +21,7 @@ public class CharacterGridItem : MonoBehaviour
     private bool isActive = true;
     public bool IsActive { get => isActive; set => isActive = value; }
     public bool IsChoose { get => isChoose; set => isChoose = value; }
-
+    public char Text { get => text; set => text = value; }
 
     [SerializeField] private Color defaultColor;
     [SerializeField] private Sprite defaultSprite;
@@ -41,7 +41,7 @@ public class CharacterGridItem : MonoBehaviour
     public void Setup(char text, Vector3 scale, Vector2 scaledLetterOffsetInCell, int row, int col, Sprite sprite)
     {
         var maxSize = GameManager.Instance.ActiveBoard.cols;
-        this.text = text;
+        this.Text = text;
         (transform as RectTransform).anchoredPosition = scaledLetterOffsetInCell;
         Row = row;
         Col = col;
@@ -62,51 +62,52 @@ public class CharacterGridItem : MonoBehaviour
     }
     public string Log()
     {
-        return string.Format("characterText: {0}, row: {1}, col: {2}, anchoredPosition: {3}", text, Row, Col, (transform as RectTransform).anchoredPosition);
+        return string.Format("characterText: {0}, row: {1}, col: {2}, anchoredPosition: {3}", Text, Row, Col, (transform as RectTransform).anchoredPosition);
     }
     public Vector3 GetPosition(Camera cam)
     {
         return cam.WorldToViewportPoint(transform.position);
     }
-    public void Clone(Transform parent)
+    // public void Clone(Transform parent)
+    // {
+    //     if (cloneText != null)
+    //     {
+    //         return;
+    //     }
+    //     GameObject newText = new GameObject("TextClone");
+    //     newText.transform.SetParent(parent);
+    //     // newText.transform.localScale = characterText.transform.localScale;
+    //     newText.transform.localPosition = this.transform.localPosition;
+
+    //     ContentSizeFitter contentSizeFitter = newText.AddComponent<ContentSizeFitter>();
+    //     contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+    //     contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+    //     cloneText = newText.AddComponent<Text>();
+    //     // cloneText.text = characterText.text;
+
+    //     cloneText.font = font;
+    //     cloneText.fontSize = fontSize;
+    //     cloneText.color = Color.black;
+
+    //     newText.SetActive(false);
+    // }
+    public void FlyWord(Transform parent, Vector3 position)
     {
-        if (cloneText != null)
-        {
-            return;
-        }
-        GameObject newText = new GameObject("TextClone");
-        newText.transform.SetParent(parent);
-        // newText.transform.localScale = characterText.transform.localScale;
-        newText.transform.localPosition = this.transform.localPosition;
-
-        ContentSizeFitter contentSizeFitter = newText.AddComponent<ContentSizeFitter>();
-        contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-        contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-        cloneText = newText.AddComponent<Text>();
-        // cloneText.text = characterText.text;
-
-        cloneText.font = font;
-        cloneText.fontSize = fontSize;
-        cloneText.color = Color.black;
-
-        newText.SetActive(false);
-    }
-    public void FlyWord()
-    {
-        cloneText.gameObject.SetActive(true);
-        cloneText.transform.DOMove(Vector3.right * 3, 2f)
-        .OnComplete(() => Destroy(cloneText.gameObject));
-        SetWordUnuseds();
+        imgCharacter.transform.SetParent(parent);
+        // cloneText.gameObject.SetActive(true);
+        imgCharacter.transform.DOMove(position, 1f)
+        .SetEase(Ease.InCirc)
+        .OnComplete(() => Destroy(imgCharacter.gameObject));
+        IsActive = false;
     }
     public void SetWordUnuseds()
     {
-        // characterText.color = Color.grey;
+        Destroy(imgCharacter.gameObject);
         IsActive = false;
     }
     public void SetColor(Color color, Sprite sprite)
     {
-        // characterText.color = color;
         imgCharacter.color = color;
         Bg.sprite = sprite;
     }
@@ -114,13 +115,11 @@ public class CharacterGridItem : MonoBehaviour
     {
         if (IsChoose)
         {
-            // characterText.color = color;
             imgCharacter.color = color;
             Bg.sprite = sprite;
         }
         else
         {
-            // characterText.color = defaultColor;
             imgCharacter.color = defaultColor;
             Bg.sprite = defaultSprite;
         }

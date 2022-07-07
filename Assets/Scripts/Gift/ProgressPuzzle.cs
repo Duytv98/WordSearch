@@ -16,7 +16,7 @@ public class ProgressPuzzle : MonoBehaviour
         process.localScale = new Vector3(x, localScale.y, localScale.z);
 
         currentProcess.text = curr + "/" + total;
-        Debug.Log(process.localScale);
-        Debug.Log("Curr: " + curr + "  total: " + total);
+        // Debug.Log(process.localScale);
+        // Debug.Log("Curr: " + curr + "  total: " + total);
     }
 }

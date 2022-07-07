@@ -35,15 +35,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CharacterGrid characterGrid = null;
     [SerializeField] private WordListContainer wordListContainer = null;
     [SerializeField] private GameObject loadingIndicator = null;
-    // [SerializeField] private ScreenManager screenManager = null;
     [SerializeField] private Effect effectContronler = null;
     public int Coins { get; set; }
     public int Keys { get; set; }
 
     public CategoryInfo ActiveCategoryInfo { get; set; }
-    public int ActiveDifficultyIndex { get; private set; }
     public Board ActiveBoard { get; private set; }
     public int ActiveLevelIndex { get; private set; }
+    public List<List<CharacterGridItem>> CharacterItems;
 
     private Board casualBoard = null;
     public Board CasualBoard { get => casualBoard; set => casualBoard = value; }
@@ -145,7 +144,7 @@ public class GameManager : MonoBehaviour
         Board board = GetSavedBoard(categoryInfo, levelIndex);
         if (board == null) board = LoadLevelFile(categoryInfo, levelIndex);
         SetupGame(board);
-        SaveCurrentBoard();
+        SetBoardInProgress();
     }
     public void StartNextLevel(CategoryInfo categoryInfo)
     {
@@ -185,10 +184,8 @@ public class GameManager : MonoBehaviour
         string selectedWordReversed = "";
 
         // Đảo ngược chuỗi text
-        for (int i = 0; i < selectedWord.Length; i++)
+        foreach (var character in selectedWord)
         {
-            char character = selectedWord[i];
-
             selectedWordReversed = character + selectedWordReversed;
         }
 
@@ -196,13 +193,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ActiveBoard.words.Count; i++)
         {
             string word = ActiveBoard.words[i];
-
             // Kiểm tra từ đã được tìm thấy chưa
-            if (ActiveBoard.foundWords.Contains(word) || wordListContainer.UnusedWords.Contains(word))
-            {
-                continue;
-            }
-
+            if (ActiveBoard.foundWords.Contains(word) || wordListContainer.UnusedWords.Contains(word)) continue;
             // Loại bỏ khoảng trắng
             string wordNoSpaces = word.Replace(" ", "");
 
@@ -213,6 +205,7 @@ public class GameManager : MonoBehaviour
                 ActiveBoard.foundWords.Add(word);
                 // Debug.Log(" GameManaer ActiveBoard.foundWords.Count: " + ActiveBoard.foundWords.Count);
                 if (ActiveBoard.recommendWords.Contains(word)) ActiveBoard.recommendWords.Remove(word);
+                SetBoardInProgress();
                 return word;
             }
         }
@@ -228,11 +221,7 @@ public class GameManager : MonoBehaviour
             if (!IsCompleted) BoardCompleted();
             return true;
         }
-        else
-        {
-            SaveCurrentBoard();
-            return false;
-        }
+        return false;
     }
     private void BoardCompleted()
     {
@@ -254,6 +243,8 @@ public class GameManager : MonoBehaviour
 
         SaveableManager.Instance.SaveBoardsInProgress(BoardsInProgress);
         SaveableManager.Instance.SaveLastCompletedLevels(LastCompletedLevels);
+        SaveableManager.Instance.SaveCoins(Coins);
+        SaveableManager.Instance.SaveKeys(Keys);
         PopupContainer.Instance.ShowLevelCompletePopup(coinsAwarded, keysAwarded);
 
         AudioManager.Instance.Play("level-complete");
@@ -314,28 +305,18 @@ public class GameManager : MonoBehaviour
     {
         bool useBooter = false;
         string key = "Find-words";
-        if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading())
-        {
-            return;
-        }
-
-        List<string> nonFoundWords = new List<string>();
+        if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading()) return;
 
         // Lấy ra các từ chưa được tìm thấy
-        for (int i = 0; i < ActiveBoard.words.Count; i++)
+        List<string> nonFoundWords = new List<string>();
+        foreach (var word in ActiveBoard.words)
         {
-            string word = ActiveBoard.words[i];
-
-            if (!ActiveBoard.foundWords.Contains(word) && !wordListContainer.UnusedWords.Contains(word))
-            {
-                nonFoundWords.Add(word);
-            }
+            if (!ActiveBoard.foundWords.Contains(word) && !wordListContainer.UnusedWords.Contains(word)) nonFoundWords.Add(word);
         }
 
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0) return;
         if (CheckBooterExist(key)) useBooter = true;
-
         if (Coins < GameDefine.FIND_WORDS && !useBooter)
             PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
@@ -351,20 +332,16 @@ public class GameManager : MonoBehaviour
             if (useBooter) SubtractionBooter(key, 1);
             else Coins -= GameDefine.FIND_WORDS;
 
+            SaveableManager.Instance.SaveCoins(Coins);
 
             AudioManager.Instance.Play("hint-used");
         }
     }
     public void HintHighlightLetter()
     {
-
         bool useBooter = false;
         string key = "Find-letters";
-        if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading())
-        {
-            return;
-        }
-
+        if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading()) return;
         if (CheckBooterExist(key)) useBooter = true;
 
         if (Coins < GameDefine.FIND_LETTERS && !useBooter)
@@ -385,8 +362,11 @@ public class GameManager : MonoBehaviour
         characterGrid.ShowLetterHint(letter);
         if (isBooterUse) SubtractionBooter(key, 1);
         else Coins -= GameDefine.FIND_LETTERS;
+
+
+        SaveableManager.Instance.SaveCoins(Coins);
         PopupContainer.Instance.ClosePopup("ChooseHighlighLetterPopup");
-        SaveCurrentBoard();
+        SetBoardInProgress();
 
     }
 
@@ -397,19 +377,11 @@ public class GameManager : MonoBehaviour
         bool useBooter = false;
         string key = "Suggest-many-words";
         float timeMoveRocket = 1f;
-        List<string> nonFoundWords = new List<string>();
+        // Lấy ra các từ chưa được tìm thấy
+        List<string> nonFoundWords = GeNonFoundWords();
 
         List<string> nonFoundWordsChoose = new List<string>();
-        // Lấy ra các từ chưa được tìm thấy
-        for (int i = 0; i < ActiveBoard.words.Count; i++)
-        {
-            string word = ActiveBoard.words[i];
 
-            if (!ActiveBoard.foundWords.Contains(word) && !ActiveBoard.recommendWords.Contains(word))
-            {
-                nonFoundWords.Add(word);
-            }
-        }
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0) return;
         if (CheckBooterExist(key)) useBooter = true;
@@ -428,14 +400,20 @@ public class GameManager : MonoBehaviour
             else nonFoundWordsChoose = nonFoundWords;
             // ActiveBoard.recommendWords.Concat(nonFoundWordsChoose).ToList();
             ActiveBoard.recommendWords.UnionWith(nonFoundWordsChoose);
-            SaveCurrentBoard();
+            SetBoardInProgress();
 
             characterGrid.SuggestManyWords(timeMoveRocket, nonFoundWordsChoose);
 
             if (useBooter) SubtractionBooter(key, 1);
             else Coins -= GameDefine.SUGGEST_MANY_WORDS;
+
+            SaveableManager.Instance.SaveCoins(Coins);
+
+            ActionButtonRecommendWord();
+
+            effectContronler.PlayRocket(timeMoveRocket);
         }
-        effectContronler.PlayRocket(timeMoveRocket);
+        
     }
     public void ClearWords()
     {
@@ -450,26 +428,19 @@ public class GameManager : MonoBehaviour
             {
                 if (useBooter) SubtractionBooter(key, 1);
                 else Coins -= GameDefine.CLEAR_WORDS;
+
+                SaveableManager.Instance.SaveCoins(Coins);
+                SetBoardInProgress();
             }
         }
-
     }
     public void RecommendWord()
     {
         bool useBooter = false;
         string key = "Recommend-word";
 
-        List<string> nonFoundWords = new List<string>();
         // Lấy ra các từ chưa được tìm thấy
-        for (int i = 0; i < ActiveBoard.words.Count; i++)
-        {
-            string word = ActiveBoard.words[i];
-
-            if (!ActiveBoard.foundWords.Contains(word) && !ActiveBoard.recommendWords.Contains(word))
-            {
-                nonFoundWords.Add(word);
-            }
-        }
+        List<string> nonFoundWords = GeNonFoundWords();
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0) return;
         if (CheckBooterExist(key)) useBooter = true;
@@ -484,13 +455,36 @@ public class GameManager : MonoBehaviour
             characterGrid.ShowWordRecommend(wordToShow);
             // Debug.Log("recommendWords Count: " + ActiveBoard.recommendWords.Count);
 
-            SaveCurrentBoard();
+            SetBoardInProgress();
 
             // Set it as selected
             if (useBooter) SubtractionBooter(key, 1);
             else Coins -= GameDefine.RECOMMEND_WORD;
+
+
+            SaveableManager.Instance.SaveCoins(Coins);
             AudioManager.Instance.Play("hint-used");
+
+            ActionButtonRecommendWord();
         }
+    }
+
+    private List<string> GeNonFoundWords()
+    {
+        List<string> nonFoundWords = new List<string>();
+        // Lấy ra các từ chưa được tìm thấy
+        foreach (var word in ActiveBoard.words)
+        {
+            if (!ActiveBoard.foundWords.Contains(word) && !ActiveBoard.recommendWords.Contains(word)) nonFoundWords.Add(word);
+
+        }
+        return nonFoundWords;
+    }
+    public void ActionButtonRecommendWord()
+    {
+        var status = GeNonFoundWords().Count == 0 ? false : true;
+        characterGrid.SetInteractableButtonRecommendWord(status);
+        characterGrid.SetInteractableButtonSuggestManyWords(status);
     }
     public void RotatingScreen()
     {
@@ -518,17 +512,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SaveCurrentBoard()
+    public void SetBoardInProgress()
     {
-        if (ActiveGameMode == GameMode.Progress) SetBoardInProgress(ActiveBoard, ActiveCategoryInfo, ActiveLevelIndex);
-        else ScreenManager.Instance.SaveProgressCasual();
-    }
-    private void SetBoardInProgress(Board board, CategoryInfo categoryInfo, int levelIndex = -1)
-    {
-        string saveKey = GetSaveKey(categoryInfo, levelIndex);
-        string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
+        string saveKey = GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex);
+        string contentsBoard = Utilities.ConvertToJsonString(ActiveBoard.ToJson());
         // Debug.Log("contentsBoard: " + contentsBoard);
         BoardsInProgress[saveKey] = contentsBoard;
+        SaveableManager.Instance.SaveBoardsInProgress(BoardsInProgress);
     }
     public void SetTimeCompleteLevel(float time)
     {
@@ -614,7 +604,7 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
-    private bool CheckBooterExist(string key)
+    public bool CheckBooterExist(string key)
     {
         if (ListBoosterInGame[key] > 0) return true;
         return false;

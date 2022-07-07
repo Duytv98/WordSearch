@@ -109,7 +109,7 @@ public class DailyPuzzle : MonoBehaviour
 
     public void LevelCasualSuccessful()
     {
-        Debug.Log("LevelCasualSuccessful");
+        // Debug.Log("LevelCasualSuccessful");
         casualBoardsProgress.Remove(GetKeyBoardsProgress(idDayChoose, levelChoose));
 
         LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);
@@ -226,13 +226,13 @@ public class DailyPuzzle : MonoBehaviour
     {
         //        int idIntCurr = HistoryPuzzle.Count;
         int dayUse = GetCurrentDayPuzzle();
-        Debug.Log("idInt: " + idInt + "   dayUse: " + dayUse);
+        // Debug.Log("idInt: " + idInt + "   dayUse: " + dayUse);
         GiftDay giftDay = GiftDays[idInt - 1];
         if (idInt <= dayUse)
         {
             if (String.IsNullOrEmpty(startDateTimePuzzle))
             {
-                Debug.Log("lần đầu nhậ quà");
+                // Debug.Log("lần đầu nhậ quà");
                 startDateTimePuzzle = GetStringDateTimeNow();
                 SaveStartDateTimePuzzle();
             }
@@ -241,11 +241,11 @@ public class DailyPuzzle : MonoBehaviour
 
             SetBorderDayChoose();
             ShowLevelPlay();
-            Debug.Log("click đúng");
+            // Debug.Log("click đúng");
         }
         else
         {
-            Debug.Log("Click sai");
+            // Debug.Log("Click sai");
         }
     }
 
@@ -340,7 +340,7 @@ public class DailyPuzzle : MonoBehaviour
     }
     public bool CheckCompletedAllLevel()
     {
-        Debug.Log("idDayChoose: " + idDayChoose);
+        // Debug.Log("idDayChoose: " + idDayChoose);
         LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);
         if (dayChoose.easy < 0) return false;
         else if (dayChoose.medium < 0) return false;
@@ -352,7 +352,7 @@ public class DailyPuzzle : MonoBehaviour
     {
         if (String.IsNullOrEmpty(startDateTimePuzzle))
         {
-            Debug.Log("lần đầu nhậ quà");
+            // Debug.Log("lần đầu nhậ quà");
             startDateTimePuzzle = GetStringDateTimeNow();
             SaveStartDateTimePuzzle();
         }
@@ -389,10 +389,10 @@ public class DailyPuzzle : MonoBehaviour
         {
             Board board = GetSavedBoard(keyProgress);
             GameManager.Instance.CasualBoard = board;
-            Debug.Log(board.words.Count);
-            Debug.Log(" ====================================== ");
-            Debug.Log("Get Local board");
-            Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+            // Debug.Log(board.words.Count);
+            // Debug.Log(" ====================================== ");
+            // Debug.Log("Get Local board");
+            // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
 
             GameManager.Instance.StartCasual();
             ScreenManager.Instance.DeactivateLoading();
@@ -436,7 +436,7 @@ public class DailyPuzzle : MonoBehaviour
 
     private void SaveStartDateTimePuzzle()
     {
-        Debug.Log("SaveStartDateTimePuzzle");
+        // Debug.Log("SaveStartDateTimePuzzle");
         PlayerPrefs.SetString("StartDateTimePuzzle", startDateTimePuzzle);
     }
 

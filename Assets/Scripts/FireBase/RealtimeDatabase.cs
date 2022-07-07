@@ -18,23 +18,23 @@ public class RealtimeDatabase : MonoBehaviour
     [SerializeField] private Image avatar = null;
     public void SetUp()
     {
-        Debug.Log("reference SetUp");
+        // Debug.Log("reference SetUp");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
     public void Read_Data()
     {
         string userId = SaveableManager.Instance.GetUserId();
-        Debug.Log("userid: " + userId);
+        // Debug.Log("userid: " + userId);
         reference.Child("User").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
                       {
                           if (task.IsCompleted)
                           {
-                              Debug.Log("aaaaaaaaaaaaaaaaaa");
+                            //   Debug.Log("aaaaaaaaaaaaaaaaaa");
                               DataSnapshot snapshot = task.Result;
                               if (string.IsNullOrEmpty(snapshot.GetRawJsonValue()))
                               {
-                                  Debug.Log(null);
+                                //   Debug.Log(null);
                                   SaveableManager.Instance.LoadDataOffline();
                                   CreateData();
                                   return;

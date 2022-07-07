@@ -33,6 +33,7 @@ public class FireBaseController : MonoBehaviour
 
     private void Start()
     {
+        Input.multiTouchEnabled = false;
         ScreenManager.Instance.SetActiveFlashCanvas(true);
 
         StartCoroutine(checkInternetConnection((isConnected) =>
@@ -41,8 +42,8 @@ public class FireBaseController : MonoBehaviour
                   else SaveableManager.Instance.LoadDataOffline();
               }));
 
-        Debug.Log("isPlay: " + SaveableManager.Instance.IsActiveGame());
-        Debug.Log("IsLogIn: " + SaveableManager.Instance.IsLogIn());
+        // Debug.Log("isPlay: " + SaveableManager.Instance.IsActiveGame());
+        // Debug.Log("IsLogIn: " + SaveableManager.Instance.IsLogIn());
         if (!SaveableManager.Instance.IsActiveGame() || !SaveableManager.Instance.IsLogIn()) SaveableManager.Instance.LoadDataOffline();
 
     }
@@ -87,12 +88,12 @@ public class FireBaseController : MonoBehaviour
 
     public void Facebook_Login()
     {
-        Debug.Log("Facebook_Login");
+        // Debug.Log("Facebook_Login");
         if (!SaveableManager.Instance.IsLogIn()) facebookAuth.Login();
     }
     public void Google_Login()
     {
-        Debug.Log("Google_Login");
+        // Debug.Log("Google_Login");
         if (!SaveableManager.Instance.IsLogIn()) googleAuth.Login();
     }
     public void LogOut()
