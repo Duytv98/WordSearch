@@ -6,6 +6,7 @@ public class GameDefine
 {
     public static int STARTING_COINS = 100;
     public static int STARTING_KEYS = 1;
+    public static int COINS_REWARD_AD = 50;
     public static string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //swinging branch
     public static int CLEAR_WORDS = 10;

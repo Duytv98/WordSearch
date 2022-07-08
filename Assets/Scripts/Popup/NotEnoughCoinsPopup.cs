@@ -7,15 +7,9 @@ public class NotEnoughCoinsPopup : MonoBehaviour
 
     public void ClickAD()
     {
-        GameManager.Instance.Coins += 100;
+        GameManager.Instance.Coins += GameDefine.COINS_REWARD_AD;
         PopupContainer.Instance.CloseCurrentPopup();
 
         SaveableManager.Instance.SaveCoins(GameManager.Instance.Coins);
-        // CloseNotEnoughCoinsPopup();
     }
-
-    // public void CloseNotEnoughCoinsPopup()
-    // {
-    //     PopupContainer.Instance.ClosePopup("NotEnoughCoinsPopup");
-    // }
 }

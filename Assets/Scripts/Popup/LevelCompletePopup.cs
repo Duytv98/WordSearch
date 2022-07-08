@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 using UnityEngine.UI;
 public class LevelCompletePopup : MonoBehaviour
@@ -16,6 +17,9 @@ public class LevelCompletePopup : MonoBehaviour
 
     [SerializeField] private GameObject rewardsContainer = null;
     [SerializeField] private GameObject coinRewardContainer = null;
+
+    [SerializeField] private RectTransform leaderBoard = null;
+    [SerializeField] private RectTransform rectPosition = null;
     // [SerializeField] private GameObject keyRewardContainer = null;
     // [SerializeField] private Text coinRewardAmountText = null;
     // [SerializeField] private Text keyRewardAmountText = null;
@@ -48,6 +52,14 @@ public class LevelCompletePopup : MonoBehaviour
 
         // coinRewardAmountText.text = "x " + coinsAwarded;
         // keyRewardAmountText.text = "x " + keysAwarded;
+
+        leaderBoard.DOAnchorPos(rectPosition.anchoredPosition, 0.5f)
+        .SetDelay(0.35f)
+        .SetEase(Ease.OutBack);
+
+    }
+    private void close(){
+        leaderBoard.anchoredPosition = new Vector3(-5, -245f, 0f);
     }
     public void CloseLevelCompletePopup()
     {
@@ -59,6 +71,7 @@ public class LevelCompletePopup : MonoBehaviour
         else ScreenManager.Instance.NextLevelCasual();
         // CloseLevelCompletePopup();
         PopupContainer.Instance.CloseCurrentPopup();
+        close();
 
     }
     public void OnClickPlayAgainButton()
