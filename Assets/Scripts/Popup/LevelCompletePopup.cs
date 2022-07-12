@@ -33,9 +33,9 @@ public class LevelCompletePopup : MonoBehaviour
 
         coinRewardContainer.SetActive(awardCoins);
 
-        playmode = GameManager.Instance.ActiveGameMode == GameManager.GameMode.Casual ? false : true;
+        // playmode = GameManager.Instance.ActiveGameMode == GameManager.GameMode.Casual ? false : true;
 
-        bool allLevelsCompletedCasual = playmode == false ? ScreenManager.Instance.CheckAllLevelCompleteCasual() : false;
+        // bool allLevelsCompletedCasual = playmode == false ? ScreenManager.Instance.CheckAllLevelCompleteCasual() : false;
         // playAgainButton.SetActive(!playmode);
         // keyRewardContainer.SetActive(playmode && awardKeys);
         bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(GameManager.Instance.ActiveCategoryInfo);

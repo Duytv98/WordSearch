@@ -43,7 +43,8 @@ public class CasualGame : MonoBehaviour
         boardConfig.cols = difficultyInfo.boardColumnSize;
         boardConfig.words = words;
         boardConfig.randomCharacters = GameDefine.CHARACTERS;
-        BoardCreator.CreateBoard(boardConfig, OnCasualBoardCreated);
+
+        // BoardCreator.CreateBoard(boardConfig, OnCasualBoardCreated);
     }
 
     private List<string> LoadWords(CategoryInfo categoryInfo, int maxLength)
@@ -67,15 +68,15 @@ public class CasualGame : MonoBehaviour
 
         return words;
     }
-    private void OnCasualBoardCreated(Board board)
-    {
-        board.difficultyIndex = activeDifficultyIndex;
-        GameManager.Instance.CasualBoard = board;
-        // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
-        // ScreenManager.Instance.DailyPuzzleChooseLevel(idLevel);
-        ScreenManager.Instance.DailyPuzzleChooseLevel();
-        // GameManager.Instance.StartCasual();
+    // private void OnCasualBoardCreated(Board board)
+    // {
+    //     board.difficultyIndex = activeDifficultyIndex;
+    //     GameManager.Instance.CasualBoard = board;
+    //     // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+    //     // ScreenManager.Instance.DailyPuzzleChooseLevel(idLevel);
+    //     ScreenManager.Instance.DailyPuzzleChooseLevel();
+    //     // GameManager.Instance.StartCasual();
 
 
-    }
+    // }
 }

@@ -198,10 +198,10 @@ public class ScreenManager : MonoBehaviour
         return dailyPuzzle.CheckCompletedAllLevel();
     }
 
-    public void InitializeGameScreen()
-    {
-        gameScreen.Initialize();
-    }
+    // public void InitializeGameScreen()
+    // {
+    //     gameScreen.Initialize();
+    // }
     public void ActiveLoading()
     {
         loadingIndicator.SetActive(true);

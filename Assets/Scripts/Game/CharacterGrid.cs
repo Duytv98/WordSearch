@@ -84,8 +84,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     {
         if (selectingPointerId != -1) return;
 
-        if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
-        {
+       
             CharacterGridItem characterItem = GetCharacterItemAtPosition(eventData.position);
             if (characterItem != null)
             {
@@ -103,7 +102,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             }
 
             // Debug.Log(characterItem.Col);
-        }
+        
 
 
     }
@@ -111,18 +110,15 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     {
         // Debug.Log("OnDrag: ");
         if (eventData.pointerId != selectingPointerId) return;
-
-        if (GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
-        {
             UpdateSelectingHighlight(eventData.position);
             UpdateSelectedWord();
-        }
+        
     }
     public void OnPointerUp(PointerEventData eventData)
     {
         if (eventData.pointerId != selectingPointerId) return;
 
-        if (startCharacter != null && lastEndCharacter != null && GameManager.Instance.ActiveGameState == GameManager.GameState.BoardActive)
+        if (startCharacter != null && lastEndCharacter != null)
         {
             // trả lại màu đen cho chữ trên màn chơi
             // set IsHighlighted = false

@@ -117,6 +117,8 @@ public class SaveableManager : MonoBehaviour
     }
 
 
+
+
     //Sound
     public void SaveSound(bool isSound)
     {
@@ -228,6 +230,8 @@ public class SaveableManager : MonoBehaviour
         var str = PlayerPrefs.GetString(GameDefine.KEY_TIME_COMPLETE_LEVEL);
         return Convert.ToDictionarySF(str);
     }
+
+    // public void
 
 
     private void SaveDisplayNameUser(string name)

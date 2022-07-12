@@ -97,6 +97,8 @@ public class GameDefine
     public static string KEY_BOARDS_IN_PROGRESS = "KEY_BOARDS_IN_PROGRESS";
     public static string KEY_UNLOCKED_CATEGORIES = "KEY_UNLOCKED_CATEGORIES";
     public static string KEY_TIME_COMPLETE_LEVEL = "KEY_TIME_COMPLETE_LEVEL";
+    public static string KEY_LEADERBOARD_PLAYER = "KEY_LEADERBOARD_PLAYER";
+    public static string KEY_TOTAL_COMPLEMENT_LEVEL = "KEY_TOTAL_COMPLEMENT_LEVEL";
 
     public static string KEY_DISPLAY_NAME = "KEY_DISPLAY_NAME";
     public static string KEY_USERID = "KEY_USERID";

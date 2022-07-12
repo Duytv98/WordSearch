@@ -388,13 +388,17 @@ public class DailyPuzzle : MonoBehaviour
         if (!boardCompleted && casualBoardsProgress.ContainsKey(keyProgress))
         {
             Board board = GetSavedBoard(keyProgress);
-            GameManager.Instance.CasualBoard = board;
+            
+            
+            // GameManager.Instance.CasualBoard = board;
+
+
             // Debug.Log(board.words.Count);
             // Debug.Log(" ====================================== ");
             // Debug.Log("Get Local board");
             // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
 
-            GameManager.Instance.StartCasual();
+            // GameManager.Instance.StartCasual();
             ScreenManager.Instance.DeactivateLoading();
         }
         else
@@ -411,7 +415,7 @@ public class DailyPuzzle : MonoBehaviour
     }
     public void CreateLevelEnd()
     {
-        GameManager.Instance.StartCasual();
+        // GameManager.Instance.StartCasual();
         ScreenManager.Instance.DeactivateLoading();
         // switch (id)
         // {

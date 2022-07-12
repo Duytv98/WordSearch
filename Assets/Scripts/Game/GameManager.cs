@@ -5,17 +5,6 @@ using UnityEngine;
 using SimpleJSON;
 public class GameManager : MonoBehaviour
 {
-    public enum GameMode
-    {
-        Casual,
-        Progress
-    }
-    public enum GameState
-    {
-        None,
-        GeneratingBoard,
-        BoardActive
-    }
     public static GameManager Instance;
     [Header("Data")]
 
@@ -44,11 +33,6 @@ public class GameManager : MonoBehaviour
     public int ActiveLevelIndex { get; private set; }
     public List<List<CharacterGridItem>> CharacterItems;
 
-    private Board casualBoard = null;
-    public Board CasualBoard { get => casualBoard; set => casualBoard = value; }
-
-    public GameMode ActiveGameMode { get; private set; }
-    public GameState ActiveGameState { get; private set; }
 
     public Dictionary<string, string> BoardsInProgress { get; private set; }
     public Dictionary<string, float> TimeCompleteLevel { get; private set; }
@@ -140,7 +124,7 @@ public class GameManager : MonoBehaviour
     public void StartLevel(CategoryInfo categoryInfo, int levelIndex)
     {
         ActiveLevelIndex = levelIndex;
-        ActiveGameMode = GameMode.Progress;
+        // ActiveGameMode = GameMode.Progress;
         Board board = GetSavedBoard(categoryInfo, levelIndex);
         if (board == null) board = LoadLevelFile(categoryInfo, levelIndex);
         SetupGame(board);
@@ -159,25 +143,25 @@ public class GameManager : MonoBehaviour
         ActiveBoard = board;
 
         SetUpListBooterUse();
-        if (ActiveGameMode == GameMode.Progress) ScreenManager.Instance.Show("game");
+        // if (ActiveGameMode == GameMode.Progress) ScreenManager.Instance.Show("game");
+        ScreenManager.Instance.Show("game");
         // else ScreenManager.Instance.InitializeGameScreen();
         characterGrid.SetUp(board);
         wordListContainer.Setup(board);
 
 
-        ActiveGameState = GameState.BoardActive;
     }
     public bool AllLevelsComplete(CategoryInfo categoryInfo)
     {
         return LastCompletedLevels.ContainsKey(categoryInfo.saveId) && LastCompletedLevels[categoryInfo.saveId] >= categoryInfo.levelFiles.Count - 1;
     }
 
-    public void StartCasual()
-    {
+    // public void StartCasual()
+    // {
 
-        ActiveGameMode = GameMode.Casual;
-        SetupGame(CasualBoard);
-    }
+    //     // ActiveGameMode = GameMode.Casual;
+    //     SetupGame(CasualBoard);
+    // }
     public string OnWordSelected(string selectedWord)
     {
 
@@ -226,14 +210,12 @@ public class GameManager : MonoBehaviour
     private void BoardCompleted()
     {
         IsCompleted = true;
-        if (ActiveGameMode == GameMode.Progress) BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
-        else ScreenManager.Instance.CompleteLevelCasual();
-        if (ActiveGameMode == GameMode.Progress &&
-            (!LastCompletedLevels.ContainsKey(ActiveCategoryInfo.saveId) ||
-            LastCompletedLevels[ActiveCategoryInfo.saveId] < ActiveLevelIndex))
-        {
-            LastCompletedLevels[ActiveCategoryInfo.saveId] = ActiveLevelIndex;
-        }
+        // if (ActiveGameMode == GameMode.Progress) BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
+        // else ScreenManager.Instance.CompleteLevelCasual();
+        BoardsInProgress.Remove(GetSaveKey(ActiveCategoryInfo, ActiveLevelIndex));
+
+        if (LastCompletedLevels[ActiveCategoryInfo.saveId] < ActiveLevelIndex) LastCompletedLevels[ActiveCategoryInfo.saveId] = ActiveLevelIndex;
+
         int coinsAwarded = (numLevelsToAwardCoins == 0 || (ActiveLevelIndex + 1) % numLevelsToAwardCoins == 0 || awardCoinsEveryLevel) ? coinsToAward : 0;
         int keysAwarded = (ActiveLevelIndex == ActiveCategoryInfo.levelFiles.Count - 1) ? 1 : 0;
 
@@ -413,7 +395,7 @@ public class GameManager : MonoBehaviour
 
             effectContronler.PlayRocket(timeMoveRocket);
         }
-        
+
     }
     public void ClearWords()
     {
