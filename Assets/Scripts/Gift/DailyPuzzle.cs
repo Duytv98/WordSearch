@@ -74,7 +74,7 @@ public class DailyPuzzle : MonoBehaviour
     private void SetBoardInProgress(string idDay, string level)
     {
         string saveKey = GetKeyBoardsProgress(idDay, level);
-        var board = GameManager.Instance.ActiveBoard;
+        var board = GameScreen.Instance.ActiveBoard;
         string contentsBoard = Utilities.ConvertToJsonString(board.ToJson());
         // Debug.Log("contentsBoard: " + contentsBoard);
         casualBoardsProgress[saveKey] = contentsBoard;
@@ -357,7 +357,7 @@ public class DailyPuzzle : MonoBehaviour
             SaveStartDateTimePuzzle();
         }
 
-        ScreenManager.Instance.ActiveDefaultGameScreen(id);
+        // ScreenManager.Instance.ActiveDefaultGameScreen(id);
         ScreenManager.Instance.ActiveLoading();
 
         LevelPuzzle dayChoose = GetLevelPuzzle(idDayChoose);

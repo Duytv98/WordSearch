@@ -215,7 +215,7 @@ public class WordListContainer : MonoBehaviour
                                       if (isLastStar)
                                       {
                                           listStar.RemoveRange(0, index + 1);
-                                          GameManager.Instance.SetBoardInProgress();
+                                          GameScreen.Instance.SetBoardInProgress();
                                           //   Debug.Log("listStar count: " + listStar.Count);
                                       }
                                   });

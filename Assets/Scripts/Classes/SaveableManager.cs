@@ -20,10 +20,6 @@ public class SaveableManager : MonoBehaviour
             return;
         }
     }
-    private void Start()
-    {
-
-    }
     public void LoadDataOffline()
     {
         // Debug.Log("LoadDataOffline");
@@ -31,7 +27,7 @@ public class SaveableManager : MonoBehaviour
         if (isPlay)
         {
             GameManager.Instance.GetDataBackground();
-            GameManager.Instance.GetAllDataUser();
+            DataController.Instance.GetAllDataUser();
         }
         else
         {
@@ -300,7 +296,7 @@ public class SaveableManager : MonoBehaviour
 
 
 
-
+    
 
 
 }

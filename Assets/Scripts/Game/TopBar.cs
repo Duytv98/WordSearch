@@ -22,12 +22,7 @@ public class TopBar : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    {
-        if (int.Parse(coinAmountText.text) != GameManager.Instance.Coins) coinAmountText.text = GameManager.Instance.Coins.ToString();
-        if (int.Parse(keyAmountText.text) != GameManager.Instance.Keys) keyAmountText.text = GameManager.Instance.Keys.ToString();
-
-    }
+  
     public void OnSwitchingScreens(string toScreenId)
     {
         SetActiveBackButton(true);
@@ -42,65 +37,18 @@ public class TopBar : MonoBehaviour
                 pickCategoryText.gameObject.SetActive(false);
                 categoryContainer.SetActive(false);
                 break;
-            case "levels":
-                mainScreenContainer.SetActive(true);
-                mainText.gameObject.SetActive(true);
-                pickCategoryText.gameObject.SetActive(true);
-                categoryContainer.SetActive(false);
-                break;
             case "game":
                 mainScreenContainer.SetActive(false);
                 categoryContainer.SetActive(true);
                 categoryNameText.gameObject.SetActive(true);
-                categoryNameText.text = GameManager.Instance.ActiveCategoryInfo.displayName;
+                categoryNameText.text = DataController.Instance.ActiveCategoryInfo.displayName;
                 levelNumberText.gameObject.SetActive(true);
-                levelNumberText.text = "LEVEL " + (GameManager.Instance.ActiveLevelIndex + 1);
-                
+                levelNumberText.text = "LEVEL " + (DataController.Instance.ActiveLevelIndex + 1);
+
                 keyContainer.SetActive(false);
                 timeContainer.SetActive(true);
                 break;
-            case "dailyGift":
-                mainScreenContainer.SetActive(false);
-                categoryContainer.SetActive(true);
-                categoryNameText.gameObject.SetActive(true);
-                categoryNameText.text = "daily Gift";
-                levelNumberText.gameObject.SetActive(false);
-                break;
-            case "dailyPuzzle":
-                mainScreenContainer.SetActive(false);
-                categoryContainer.SetActive(true);
-                categoryNameText.gameObject.SetActive(true);
-                categoryNameText.text = "daily Puzzle";
-                levelNumberText.gameObject.SetActive(false);
-                break;
         }
-    }
-    public void SetTopBarCasualGame(int level)
-    {
-        SetActiveBackButton(true);
-        mainScreenContainer.SetActive(false);
-        categoryContainer.SetActive(true);
-        categoryNameText.gameObject.SetActive(true);
-        categoryNameText.text = "Daily Puzzle";
-        levelNumberText.gameObject.SetActive(true);
-        string textLevel;
-        switch (level)
-        {
-            case 0:
-                textLevel = "Easy";
-                break;
-            case 1:
-                textLevel = "Medium";
-                break;
-            case 2:
-                textLevel = "Hard";
-                break;
-            default:
-                textLevel = null;
-                break;
-
-        }
-        levelNumberText.text = textLevel;
     }
     private void SetActiveBackButton(bool isActive)
     {
@@ -108,4 +56,38 @@ public class TopBar : MonoBehaviour
         backButton.interactable = isActive;
         backButton.blocksRaycasts = isActive;
     }
+
+    public void UpdateCoinsAndKeys(int coins, int keys)
+    {
+        coinAmountText.text = coins.ToString();
+        keyAmountText.text = keys.ToString();
+    }
+    // public void SetTopBarCasualGame(int level)
+    // {
+    //     SetActiveBackButton(true);
+    //     mainScreenContainer.SetActive(false);
+    //     categoryContainer.SetActive(true);
+    //     categoryNameText.gameObject.SetActive(true);
+    //     categoryNameText.text = "Daily Puzzle";
+    //     levelNumberText.gameObject.SetActive(true);
+    //     string textLevel;
+    //     switch (level)
+    //     {
+    //         case 0:
+    //             textLevel = "Easy";
+    //             break;
+    //         case 1:
+    //             textLevel = "Medium";
+    //             break;
+    //         case 2:
+    //             textLevel = "Hard";
+    //             break;
+    //         default:
+    //             textLevel = null;
+    //             break;
+
+    //     }
+    //     levelNumberText.text = textLevel;
+    // }
+
 }

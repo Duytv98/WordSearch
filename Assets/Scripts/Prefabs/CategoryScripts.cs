@@ -41,13 +41,13 @@ public class CategoryScripts : MonoBehaviour, ICell
     void SetProgress(CategoryInfo category)
     {
         int totalLevels = category.levelFiles.Count;
-        int numLevelsCompleted = GameManager.Instance.LastCompletedLevels.ContainsKey(category.saveId) ? GameManager.Instance.LastCompletedLevels[category.saveId] + 1 : 0;
+        int numLevelsCompleted = DataController.Instance.LastCompletedLevels.ContainsKey(category.saveId) ? DataController.Instance.LastCompletedLevels[category.saveId] + 1 : 0;
         levelProgressBar.SetProgress((float)numLevelsCompleted / (float)totalLevels);
         levelProgressText.text = string.Format("{0} / {1}", numLevelsCompleted, totalLevels);
     }
     void SetLocked(CategoryInfo category)
     {
-        bool isCategoryLocked = GameManager.Instance.IsCategoryLocked(category);
+        bool isCategoryLocked = DataController.Instance.IsCategoryLocked(category);
 
         progressBarContainer.SetActive(!isCategoryLocked);
         lockedContainer.SetActive(isCategoryLocked);
@@ -73,7 +73,7 @@ public class CategoryScripts : MonoBehaviour, ICell
         switch (category.lockType)
         {
             case CategoryInfo.LockType.None:
-                GameManager.Instance.ActiveCategoryInfo = this.category;
+                DataController.Instance.ActiveCategoryInfo = this.category;
                 PopupContainer.Instance.ShowCategorySelectedPopup(this.category);
                 // Debug.Log(JsonUtility.ToJson(this.category));
                 break;

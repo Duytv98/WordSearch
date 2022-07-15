@@ -54,7 +54,7 @@ public class Responsive : MonoBehaviour
 
             IsSmallScreen = true;
          }
-        Debug.Log(string.Format("resize width: {0}, height: {1}", gridContainerRT.rect.width, gridContainerRT.rect.height));
+        // Debug.Log(string.Format("resize width: {0}, height: {1}", gridContainerRT.rect.width, gridContainerRT.rect.height));
     }
 
     // Update is called once per frame

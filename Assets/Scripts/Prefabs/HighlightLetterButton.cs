@@ -20,7 +20,7 @@ public class HighlightLetterButton : MonoBehaviour
     }
     public void OnClick()
     {
-        GameManager.Instance.OnChooseHighlightLetterPopupClosed(letter, isBooterUse);
+        GameScreen.Instance.OnChooseHighlightLetterPopupClosed(letter, isBooterUse);
         AudioManager.Instance.Play_Click_Button_Sound();
         AudioManager.Instance.Play("hint-used");
     }

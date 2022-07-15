@@ -81,13 +81,13 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
         // if(GameManager.Instance.LastCompletedLevels.ContainsKey(category.saveId))  Debug.Log("level active: " + GameManager.Instance.LastCompletedLevels[category.saveId]);
         // Debug.Log(" ");
         int totalLevels = category.levelFiles.Count;
-        int numLevelsCompleted = GameManager.Instance.LastCompletedLevels.ContainsKey(category.saveId) ? GameManager.Instance.LastCompletedLevels[category.saveId] + 1 : 0;
+        int numLevelsCompleted = DataController.Instance.LastCompletedLevels.ContainsKey(category.saveId) ? DataController.Instance.LastCompletedLevels[category.saveId] + 1 : 0;
         levelProgressBar.SetProgress((float)numLevelsCompleted / (float)totalLevels);
         levelProgressText.text = string.Format("{0} / {1}", numLevelsCompleted, totalLevels);
     }
     void SetLocked(CategoryInfo category)
     {
-        bool isCategoryLocked = GameManager.Instance.IsCategoryLocked(category);
+        bool isCategoryLocked = DataController.Instance.IsCategoryLocked(category);
         // Debug.Log(category.displayName + " lock " + isCategoryLocked);
         // if (category.displayName == "CAREERS") Debug.Log(category.displayName + " lock " + isCategoryLocked);
 
@@ -149,7 +149,7 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
         {
 
             // Debug.Log(GameManager.Instance.IsCategoryLocked(category));
-            if (GameManager.Instance.IsCategoryLocked(category))
+            if (DataController.Instance.IsCategoryLocked(category))
             {
                 PopupContainer.Instance.ShowUnlockCategoryPopup(this.category);
             }
@@ -207,7 +207,7 @@ public class TestScriptCategory : ExpandableListItem<CategoryInfo>
 
     private void OnLevelItemSelected(int levelIndex)
     {
-        GameManager.Instance.ActiveCategoryInfo = category;
+        DataController.Instance.ActiveCategoryInfo = category;
         GameManager.Instance.StartLevel(category, levelIndex);
     }
 

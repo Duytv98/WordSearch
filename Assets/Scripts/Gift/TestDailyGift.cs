@@ -78,6 +78,8 @@ public class TestDailyGift : MonoBehaviour
             giftInfo = GetGiftInfoLocal();
         }
 
+        Debug.Log("==========================");
+        Debug.Log(Utilities.ConvertToJsonString(giftInfo));
         CreateItemDailyGIft();
         SetUI();
     }
@@ -162,28 +164,40 @@ public class TestDailyGift : MonoBehaviour
     {
         Dictionary<string, string> dictionary = new Dictionary<string, string>();
         string[] idGifts = new string[]
-            {"Coins", "Clear-words", "Find-letters", "Recommend-word", "Find-words", "Suggest-many-words"};
-        for (int i = 1; i < 8; i++)
+            {"Coins", "Clear-words", "Find-letters", "Recommend-word", "Find-words", "Suggest-many-words", "Keys"};
+        for (int i = 0; i < idGifts.Length; i++)
         {
-            string idDay = "Day-" + i;
-            if (!dictionary.ContainsKey(idDay))
-            {
-                int amount;
-                string idBooter;
-                if (i <= 3)
-                {
-                    idBooter = idGifts[UnityEngine.Random.Range(0, 3)];
-                }
-                else
-                {
-                    idBooter = idGifts[UnityEngine.Random.Range(3, 5)];
-                }
-
-                amount = UnityEngine.Random.Range(1, 3);
-                Booter booter = new Booter(idBooter, amount);
-                dictionary.Add(idDay, booter.GetString());
-            }
+            string idDay = "Day-" + (i + 1);
+            var indexKey = UnityEngine.Random.Range(i, idGifts.Length);
+            var temp = idGifts[indexKey];
+            idGifts[indexKey] = idGifts[i];
+            idGifts[i] = temp;
+            Booter booter = new Booter(idGifts[i], 1);
+            dictionary.Add(idDay, booter.GetString());
         }
+
+
+        // for (int i = 1; i < 8; i++)
+        // {
+        //     string idDay = "Day-" + i;
+        //     if (!dictionary.ContainsKey(idDay))
+        //     {
+        //         int amount;
+        //         string idBooter;
+        //         if (i <= 3)
+        //         {
+        //             idBooter = idGifts[UnityEngine.Random.Range(0, 3)];
+        //         }
+        //         else
+        //         {
+        //             idBooter = idGifts[UnityEngine.Random.Range(3, 5)];
+        //         }
+
+        //         amount = UnityEngine.Random.Range(1, 3);
+        //         Booter booter = new Booter(idBooter, amount);
+        //         dictionary.Add(idDay, booter.GetString());
+        //     }
+        // }
 
         return dictionary;
     }
@@ -318,8 +332,9 @@ public class TestDailyGift : MonoBehaviour
         if (giftInfo.ContainsKey(id))
         {
             Booter booter = GetBooter(id);
-            bool test = GameManager.Instance.SetBooter(booter.id, booter.amount);
-
+            if (booter.id.Equals("Coins")) DataController.Instance.SetCoins(GameDefine.COIN_DAILY_GIFT);
+            if (booter.id.Equals("Keys")) DataController.Instance.SetKeys(GameDefine.KEYS_DAILY_GIFT);
+            else DataController.Instance.SetListBooster(booter.id, booter.amount);
             collectGift.ShowGift();
             // PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "YOU GET:\n" + booter.amount + " " + booter.id);
         }

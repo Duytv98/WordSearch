@@ -42,24 +42,20 @@ public class PopupContainer : MonoBehaviour
     public void ShowLevelCompletePopup(int coinsAwarded, int keysAwarded)
     {
         Show("LevelCompletePopup", 184f);
-        // Color colorBg = background.color;
-        // colorBg.a = 0;
-        // background.color = colorBg;
-        // Color colorBgF = background.color;
-        // colorBgF.a = 0;
-        // background.color = colorBgF;
-
         levelCompletePopup.OnShowing(coinsAwarded, keysAwarded);
+    }
+    public void show1(){
+        ShowLevelCompletePopup(200, 1);
     }
     public void ShowCategorySelectedPopup(CategoryInfo categoryInfo)
     {
         Show("CategorySelectedPopup");
         categorySelectedPopup.OnShowing(categoryInfo);
     }
-    public void ShowHighlighLetterPopup(bool isBooterUse)
+    public void ShowHighlighLetterPopup(bool isBooterUse, List<char> listLetterExist)
     {
         Show("ChooseHighlighLetterPopup");
-        chooseHighlighLetterPopup.OnShowing(isBooterUse);
+        chooseHighlighLetterPopup.OnShowing(isBooterUse, listLetterExist);
     }
     public void ShowSettingsPopup()
     {

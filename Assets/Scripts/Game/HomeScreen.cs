@@ -55,17 +55,18 @@ public class HomeScreen : MonoBehaviour
     public void OnPlayNextLevelRandomCategory()
     {
         List<int> listIndexCategorys = new List<int>();
-        List<CategoryInfo> categoryInfos = GameManager.Instance.CategoryInfos;
+        List<CategoryInfo> categoryInfos = DataController.Instance.CategoryInfos;
         for (int i = 0; i < categoryInfos.Count; i++)
         {
-            bool isCategoryLocked = GameManager.Instance.IsCategoryLocked(categoryInfos[i]);
+            bool isCategoryLocked = DataController.Instance.IsCategoryLocked(categoryInfos[i]);
 
             if (!isCategoryLocked) listIndexCategorys.Add(i);
         }
         int indexCategory = listIndexCategorys[UnityEngine.Random.Range(0, listIndexCategorys.Count)];
 
-        GameManager.Instance.ActiveCategoryInfo = categoryInfos[indexCategory];
+        DataController.Instance.ActiveCategoryInfo = categoryInfos[indexCategory];
 
+Debug.Log(categoryInfos.Count);
         GameManager.Instance.StartNextLevel(categoryInfos[indexCategory]);
     }
 }

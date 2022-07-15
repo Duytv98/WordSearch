@@ -40,7 +40,7 @@ public class CharacterGridItem : MonoBehaviour
 
     public void Setup(char text, Vector3 scale, Vector2 scaledLetterOffsetInCell, int row, int col, Sprite sprite)
     {
-        var maxSize = GameManager.Instance.ActiveBoard.cols;
+        var maxSize = GameScreen.Instance.ActiveBoard.cols;
         this.Text = text;
         (transform as RectTransform).anchoredPosition = scaledLetterOffsetInCell;
         Row = row;

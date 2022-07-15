@@ -8,23 +8,8 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
     [SerializeField] private GameObject letterButtonPrefab = null;
     [SerializeField] private Transform letterButtonContainer = null;
     [SerializeField] private GameObject noLettersToShow = null;
-    public void OnShowing(bool isBooterUse)
+    public void OnShowing(bool isBooterUse, List<char> letters)
     {
-        Board board = GameManager.Instance.ActiveBoard;
-        var characterItems = GameManager.Instance.CharacterItems;
-        List<char> letters = new List<char>();
-        foreach (var row in characterItems)
-        {
-            foreach (var item in row)
-            {
-                char letter = item.Text;
-                if (!letters.Contains(letter) && !board.letterHintsUsed.Contains(letter) && item.IsActive)
-                {
-                    letters.Add(letter);
-                }
-            }
-        }
-
         if (letters.Count == 0) noLettersToShow.SetActive(true);
         else
         {
@@ -34,18 +19,18 @@ public class ChooseHighlighLetterPopup : MonoBehaviour
             int count = Mathf.Max(oldChildCount, letters.Count);
             for (int i = 0; i < count; i++)
             {
-                if (oldChildCount == 0) CreateHighlightLetter(letters[i], GameManager.Instance.DicWord[letters[i]], isBooterUse);
+                if (oldChildCount == 0) CreateHighlightLetter(letters[i], DataController.Instance.DicWord[letters[i]], isBooterUse);
                 else
                 {
                     if (letters.Count < oldChildCount)
                     {
-                        if (i < letters.Count) ChangeHighlightLetter(i, letters[i], GameManager.Instance.DicWord[letters[i]], isBooterUse);
+                        if (i < letters.Count) ChangeHighlightLetter(i, letters[i], DataController.Instance.DicWord[letters[i]], isBooterUse);
                         else DeactivateHighlightLetter(i);
                     }
                     else
                     {
-                        if (i < oldChildCount) ChangeHighlightLetter(i, letters[i], GameManager.Instance.DicWord[letters[i]], isBooterUse);
-                        else CreateHighlightLetter(letters[i], GameManager.Instance.DicWord[letters[i]], isBooterUse);
+                        if (i < oldChildCount) ChangeHighlightLetter(i, letters[i], DataController.Instance.DicWord[letters[i]], isBooterUse);
+                        else CreateHighlightLetter(letters[i], DataController.Instance.DicWord[letters[i]], isBooterUse);
                     }
                 }
             }

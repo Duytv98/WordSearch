@@ -82,7 +82,7 @@ public class DailyGift : MonoBehaviour
     {
         HistoryCollection.Add(tuple.Item1, GetStringDateTimeNow());
         SaveHistoryCollectionLocal();
-        GameManager.Instance.SetBooter(tuple.Item2.id, tuple.Item2.amount);
+        DataController.Instance.SetListBooster(tuple.Item2.id, tuple.Item2.amount);
     }
 
     private Dictionary<string, string> CreateGiftEveryDay()
@@ -261,7 +261,7 @@ public class DailyGift : MonoBehaviour
         {
             Booter booter = GetBooter(giftDay.id);
             // Debug.Log("booter: " + booter.Log());
-            bool test = GameManager.Instance.SetBooter(booter.id, booter.amount);
+            bool test = DataController.Instance.SetListBooster(booter.id, booter.amount);
             // Debug.Log("Set booter: " + test);
             PopupContainer.Instance.ShowGiftPopup("DAILY GIFT", "YOU GET:\n" + booter.amount + " " + booter.id);
         }

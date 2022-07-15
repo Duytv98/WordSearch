@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GameDefine
 {
-    public static int STARTING_COINS = 100;
-    public static int STARTING_KEYS = 1;
+    public static int STARTING_COINS = 9999;
+    public static int STARTING_KEYS = 15;
     public static int COINS_REWARD_AD = 50;
     public static string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //swinging branch
+    public static int COIN_DAILY_GIFT = 25;
+    public static int KEYS_DAILY_GIFT = 5;
     public static int CLEAR_WORDS = 10;
     public static int FIND_LETTERS = 15;
     public static int RECOMMEND_WORD = 15;
@@ -26,13 +28,6 @@ public class GameDefine
         new DifficultyInfo(10, 10, 20, 9),
         new DifficultyInfo(13, 13, 30, 12)
     };
-    // public static Dictionary<string, Color> COLORDEFAULT = new Dictionary<string, Color>()
-    // {
-    //     {"Blue", new Color(20, 88, 172)},
-    //     {"Green", new Color(20,128, 15)},
-    //     {"Red", new Color(139, 11, 17)},
-    //     {"Yellow", new Color(178, 91, 24)}
-    // };
     public static Color[] COLOR_TEXT_BOARD = new Color[]
     {
         new Color32(20, 88, 172,255),   //#1458ac
@@ -100,6 +95,7 @@ public class GameDefine
     public static string KEY_LEADERBOARD_PLAYER = "KEY_LEADERBOARD_PLAYER";
     public static string KEY_TOTAL_COMPLEMENT_LEVEL = "KEY_TOTAL_COMPLEMENT_LEVEL";
 
+
     public static string KEY_DISPLAY_NAME = "KEY_DISPLAY_NAME";
     public static string KEY_USERID = "KEY_USERID";
     public static string KEY_PROVIDERS = "KEY_PROVIDERS";
@@ -107,7 +103,16 @@ public class GameDefine
     public static string KEY_PROVIDERS_FB = "KEY_PROVIDERS_FB";
 
 
+    public static string KEY_DATE_TIME_TODAY = "KEY_DATE_TIME_TODAY";
+    public static string KEY_TIME_PLAY_GAME_TODAY = "KEY_TIME_PLAY_GAME_TODAY";
+    public static string KEY_LAST_COMPLETED_LEVELS_TODAY = "KEY_LAST_COMPLETED_LEVELS_TODAY";
+    public static string KEY_LIST_BOOSTER_USE_TODAY = "KEY_LIST_BOOSTER_USE_TODAY";
+    public static string KEY_COINS_COLLECT_TODAY = "KEY_COINS_COLLECT_TODAY";
+    public static string KEY_KEYS_COLLECT_TODAY = "KEY_KEYS_COLLECT_TODAY";
+    public static string KEY_COINS_USE_TODAY = "KEY_COINS_USE_TODAY";
+    public static string KEY_KEYS_USE_TODAY = "KEY_KEYS_USE_TODAY";
 
+    
 
 
 }

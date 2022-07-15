@@ -1,3 +1,6 @@
+
+using System.Dynamic;
+using System.IO.Pipes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,110 +9,120 @@ using System.Linq;
 using SimpleJSON;
 public class LeaderboardController : MonoBehaviour
 {
-    [System.Serializable]
-    private class PlayerLB
-    {
+    // [System.Serializable]
+    // private class PlayerLB
+    // {
 
-        public string avatar;
-        public string name;
-        public int score;
+    //     public string avatar;
+    //     public string name;
+    //     public int score;
 
-    };
-
-
+    // };
 
     private int indexPlayer = 19;
     private int plus = 0;
     private List<PlayerLB> _data;
-    private List<PlayerLB> _oldData;
 
+    private int old_score = 0;
 
-    void Start()
+    public List<PlayerLB> Data { get => _data; private set => _data = value; }
+    public int IndexPlayer { get => indexPlayer; private set => indexPlayer = value; }
+
+    public void Initialize()
     {
-        if (!SaveableManager.Instance.IsActiveGame()) CreateDefaultData();
-        // UpdateLeaderboard();
+        // Debug.Log(SaveableManager.Instance.IsActiveGame());
+        if (!PlayerPrefs.HasKey(GameDefine.KEY_LEADERBOARD_PLAYER)) Data = CreatePlayer();
+        else Data = UpdateScorePlayer();
+        SaveOldScore(old_score);
+        SaveListPlayer(Data);
 
     }
-
     private List<PlayerLB> CreatePlayer()
     {
         List<PlayerLB> data = new List<PlayerLB>();
-        data.Add(new PlayerLB() { name = "David Darwin", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Balthazar Jones", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "James Chichester", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Mary Schooling", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Robert Powers", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Emily Jackson", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Nora Ingalls", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Emma Ford", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Tom Marsh", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Bianca Mitchell", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Callie Trujillo", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Alejandra Arnold", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Gary Holder", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Cyrus Powers", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Kenyon Stanley", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Waylon Larkin", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Marquise Watson", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Darrius McCullough", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Sergio Simmons", score = Random.Range(100, 300) });
-        data.Add(new PlayerLB() { name = "Toiiiiii", score = 0 });
+        data.Add(new PlayerLB() { name = "David Darwin", score = Random.Range(5, 10) });
+        data.Add(new PlayerLB() { name = "Balthazar Jones", score = Random.Range(5, 15) });
+        data.Add(new PlayerLB() { name = "James Chichester", score = Random.Range(5, 15) });
+        data.Add(new PlayerLB() { name = "Mary Schooling", score = Random.Range(10, 25) });
+        data.Add(new PlayerLB() { name = "Robert Powers", score = Random.Range(10, 25) });
+        data.Add(new PlayerLB() { name = "Emily Jackson", score = Random.Range(10, 25) });
+        data.Add(new PlayerLB() { name = "Nora Ingalls", score = Random.Range(25, 50) });
+        data.Add(new PlayerLB() { name = "Emma Ford", score = Random.Range(25, 50) });
+        data.Add(new PlayerLB() { name = "Tom Marsh", score = Random.Range(25, 50) });
+        data.Add(new PlayerLB() { name = "Bianca Mitchell", score = Random.Range(25, 50) });
+        data.Add(new PlayerLB() { name = "Callie Trujillo", score = Random.Range(5, 70) });
+        data.Add(new PlayerLB() { name = "Alejandra Arnold", score = Random.Range(5, 70) });
+        data.Add(new PlayerLB() { name = "Gary Holder", score = Random.Range(5, 70) });
+        data.Add(new PlayerLB() { name = "Cyrus Powers", score = Random.Range(5, 70) });
+        data.Add(new PlayerLB() { name = "Kenyon Stanley", score = Random.Range(5, 70) });
+        data.Add(new PlayerLB() { name = "Waylon Larkin", score = Random.Range(5, 70) });
 
+        data.Add(new PlayerLB() { name = "Player" + Random.Range(300, 30000), score = 0 });
 
-        return data.OrderByDescending(o => o.score)
-        .ThenByDescending(x => x.name).ToList();
+        data.Add(new PlayerLB() { name = "Marquise Watson", score = 0 });
+        data.Add(new PlayerLB() { name = "Darrius McCullough", score = 0 });
+        data.Add(new PlayerLB() { name = "Sergio Simmons", score = 0 });
 
-    }
-    private void CreateDefaultData()
-    {
-        Debug.Log("LeaderboardController CreateDefaultData ");
-        _data = CreatePlayer();
-        _oldData = new List<PlayerLB>(_data);
+        IndexPlayer = data.Count - 4;
+        SaveIndexPlayer(IndexPlayer);
+        return SortLeaderboard(data);
 
-        Debug.Log(JsonUtility.ToJson(_data[0]));
-        Debug.Log(_data.Count);
-        SaveListPlayer(_data);
-
-        var new_oldData = GetListPlayer();
-        Debug.Log(new_oldData.Count);
-        Debug.Log(JsonUtility.ToJson(new_oldData[0]));
     }
     private List<PlayerLB> UpdateScorePlayer()
     {
-        plus = Random.Range(100, 1000);
-        _data[indexPlayer].score += plus;
+        Data = GetListPlayer();
+        List<PlayerLB> _oldData = new List<PlayerLB>(Data);
+        IndexPlayer = GetIndexPlayer();
+        old_score = GetOldScore();
 
-        var user = _data[indexPlayer];
-        _data[indexPlayer] = _data[0];
-        _data[0] = user;
 
-        for (int i = 1; i < _data.Count; i++)
+
+        plus = Data[IndexPlayer].score - old_score;
+
+        // Debug.Log(Data[IndexPlayer].score + " - " + old_score + " = " + plus);
+
+        var user = Data[IndexPlayer];
+        Data[IndexPlayer] = Data[0];
+        Data[0] = user;
+
+        for (int i = 1; i < Data.Count; i++)
         {
-            var player = _data[i];
+            var player = Data[i];
             if (i % 2 == 0)
             {
-                var index = Random.Range(i, _data.Count);
-                var temp1 = _data[index];
+                var index = Random.Range(i, Data.Count);
+                var temp1 = Data[index];
                 temp1.score += (int)(((float)Random.Range(60, 150) / (float)100) * plus);
-                _data[i] = temp1;
-                _data[index] = player;
+                Data[i] = temp1;
+                Data[index] = player;
             }
         }
-        foreach (var item in this._oldData)
+        foreach (var item in _oldData)
         {
-            var id = _data.IndexOf(item);
-            if (id > 0) _data[id].score += (int)(plus * Random.Range(0.5f, 0.75f));
+            var id = Data.IndexOf(item);
+            if (id > 0 && id != IndexPlayer) Data[id].score += (int)(plus * Random.Range(0.5f, 0.75f));
         }
-        var newList = _data.OrderByDescending(o => o.score)
-                            .ThenByDescending(x => x.name).ToList();
-        indexPlayer = newList.IndexOf(user);
-
-        // Debug.Log("new index Player: " + indexPlayer);
+        var newList = SortLeaderboard(Data);
+        IndexPlayer = newList.IndexOf(user);
+        old_score = newList[IndexPlayer].score;
+        SaveIndexPlayer(IndexPlayer);
         return newList;
     }
-    public void UpdateLeaderboard()
+    public void UpdateLeaderboard(int score)
     {
-        _oldData = UpdateScorePlayer();
+        Data[IndexPlayer].score = score;
+        var user = Data[IndexPlayer];
+
+        Data = SortLeaderboard(Data);
+        IndexPlayer = Data.IndexOf(user);
+
+        SaveIndexPlayer(IndexPlayer);
+        SaveListPlayer(Data);
+    }
+    private List<PlayerLB> SortLeaderboard(List<PlayerLB> data)
+    {
+        return data.OrderByDescending(o => o.score).ToList();
+                                    //  .ThenByDescending(x => x.name).ToList();
     }
 
     private List<PlayerLB> FromList(string contents)
@@ -130,7 +143,7 @@ public class LeaderboardController : MonoBehaviour
 
     private void SaveListPlayer(List<PlayerLB> data)
     {
-        var str = FromString(_data);
+        var str = FromString(Data);
         PlayerPrefs.SetString(GameDefine.KEY_LEADERBOARD_PLAYER, str);
     }
     private List<PlayerLB> GetListPlayer()
@@ -138,5 +151,22 @@ public class LeaderboardController : MonoBehaviour
         var str = PlayerPrefs.GetString(GameDefine.KEY_LEADERBOARD_PLAYER);
         return FromList(str);
     }
+    private void SaveOldScore(int score)
+    {
+        PlayerPrefs.SetInt("OLD_SCORE", score);
+    }
+    private int GetOldScore()
+    {
+        return PlayerPrefs.GetInt("OLD_SCORE");
+    }
+    private void SaveIndexPlayer(int index)
+    {
+        PlayerPrefs.SetInt("INDEX_PLAYER", index);
+    }
+    private int GetIndexPlayer()
+    {
+        return PlayerPrefs.GetInt("INDEX_PLAYER");
+    }
+
 }
 

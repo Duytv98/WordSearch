@@ -34,7 +34,7 @@ public class LevelListItem : MonoBehaviour, ICell
         HideAllIcons();
 
         levelText.text = "LEVEL " + (this.levelIndex + 1).ToString();
-        CategoryInfo activeCategory = GameManager.Instance.ActiveCategoryInfo;
+        CategoryInfo activeCategory = DataController.Instance.ActiveCategoryInfo;
         // int activeLevel = GameManager.Instance.LastCompletedLevels[activeCategory.saveId];
 
         categoryIcon.sprite = activeCategory.icon;
@@ -79,7 +79,7 @@ public class LevelListItem : MonoBehaviour, ICell
     {
         if (isEvent)
         {
-            GameManager.Instance.StartLevel(GameManager.Instance.ActiveCategoryInfo, levelIndex);
+            GameManager.Instance.StartLevel(DataController.Instance.ActiveCategoryInfo, levelIndex);
         }
     }
 }

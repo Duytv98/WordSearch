@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
+using System;
 
 public static class Convert
 {
@@ -14,10 +15,10 @@ public static class Convert
             dictionary.Add(key, json[key]);
         }
         return dictionary;
-    }    
+    }
     public static Dictionary<string, float> ToDictionarySF(string contents)
     {
-        Dictionary<string, float>dictionary = new Dictionary<string, float>();
+        Dictionary<string, float> dictionary = new Dictionary<string, float>();
         JSONNode json = JSON.Parse(contents);
         foreach (var key in json.Keys)
         {
@@ -54,5 +55,17 @@ public static class Convert
         Texture2D tex = new Texture2D(128, 128);
         tex.LoadImage(imageBytes);
         return tex;
+    }
+
+    public static Dictionary<TKey, TValue> CloneDictionaryCloningValues<TKey, TValue>
+   (Dictionary<TKey, TValue> original) where TValue : ICloneable
+    {
+        Dictionary<TKey, TValue> ret = new Dictionary<TKey, TValue>(original.Count,
+                                                                original.Comparer);
+        foreach (KeyValuePair<TKey, TValue> entry in original)
+        {
+            ret.Add(entry.Key, (TValue)entry.Value.Clone());
+        }
+        return ret;
     }
 }

@@ -11,7 +11,7 @@ public class CasualGame : MonoBehaviour
     // private int idLevel;
     private void Start()
     {
-        this.categoryInfos = GameManager.Instance.CategoryInfos;
+        // this.categoryInfos = GameScreen.Instance.CategoryInfos;
     }
     public void StartCasual(int difficultyIndex)
     {
@@ -19,7 +19,7 @@ public class CasualGame : MonoBehaviour
 
         // Debug.Log(" StartCasual CasualGame");
         activeCategoryInfo = categoryInfos[Random.Range(0, categoryInfos.Count)];
-        GameManager.Instance.ActiveCategoryInfo = activeCategoryInfo;
+        DataController.Instance.ActiveCategoryInfo = activeCategoryInfo;
         activeDifficultyIndex = difficultyIndex;
         GenerateRandomBoard(GameDefine.DIFFICULTYINFOS[difficultyIndex]);
     }

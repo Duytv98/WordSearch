@@ -27,7 +27,7 @@ public class LevelScreen : MonoBehaviour
     public void Initialize()
     {
         Debug.Log("Initialize() level:");
-        List<CategoryInfo> categoryInfos = GameManager.Instance.CategoryInfos;
+        List<CategoryInfo> categoryInfos = DataController.Instance.CategoryInfos;
         // Tạo Pool Container lưu trữ các item level chưa sử dụng đến CreatePoolContainer 
         // CreatePoolContainer trả về 1 transform
         // truyền data vào ObjectPool, tạo ra 1 PoolObject bằng Hàm CreateObject

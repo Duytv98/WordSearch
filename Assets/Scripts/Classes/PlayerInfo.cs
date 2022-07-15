@@ -16,7 +16,7 @@ public class PlayerInfo
     public string timeCompleteLevel = null;
 
 
-    public string ToString()
+    public override string ToString()
     {
         return "DisplayName: " + displayName +
                "\n coins: " + coins +
