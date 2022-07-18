@@ -115,8 +115,15 @@ public class WordListContainer : MonoBehaviour
         // Debug.Log("Số lượng chữ chưa sử dụng: " + UnusedWord.Count);
 
         // Debug.Log("row: " + rowWordLists.Count);
+        RemoveEmptyRow(rowWordLists);
         var VLG = wordListContainer.GetComponent<VerticalLayoutGroup>();
-        if (rowWordLists.Count == 3)
+        if (rowWordLists.Count == 2)
+        {
+            VLG.spacing = 0;
+            VLG.padding.top = 50;
+            VLG.padding.bottom = 20;
+        }
+        else if (rowWordLists.Count == 3)
         {
             VLG.padding.top = 35;
             VLG.padding.bottom = 25;

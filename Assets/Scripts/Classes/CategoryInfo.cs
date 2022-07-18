@@ -23,7 +23,5 @@ public class CategoryInfo
     public Color categoryColor;
     public LockType lockType;
     public int unlockAmount;
-    public string iapProductId;
-    public TextAsset wordFile;
     public List<TextAsset> levelFiles;
 }
