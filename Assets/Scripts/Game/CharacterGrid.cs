@@ -191,7 +191,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         currentScale = currentCellSize / maxCellSize;
         // Debug.Log("currentCellSize: " + currentCellSize + "   currentScale: " + currentScale);
         // Debug.Log("listWord.DicWord.Count: " + dicWord.Count);
-        Debug.Log(dicWord.Count);
+        // Debug.Log(dicWord.Count);
 
         for (int i = 0; i < board.boardCharacters.Count; i++)
         {
@@ -600,7 +600,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         float spaceH = maxSpaceH / (float)(rows + 1);
         // Debug.Log("cellWidth: " + cellWidth + "   cellHeight: " + cellHeight + "   cellSize: " + cellSize);
 
-        Debug.Log(string.Format("gridContainer width: {0}, height: {1}", gridContainer.rect.width, gridContainer.rect.height));
+        // Debug.Log(string.Format("gridContainer width: {0}, height: {1}", gridContainer.rect.width, gridContainer.rect.height));
 
 
         gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
@@ -642,7 +642,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public bool ClearWords()
     {
-        Debug.Log("locationUnused.Count: " + locationUnused.Count);
+        // Debug.Log("locationUnused.Count: " + locationUnused.Count);
         if (locationUnused.Count <= 0) return false;
         if (locationUnused.Count <= 4)
         {

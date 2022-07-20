@@ -22,10 +22,10 @@ public class HomeScreen : MonoBehaviour
     {
         PopupContainer.Instance.ShowDailyGift();
     }
-    public void ShowDailyPuzzle()
+    public void ShowDailyQuest()
     {
 
-        ScreenManager.Instance.Show("dailyPuzzle");
+        PopupContainer.Instance.ShowDailyQuest();
     }
     public void OnPlayNextLevelRandomCategory()
     {

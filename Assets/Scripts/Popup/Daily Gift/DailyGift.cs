@@ -72,12 +72,8 @@ public class DailyGift : MonoBehaviour
         }
         else
         {
-            // Debug.Log("old");
             giftInfo = GetGiftInfoLocal();
         }
-
-        Debug.Log("==========================");
-        Debug.Log(Utilities.ConvertToJsonString(giftInfo));
         CreateItemDailyGIft();
         SetUI();
     }

@@ -28,7 +28,6 @@ public class LevelCompletePopup : MonoBehaviour, IEnhancedScrollerDelegate
     private bool playmode = false;
     public void OnShowing(int coinsAwarded, int keysAwarded)
     {
-        Debug.Log("OnShowing");
         bool awardCoins = coinsAwarded > 0;
         bool awardKeys = keysAwarded > 0;
 

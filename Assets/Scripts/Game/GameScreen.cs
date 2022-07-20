@@ -64,7 +64,7 @@ public class GameScreen : MonoBehaviour
         Board board = dataController.GetBoardUse();
         if (board == null) board = dataController.GetBoardDefault();
 
-        Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+        // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
         SetUpListBooterUse();
         SetupGame(board);
         SetBoardInProgress();
@@ -173,7 +173,7 @@ public class GameScreen : MonoBehaviour
     private void BoardCompleted()
     {
 
-        Debug.Log("BoardCompleted");
+        // Debug.Log("BoardCompleted");
         IsCompleted = true;
 
         dataController.RemoveBoardUse();

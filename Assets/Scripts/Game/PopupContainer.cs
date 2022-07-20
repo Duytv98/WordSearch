@@ -14,7 +14,7 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private SelectCategoryPopup selectCategoryPopup = null;
     [SerializeField] private LevelCompletePopup levelCompletePopup = null;
     [SerializeField] private DailyGift dailyGift = null;
-    // [SerializeField] private TestDailyGift dailyGift = null;
+    [SerializeField] private DailyQuest dailyQuest = null;
     [SerializeField] private ChooseHighlighLetterPopup chooseHighlighLetterPopup = null;
 
     [Space]
@@ -97,6 +97,11 @@ public class PopupContainer : MonoBehaviour
         Show("dailyGift");
         dailyGift.OnShowing();
     }
+    public void ShowDailyQuest()
+    {
+        Show("dailyQuest");
+        dailyQuest.OnShowing();
+    }
     private void Show(string keyName, float y = 0)
     {
         if (backStack.Count == 0)
@@ -111,7 +116,6 @@ public class PopupContainer : MonoBehaviour
         }
         AddBackStack(keyName);
 
-        Debug.Log(keyName);
         GameObject popup = GetPopup(keyName);
         popup.SetActive(true);
         (popup.transform as RectTransform).DOAnchorPosY(y, animDuration)
@@ -174,7 +178,6 @@ public class PopupContainer : MonoBehaviour
 
     public GameObject GetPopup(string key)
     {
-        Debug.Log("GetPopup: " + key);
         switch (key)
         {
             case "LevelCompletePopup":
@@ -197,6 +200,8 @@ public class PopupContainer : MonoBehaviour
                 return selectCategoryPopup.gameObject;
             case "dailyGift":
                 return dailyGift.gameObject;
+            case "dailyQuest":
+                return dailyQuest.gameObject;
             default:
                 return null;
         }

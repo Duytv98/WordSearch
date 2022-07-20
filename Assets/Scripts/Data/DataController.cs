@@ -172,7 +172,7 @@ public class DataController : MonoBehaviour
         {
             LastCompletedLevels[ActiveCategoryInfo.saveId] = ActiveLevelIndex;
             SetTotalLevelCompleted();
-            Debug.Log("TotalLevelCompleted: " + TotalLevelCompleted);
+            // Debug.Log("TotalLevelCompleted: " + TotalLevelCompleted);
             leaderboardController.UpdateLeaderboard(TotalLevelCompleted);
             saveableManager.SaveLastCompletedLevels(LastCompletedLevels);
             return true;
@@ -243,8 +243,7 @@ public class DataController : MonoBehaviour
         if (!pauseStatus) dataToday.SetTimeStart();
         else
         {
-            dataToday.UpdateTimePlay();
-            // dataToday.log();
+            dataToday.log();
         }
     }
 }

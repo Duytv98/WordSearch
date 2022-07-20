@@ -111,6 +111,7 @@ public class GameDefine
     public static string KEY_KEYS_COLLECT_TODAY = "KEY_KEYS_COLLECT_TODAY";
     public static string KEY_COINS_USE_TODAY = "KEY_COINS_USE_TODAY";
     public static string KEY_KEYS_USE_TODAY = "KEY_KEYS_USE_TODAY";
+    public static string KEY_QUEST_USE_TODAY = "KEY_QUEST_USE_TODAY";
 
     
 
