@@ -239,12 +239,12 @@ public class DataController : MonoBehaviour
 
     void OnApplicationPause(bool pauseStatus)
     {
-        Debug.Log("pauseStatus ==========================  " + pauseStatus);
+        // Debug.Log("pauseStatus ==========================  " + pauseStatus);
         if (!pauseStatus) dataToday.SetTimeStart();
         else
         {
             dataToday.UpdateTimePlay();
-            dataToday.log();
+            // dataToday.log();
         }
     }
 }

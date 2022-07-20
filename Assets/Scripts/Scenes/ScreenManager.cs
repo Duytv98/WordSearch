@@ -57,7 +57,6 @@ public class ScreenManager : MonoBehaviour
             case "home":
                 currentScreen = homeScreen.gameObject;
                 homeScreen.gameObject.SetActive(true);
-                homeScreen.Initialize();
                 break;
             case "game":
                 currentScreen = gameScreen.gameObject;

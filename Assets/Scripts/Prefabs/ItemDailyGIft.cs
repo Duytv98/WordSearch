@@ -93,6 +93,6 @@ public class ItemDailyGIft : MonoBehaviour
     }
     public void OnClick()
     {
-        TestDailyGift.Instance.OnClick(gameObject.name);
+        DailyGift.Instance.OnClick(gameObject.name);
     }
 }

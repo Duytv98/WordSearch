@@ -8,28 +8,31 @@ using System;
 public class PopupContainer : MonoBehaviour
 {
     public static PopupContainer Instance;
-    [SerializeField] private LevelCompletePopup levelCompletePopup = null;
-    [SerializeField] private CategorySelectedPopup categorySelectedPopup = null;
-    [SerializeField] private ChooseHighlighLetterPopup chooseHighlighLetterPopup = null;
+    [Space]
+    [SerializeField] private Leaderboard leaderboard = null;
     [SerializeField] private SettingsPopup settingsPopup = null;
+    [SerializeField] private SelectCategoryPopup selectCategoryPopup = null;
+    [SerializeField] private LevelCompletePopup levelCompletePopup = null;
+    [SerializeField] private DailyGift dailyGift = null;
+    // [SerializeField] private TestDailyGift dailyGift = null;
+    [SerializeField] private ChooseHighlighLetterPopup chooseHighlighLetterPopup = null;
+
+    [Space]
     [SerializeField] private UnlockCategoryPopup unlockCategoryPopup = null;
     [SerializeField] private NotEnoughCoinsPopup notEnoughCoinsPopup = null;
     [SerializeField] private NotEnoughKeysPopup notEnoughKeysPopup = null;
-    [SerializeField] private RewardAdGranted rewardAdGranted = null;
     [SerializeField] private StorePopup storePopup = null;
-    [SerializeField] private Leaderboard leaderboard = null;
 
-    [SerializeField] private TestDailyGift dailyGift = null;
-    [SerializeField] private Gift giftPopup = null;
-    [SerializeField] private GiftsFast giftsFastPopup = null;
+    [Space]
     [SerializeField] private Image background = null;
+    [SerializeField] private Image background1 = null;
 
     private float animDuration = 0.35f;
-    private string popupActive = null;
 
     private bool isShow = false;
-    // Start is called before the first frame update
-    // private Vector3 scaleChange = new Vector3(-0.5f, -0.5f, -0.5f);
+
+
+    private List<string> backStack;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -39,18 +42,15 @@ public class PopupContainer : MonoBehaviour
             return;
         }
     }
+    private void Start()
+    {
+        backStack = new List<string>();
+    }
+
     public void ShowLevelCompletePopup(int coinsAwarded, int keysAwarded)
     {
         Show("LevelCompletePopup", 184f);
         levelCompletePopup.OnShowing(coinsAwarded, keysAwarded);
-    }
-    public void show1(){
-        ShowLevelCompletePopup(200, 1);
-    }
-    public void ShowCategorySelectedPopup(CategoryInfo categoryInfo)
-    {
-        Show("CategorySelectedPopup");
-        categorySelectedPopup.OnShowing(categoryInfo);
     }
     public void ShowHighlighLetterPopup(bool isBooterUse, List<char> listLetterExist)
     {
@@ -73,44 +73,45 @@ public class PopupContainer : MonoBehaviour
     }
     public void ShowNotEnoughKeysPopup()
     {
-        ClosePopup("UnlockCategoryPopup", false);
+        Debug.Log("ShowNotEnoughKeysPopup");
         Show("NotEnoughKeysPopup");
-    }
-    public void ShowRewardAdGranted()
-    {
+        ClosePopup("UnlockCategoryPopup", false);
     }
     public void ShowStorePopup()
     {
-        ClosePopup("NotEnoughCoinsPopup", false);
         Show("StorePopup");
+        ClosePopup("NotEnoughCoinsPopup", false);
     }
     public void ShowLeaderboard()
     {
         Show("Leaderboard", 220f);
         leaderboard.OnShowing();
     }
-    public void ShowGiftPopup(string headerText, string messageText)
+    public void ShowSelectCategoryPopup()
     {
-        Debug.Log("ShowGiftPopup");
-        Show("GiftPopup");
-        giftPopup.OnShowing(headerText, messageText);
+        Show("SelectCategoryPopup");
+        selectCategoryPopup.OnShowing();
     }
     public void ShowDailyGift()
     {
-        Debug.Log("ShowDailyGift");
         Show("dailyGift");
         dailyGift.OnShowing();
     }
-    public void ShowGiftsFastPopup(Tuple<string, Booter> tuple)
-    {
-        Debug.Log("ShowGiftsFastPopup");
-        Show("GiftsFastPopup");
-        giftsFastPopup.OnShowing(tuple);
-    }
     private void Show(string keyName, float y = 0)
     {
-        FadeInPanelBG(keyName);
-        popupActive = keyName;
+        if (backStack.Count == 0)
+        {
+            FadeInPanelBG(background, keyName);
+        }
+        else if (backStack.Count == 1)
+        {
+            if (isShow) return;
+            isShow = true;
+            FadeInPanelBG(background1, keyName);
+        }
+        AddBackStack(keyName);
+
+        Debug.Log(keyName);
         GameObject popup = GetPopup(keyName);
         popup.SetActive(true);
         (popup.transform as RectTransform).DOAnchorPosY(y, animDuration)
@@ -118,18 +119,27 @@ public class PopupContainer : MonoBehaviour
     }
     public void CloseCurrentPopup()
     {
-        Debug.Log("close");
-        Debug.Log("popupActive: " + popupActive);
         AudioManager.Instance.Play_Click_Button_Sound();
-        ClosePopup(popupActive);
+        ClosePopup(backStack[backStack.Count - 1]);
     }
     public void ClosePopup(string keyName, bool isClose = true)
     {
-        if (isClose) FadeOutPanelBG();
+        if (backStack.Count == 1)
+        {
+            FadeOutPanelBG(background);
+        }
+        else if (backStack.Count == 2)
+        {
+            if (isClose)
+            {
+                isShow = false;
+                FadeOutPanelBG(background1);
+            }
+        }
+        RemoveBackStack(keyName);
         var activeEvent = background.GetComponent<Button>();
         activeEvent.interactable = false;
-        // CanvasGroup popupCV = GetPopupCV(keyName);
-        // popupCV.interactable = false;
+
         GameObject popup = GetPopup(keyName);
         popup.transform.DOLocalMoveY(1920, animDuration * 0.5f)
                        .SetEase(Ease.OutSine)
@@ -137,48 +147,38 @@ public class PopupContainer : MonoBehaviour
                        {
                            popup.transform.localPosition = new Vector3(0, -2880f, 0);
                            popup.SetActive(false);
-                           //    popupCV.interactable = true;
                            activeEvent.interactable = true;
                            if (keyName.Equals("Leaderboard")) leaderboard.Close();
                        });
     }
-    public void FadeInPanelBG(string keyName)
+    public void FadeInPanelBG(Image panelBG, string keyName)
     {
-        if (isShow) return;
-        isShow = true;
-
-        Color col = background.color;
+        Color col = panelBG.color;
         col.a = 0;
-        background.color = col;
-        background.DOFade(0.85f, animDuration)
+        panelBG.color = col;
+        panelBG.DOFade(0.85f, animDuration)
         .OnComplete(() =>
         {
-            if (!keyName.Equals("LevelCompletePopup")) background.raycastTarget = true;
+            if (!keyName.Equals("LevelCompletePopup")) panelBG.raycastTarget = true;
         });
     }
-    public void FadeOutPanelBG()
+    public void FadeOutPanelBG(Image panelBG)
     {
-        isShow = false;
-        Color col = background.color;
+        Color col = panelBG.color;
         col.a = 0.85f;
-        background.raycastTarget = false;
-        background.DOFade(0f, animDuration * 0.5f)
+        panelBG.raycastTarget = false;
+        panelBG.DOFade(0f, animDuration * 0.5f)
         .SetDelay(animDuration * 0.5f);
-
     }
 
-    // public void SettingsPopupShowButton(bool isLogIn)
-    // {
-    //     settingsPopup.SetButton(isLogIn);
-    // }
+
     public GameObject GetPopup(string key)
     {
+        Debug.Log("GetPopup: " + key);
         switch (key)
         {
             case "LevelCompletePopup":
                 return levelCompletePopup.gameObject;
-            case "CategorySelectedPopup":
-                return categorySelectedPopup.gameObject;
             case "ChooseHighlighLetterPopup":
                 return chooseHighlighLetterPopup.gameObject;
             case "SettingsPopup":
@@ -189,54 +189,31 @@ public class PopupContainer : MonoBehaviour
                 return notEnoughCoinsPopup.gameObject;
             case "NotEnoughKeysPopup":
                 return notEnoughKeysPopup.gameObject;
-            case "RewardAdGranted":
-                return rewardAdGranted.gameObject;
             case "StorePopup":
                 return storePopup.gameObject;
             case "Leaderboard":
                 return leaderboard.gameObject;
-            case "GiftPopup":
-                return giftPopup.gameObject;
+            case "SelectCategoryPopup":
+                return selectCategoryPopup.gameObject;
             case "dailyGift":
                 return dailyGift.gameObject;
-            case "GiftsFastPopup":
-                return giftsFastPopup.gameObject;
             default:
                 return null;
         }
     }
-    public CanvasGroup GetPopupCV(string key)
+
+
+    private void AddBackStack(string keyName)
     {
-        switch (key)
+        if (backStack.Count == 0) backStack.Add(keyName);
+        if (keyName != backStack[backStack.Count - 1])
         {
-            case "LevelCompletePopup":
-                return levelCompletePopup.GetComponent<CanvasGroup>();
-            case "CategorySelectedPopup":
-                return categorySelectedPopup.GetComponent<CanvasGroup>();
-            case "ChooseHighlighLetterPopup":
-                return chooseHighlighLetterPopup.GetComponent<CanvasGroup>();
-            case "SettingsPopup":
-                return settingsPopup.GetComponent<CanvasGroup>();
-            case "UnlockCategoryPopup":
-                return unlockCategoryPopup.GetComponent<CanvasGroup>();
-            case "NotEnoughCoinsPopup":
-                return notEnoughCoinsPopup.GetComponent<CanvasGroup>();
-            case "NotEnoughKeysPopup":
-                return notEnoughKeysPopup.GetComponent<CanvasGroup>();
-            case "RewardAdGranted":
-                return rewardAdGranted.GetComponent<CanvasGroup>();
-            case "StorePopup":
-                return storePopup.GetComponent<CanvasGroup>();
-            case "Leaderboard":
-                return leaderboard.GetComponent<CanvasGroup>();
-            case "GiftPopup":
-                return giftPopup.GetComponent<CanvasGroup>();
-            case "GiftsFastPopup":
-                return giftsFastPopup.GetComponent<CanvasGroup>();
-            default:
-                return null;
+            backStack.Add(keyName);
         }
     }
-
-
+    private void RemoveBackStack(string keyName)
+    {
+        if (!backStack.Contains(keyName)) return;
+        backStack.RemoveAt(backStack.LastIndexOf(keyName));
+    }
 }

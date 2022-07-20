@@ -35,10 +35,6 @@ public class Leaderboard : MonoBehaviour, IEnhancedScrollerDelegate
         .SetEase(Ease.OutBack);
 
 
-        // foreach (var item in leaderboardController.Data)
-        // {
-        //     _data.Add(item);
-        // }
         Debug.Log(_data.Count);
         vScroller.Delegate = this;
         vScroller.ReloadData();

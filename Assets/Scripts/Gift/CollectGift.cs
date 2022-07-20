@@ -18,7 +18,6 @@ public class CollectGift : MonoBehaviour
     }
     public void CloseGift()
     {
-        Debug.Log("closee========");
         content.DOScale(new Vector3(0.5f, 0.5f, 1),0.7f).SetEase(Ease.OutBack);
         panelPopupImg.DOFade(0f, 0.3f)
         .OnComplete(() =>
