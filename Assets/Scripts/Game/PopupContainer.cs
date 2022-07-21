@@ -141,8 +141,6 @@ public class PopupContainer : MonoBehaviour
             }
         }
         RemoveBackStack(keyName);
-        var activeEvent = background.GetComponent<Button>();
-        activeEvent.interactable = false;
 
         GameObject popup = GetPopup(keyName);
         popup.transform.DOLocalMoveY(1920, animDuration * 0.5f)
@@ -151,7 +149,6 @@ public class PopupContainer : MonoBehaviour
                        {
                            popup.transform.localPosition = new Vector3(0, -2880f, 0);
                            popup.SetActive(false);
-                           activeEvent.interactable = true;
                            if (keyName.Equals("Leaderboard")) leaderboard.Close();
                        });
     }

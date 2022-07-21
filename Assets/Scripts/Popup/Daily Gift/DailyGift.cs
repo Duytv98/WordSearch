@@ -74,6 +74,7 @@ public class DailyGift : MonoBehaviour
         {
             giftInfo = GetGiftInfoLocal();
         }
+        Debug.Log(Utilities.ConvertToJsonString(giftInfo));
         CreateItemDailyGIft();
         SetUI();
     }
@@ -128,7 +129,7 @@ public class DailyGift : MonoBehaviour
                     if (dayTime.Days >= 1 && dayTime.Seconds > 0)
                     {
                         // Debug.Log("cách ngày");
-                        day.SetDayPassed(oldBg, oldHederBG, iconSelected[UnityEngine.Random.Range(0, iconSelected.Length)], oldCheck, colorsText[0]);
+                        day.SetDayPassed(oldBg, oldHederBG, iconSelected[i], oldCheck, colorsText[0]);
                     }
                     else
                     {
@@ -169,30 +170,6 @@ public class DailyGift : MonoBehaviour
             Booter booter = new Booter(idGifts[i], 1);
             dictionary.Add(idDay, booter.GetString());
         }
-
-
-        // for (int i = 1; i < 8; i++)
-        // {
-        //     string idDay = "Day-" + i;
-        //     if (!dictionary.ContainsKey(idDay))
-        //     {
-        //         int amount;
-        //         string idBooter;
-        //         if (i <= 3)
-        //         {
-        //             idBooter = idGifts[UnityEngine.Random.Range(0, 3)];
-        //         }
-        //         else
-        //         {
-        //             idBooter = idGifts[UnityEngine.Random.Range(3, 5)];
-        //         }
-
-        //         amount = UnityEngine.Random.Range(1, 3);
-        //         Booter booter = new Booter(idBooter, amount);
-        //         dictionary.Add(idDay, booter.GetString());
-        //     }
-        // }
-
         return dictionary;
     }
     private Sprite idGiftToSprite(string idGift)
@@ -200,17 +177,19 @@ public class DailyGift : MonoBehaviour
         switch (idGift)
         {
             case "Coins":
-                return iconSelected[6];
-            case "Clear-words":
-                return iconSelected[4];
-            case "Find-letters":
-                return iconSelected[3];
-            case "Recommend-word":
-                return iconSelected[2];
-            case "Find-words":
-                return iconSelected[1];
-            case "Suggest-many-words":
                 return iconSelected[0];
+            case "Clear-words":
+                return iconSelected[1];
+            case "Find-letters":
+                return iconSelected[2];
+            case "Recommend-word":
+                return iconSelected[3];
+            case "Find-words":
+                return iconSelected[4];
+            case "Suggest-many-words":
+                return iconSelected[5];
+            case "Keys":
+                return iconSelected[6];
             default: return null;
         }
     }

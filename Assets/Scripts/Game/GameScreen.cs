@@ -18,6 +18,9 @@ public class GameScreen : MonoBehaviour
 
     [SerializeField] private string id = "game";
 
+    
+    [SerializeField] private TopBar topBar = null;
+
     [SerializeField] private DataController dataController = null;
     [SerializeField] private DataToday dataToday = null;
     [SerializeField] private CharacterGrid characterGrid = null;
@@ -64,7 +67,7 @@ public class GameScreen : MonoBehaviour
         Board board = dataController.GetBoardUse();
         if (board == null) board = dataController.GetBoardDefault();
 
-        // Debug.Log(Utilities.ConvertToJsonString(board.ToJson()));
+        topBar.Initialize(dataController.ActiveCategoryInfo.icon, dataController.ActiveLevelIndex);
         SetUpListBooterUse();
         SetupGame(board);
         SetBoardInProgress();

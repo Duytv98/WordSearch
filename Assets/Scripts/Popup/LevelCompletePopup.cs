@@ -7,9 +7,10 @@ using EnhancedUI.EnhancedScroller;
 public class LevelCompletePopup : MonoBehaviour, IEnhancedScrollerDelegate
 {
     [Space]
-    [SerializeField] private GameObject rewardsContainer = null;
-    [SerializeField] private GameObject coinRewardContainer = null;
 
+
+    [SerializeField] private Text txtCoinsCollect = null;
+    [SerializeField] private Text txtKeysCollect = null;
     [SerializeField] private RectTransform leaderBoard = null;
     [SerializeField] private RectTransform rectPosition = null;
 
@@ -31,8 +32,8 @@ public class LevelCompletePopup : MonoBehaviour, IEnhancedScrollerDelegate
         bool awardCoins = coinsAwarded > 0;
         bool awardKeys = keysAwarded > 0;
 
-        coinRewardContainer.SetActive(awardCoins);
-
+        txtCoinsCollect.text = string.Format("Cx{0}", coinsAwarded);
+        txtKeysCollect.text = string.Format("Kx{0}", keysAwarded);
         // bool allLevelsCompleted = GameManager.Instance.AllLevelsComplete(DataController.Instance.ActiveCategoryInfo);
 
         leaderBoard.DOAnchorPos(rectPosition.anchoredPosition, 0.5f)

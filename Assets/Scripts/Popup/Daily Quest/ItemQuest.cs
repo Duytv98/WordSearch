@@ -17,9 +17,12 @@ public class ItemQuest : EnhancedScrollerCellView
     [SerializeField] private TextMeshProUGUI txtPro;
     [SerializeField] private Image btnCheck;
     [SerializeField] private Image mask;
+    [SerializeField] private Text txtCollect;
+    [SerializeField] private Image fill;
     // Start is called before the first frame update
-    public void SetData(Quest data)
+    public void SetData(int idQuest, Quest data, Sprite spriteBtn, string status)
     {
+        this.idQuest = idQuest;
         _data = data;
         icon.sprite = _data.icon;
         icon.SetNativeSize();
@@ -27,6 +30,39 @@ public class ItemQuest : EnhancedScrollerCellView
         nameQuest.text = _data.name;
         txtPro.text = string.Format("{0}/{1}", _data.current, _data.maximum);
 
+        btnCheck.sprite = spriteBtn;
+        btnCheck.SetNativeSize();
+        if (status.Equals("Collect"))
+        {
+            var number = data.amountGift.ToString();
+            var type = data.giftType == Quest.GiftType.Keys ? "K" : "C";
+            txtCollect.gameObject.SetActive(true);
+            if (data.giftType == Quest.GiftType.Keys)
+            {
+                txtCollect.text = string.Format("+ {0}  {1}", number, type);
+            }
+            else
+            {
+                txtCollect.text = string.Format("+ {0} {1}  {2}", number[0], number[1], type);
+            }
+
+        }
+        else txtCollect.gameObject.SetActive(false);
+
+        var button = btnCheck.GetComponent<Button>();
+        if (status.Equals("Collected"))
+        {
+            fill.gameObject.SetActive(true);
+            button.interactable = false;
+            var newColorBlock = button.colors;
+            newColorBlock.disabledColor = Color.white;
+            button.colors = newColorBlock;
+        }
+        else
+        {
+            fill.gameObject.SetActive(false);
+            button.interactable = true;
+        }
         mask.fillAmount = GetCureentFill();
     }
     private float GetCureentFill()

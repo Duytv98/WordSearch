@@ -8,15 +8,18 @@ public class UnlockCategoryPopup : MonoBehaviour
 {
 
 
-    private CategoryInfo category = null;
+    private CategoryInfo _category = null;
+    [SerializeField] Text txtUnLock;
 
     public void OnShowing(CategoryInfo categoryInfo)
     {
-        this.category = categoryInfo;
+        _category = categoryInfo;
+        var str =  _category.unlockAmount.ToString();
+        txtUnLock.text = string.Format("U {0}K\nT Z ?", _category.unlockAmount);
     }
     public void OnClickUnlockCategoryButton()
     {
-        GameManager.Instance.UnlockCategory(this.category);
+        GameManager.Instance.UnlockCategory(_category);
     }
 
 }

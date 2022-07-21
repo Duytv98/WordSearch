@@ -11,10 +11,9 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject loadingIndicator = null;
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
-    [SerializeField] private TopBar topBar = null;
     private List<string> backStack;
     private GameObject currentScreen;
-    
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -27,7 +26,6 @@ public class ScreenManager : MonoBehaviour
     void Start()
     {
         backStack = new List<string>();
-        Show("home");
     }
     public void Close(GameObject screen)
     {
@@ -57,6 +55,7 @@ public class ScreenManager : MonoBehaviour
             case "home":
                 currentScreen = homeScreen.gameObject;
                 homeScreen.gameObject.SetActive(true);
+                homeScreen.Initialize();
                 break;
             case "game":
                 currentScreen = gameScreen.gameObject;
@@ -66,7 +65,6 @@ public class ScreenManager : MonoBehaviour
             default:
                 return;
         }
-        topBar.OnSwitchingScreens(id);
     }
     public void BackScreen()
     {
@@ -88,6 +86,7 @@ public class ScreenManager : MonoBehaviour
                 backStack.Clear();
                 currentScreen = homeScreen.gameObject;
                 homeScreen.gameObject.SetActive(true);
+                homeScreen.Initialize();
                 AddBackStack("home");
                 break;
             case "game":
@@ -97,8 +96,6 @@ public class ScreenManager : MonoBehaviour
                 /////////////////////////////
                 break;
         }
-
-        topBar.OnSwitchingScreens(screenId);
     }
 
 
@@ -119,30 +116,4 @@ public class ScreenManager : MonoBehaviour
         return loadingIndicator.activeSelf;
     }
 
-    public void UpdateCoinsAndKeys(int coins, int keys)
-    {
-        topBar.UpdateCoinsAndKeys(coins, keys);
-    }
-
-    // private void SetVisibilityLevle(GameObject screen, bool isVisible)
-    // {
-    //     CanvasGroup screenCG = screen.GetComponent<CanvasGroup>();
-
-    //     screenCG.alpha = isVisible ? 1f : 0f;
-    //     screenCG.interactable = isVisible ? true : false;
-    //     screenCG.blocksRaycasts = isVisible ? true : false;
-    // }
-
-
-    //  Ho Tro Daily Puzzle
-    // public void ActiveDefaultGameScreen(int level)
-    // {
-    //     if (currentScreen) Close(currentScreen);
-    //     GameObject screen = gameScreen.gameObject;
-    //     currentScreen = screen;
-    //     // gameScreen.SetDefault();
-    //     screen.SetActive(true);
-    //     AddBackStack("game");
-    //     topBar.SetTopBarCasualGame(level);
-    // }
 }

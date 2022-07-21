@@ -9,6 +9,7 @@ public class DataController : MonoBehaviour
     [SerializeField] SaveableManager saveableManager = null;
     [SerializeField] LeaderboardController leaderboardController = null;
     [SerializeField] DataToday dataToday = null;
+    [SerializeField] private TopBar topBar = null;
     private string keySave;
 
 
@@ -95,8 +96,10 @@ public class DataController : MonoBehaviour
         Coins = SaveableManager.Instance.GetCoins();
         Keys = SaveableManager.Instance.GetKeys();
 
-        ScreenManager.Instance.UpdateCoinsAndKeys(Coins, Keys);
+        topBar.UpdateCoins(Coins);
+        topBar.UpdateKeys(Keys);
         ScreenManager.Instance.SetActiveFlashCanvas(false);
+        ScreenManager.Instance.Show("home");
 
         // Debug.Log("LastCompletedLevels: "+ LastCompletedLevels);
 
@@ -215,23 +218,23 @@ public class DataController : MonoBehaviour
     }
 
     //Coins
-    public void SetCoins(int amount)
+    public void SetCoins(int amount, bool isSetToday = true)
     {
         Coins += amount;
-        dataToday.SetCoins(amount);
+        if (isSetToday) dataToday.SetCoins(amount);
         saveableManager.SaveCoins(Coins);
         //update UI
-        ScreenManager.Instance.UpdateCoinsAndKeys(Coins, Keys);
+        topBar.UpdateCoins(Coins);
     }
 
     //Keys
-    public void SetKeys(int amount)
+    public void SetKeys(int amount, bool isSetToday = true)
     {
         Keys += amount;
+        if (isSetToday) dataToday.Setkeys(amount);
         saveableManager.SaveKeys(Keys);
-        dataToday.Setkeys(amount);
         //update UI
-        ScreenManager.Instance.UpdateCoinsAndKeys(Coins, Keys);
+        topBar.UpdateKeys(Keys);
     }
 
 
@@ -243,7 +246,7 @@ public class DataController : MonoBehaviour
         if (!pauseStatus) dataToday.SetTimeStart();
         else
         {
-            dataToday.log();
+            // dataToday.log();
         }
     }
 }

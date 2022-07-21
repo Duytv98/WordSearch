@@ -174,7 +174,6 @@ public class DataToday : MonoBehaviour
     }
     public void UpdateListBoosterUseToday(string key, int amount)
     {
-        Debug.Log("UpdateListBoosterUseToday  key:  " + key + "     amount: " + amount);
         if (!ListBoosterUse.ContainsKey(key)) return;
         ListBoosterUse[key] += amount;
         PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER_USE_TODAY, Utilities.ConvertToJsonString(ListBoosterUse));
@@ -243,6 +242,7 @@ public class DataToday : MonoBehaviour
     }
     public void UpdateListQuestToday()
     {
+        Debug.Log("UpdateListQuestToday: " + FromString(listQuestUseToday));
         PlayerPrefs.SetString(GameDefine.KEY_QUEST_USE_TODAY, FromString(listQuestUseToday));
     }
     public void logListQuestToday()
@@ -267,46 +267,46 @@ public class DataToday : MonoBehaviour
         switch (idQuest)
         {
             case "play30":
-                Debug.Log("time Play: " + GetMinutePlay());
+                // Debug.Log("time Play: " + GetMinutePlay());
                 return GetMinutePlay();
             case "coinCollect250":
-                Debug.Log("coinsCollect: " + coinsCollect);
+                // Debug.Log("coinsCollect: " + coinsCollect);
                 return coinsCollect;
             case "keyCollect15":
-                Debug.Log("keysCollect: " + keysCollect);
+                // Debug.Log("keysCollect: " + keysCollect);
                 return keysCollect;
             case "clearWords5":
-                Debug.Log("clearWords5: " + GetTimesUseBossterWithId("Clear-words"));
+                // Debug.Log("clearWords5: " + GetTimesUseBossterWithId("Clear-words"));
                 return GetTimesUseBossterWithId("Clear-words");
             case "findLetters5":
-                Debug.Log("findLetters5: " + GetTimesUseBossterWithId("Find-letters"));
+                // Debug.Log("findLetters5: " + GetTimesUseBossterWithId("Find-letters"));
                 return GetTimesUseBossterWithId("Find-letters");
             case "recommendWord5":
-                Debug.Log("recommendWord5: " + GetTimesUseBossterWithId("Recommend-word"));
+                // Debug.Log("recommendWord5: " + GetTimesUseBossterWithId("Recommend-word"));
                 return GetTimesUseBossterWithId("Recommend-word");
             case "findWord5":
-                Debug.Log("findWord5: " + GetTimesUseBossterWithId("Find-words"));
+                // Debug.Log("findWord5: " + GetTimesUseBossterWithId("Find-words"));
                 return GetTimesUseBossterWithId("Find-words");
             case "suggestManyWords5":
-                Debug.Log("suggestManyWords5: " + GetTimesUseBossterWithId("Suggest-many-words"));
+                // Debug.Log("suggestManyWords5: " + GetTimesUseBossterWithId("Suggest-many-words"));
                 return GetTimesUseBossterWithId("Suggest-many-words");
             case "boosteruse5":
-                Debug.Log("boosteruse5: " + GetTimesUseAnyBosster());
+                // Debug.Log("boosteruse5: " + GetTimesUseAnyBosster());
                 return GetTimesUseAnyBosster();
             case "levels15Complete":
-                Debug.Log("levels15Complete: " + GetTotalLevelCompletedAnyCategory());
+                // Debug.Log("levels15Complete: " + GetTotalLevelCompletedAnyCategory());
                 return GetTotalLevelCompletedAnyCategory();
             case "newCategories":
-                Debug.Log("newCategories: " + 0);
+                // Debug.Log("newCategories: " + 0);
                 return 0;
             case "keyUse25":
-                Debug.Log("keyUse25: " + keysUse);
+                // Debug.Log("keyUse25: " + keysUse);
                 return keysUse;
             case "coinUse150":
-                Debug.Log("coinUse150: " + coinsUse);
+                // Debug.Log("coinUse150: " + coinsUse);
                 return coinsUse;
             case "watchVideos5":
-                Debug.Log("watchVideos5: " + 0);
+                // Debug.Log("watchVideos5: " + 0);
                 return 0;
             default: return 0;
 

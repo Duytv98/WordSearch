@@ -7,17 +7,19 @@ using System;
 public class HomeScreen : MonoBehaviour
 {
     [SerializeField] private string id = "main";
+    [SerializeField] private Text txtCoins;
+    [SerializeField] private Text txtKeys;
 
     private string idCollect = null;
 
 
-
-
-    public void OnSelectCategory()
+    public void Initialize()
     {
-
-        ScreenManager.Instance.Show("levels");
+        Debug.Log(DataController.Instance.Coins);
+        txtCoins.text = DataController.Instance.Coins.ToString();
+        txtKeys.text = DataController.Instance.Keys.ToString();
     }
+
     public void ShowDailyGift()
     {
         PopupContainer.Instance.ShowDailyGift();
