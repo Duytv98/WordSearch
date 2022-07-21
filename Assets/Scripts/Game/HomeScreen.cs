@@ -15,7 +15,7 @@ public class HomeScreen : MonoBehaviour
 
     public void Initialize()
     {
-        Debug.Log(DataController.Instance.Coins);
+        // Debug.Log(DataController.Instance.Coins);
         txtCoins.text = DataController.Instance.Coins.ToString();
         txtKeys.text = DataController.Instance.Keys.ToString();
     }

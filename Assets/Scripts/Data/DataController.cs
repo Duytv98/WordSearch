@@ -9,7 +9,7 @@ public class DataController : MonoBehaviour
     [SerializeField] SaveableManager saveableManager = null;
     [SerializeField] LeaderboardController leaderboardController = null;
     [SerializeField] DataToday dataToday = null;
-    [SerializeField] private TopBar topBar = null;
+    [SerializeField] private TopBar topBar;
     private string keySave;
 
 

@@ -18,7 +18,7 @@ public class GameScreen : MonoBehaviour
 
     [SerializeField] private string id = "game";
 
-    
+
     [SerializeField] private TopBar topBar = null;
 
     [SerializeField] private DataController dataController = null;
@@ -237,7 +237,7 @@ public class GameScreen : MonoBehaviour
             // Highlight the word
             characterGrid.ShowWordHint(wordToShow);
             // Deduct the cost
-            
+
             BoosterPay(key, useBooter ? 1 : GameDefine.FIND_WORDS, useBooter);
             AudioManager.Instance.Play("hint-used");
         }
