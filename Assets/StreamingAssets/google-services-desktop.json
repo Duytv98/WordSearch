@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "494966323998",
-    "firebase_url": "https://word-search-7da1c-default-rtdb.firebaseio.com",
-    "project_id": "word-search-7da1c",
-    "storage_bucket": "word-search-7da1c.appspot.com"
+    "project_number": "206344601832",
+    "firebase_url": "https://word-search-69e82-default-rtdb.firebaseio.com",
+    "project_id": "word-search-69e82",
+    "storage_bucket": "word-search-69e82.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:494966323998:android:3d1f1555496e59ba5da70f",
+        "mobilesdk_app_id": "1:206344601832:android:e525a7dc74c5296177095d",
         "android_client_info": {
-          "package_name": "com.Sonat.WordSearch"
+          "package_name": "words.search.crossword.puzzle.classic.fun"
         }
       },
       "oauth_client": [
         {
-          "client_id": "494966323998-0cn631g7dkjgduhm5qoc3j280hbquito.apps.googleusercontent.com",
+          "client_id": "206344601832-cncg88lqn5gajq4unc7lr131v3dcsh5e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.Sonat.WordSearch",
-            "certificate_hash": "243cf8a10a32ae8ba1b46126ae41a8533c638d93"
+            "package_name": "words.search.crossword.puzzle.classic.fun",
+            "certificate_hash": "055575f5e90f9a3f79afb34957d897d00c2bc218"
           }
         },
         {
-          "client_id": "494966323998-60ifa1jku7g4d21fg8ak8gghgehsf1kp.apps.googleusercontent.com",
+          "client_id": "206344601832-j5diib78fqe87bnkpfahbajrveqqqsvp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBwvwCuGqLPSVBaGS2sOPSqM93ZCzUj9us"
+          "current_key": "AIzaSyBja4juURVwDkB-SjMmdRjDyiId36KKFbI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "494966323998-60ifa1jku7g4d21fg8ak8gghgehsf1kp.apps.googleusercontent.com",
+              "client_id": "206344601832-j5diib78fqe87bnkpfahbajrveqqqsvp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -27,6 +27,7 @@ public class DataToday : MonoBehaviour
     private int keysUse;
     private int coinsCollect;
     private int coinsUse;
+    private int amountCategoryNew;
 
     private void Awake()
     {
@@ -66,6 +67,8 @@ public class DataToday : MonoBehaviour
         coinsCollect = 0;
         coinsUse = 0;
 
+        amountCategoryNew = 0;
+
         PlayerPrefs.SetString(GameDefine.KEY_DATE_TIME_TODAY, GetStringDayNow());
         PlayerPrefs.SetString(GameDefine.KEY_TIME_PLAY_GAME_TODAY, "00:00:00");
         PlayerPrefs.SetString(GameDefine.KEY_LAST_COMPLETED_LEVELS_TODAY, Utilities.ConvertToJsonString(this.lastCompletedLevels));
@@ -75,6 +78,7 @@ public class DataToday : MonoBehaviour
         PlayerPrefs.SetInt(GameDefine.KEY_KEYS_COLLECT_TODAY, 0);
         PlayerPrefs.SetInt(GameDefine.KEY_COINS_USE_TODAY, 0);
         PlayerPrefs.SetInt(GameDefine.KEY_KEYS_USE_TODAY, 0);
+        PlayerPrefs.SetInt(GameDefine.KEY_NEW_CATEGORY_TODAY, 0);
     }
     private Dictionary<string, int> CreateListBooterDefaut()
     {
@@ -126,10 +130,10 @@ public class DataToday : MonoBehaviour
         keysUse = PlayerPrefs.GetInt(GameDefine.KEY_KEYS_USE_TODAY);
         coinsCollect = PlayerPrefs.GetInt(GameDefine.KEY_COINS_COLLECT_TODAY);
         coinsUse = PlayerPrefs.GetInt(GameDefine.KEY_COINS_USE_TODAY);
+        amountCategoryNew = PlayerPrefs.GetInt(GameDefine.KEY_NEW_CATEGORY_TODAY);
 
         this.lastCompletedLevels = Convert.ToDictionarySI(PlayerPrefs.GetString(GameDefine.KEY_LAST_COMPLETED_LEVELS_TODAY));
         this.ListBoosterUse = Convert.ToDictionarySI(PlayerPrefs.GetString(GameDefine.KEY_LIST_BOOSTER_USE_TODAY));
-        Debug.Log(PlayerPrefs.GetString(GameDefine.KEY_QUEST_USE_TODAY));
         this.listQuestUseToday = FromList(PlayerPrefs.GetString(GameDefine.KEY_QUEST_USE_TODAY));
     }
 
@@ -159,7 +163,11 @@ public class DataToday : MonoBehaviour
             PlayerPrefs.SetInt(GameDefine.KEY_COINS_COLLECT_TODAY, coinsCollect);
         }
     }
-
+    public void UpdateAmountCategoryNew(int amount)
+    {
+        amountCategoryNew += amount;
+        PlayerPrefs.SetInt(GameDefine.KEY_NEW_CATEGORY_TODAY, amountCategoryNew);
+    }
     private void Calculate_Time_Play()
     {
         var spaceTime = DateTime.Now.ToLocalTime().Subtract(timeStart);
@@ -297,8 +305,8 @@ public class DataToday : MonoBehaviour
                 // Debug.Log("levels15Complete: " + GetTotalLevelCompletedAnyCategory());
                 return GetTotalLevelCompletedAnyCategory();
             case "newCategories":
-                // Debug.Log("newCategories: " + 0);
-                return 0;
+                // Debug.Log("newCategories: " + amountCategoryNew);
+                return amountCategoryNew;
             case "keyUse25":
                 // Debug.Log("keyUse25: " + keysUse);
                 return keysUse;

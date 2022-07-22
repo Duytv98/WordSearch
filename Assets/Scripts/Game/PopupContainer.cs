@@ -16,6 +16,7 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private DailyGift dailyGift = null;
     [SerializeField] private DailyQuest dailyQuest = null;
     [SerializeField] private ChooseHighlighLetterPopup chooseHighlighLetterPopup = null;
+    [SerializeField] private LoginPopup loginPopup = null;
 
     [Space]
     [SerializeField] private UnlockCategoryPopup unlockCategoryPopup = null;
@@ -56,6 +57,11 @@ public class PopupContainer : MonoBehaviour
     {
         Show("ChooseHighlighLetterPopup");
         chooseHighlighLetterPopup.OnShowing(isBooterUse, listLetterExist);
+    }
+    public void ShowLoginPopup()
+    {
+        Show("LoginPopup", 150f);
+        loginPopup.OnShowing();
     }
     public void ShowSettingsPopup()
     {
@@ -181,6 +187,8 @@ public class PopupContainer : MonoBehaviour
                 return levelCompletePopup.gameObject;
             case "ChooseHighlighLetterPopup":
                 return chooseHighlighLetterPopup.gameObject;
+            case "LoginPopup":
+                return loginPopup.gameObject;
             case "SettingsPopup":
                 return settingsPopup.gameObject;
             case "UnlockCategoryPopup":

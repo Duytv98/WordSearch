@@ -84,12 +84,14 @@ public class SaveableManager : MonoBehaviour
     private void SetGameDefaut()
     {
         SetActiveGame();
-
+        var name = "Player" + Random.Range(300, 30000);
+        SaveDisplayNameUser(name);
         SaveMusic(GameDefine.DEFAULT_MUSIC);
         SaveSound(GameDefine.DEFAULT_SOUND);
         SaveCoins(GameDefine.STARTING_COINS);
         SaveKeys(GameDefine.STARTING_KEYS);
         SaveListBooster(CreateListBooterDefaut());
+        Debug.Log("name: " + name);
     }
 
     public void CheckAccount(FirebaseUser user, string providers, string avatar = null)
@@ -103,13 +105,16 @@ public class SaveableManager : MonoBehaviour
         }
         else
         {
-            // Debug.Log("chua tung log");
+            Debug.Log("chua tung log");
             SetLogIn(true);
             SaveProvidersLogin(providers);
             SaveDataUser(user.DisplayName, user.UserId, avatar);
 
             fireBaseController.Read_Data();
         }
+        fireBaseController.UpdatePopupProfile();
+
+
     }
 
 
@@ -228,8 +233,6 @@ public class SaveableManager : MonoBehaviour
     }
 
     // public void
-
-
     private void SaveDisplayNameUser(string name)
     {
         PlayerPrefs.SetString(GameDefine.KEY_DISPLAY_NAME, name);
@@ -296,7 +299,7 @@ public class SaveableManager : MonoBehaviour
 
 
 
-    
+
 
 
 }

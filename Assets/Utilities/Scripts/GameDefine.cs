@@ -20,7 +20,7 @@ public class GameDefine
     public static bool DEFAULT_SOUND = false;
 
     //firebase controller
-    public static string WEBCLIENTID = "494966323998-60ifa1jku7g4d21fg8ak8gghgehsf1kp.apps.googleusercontent.com";
+    public static string WEBCLIENTID = "206344601832-j5diib78fqe87bnkpfahbajrveqqqsvp.apps.googleusercontent.com";
 
     public static DifficultyInfo[] DIFFICULTYINFOS = new DifficultyInfo[]
     {
@@ -112,6 +112,7 @@ public class GameDefine
     public static string KEY_COINS_USE_TODAY = "KEY_COINS_USE_TODAY";
     public static string KEY_KEYS_USE_TODAY = "KEY_KEYS_USE_TODAY";
     public static string KEY_QUEST_USE_TODAY = "KEY_QUEST_USE_TODAY";
+    public static string KEY_NEW_CATEGORY_TODAY = "KEY_NEW_CATEGORY_TODAY";
 
     
 

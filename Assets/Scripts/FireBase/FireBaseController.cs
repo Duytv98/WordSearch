@@ -15,10 +15,11 @@ using UnityEngine.Networking;
 public class FireBaseController : MonoBehaviour
 {
     public static FireBaseController Instance;
-
     [SerializeField] private FacebookAuth facebookAuth = null;
     [SerializeField] private GoogleAuth googleAuth = null;
     [SerializeField] private RealtimeDatabase realtimeDatabase = null;
+
+    [SerializeField] private LoginPopup loginPopup = null;
 
     private void Awake()
     {
@@ -84,8 +85,6 @@ public class FireBaseController : MonoBehaviour
     }
 
 
-
-
     public void Facebook_Login()
     {
         // Debug.Log("Facebook_Login");
@@ -103,6 +102,12 @@ public class FireBaseController : MonoBehaviour
         else if (providers.Equals(GameDefine.KEY_PROVIDERS_GG)) googleAuth.LogOut();
 
         SaveableManager.Instance.SetLogIn(false);
+        UpdatePopupProfile();
+    }
+
+    public void UpdatePopupProfile()
+    {
+        loginPopup.OnShowing();
     }
 
 

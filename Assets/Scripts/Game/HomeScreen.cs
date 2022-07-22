@@ -9,6 +9,7 @@ public class HomeScreen : MonoBehaviour
     [SerializeField] private string id = "main";
     [SerializeField] private Text txtCoins;
     [SerializeField] private Text txtKeys;
+    [SerializeField] private PopupContainer popupContainer;
 
     private string idCollect = null;
 
@@ -22,12 +23,17 @@ public class HomeScreen : MonoBehaviour
 
     public void ShowDailyGift()
     {
-        PopupContainer.Instance.ShowDailyGift();
+        popupContainer.ShowDailyGift();
     }
     public void ShowDailyQuest()
     {
 
-        PopupContainer.Instance.ShowDailyQuest();
+        popupContainer.ShowDailyQuest();
+    }
+    public void ShowProfile()
+    {
+
+        popupContainer.ShowLoginPopup();
     }
     public void OnPlayNextLevelRandomCategory()
     {

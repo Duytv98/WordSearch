@@ -74,7 +74,6 @@ public class DailyGift : MonoBehaviour
         {
             giftInfo = GetGiftInfoLocal();
         }
-        Debug.Log(Utilities.ConvertToJsonString(giftInfo));
         CreateItemDailyGIft();
         SetUI();
     }
@@ -129,7 +128,9 @@ public class DailyGift : MonoBehaviour
                     if (dayTime.Days >= 1 && dayTime.Seconds > 0)
                     {
                         // Debug.Log("cách ngày");
-                        day.SetDayPassed(oldBg, oldHederBG, iconSelected[i], oldCheck, colorsText[0]);
+                        Booter booter = GetBooter(key);
+                        var spIcon = idGiftToSprite(booter.id);
+                        day.SetDayPassed(oldBg, oldHederBG, spIcon, oldCheck, colorsText[0]);
                     }
                     else
                     {

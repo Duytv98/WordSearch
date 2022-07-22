@@ -39,6 +39,7 @@ public class LeaderboardController : MonoBehaviour
     }
     private List<PlayerLB> CreatePlayer()
     {
+        var namePlayer = SaveableManager.Instance.GetDisplayNameUser();
         List<PlayerLB> data = new List<PlayerLB>();
         data.Add(new PlayerLB() { name = "David Darwin", score = Random.Range(5, 10) });
         data.Add(new PlayerLB() { name = "Balthazar Jones", score = Random.Range(5, 15) });
@@ -57,7 +58,7 @@ public class LeaderboardController : MonoBehaviour
         data.Add(new PlayerLB() { name = "Kenyon Stanley", score = Random.Range(5, 70) });
         data.Add(new PlayerLB() { name = "Waylon Larkin", score = Random.Range(5, 70) });
 
-        data.Add(new PlayerLB() { name = "Player" + Random.Range(300, 30000), score = 0 });
+        data.Add(new PlayerLB() { name = namePlayer, score = 0 });
 
         data.Add(new PlayerLB() { name = "Marquise Watson", score = 0 });
         data.Add(new PlayerLB() { name = "Darrius McCullough", score = 0 });

@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
                 {
                     dataController.SetUnlockedCategories(categoryInfo.saveId);
                     dataController.SetKeys(-categoryInfo.unlockAmount);
+                    DataToday.Instance.UpdateAmountCategoryNew(1);
                     SelectCategoryPopup.Instance.RefreshCategoryScroller();
                     // ScreenManager.Instance.RefreshLevelScreen();
                     PopupContainer.Instance.ClosePopup("UnlockCategoryPopup");
