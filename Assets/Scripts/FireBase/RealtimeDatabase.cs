@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 public class RealtimeDatabase : MonoBehaviour
 {
     private DatabaseReference reference;
-    
+
     [SerializeField] private Image avatar = null;
     public void SetUp()
     {
@@ -30,25 +30,20 @@ public class RealtimeDatabase : MonoBehaviour
                       {
                           if (task.IsCompleted)
                           {
-                            //   Debug.Log("aaaaaaaaaaaaaaaaaa");
                               DataSnapshot snapshot = task.Result;
                               if (string.IsNullOrEmpty(snapshot.GetRawJsonValue()))
                               {
-                                //   Debug.Log(null);
                                   SaveableManager.Instance.LoadDataOffline();
-                                  CreateData();
+                                  SaveData();
                                   return;
                               }
                               PlayerInfo playerFireBase = JsonUtility.FromJson<PlayerInfo>(snapshot.GetRawJsonValue());
-                            //   Debug.Log("playerFireBase: " + JsonUtility.ToJson(playerFireBase));
+                              //   Debug.Log("playerFireBase: " + JsonUtility.ToJson(playerFireBase));
                               PlayerInfo playerLocal = SaveableManager.Instance.GetPlayerLocal();
-
-                            //   Debug.Log("playerLocal: " + JsonUtility.ToJson(playerLocal));
+                              //   Debug.Log("playerLocal: " + JsonUtility.ToJson(playerLocal));
                               PlayerInfo playerInfo = new PlayerInfo();
-                            //   Debug.Log(1111);
                               playerInfo.Union(playerLocal, playerFireBase);
-                            //   Debug.Log(222222);
-                            //   Debug.Log("playerInfo: " + JsonUtility.ToJson(playerInfo));
+                              //   Debug.Log("playerInfo: " + JsonUtility.ToJson(playerInfo));
                               DisplayAvatar(playerInfo.avatar);
 
                               SaveableManager.Instance.SaveDataPlayerLocal(playerInfo);
@@ -160,7 +155,7 @@ public class RealtimeDatabase : MonoBehaviour
         var userId = SaveableManager.Instance.GetUserId();
 
         var value = PlayerPrefs.GetString(keyLocal);
-        reference.Child("User").Child(userId).Child("keyOnline").SetValueAsync(value)
+        reference.Child("User").Child(userId).Child(keyOnline).SetValueAsync(value)
         .ContinueWith(task =>
         {
             if (task.IsCompleted)
@@ -171,9 +166,9 @@ public class RealtimeDatabase : MonoBehaviour
         });
     }
 
-    public void CreateData()
+    public void SaveData()
     {
-        Debug.Log("CreateData");
+        Debug.Log("SaveData");
         var UserId = SaveableManager.Instance.GetUserId();
 
         PlayerInfo playerInfo = new PlayerInfo();

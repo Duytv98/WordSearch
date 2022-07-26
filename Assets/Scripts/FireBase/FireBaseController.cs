@@ -97,6 +97,7 @@ public class FireBaseController : MonoBehaviour
     }
     public void LogOut()
     {
+        SaveData();
         var providers = SaveableManager.Instance.GetProvidersLogin();
         if (providers.Equals(GameDefine.KEY_PROVIDERS_FB)) facebookAuth.LogOut();
         else if (providers.Equals(GameDefine.KEY_PROVIDERS_GG)) googleAuth.LogOut();
@@ -118,13 +119,39 @@ public class FireBaseController : MonoBehaviour
         realtimeDatabase.Read_Data();
     }
 
-    public void SaveCoins() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveCoins(); }
-    public void SaveKeys() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveKeys(); }
-    public void SaveLastCompletedLevels() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveLastCompletedLevels(); }
-    public void SaveUnlockedCategories() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveUnlockedCategories(); }
-    public void SaveListBooster() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveListBooster(); }
-    public void SaveTimeCompleteLevel() { if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveTimeCompleteLevel(); }
+    public void SaveCoins()
+    {
+        // if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveCoins();
+    }
+    public void SaveKeys()
+    {
+        // if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveKeys();
+    }
+    public void SaveLastCompletedLevels()
+    {
+        // if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveLastCompletedLevels();
+    }
+    public void SaveUnlockedCategories()
+    {
+        // if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveUnlockedCategories();
+    }
+    public void SaveListBooster()
+    {
+        // if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveListBooster();
+    }
+    public void SaveTimeCompleteLevel()
+    {
+        // if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveTimeCompleteLevel();
+    }
+    public void SaveData()
+    {
+        if (SaveableManager.Instance.IsLogIn()) realtimeDatabase.SaveData();
+    }
 
 
+    void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus) SaveData();
+    }
 
 }

@@ -28,10 +28,11 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private Image background = null;
     [SerializeField] private Image background1 = null;
 
+    private bool showPopupLv1 = false;
+
     private float animDuration = 0.35f;
 
     private bool isShow = false;
-
 
     private List<string> backStack;
     private void Awake()
@@ -110,6 +111,8 @@ public class PopupContainer : MonoBehaviour
     }
     private void Show(string keyName, float y = 0)
     {
+        // if(isActiveEvent)
+        Debug.Log("Show" + keyName + "backStack: " + backStack.Count);
         if (backStack.Count == 0)
         {
             FadeInPanelBG(background, keyName);
@@ -134,6 +137,7 @@ public class PopupContainer : MonoBehaviour
     }
     public void ClosePopup(string keyName, bool isClose = true)
     {
+        Debug.Log("ClosePopup" + keyName + "backStack: " + backStack.Count);
         if (backStack.Count == 1)
         {
             FadeOutPanelBG(background);
@@ -149,8 +153,8 @@ public class PopupContainer : MonoBehaviour
         RemoveBackStack(keyName);
 
         GameObject popup = GetPopup(keyName);
-        popup.transform.DOLocalMoveY(1920, animDuration * 0.5f)
-                       .SetEase(Ease.OutSine)
+        popup.transform.DOLocalMoveY(2880, animDuration)
+                       .SetEase(Ease.InBack)
                        .OnComplete(() =>
                        {
                            popup.transform.localPosition = new Vector3(0, -2880f, 0);
@@ -160,22 +164,22 @@ public class PopupContainer : MonoBehaviour
     }
     public void FadeInPanelBG(Image panelBG, string keyName)
     {
+        panelBG.gameObject.SetActive(true);
         Color col = panelBG.color;
         col.a = 0;
         panelBG.color = col;
-        panelBG.DOFade(0.85f, animDuration)
-        .OnComplete(() =>
-        {
-            if (!keyName.Equals("LevelCompletePopup")) panelBG.raycastTarget = true;
-        });
+        panelBG.DOFade(0.85f, 0.15f);
     }
     public void FadeOutPanelBG(Image panelBG)
     {
         Color col = panelBG.color;
         col.a = 0.85f;
-        panelBG.raycastTarget = false;
-        panelBG.DOFade(0f, animDuration * 0.5f)
-        .SetDelay(animDuration * 0.5f);
+        panelBG.DOFade(0f, 0.15f)
+        .SetDelay(animDuration * 0.5f)
+        .OnComplete(() =>
+        {
+            panelBG.gameObject.SetActive(false);
+        });
     }
 
 

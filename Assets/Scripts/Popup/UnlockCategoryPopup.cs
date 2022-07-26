@@ -15,7 +15,7 @@ public class UnlockCategoryPopup : MonoBehaviour
     {
         _category = categoryInfo;
         var str =  _category.unlockAmount.ToString();
-        txtUnLock.text = string.Format("U {0}K\nT Z ?", _category.unlockAmount);
+        txtUnLock.text = string.Format("U  {0} K\nT Z   ?", _category.unlockAmount);
     }
     public void OnClickUnlockCategoryButton()
     {

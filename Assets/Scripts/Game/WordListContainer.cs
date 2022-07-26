@@ -54,7 +54,7 @@ public class WordListContainer : MonoBehaviour
         CreateRowWordList(3);
         float phantram = GetTotalWidthWordList() / (wordListContainer.rect.width * 3);
 
-        if (board.words.Count <= 12)
+        if (board.words.Count < 10)
         {
             int index = 0;
             float widthWordList = 0f;

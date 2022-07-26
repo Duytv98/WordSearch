@@ -19,11 +19,13 @@ public class SettingsPopup : MonoBehaviour
     [SerializeField] private GameObject txtSoundOn = null;
     [SerializeField] private GameObject txtSoundOff = null;
 
+    private float timeMoveShine = 0.2f;
+
 
     public void OnShowing()
     {
-        shineMusic.anchoredPosition = new Vector2(GameManager.Instance.IsMusic ? 54f : -54f, shineMusic.anchoredPosition.y);
-        shineSound.anchoredPosition = new Vector2(GameManager.Instance.IsSound ? 54f : -54f, shineSound.anchoredPosition.y);
+        shineMusic.anchoredPosition = new Vector2(GameManager.Instance.IsMusic ? 62f : -62f, shineMusic.anchoredPosition.y);
+        shineSound.anchoredPosition = new Vector2(GameManager.Instance.IsSound ? 62f : -62f, shineSound.anchoredPosition.y);
         if (GameManager.Instance.IsMusic) SetOnMusic();
         else SetOffMusic();
         if (GameManager.Instance.IsSound) SetOnSound();
@@ -33,7 +35,7 @@ public class SettingsPopup : MonoBehaviour
     public void ClickMusic()
     {
         bool isMusic = GameManager.Instance.IsMusic;
-        float x_shineMusic = isMusic ? -54f : 54f;
+        float x_shineMusic = isMusic ? -62f : 62f;
         GameManager.Instance.IsMusic = !isMusic;
         if (GameManager.Instance.IsMusic)
         {
@@ -45,19 +47,19 @@ public class SettingsPopup : MonoBehaviour
             SetOffMusic();
             AudioManager.Instance.PauseMusic();
         }
-        shineMusic.DOAnchorPosX(x_shineMusic, 0.2f);
+        shineMusic.DOAnchorPosX(x_shineMusic, timeMoveShine);
 
         SaveableManager.Instance.SaveMusic(!isMusic);
     }
     public void ClickSound()
     {
         bool isSound = GameManager.Instance.IsSound;
-        float x_shineSound = isSound ? -54f : 54f;
+        float x_shineSound = isSound ? -62f : 62f;
         GameManager.Instance.IsSound = !isSound;
 
         if (GameManager.Instance.IsSound) SetOnSound();
         else SetOffSound();
-        shineSound.DOAnchorPosX(x_shineSound, 0.2f);
+        shineSound.DOAnchorPosX(x_shineSound, timeMoveShine);
 
         SaveableManager.Instance.SaveSound(!isSound);
     }

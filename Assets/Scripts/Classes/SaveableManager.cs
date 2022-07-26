@@ -96,25 +96,35 @@ public class SaveableManager : MonoBehaviour
 
     public void CheckAccount(FirebaseUser user, string providers, string avatar = null)
     {
-        if (IsLogIn())
+
+        var lastUseId = GetUserId();
+        if (string.IsNullOrEmpty(lastUseId))
         {
-            // Debug.Log("Tung login");
-            var lastUseId = GetUserId();
-            if (lastUseId.Equals(user.UserId)) Debug.Log("Tai Khoan Cu");
-            else Debug.Log("Tai Khoan Moi");
+            Debug.Log("chua tung log");
+
         }
         else
         {
-            Debug.Log("chua tung log");
-            SetLogIn(true);
-            SaveProvidersLogin(providers);
-            SaveDataUser(user.DisplayName, user.UserId, avatar);
+            if (lastUseId.Equals(user.UserId))
+            {
+                Debug.Log("Tai Khoan Cu");
 
-            fireBaseController.Read_Data();
+            }
+            else
+            {
+                Debug.Log("Tai Khoan Moi");
+                PlayerPrefs.DeleteAll();
+                SaveCoins(0);
+                SaveKeys(0);
+                SaveListBooster(CreateListBooterDefaut());
+            }
         }
+
+        SetLogIn(true);
+        SaveProvidersLogin(providers);
+        SaveDataUser(user.DisplayName, user.UserId, avatar);
+        fireBaseController.Read_Data();
         fireBaseController.UpdatePopupProfile();
-
-
     }
 
 
