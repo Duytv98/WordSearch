@@ -43,6 +43,8 @@ public class GameScreen : MonoBehaviour
     private bool isCompleted;
     public bool IsCompleted { get => isCompleted; set => isCompleted = value; }
 
+    private bool boosterFree = false;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -130,9 +132,7 @@ public class GameScreen : MonoBehaviour
 
     public void ActionButtonRecommendWord()
     {
-        var status = GetNonFoundWords().Count == 0 ? false : true;
-        buttonController.SetInteractableButtonSuggestManyWords(status);
-        buttonController.SetInteractableButtonRecommendWord(status);
+        buttonController.SetActiveEventButtonRecommendWord(GetNonFoundWords().Count == 0);
     }
 
     // Event
@@ -214,8 +214,8 @@ public class GameScreen : MonoBehaviour
     public void HintHighlightWord()
     {
         if (!buttonController.IsActiveEvent) return;
-        bool useBooter = false;
         string key = "Find-words";
+        CheckBooterExist(key);
         if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading()) return;
 
         List<string> nonFoundWords = new List<string>();
@@ -224,57 +224,60 @@ public class GameScreen : MonoBehaviour
             if (!ActiveBoard.foundWords.Contains(word) && !wordListContainer.UnusedWords.Contains(word)) nonFoundWords.Add(word);
         }
         if (nonFoundWords.Count == 0) return;
-        if (CheckBooterExist(key)) useBooter = true;
-        if (dataController.Coins < GameDefine.FIND_WORDS && !useBooter)
+        if (dataController.Coins < GameDefine.FIND_WORDS && !boosterFree)
             PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
         {
+            buttonController.SetActiveEventButtonInGame(false);
+
             string wordToShow = nonFoundWords[UnityEngine.Random.Range(0, nonFoundWords.Count)];
             OnWordSelected(wordToShow);
             characterGrid.ShowWordHint(wordToShow);
 
-            BoosterPay(key, useBooter ? 1 : GameDefine.FIND_WORDS, useBooter);
+            BoosterPay(key, GameDefine.FIND_WORDS);
             AudioManager.Instance.Play("hint-used");
         }
     }
+    private int countLetterHighlightExist = 0;
     public void HintHighlightLetter()
     {
         if (!buttonController.IsActiveEvent) return;
-        bool useBooter = false;
         string key = "Find-letters";
+        CheckBooterExist(key);
         List<char> listLetterExist = characterGrid.GetListLetterExist();
+        countLetterHighlightExist = listLetterExist.Count;
         if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading() || listLetterExist.Count <= 0) return;
-        if (CheckBooterExist(key)) useBooter = true;
 
-        if (dataController.Coins < GameDefine.FIND_LETTERS && !useBooter)
+        if (dataController.Coins < GameDefine.FIND_LETTERS && !boosterFree)
         {
             PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         }
         else
         {
-            PopupContainer.Instance.ShowHighlighLetterPopup(useBooter, listLetterExist);
+            PopupContainer.Instance.ShowHighlighLetterPopup(listLetterExist);
         }
     }
 
     //Nhan chu tu HighlightLetterPopupClosed
-    public void OnChooseHighlightLetterPopupClosed(char letter, bool useBooter)
+    public void OnChooseHighlightLetterPopupClosed(char letter)
     {
         string key = "Find-letters";
         ActiveBoard.letterHintsUsed.Add(letter);
         characterGrid.ShowLetterHint(letter);
 
-        BoosterPay(key, useBooter ? 1 : GameDefine.FIND_LETTERS, useBooter);
+        BoosterPay(key, GameDefine.FIND_LETTERS);
         PopupContainer.Instance.ClosePopup("ChooseHighlighLetterPopup");
         SetBoardInProgress();
+        if (countLetterHighlightExist <= 1) buttonController.SetActiveEventButtonHighlightLetter(false);
 
     }
 
     public void SuggestManyWords()
     {
         if (!buttonController.IsActiveEvent) return;
-        buttonController.IsActiveEvent = false;
-        bool useBooter = false;
+
         string key = "Suggest-many-words";
+        CheckBooterExist(key);
         float timeMoveRocket = 1f;
         // Lấy ra các từ chưa được tìm thấy
         List<string> nonFoundWords = GetNonFoundWords();
@@ -283,10 +286,10 @@ public class GameScreen : MonoBehaviour
 
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0) return;
-        if (CheckBooterExist(key)) useBooter = true;
-        if (dataController.Coins < GameDefine.SUGGEST_MANY_WORDS && !useBooter) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
+        if (dataController.Coins < GameDefine.SUGGEST_MANY_WORDS && !boosterFree) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
         {
+            buttonController.SetActiveEventButtonInGame(false);
             if (nonFoundWords.Count > 3)
             {
                 while (nonFoundWordsChoose.Count < 3)
@@ -304,7 +307,7 @@ public class GameScreen : MonoBehaviour
             characterGrid.SuggestManyWords(timeMoveRocket, nonFoundWordsChoose);
 
 
-            BoosterPay(key, useBooter ? 1 : GameDefine.SUGGEST_MANY_WORDS, useBooter);
+            BoosterPay(key, GameDefine.SUGGEST_MANY_WORDS);
             ActionButtonRecommendWord();
 
             effectContronler.PlayRocket(timeMoveRocket);
@@ -312,37 +315,17 @@ public class GameScreen : MonoBehaviour
 
     }
 
-    public void ClearWords()
-    {
-        if (!buttonController.IsActiveEvent) return;
-        bool useBooter = false;
-        string key = "Clear-words";
-        if (CheckBooterExist(key)) useBooter = true;
-        if (dataController.Coins < GameDefine.CLEAR_WORDS && !useBooter) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
-        else
-        {
-            bool isClear = characterGrid.ClearWords();
-            if (isClear)
-            {
-                BoosterPay(key, useBooter ? 1 : GameDefine.CLEAR_WORDS, useBooter);
-                SetBoardInProgress();
-            }
-        }
-    }
-
     public void RecommendWord()
     {
         if (!buttonController.IsActiveEvent) return;
-        buttonController.IsActiveEvent = false;
-        bool useBooter = false;
         string key = "Recommend-word";
+        CheckBooterExist(key);
 
         // Lấy ra các từ chưa được tìm thấy
         List<string> nonFoundWords = GetNonFoundWords();
         // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0) return;
-        if (CheckBooterExist(key)) useBooter = true;
-        if (dataController.Coins < GameDefine.RECOMMEND_WORD && !useBooter) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
+        if (dataController.Coins < GameDefine.RECOMMEND_WORD && !boosterFree) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
         {
             // Pick a random word to show
@@ -356,7 +339,7 @@ public class GameScreen : MonoBehaviour
             SetBoardInProgress();
 
             // Set it as selected
-            BoosterPay(key, useBooter ? 1 : GameDefine.RECOMMEND_WORD, useBooter);
+            BoosterPay(key, GameDefine.RECOMMEND_WORD);
 
             AudioManager.Instance.Play("hint-used");
 
@@ -364,13 +347,37 @@ public class GameScreen : MonoBehaviour
         }
     }
 
-    private void BoosterPay(string key, int amount, bool status)
+    public void ClearWords()
     {
-        if (status)
+        if (!buttonController.IsActiveEvent) return;
+        string key = "Clear-words";
+        CheckBooterExist(key);
+        if (dataController.Coins < GameDefine.CLEAR_WORDS && !boosterFree) PopupContainer.Instance.ShowNotEnoughCoinsPopup();
+        else
         {
-            ListBoosterInGame[key] -= amount;
+            buttonController.SetActiveEventButtonInGame(false);
+            bool isClear = characterGrid.ClearWords();
+            if (isClear)
+            {
+                BoosterPay(key, GameDefine.CLEAR_WORDS);
+                SetBoardInProgress();
+            }
+        }
+    }
+    public void RotatingScreen()
+    {
+        if (!buttonController.IsActiveEvent) return;
+        buttonController.SetActiveEventButtonInGame(false);
+        characterGrid.Rotating();
+    }
+
+    private void BoosterPay(string key, int amount)
+    {
+        if (boosterFree)
+        {
+            ListBoosterInGame[key] -= 1;
             UpdateBooterInGame(key);
-            dataController.SetListBooster(key, -amount);
+            dataController.SetListBooster(key, -1);
         }
         else
         {
@@ -380,11 +387,6 @@ public class GameScreen : MonoBehaviour
         dataToday.UpdateListBoosterUseToday(key, 1);
     }
 
-    public void RotatingScreen()
-    {
-        if (!buttonController.IsActiveEvent) return;
-        characterGrid.Rotating();
-    }
 
     private void SubtractionBooster(string key, int amount)
     {
@@ -396,7 +398,12 @@ public class GameScreen : MonoBehaviour
 
     public bool CheckBooterExist(string key)
     {
-        if (ListBoosterInGame.ContainsKey(key) && ListBoosterInGame[key] > 0) return true;
+        if (ListBoosterInGame.ContainsKey(key) && ListBoosterInGame[key] > 0)
+        {
+            boosterFree = true;
+            return true;
+        }
+        boosterFree = false;
         return false;
     }
 

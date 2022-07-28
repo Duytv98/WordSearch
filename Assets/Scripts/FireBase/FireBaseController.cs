@@ -103,13 +103,9 @@ public class FireBaseController : MonoBehaviour
         else if (providers.Equals(GameDefine.KEY_PROVIDERS_GG)) googleAuth.LogOut();
 
         SaveableManager.Instance.SetLogIn(false);
-        UpdatePopupProfile();
-    }
-
-    public void UpdatePopupProfile()
-    {
         loginPopup.OnShowing();
     }
+
 
 
 

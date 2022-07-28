@@ -16,11 +16,13 @@ public class LoginPopup : MonoBehaviour
     [SerializeField] private Sprite avatarDefault;
     [SerializeField] private Image avatar;
 
-    public void OnShowing()
+    public void OnShowing(int keys = 0, int coins = 0)
     {
+        Debug.Log("OnShowing login popup");
         txtName.text = SaveableManager.Instance.GetDisplayNameUser();
-        txtCoin.text = DataController.Instance.Coins.ToString();
-        txtKey.text = DataController.Instance.Keys.ToString();
+        txtCoin.text = coins == 0 ? DataController.Instance.Coins.ToString() : coins.ToString();
+        txtKey.text = keys == 0 ? DataController.Instance.Keys.ToString() : keys.ToString();
+        Debug.Log(GameManager.Instance.IsLogIn);
 
         if (GameManager.Instance.IsLogIn)
         {
@@ -28,17 +30,10 @@ public class LoginPopup : MonoBehaviour
             btnLogOutGG.SetActive(false);
             btnLogInFB.SetActive(false);
             btnLogInGG.SetActive(false);
-            if (SaveableManager.Instance.GetProvidersLogin().Equals(GameDefine.KEY_PROVIDERS_GG))
-            {
-                Debug.Log("Dang login GG");
-
-                btnLogOutGG.SetActive(true);
-            }
-            else if (SaveableManager.Instance.GetProvidersLogin().Equals(GameDefine.KEY_PROVIDERS_FB))
-            {
-                btnLogOutFB.SetActive(true);
-                Debug.Log("Dang login Favebook");
-            }
+            Debug.Log(SaveableManager.Instance.GetProvidersLogin());
+            if (SaveableManager.Instance.GetProvidersLogin().Equals(GameDefine.KEY_PROVIDERS_GG)) btnLogOutGG.SetActive(true);
+            else if (SaveableManager.Instance.GetProvidersLogin().Equals(GameDefine.KEY_PROVIDERS_FB)) btnLogOutFB.SetActive(true);
+            
             var strAvatar = SaveableManager.Instance.GetAvatar();
             if (!string.IsNullOrEmpty(strAvatar))
             {

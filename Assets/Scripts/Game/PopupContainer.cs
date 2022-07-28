@@ -54,10 +54,10 @@ public class PopupContainer : MonoBehaviour
         Show("LevelCompletePopup", 184f);
         levelCompletePopup.OnShowing(coinsAwarded, keysAwarded);
     }
-    public void ShowHighlighLetterPopup(bool isBooterUse, List<char> listLetterExist)
+    public void ShowHighlighLetterPopup( List<char> listLetterExist)
     {
         Show("ChooseHighlighLetterPopup");
-        chooseHighlighLetterPopup.OnShowing(isBooterUse, listLetterExist);
+        chooseHighlighLetterPopup.OnShowing(listLetterExist);
     }
     public void ShowLoginPopup()
     {
@@ -111,8 +111,6 @@ public class PopupContainer : MonoBehaviour
     }
     private void Show(string keyName, float y = 0)
     {
-        // if(isActiveEvent)
-        Debug.Log("Show" + keyName + "backStack: " + backStack.Count);
         if (backStack.Count == 0)
         {
             FadeInPanelBG(background, keyName);

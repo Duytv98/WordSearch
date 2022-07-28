@@ -7,10 +7,9 @@ public class HighlightLetterButton : MonoBehaviour
 {
     [SerializeField] private Image imgText = null;
     private char letter;
-    private bool isBooterUse = false;
-    public void Setup(char letter, Sprite sprite, bool isBooterUse)
-    {
-        this.isBooterUse = isBooterUse;
+    public void Setup(char letter, Sprite sprite)
+    {   
+        gameObject.SetActive(true);
         this.letter = letter;
         imgText.sprite = sprite;
         
@@ -20,7 +19,8 @@ public class HighlightLetterButton : MonoBehaviour
     }
     public void OnClick()
     {
-        GameScreen.Instance.OnChooseHighlightLetterPopupClosed(letter, isBooterUse);
+        // Destroy(gameObject);
+        GameScreen.Instance.OnChooseHighlightLetterPopupClosed(letter);
         AudioManager.Instance.Play_Click_Button_Sound();
         AudioManager.Instance.Play("hint-used");
     }

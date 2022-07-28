@@ -10,6 +10,8 @@ public class SaveableManager : MonoBehaviour
 
     public static SaveableManager Instance;
     [SerializeField] private FireBaseController fireBaseController = null;
+    
+    [SerializeField] private LoginPopup loginPopup = null;
     private void Awake()
     {
         if (Instance == null)
@@ -120,11 +122,10 @@ public class SaveableManager : MonoBehaviour
         //     }
         // }
 
-        SetLogIn(true);
         SaveProvidersLogin(providers);
         SaveDataUser(user.DisplayName, user.UserId, avatar);
+        SetLogIn(true);
         fireBaseController.Read_Data();
-        fireBaseController.UpdatePopupProfile();
     }
 
 
@@ -305,6 +306,10 @@ public class SaveableManager : MonoBehaviour
         PlayerPrefs.SetString(GameDefine.KEY_LIST_BOOSTER, playerInfo.listBooster);
         PlayerPrefs.SetString(GameDefine.KEY_TIME_COMPLETE_LEVEL, playerInfo.timeCompleteLevel);
         PlayerPrefs.SetString(GameDefine.KEY_AVATAR, playerInfo.avatar);
+
+        Debug.Log(1111);
+        loginPopup.OnShowing(playerInfo.keys, playerInfo.coins);
+
     }
 
 

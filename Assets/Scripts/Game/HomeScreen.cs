@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
+using Spine;
+using Spine.Unity;
 // using PolyAndCode.UI;
 public class HomeScreen : MonoBehaviour
 {
@@ -11,15 +12,26 @@ public class HomeScreen : MonoBehaviour
     [SerializeField] private Text txtKeys;
     [SerializeField] private PopupContainer popupContainer;
 
-    private string idCollect = null;
+    [SerializeField] private SkeletonGraphic animation_Logo;
 
+    private bool isPlayAnimationLogo = true;
+
+    public bool IsPlayAnimationLogo { get => isPlayAnimationLogo; set => isPlayAnimationLogo = value; }
 
     public void Initialize()
     {
-        // Debug.Log(DataController.Instance.Coins);
         txtCoins.text = DataController.Instance.Coins.ToString();
         txtKeys.text = DataController.Instance.Keys.ToString();
+        animation_Logo.AnimationState.ClearTrack(0);
+        animation_Logo.AnimationState.SetAnimation(0, "moving", false);
+        animation_Logo.AnimationState.AddAnimation(0, "idle", false, 5f);
+        animation_Logo.AnimationState.End += HandleEvent;
     }
+    void HandleEvent(TrackEntry trackEntry)
+    {
+        if (IsPlayAnimationLogo) animation_Logo.AnimationState.AddAnimation(0, "idle", false, 3f);
+    }
+
 
     public void ShowDailyGift()
     {

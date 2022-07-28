@@ -21,6 +21,12 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private Button btnLeaderboard = null;
     [SerializeField] private Button btnDailyGift = null;
     [SerializeField] private Button btnDailyQuest = null;
+
+
+    public bool isActiveEvent = true;
+
+    public bool IsActiveEvent { get => isActiveEvent; set => isActiveEvent = value; }
+
     public void OnSwitchingScreens(string toScreenId)
     {
         ButtonContainerInGame.SetActive(false);
@@ -36,25 +42,41 @@ public class ButtonController : MonoBehaviour
         }
     }
 
-    public bool isActiveEvent = true;
+    public void SetActiveEventButtonInGame(bool value)
+    {
+        isActiveEvent = value;
+        btnFindWords.enabled = value;
+        btnClearWords.enabled = value;
+        btnRotatingScreen.enabled = value;
+        if (value)
+        {
 
-    public bool IsActiveEvent { get => isActiveEvent; set => isActiveEvent = value; }
+            if (btnSuggestManyWords.interactable)
+            {
+                btnSuggestManyWords.enabled = value;
+                btnRecommendWord.enabled = value;
+            };
+            if (btnFindLetters.interactable)
+            {
+                btnFindLetters.enabled = value;
+            };
 
+        }
+    }
 
     public void SetInteractableButtonClearWords(bool status)
     {
         btnClearWords.interactable = status;
     }
-    public void SetInteractableButtonSuggestManyWords(bool status)
+    public void SetActiveEventButtonRecommendWord(bool status)
     {
-        btnSuggestManyWords.interactable = status;
+        btnSuggestManyWords.interactable = !status;
+        btnRecommendWord.interactable = !status;
     }
-    public void SetInteractableButtonRecommendWord(bool status)
+    public void SetActiveEventButtonHighlightLetter(bool status)
     {
-        btnRecommendWord.interactable = status;
+        btnFindLetters.interactable = status;
     }
-    public void Test()
-    {
-        btnProfile.enabled = true;
-    }
+
+
 }

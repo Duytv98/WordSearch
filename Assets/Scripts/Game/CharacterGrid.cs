@@ -9,11 +9,11 @@ using DG.Tweening;
 public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     // Start is called before the first frame update
-
     [SerializeField] private Camera cam;
     [Header("Container")]
-    [SerializeField] private ButtonInGameContainer buttonInGameContainer;
     [SerializeField] private ButtonController buttonController = null;
+    [SerializeField] private Transform content = null;
+
     private RectTransform gridContainer;
     private RectTransform gridOverlayContainer;
     private RectTransform gridUnderlayContainer;
@@ -233,6 +233,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
         GameScreen.Instance.ActionButtonRecommendWord();
         buttonController.SetInteractableButtonClearWords(locationUnused.Count == 0 ? false : true);
+        buttonController.SetActiveEventButtonHighlightLetter(GetListLetterExist().Count > 1);
     }
     private void AssignHighlighColor(Image highlight)
     {
@@ -490,7 +491,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         GameObject containerObj = new GameObject(name, types);
         RectTransform container = containerObj.GetComponent<RectTransform>();
 
-        container.SetParent(transform, false);
+        container.SetParent(content, false);
         container.anchoredPosition = Vector2.zero;
         container.anchorMin = Vector2.zero;
         container.anchorMax = Vector2.one;
@@ -521,6 +522,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         // Sau khi chữ bay lên
         .OnComplete(() =>
         {
+            buttonController.SetActiveEventButtonInGame(true);
             GameScreen.Instance.WordListContainer_SetWordFound(word);
             GameScreen.Instance.WordListContainer_PlusWord();
             var boardCompleted = GameScreen.Instance.CheckBoardCompleted();
@@ -667,6 +669,8 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 i--;
             }
         }
+
+        buttonController.SetActiveEventButtonInGame(true);
         // GameManager.Instance.SetBoardInProgress();
         return true;
     }
@@ -842,15 +846,20 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             child.DOLocalRotate(new Vector3(0, 0, rotating == false ? 180 : 360), 2f)
             .SetDelay(0.3f);
         }
-        var z = transform.eulerAngles.z - 180;
+        var z = content.eulerAngles.z - 180;
         activeRotating = true;
         Sequence rotatingTransform = DOTween.Sequence();
-        rotatingTransform.Append(transform.DOScale(new Vector3(0.7f, 0.7f, 1f), 0.3f))
-        .Append(transform.DORotate(new Vector3(0, 0, rotating == false ? -180 : 0), 2f))
-        .Append(transform.DOScale(new Vector3(1f, 1f, 1f), 0.3f))
-        .OnComplete(() => activeRotating = false);
+        rotatingTransform.Append(content.DOScale(new Vector3(0.7f, 0.7f, 1f), 0.3f))
+        .Append(content.DORotate(new Vector3(0, 0, rotating == false ? -180 : 0), 2f))
+        .Append(content.DOScale(new Vector3(1f, 1f, 1f), 0.3f))
+        .OnComplete(() =>
+        {
+            activeRotating = false;
+            buttonController.SetActiveEventButtonInGame(true);
+        });
 
         rotating = !rotating;
+
     }
 
     public void SuggestManyWords(float time, List<string> nonFoundWordsChoose)
@@ -866,11 +875,12 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
             ShowWordRecommend(word);
         }
         AudioManager.Instance.Play("hint-used");
+        buttonController.SetActiveEventButtonInGame(true);
     }
 
     private void ClearRotating()
     {
-        transform.Rotate(Vector3.zero);
+        content.Rotate(Vector3.zero);
         foreach (Transform child in gridContainer.transform)
         {
             child.Rotate(Vector3.zero);
