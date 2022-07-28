@@ -20,6 +20,7 @@ public class GameScreen : MonoBehaviour
 
 
     [SerializeField] private TopBar topBar = null;
+    [SerializeField] private ButtonController buttonController = null;
 
     [SerializeField] private DataController dataController = null;
     [SerializeField] private DataToday dataToday = null;
@@ -130,8 +131,8 @@ public class GameScreen : MonoBehaviour
     public void ActionButtonRecommendWord()
     {
         var status = GetNonFoundWords().Count == 0 ? false : true;
-        characterGrid.SetInteractableButtonRecommendWord(status);
-        characterGrid.SetInteractableButtonSuggestManyWords(status);
+        buttonController.SetInteractableButtonSuggestManyWords(status);
+        buttonController.SetInteractableButtonRecommendWord(status);
     }
 
     // Event
@@ -209,34 +210,28 @@ public class GameScreen : MonoBehaviour
         wordListContainer.SetWordFound(word);
     }
 
+    // Action Booster
     public void HintHighlightWord()
     {
+        if (!buttonController.IsActiveEvent) return;
         bool useBooter = false;
         string key = "Find-words";
         if (ActiveBoard == null || ScreenManager.Instance.IsActiveLoading()) return;
 
-        // Lấy ra các từ chưa được tìm thấy
         List<string> nonFoundWords = new List<string>();
         foreach (var word in ActiveBoard.words)
         {
             if (!ActiveBoard.foundWords.Contains(word) && !wordListContainer.UnusedWords.Contains(word)) nonFoundWords.Add(word);
         }
-
-        // Đảm bảo danh dách không âm
         if (nonFoundWords.Count == 0) return;
         if (CheckBooterExist(key)) useBooter = true;
         if (dataController.Coins < GameDefine.FIND_WORDS && !useBooter)
             PopupContainer.Instance.ShowNotEnoughCoinsPopup();
         else
         {
-            // Pick a random word to show
             string wordToShow = nonFoundWords[UnityEngine.Random.Range(0, nonFoundWords.Count)];
-
-            // Set it as selected
             OnWordSelected(wordToShow);
-            // Highlight the word
             characterGrid.ShowWordHint(wordToShow);
-            // Deduct the cost
 
             BoosterPay(key, useBooter ? 1 : GameDefine.FIND_WORDS, useBooter);
             AudioManager.Instance.Play("hint-used");
@@ -244,6 +239,7 @@ public class GameScreen : MonoBehaviour
     }
     public void HintHighlightLetter()
     {
+        if (!buttonController.IsActiveEvent) return;
         bool useBooter = false;
         string key = "Find-letters";
         List<char> listLetterExist = characterGrid.GetListLetterExist();
@@ -260,7 +256,7 @@ public class GameScreen : MonoBehaviour
         }
     }
 
-    //Nhận chữ từ HighlightLetterPopupClosed
+    //Nhan chu tu HighlightLetterPopupClosed
     public void OnChooseHighlightLetterPopupClosed(char letter, bool useBooter)
     {
         string key = "Find-letters";
@@ -275,6 +271,8 @@ public class GameScreen : MonoBehaviour
 
     public void SuggestManyWords()
     {
+        if (!buttonController.IsActiveEvent) return;
+        buttonController.IsActiveEvent = false;
         bool useBooter = false;
         string key = "Suggest-many-words";
         float timeMoveRocket = 1f;
@@ -316,6 +314,7 @@ public class GameScreen : MonoBehaviour
 
     public void ClearWords()
     {
+        if (!buttonController.IsActiveEvent) return;
         bool useBooter = false;
         string key = "Clear-words";
         if (CheckBooterExist(key)) useBooter = true;
@@ -333,6 +332,8 @@ public class GameScreen : MonoBehaviour
 
     public void RecommendWord()
     {
+        if (!buttonController.IsActiveEvent) return;
+        buttonController.IsActiveEvent = false;
         bool useBooter = false;
         string key = "Recommend-word";
 
@@ -381,6 +382,7 @@ public class GameScreen : MonoBehaviour
 
     public void RotatingScreen()
     {
+        if (!buttonController.IsActiveEvent) return;
         characterGrid.Rotating();
     }
 

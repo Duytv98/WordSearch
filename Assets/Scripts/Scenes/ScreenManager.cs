@@ -12,6 +12,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
     [SerializeField] private TopBar topBar = null;
+    [SerializeField] private ButtonController buttonController = null;
     private List<string> backStack;
     private GameObject currentScreen;
 
@@ -67,6 +68,7 @@ public class ScreenManager : MonoBehaviour
                 return;
         }
         topBar.OnSwitchingScreens(id);
+        buttonController.OnSwitchingScreens(id);
     }
     public void BackScreen()
     {
@@ -99,6 +101,7 @@ public class ScreenManager : MonoBehaviour
         }
 
         topBar.OnSwitchingScreens(screenId);
+        buttonController.OnSwitchingScreens(screenId);
     }
 
 

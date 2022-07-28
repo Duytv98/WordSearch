@@ -98,27 +98,27 @@ public class SaveableManager : MonoBehaviour
     {
 
         var lastUseId = GetUserId();
-        if (string.IsNullOrEmpty(lastUseId))
-        {
-            Debug.Log("chua tung log");
+        // if (string.IsNullOrEmpty(lastUseId))
+        // {
+        //     Debug.Log("chua tung log");
 
-        }
-        else
-        {
-            if (lastUseId.Equals(user.UserId))
-            {
-                Debug.Log("Tai Khoan Cu");
+        // }
+        // else
+        // {
+        //     if (lastUseId.Equals(user.UserId))
+        //     {
+        //         Debug.Log("Tai Khoan Cu");
 
-            }
-            else
-            {
-                Debug.Log("Tai Khoan Moi");
-                PlayerPrefs.DeleteAll();
-                SaveCoins(0);
-                SaveKeys(0);
-                SaveListBooster(CreateListBooterDefaut());
-            }
-        }
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Tai Khoan Moi");
+        //         PlayerPrefs.DeleteAll();
+        //         SaveCoins(0);
+        //         SaveKeys(0);
+        //         SaveListBooster(CreateListBooterDefaut());
+        //     }
+        // }
 
         SetLogIn(true);
         SaveProvidersLogin(providers);

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameDefine
 {
-    public static int STARTING_COINS = 9999;
-    public static int STARTING_KEYS = 50;
+    public static int STARTING_COINS = 999;
+    public static int STARTING_KEYS = 5;
     public static int COINS_REWARD_AD = 50;
     public static string CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     //swinging branch
@@ -114,7 +114,11 @@ public class GameDefine
     public static string KEY_QUEST_USE_TODAY = "KEY_QUEST_USE_TODAY";
     public static string KEY_NEW_CATEGORY_TODAY = "KEY_NEW_CATEGORY_TODAY";
 
-    
 
 
+    public static string ADMOB_APP_ID = "ca-app-pub-8652816628411018~4107832360";
+    public static string ADMOB_BANNER_ID = "ca-app-pub-8652816628411018/6172826721";
+    public static string ADMOB_INTERS_ID = "ca-app-pub-8652816628411018/3892209941";
+    public static string ADMOB_REWARDED_ID = "ca-app-pub-8652816628411018/2579128273";
+    public static string APPSFLYER_DEV_KEY = "Ry3zd9x7iEihJdcAdRb7PX";
 }

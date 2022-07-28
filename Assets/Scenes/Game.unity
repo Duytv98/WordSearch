@@ -156,7 +156,7 @@ RectTransform:
   - {fileID: 102289771}
   - {fileID: 1172674042}
   m_Father: {fileID: 1755475194}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -683,7 +683,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 627681085}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1235,9 +1235,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 211005278}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: Play_Click_Button_Sound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: Test
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1385,6 +1409,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: Play_Click_Button_Sound
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2501,6 +2537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6adfecdd6ff19ee4a98ee17acaab5720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonController: {fileID: 0}
   leaderboard: {fileID: 935833315}
   settingsPopup: {fileID: 1714001019}
   selectCategoryPopup: {fileID: 1586260487}
@@ -3690,6 +3727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
   buttonInGameContainer: {fileID: 399351780}
+  buttonController: {fileID: 2009391488}
   timer: {fileID: 89772247}
   textTime: {fileID: 576022311}
   maxCellSize: 200
@@ -3956,6 +3994,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &212738280
 GameObject:
   m_ObjectHideFlags: 0
@@ -4111,6 +4161,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: Play_Click_Button_Sound
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4639,7 +4701,7 @@ MonoBehaviour:
   m_text: CHOOSE A LETTER TO HIGHLIGHT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6371fdf16c1303349adc300b70f2986e, type: 2}
-  m_sharedMaterial: {fileID: -5639441899251899726, guid: c1711207dbb5f7e4f9763417f01314e8, type: 2}
+  m_sharedMaterial: {fileID: -6078318500950093891, guid: 6371fdf16c1303349adc300b70f2986e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4663,7 +4725,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.7
+  m_fontSize: 41.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4702,7 +4764,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &247906252
@@ -5289,6 +5351,7 @@ MonoBehaviour:
   homeScreen: {fileID: 627681081}
   gameScreen: {fileID: 1837182581}
   topBar: {fileID: 1960475884}
+  buttonController: {fileID: 2009391488}
 --- !u!4 &289699094
 Transform:
   m_ObjectHideFlags: 0
@@ -12176,14 +12239,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 137550896}
         m_TargetAssemblyTypeName: PopupContainer, Assembly-CSharp
-        m_MethodName: CloseCurrentPopup
-        m_Mode: 1
+        m_MethodName: ClosePopup
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: ChooseHighlighLetterPopup
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &392614437
@@ -12286,6 +12349,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: Play_Click_Button_Sound
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12420,12 +12495,12 @@ GameObject:
   - component: {fileID: 399351779}
   - component: {fileID: 399351780}
   m_Layer: 5
-  m_Name: ButtonContainer
+  m_Name: ButtonContainer_InGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &399351778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12444,12 +12519,12 @@ RectTransform:
   - {fileID: 392614438}
   - {fileID: 1240473076}
   - {fileID: 1297300337}
-  m_Father: {fileID: 1755475194}
-  m_RootOrder: 2
+  m_Father: {fileID: 2009391487}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 216}
+  m_AnchoredPosition: {x: 0, y: 212}
   m_SizeDelta: {x: 986, y: 120}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &399351779
@@ -13434,7 +13509,7 @@ RectTransform:
   m_Children:
   - {fileID: 1126478515}
   m_Father: {fileID: 627681085}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -18691,7 +18766,6 @@ RectTransform:
   - {fileID: 1794571455}
   - {fileID: 1108723141}
   - {fileID: 109879466}
-  - {fileID: 1262861963}
   - {fileID: 427368113}
   - {fileID: 44374616}
   m_Father: {fileID: 0}
@@ -24046,7 +24120,7 @@ RectTransform:
   m_Children:
   - {fileID: 49875775}
   m_Father: {fileID: 1755475194}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -25186,14 +25260,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 137550896}
         m_TargetAssemblyTypeName: PopupContainer, Assembly-CSharp
-        m_MethodName: CloseCurrentPopup
-        m_Mode: 1
+        m_MethodName: ClosePopup
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: ChooseHighlighLetterPopup
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &744386168
@@ -27127,10 +27201,10 @@ RectTransform:
   m_Father: {fileID: 1695657801}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 399.5, y: -529.5}
-  m_SizeDelta: {x: 667, y: 617}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &882278944
 MonoBehaviour:
@@ -28450,6 +28524,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: HomeScreen, Assembly-CSharp
         m_MethodName: ShowDailyGift
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -32429,7 +32515,7 @@ RectTransform:
   - {fileID: 345533528}
   - {fileID: 637124548}
   m_Father: {fileID: 2009391487}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -33662,7 +33748,7 @@ GameObject:
   - component: {fileID: 1262861963}
   - component: {fileID: 1262861964}
   m_Layer: 5
-  m_Name: button
+  m_Name: ButtonContainer_Home
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33675,7 +33761,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262861962}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33684,12 +33770,12 @@ RectTransform:
   - {fileID: 69970749}
   - {fileID: 931138529}
   - {fileID: 1273041520}
-  m_Father: {fileID: 627681085}
-  m_RootOrder: 3
+  m_Father: {fileID: 2009391487}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -584.1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 375.8152}
   m_SizeDelta: {x: 691.44, y: 153}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1262861964
@@ -33881,6 +33967,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: HomeScreen, Assembly-CSharp
         m_MethodName: ShowDailyQuest
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -35332,6 +35430,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: Play_Click_Button_Sound
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009391488}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: set_IsActiveEvent
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -40594,7 +40704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1695657801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40617,7 +40727,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -2880}
-  m_SizeDelta: {x: 790, y: 1068}
+  m_SizeDelta: {x: 790, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1695657802
 MonoBehaviour:
@@ -41556,7 +41666,6 @@ RectTransform:
   m_Children:
   - {fileID: 1098797222}
   - {fileID: 2060930220}
-  - {fileID: 399351778}
   - {fileID: 676388685}
   - {fileID: 2945112}
   m_Father: {fileID: 1837182580}
@@ -43420,6 +43529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: game
   topBar: {fileID: 1960475884}
+  buttonController: {fileID: 2009391488}
   dataController: {fileID: 499501983}
   dataToday: {fileID: 1224089667}
   characterGrid: {fileID: 208571031}
@@ -46022,6 +46132,7 @@ GameObject:
   - component: {fileID: 2009391486}
   - component: {fileID: 2009391485}
   - component: {fileID: 2009391484}
+  - component: {fileID: 2009391488}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -46103,6 +46214,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1960475882}
+  - {fileID: 399351778}
+  - {fileID: 1262861963}
   - {fileID: 1151536255}
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -46112,6 +46225,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2009391488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009391483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f794a59a18246745ba69d9fae15b1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonContainerInGame: {fileID: 399351777}
+  btnFindWords: {fileID: 1518151794}
+  btnFindLetters: {fileID: 60891013}
+  btnSuggestManyWords: {fileID: 82178596}
+  btnRecommendWord: {fileID: 392614439}
+  btnClearWords: {fileID: 1240473077}
+  btnRotatingScreen: {fileID: 1297300338}
+  ButtonContainerHome: {fileID: 1262861962}
+  btnProfile: {fileID: 212172580}
+  btnLeaderboard: {fileID: 69970750}
+  btnDailyGift: {fileID: 931138530}
+  btnDailyQuest: {fileID: 1273041521}
+  isActiveEvent: 1
 --- !u!1 &2011183526
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     [SerializeField] private Camera cam;
     [Header("Container")]
     [SerializeField] private ButtonInGameContainer buttonInGameContainer;
+    [SerializeField] private ButtonController buttonController = null;
     private RectTransform gridContainer;
     private RectTransform gridOverlayContainer;
     private RectTransform gridUnderlayContainer;
@@ -231,7 +232,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         GameScreen.Instance.CharacterItems = characterItems;
 
         GameScreen.Instance.ActionButtonRecommendWord();
-        buttonInGameContainer.SetInteractableButtonClearWords(locationUnused.Count == 0 ? false : true);
+        buttonController.SetInteractableButtonClearWords(locationUnused.Count == 0 ? false : true);
     }
     private void AssignHighlighColor(Image highlight)
     {
@@ -652,7 +653,7 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
                 FlyWord(locationUnused[i], positionKill[i].position);
             }
             locationUnused.Clear();
-            buttonInGameContainer.SetInteractableButtonClearWords(false);
+            buttonController.SetInteractableButtonClearWords(false);
         }
         else
         {
@@ -876,14 +877,6 @@ public class CharacterGrid : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         }
     }
 
-    public void SetInteractableButtonSuggestManyWords(bool status)
-    {
-        buttonInGameContainer.SetInteractableButtonSuggestManyWords(status);
-    }
-    public void SetInteractableButtonRecommendWord(bool status)
-    {
-        buttonInGameContainer.SetInteractableButtonRecommendWord(status);
-    }
 
 
 

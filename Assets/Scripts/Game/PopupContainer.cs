@@ -9,6 +9,7 @@ public class PopupContainer : MonoBehaviour
 {
     public static PopupContainer Instance;
     [Space]
+    [SerializeField] private ButtonController buttonController = null;
     [SerializeField] private Leaderboard leaderboard = null;
     [SerializeField] private SettingsPopup settingsPopup = null;
     [SerializeField] private SelectCategoryPopup selectCategoryPopup = null;
@@ -17,6 +18,7 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private DailyQuest dailyQuest = null;
     [SerializeField] private ChooseHighlighLetterPopup chooseHighlighLetterPopup = null;
     [SerializeField] private LoginPopup loginPopup = null;
+
 
     [Space]
     [SerializeField] private UnlockCategoryPopup unlockCategoryPopup = null;
@@ -28,10 +30,8 @@ public class PopupContainer : MonoBehaviour
     [SerializeField] private Image background = null;
     [SerializeField] private Image background1 = null;
 
-    private bool showPopupLv1 = false;
 
     private float animDuration = 0.35f;
-
     private bool isShow = false;
 
     private List<string> backStack;
@@ -162,6 +162,21 @@ public class PopupContainer : MonoBehaviour
                            if (keyName.Equals("Leaderboard")) leaderboard.Close();
                        });
     }
+    public void ClosePopup(string keyName)
+    {
+        FadeOutPanelBG(background);
+        RemoveBackStack(keyName);
+
+        GameObject popup = GetPopup(keyName);
+        popup.transform.DOLocalMoveY(2880, animDuration)
+                       .SetEase(Ease.InBack)
+                       .OnComplete(() =>
+                       {
+                           popup.transform.localPosition = new Vector3(0, -2880f, 0);
+                           popup.SetActive(false);
+                           if (keyName.Equals("Leaderboard")) leaderboard.Close();
+                       });
+    }
     public void FadeInPanelBG(Image panelBG, string keyName)
     {
         panelBG.gameObject.SetActive(true);
@@ -230,4 +245,8 @@ public class PopupContainer : MonoBehaviour
         if (!backStack.Contains(keyName)) return;
         backStack.RemoveAt(backStack.LastIndexOf(keyName));
     }
+
+
+
+
 }
