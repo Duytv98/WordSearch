@@ -39,6 +39,7 @@ public class ButtonController : MonoBehaviour
             case "game":
                 ButtonContainerInGame.SetActive(true);
                 break;
+            default: break;
         }
     }
 

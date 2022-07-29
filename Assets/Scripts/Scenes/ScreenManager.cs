@@ -11,6 +11,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] private GameObject loadingIndicator = null;
     [SerializeField] private HomeScreen homeScreen = null;
     [SerializeField] private GameScreen gameScreen = null;
+    [SerializeField] private CategoryScreen categoryScreen = null;
     [SerializeField] private TopBar topBar = null;
     [SerializeField] private ButtonController buttonController = null;
     private List<string> backStack;
@@ -103,6 +104,16 @@ public class ScreenManager : MonoBehaviour
         topBar.OnSwitchingScreens(screenId);
         buttonController.OnSwitchingScreens(screenId);
     }
+
+
+    public void ShowCategory()
+    {
+        var screenId = "category";
+        categoryScreen.Initialize();
+        topBar.OnSwitchingScreens(screenId);
+        buttonController.OnSwitchingScreens(screenId);
+    }
+
 
 
     public void SetActiveFlashCanvas(bool isActive)

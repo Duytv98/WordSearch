@@ -16,15 +16,16 @@ public class LevelController : MonoBehaviour, IEnhancedScrollerDelegate
     [SerializeField] private EnhancedScrollerCellView cellViewPrefab;
 
     [SerializeField] private Image mask;
+    private bool isActiveCategory = false;
 
 
     public void Initialize(int count, string idCategory, bool isActive)
     {
         maxCount = count;
         this.idCategory = idCategory;
+        isActiveCategory = isActive;
         scroller.Delegate = this;
         LoadData((int)Mathf.Ceil((float)count / 8));
-        mask.gameObject.SetActive(isActive);
     }
     private void LoadData(int count)
     {
@@ -39,13 +40,13 @@ public class LevelController : MonoBehaviour, IEnhancedScrollerDelegate
     }
     public float GetCellViewSize(EnhancedScroller scroller, int dataIndex)
     {
-        return 1087f;
+        return 1379f;
     }
     public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
     {
         ItemComboLevel cellView = scroller.GetCellView(cellViewPrefab) as ItemComboLevel;
         cellView.name = "Cell " + dataIndex.ToString();
-        cellView.SetData(_data[dataIndex], maxCount, idCategory);
+        cellView.SetData(_data[dataIndex], maxCount, idCategory, isActiveCategory);
         return cellView;
     }
 

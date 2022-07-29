@@ -20,11 +20,15 @@ public class TopBar : MonoBehaviour
     [SerializeField] private Text txtCoinInHome = null;
     [SerializeField] private Text txtKeyInHome = null;
 
+    [Header("Top Bar In Category")]
+    [SerializeField] private GameObject topBarInCategory = null;
+
     public void OnSwitchingScreens(string toScreenId)
     {
         Debug.Log("OnSwitchingScreens: " + toScreenId);
         topBarInGame.SetActive(false);
         topBarInHome.SetActive(false);
+        topBarInCategory.SetActive(false);
         switch (toScreenId)
         {
             case "home":
@@ -33,6 +37,10 @@ public class TopBar : MonoBehaviour
             case "game":
                 topBarInGame.SetActive(true);
                 break;
+            case "category":
+                topBarInCategory.SetActive(true);
+                break;
+            default: break;
         }
     }
     public void Initialize(Sprite spIcon, int indexLevel)

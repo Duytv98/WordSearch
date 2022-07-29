@@ -17,6 +17,7 @@ public class Responsive : MonoBehaviour
         }
     }
     // Start is called before the first frame update
+    [SerializeField] CanvasScaler canvasScalerPopup = null;
     [SerializeField] RectTransform listContainerRT = null;
     [SerializeField] VerticalLayoutGroup viewWordList = null;
     [SerializeField] RectTransform headerContainerRT = null;

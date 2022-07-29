@@ -15,7 +15,7 @@ public class CategoryController : MonoBehaviour, IEnhancedScrollerDelegate
     {
         _data = categoryInfos;
         _data[_selectedIndex].Selected = true;
-        SelectCategoryPopup.Instance.ShowLevel(_selectedIndex, false);
+        CategoryScreen.Instance.ShowLevel(_selectedIndex, false);
         scroller.Delegate = this;
         scroller.ReloadData();
     }
@@ -29,7 +29,7 @@ public class CategoryController : MonoBehaviour, IEnhancedScrollerDelegate
 
     public float GetCellViewSize(EnhancedScroller scroller, int dataIndex)
     {
-        return 126f;
+        return 129f;
     }
 
     public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int dataIndex, int cellIndex)
@@ -64,29 +64,29 @@ public class CategoryController : MonoBehaviour, IEnhancedScrollerDelegate
     }
     private void ShowInfoCategory(ItemCategory itemCategory, bool isActive)
     {
-        SelectCategoryPopup.Instance.ShowLevel(_selectedIndex, isActive);
+        CategoryScreen.Instance.ShowLevel(_selectedIndex, isActive);
     }
 
-    public void Ondow()
+    public void OnMoveRight()
     {
         if (isJump) return;
         isJump = true;
         var endIndexView = scroller.EndCellViewIndex;
         var maxIndexData = _data.Count - 1;
-        var jumpDataIndex = (endIndexView + 3) > maxIndexData ? ((endIndexView + 3) - maxIndexData) : (endIndexView + 3);
-        scroller.JumpToDataIndex(jumpDataIndex, 1f, 0.6f, true, EnhancedScroller.TweenType.easeOutSine, 0.2f, MoveComplete, EnhancedScroller.LoopJumpDirectionEnum.Closest);
+        var jumpDataIndex = (endIndexView + 5) > maxIndexData ? maxIndexData : (endIndexView + 5);
+        scroller.JumpToDataIndex(jumpDataIndex, 1f, 0f, true, EnhancedScroller.TweenType.easeOutSine, 0.2f, MoveComplete, EnhancedScroller.LoopJumpDirectionEnum.Closest);
 
     }
 
-    public void OnUp()
+    public void OnMoveLeft()
     {
         if (isJump) return;
         isJump = true;
         var startIndexView = scroller.StartCellViewIndex;
         var maxIndexData = _data.Count - 1;
-        var jumpDataIndex = (startIndexView - 4) < 0 ? (maxIndexData - Mathf.Abs(startIndexView - 4)) : (startIndexView - 4);
+        var jumpDataIndex = (startIndexView - 5) < 0 ? 0 : (startIndexView - 5);
 
-        scroller.JumpToDataIndex(jumpDataIndex, 0f, 1f, true, EnhancedScroller.TweenType.easeOutSine, 0.2f, MoveComplete, EnhancedScroller.LoopJumpDirectionEnum.Closest);
+        scroller.JumpToDataIndex(jumpDataIndex, 0f, 0f, true, EnhancedScroller.TweenType.easeOutSine, 0.2f, MoveComplete, EnhancedScroller.LoopJumpDirectionEnum.Closest);
 
     }
     private void MoveComplete()

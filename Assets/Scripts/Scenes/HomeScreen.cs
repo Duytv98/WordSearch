@@ -18,6 +18,10 @@ public class HomeScreen : MonoBehaviour
 
     public bool IsPlayAnimationLogo { get => isPlayAnimationLogo; set => isPlayAnimationLogo = value; }
 
+
+
+    [SerializeField] private CategoryScreen categoryScreen = null;
+
     public void Initialize()
     {
         txtCoins.text = DataController.Instance.Coins.ToString();
@@ -64,4 +68,6 @@ public class HomeScreen : MonoBehaviour
         Debug.Log(categoryInfos.Count);
         GameManager.Instance.StartNextLevel(categoryInfos[indexCategory]);
     }
+
+
 }

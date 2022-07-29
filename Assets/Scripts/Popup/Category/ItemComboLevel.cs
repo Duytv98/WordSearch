@@ -10,7 +10,7 @@ public class ItemComboLevel : EnhancedScrollerCellView
     [SerializeField] private Sprite spNotPlay;
     [SerializeField] private ItemLevel[] ListItem;
 
-    public void SetData(int index, int maxCount, string idCategory)
+    public void SetData(int index, int maxCount, string idCategory, bool isActive)
     {
         var startIndex = index * 8;
         var lastCompletedLevels = DataController.Instance.LastCompletedLevels;
@@ -21,6 +21,7 @@ public class ItemComboLevel : EnhancedScrollerCellView
         foreach (var itemLevel in ListItem)
         {
             var isActiveLevel = startIndex <= levelPlay;
+            if(isActive) isActiveLevel = false;
             if (startIndex < maxCount) itemLevel.SetUp(startIndex, isActiveLevel ? spPlayed : spNotPlay, isActiveLevel);
             else itemLevel.Disable();
             startIndex++;

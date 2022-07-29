@@ -22,10 +22,11 @@ public class ItemLevel : MonoBehaviour
         isPlayLevel = isPlay;
 
         var button = bg.GetComponent<Button>();
-        button.interactable = isPlay;
-        var newColorBlock = button.colors;
-        newColorBlock.disabledColor = Color.white;
-        button.colors = newColorBlock;
+        button.enabled = isPlay;
+        // button.interactable = isPlay;
+        // var newColorBlock = button.colors;
+        // newColorBlock.disabledColor = Color.white;
+        // button.colors = newColorBlock;
     }
     public void Disable()
     {
@@ -34,6 +35,6 @@ public class ItemLevel : MonoBehaviour
     public void Onclick()
     {
         if (!isPlayLevel) return;
-        SelectCategoryPopup.Instance.SelectedLevel(index);
+        CategoryScreen.Instance.SelectedLevel(index);
     }
 }

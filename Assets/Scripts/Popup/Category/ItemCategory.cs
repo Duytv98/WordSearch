@@ -62,14 +62,14 @@ public class ItemCategory : EnhancedScrollerCellView
         if (selected)
         {
             bg.sprite = isCategoryLocked ? bgNotSelect : bgSelected;
-            icon.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-            (icon.transform as RectTransform).anchoredPosition = new Vector2(-70f, 0);
+            icon.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            (icon.transform as RectTransform).anchoredPosition = new Vector2(0, -74.6f);
         }
         else
         {
             bg.sprite = isCategoryLocked ? bgNotSelect : bgUnselected;
-            icon.transform.localScale = new Vector3(1, 1, 1);
-            (icon.transform as RectTransform).anchoredPosition = new Vector2(-60f, 0);
+            icon.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+            (icon.transform as RectTransform).anchoredPosition = new Vector2(0, -57f);
 
             // backgroundImage.color = _data.isSelected ? selectedColor : unselectedColor;
         }
